@@ -99,9 +99,8 @@ class _AgreeButtonState extends State<AgreeButton> {
                             value = isagree;
                             agree[index] = true;
                             if (index == 0) {
-                              for (var Agree in agree) {
-                                Agree = true;
-                              }
+                              for(int i=0;i<4;i++)
+                                agree[i]=true;
                             }
                             if (agree[1] == true &&
                                 agree[2] == true &&

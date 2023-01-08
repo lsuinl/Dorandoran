@@ -1,3 +1,4 @@
+import 'package:dorandoran/const/theme.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -6,7 +7,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Colors.indigoAccent,
+      backgroundColor:backgroundcolor,
       body: Center(
       child: Text(
       'Hello World',
