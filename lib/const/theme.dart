@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
 final TextStyle whitestyle = TextStyle(
   color: Colors.white,
   fontSize: 17.0,
@@ -8,6 +8,17 @@ final TextStyle whitestyle = TextStyle(
 
 Color backgroundcolor=Color(0xFF000054);
 
+Decoration gradient= BoxDecoration(
+borderRadius: BorderRadius.circular(80),
+gradient: LinearGradient(
+begin: Alignment.topLeft,
+end: Alignment.bottomRight,
+colors: [Color(0xff3F0099),Color(0xFF000054)],
+));
 final url=Uri.parse(
   'http://124.60.219.83:8080/api/signup'
 );
+
+String getTimeFormat(int number) {
+return number.toString().padLeft(2, '0');
+}

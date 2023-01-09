@@ -11,43 +11,50 @@ class UsingAgree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundcolor,
-      body: SafeArea(
+        backgroundColor: backgroundcolor,
+        body: Container(
+        decoration: gradient,
+      child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 30.0, right: 30),
           child: Column(
             children: [
-              Logo(style: textStyle),
-              //SizedBox(height: 142.0),
+              Logo(text: '회원님,\n안녕하세요!', style: textStyle),
+              SizedBox(height: 2.0),
+              SizedBox(height: 100),
               AgreeButton(style: textStyle),
               SizedBox(height: 20),
             ],
           ),
         ),
       ),
+    )
     );
   }
 }
 
 class Logo extends StatelessWidget {
   final TextStyle style;
+  final String text;
 
-  const Logo({required this.style, Key? key}) : super(key: key);
+  const Logo({required this.text, required this.style, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      SizedBox(height: 200),
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      SizedBox(height: 100),
       Image.asset(
         'asset/image/logo.png',
         width: 100,
         height: 100,
+        alignment: Alignment.centerLeft,
       ),
       SizedBox(height: 20),
-      Text('안녕하세요!',
+      Text(text,
           style: style.copyWith(
             fontSize: 30,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w500,
           )),
     ]);
   }
@@ -71,6 +78,7 @@ class _AgreeButtonState extends State<AgreeButton> {
     return Builder(builder: (context) {
       return CheckboxListTile(
           controlAffinity: ListTileControlAffinity.leading,
+          side: BorderSide(color: Colors.white),
           checkboxShape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
@@ -99,8 +107,7 @@ class _AgreeButtonState extends State<AgreeButton> {
                             value = isagree;
                             agree[index] = true;
                             if (index == 0) {
-                              for(int i=0;i<4;i++)
-                                agree[i]=true;
+                              for (int i = 0; i < 4; i++) agree[i] = true;
                             }
                             if (agree[1] == true &&
                                 agree[2] == true &&
@@ -133,6 +140,7 @@ class _AgreeButtonState extends State<AgreeButton> {
         checkbutton("이용약관에 동의합니다.", 1),
         checkbutton("개인정보 수집 및 이용에 동의합니다.", 2),
         checkbutton("위치기반 서비스 이용에 동의합니다.", 3),
+        SizedBox(height: 20),
         SizedBox(
           width: double.infinity,
           child: Padding(
@@ -147,8 +155,7 @@ class _AgreeButtonState extends State<AgreeButton> {
                   padding: EdgeInsets.all(15)),
               onPressed: () {
                 if (agree[0] == true) {
-                  Navigator.push(
-                      context,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SignUp()));
                 }
               },
