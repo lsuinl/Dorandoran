@@ -1,7 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:dorandoran/const/theme.dart';
+import 'package:dorandoran/const/util.dart';
 
+//회원가입: 데이터 전송
 postRequest(
     String dateOfBirth, String nickName, String identificationNumber) async {
   var response = await http.post(

@@ -1,7 +1,7 @@
 import 'package:dorandoran/screen/home.dart';
 import 'package:dorandoran/screen/sign_up.dart';
 import 'package:flutter/material.dart';
-import 'package:dorandoran/const/theme.dart';
+import 'package:dorandoran/const/util.dart';
 
 class UsingAgree extends StatelessWidget {
   final TextStyle textStyle = whitestyle;

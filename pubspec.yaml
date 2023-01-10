@@ -29,6 +29,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  #device_information: ^0.0.4
+  device_info_plus: ^8.0.0
+  unique_identifier: ^0.3.0
   flutter:
     sdk: flutter
 

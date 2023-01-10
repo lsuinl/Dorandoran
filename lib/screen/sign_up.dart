@@ -2,9 +2,13 @@ import 'package:dorandoran/screen/home.dart';
 import 'package:dorandoran/screen/using_agree.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dorandoran/const/theme.dart';
+import 'package:dorandoran/const/util.dart';
 import 'package:dorandoran/model/user.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
+import 'package:unique_identifier/unique_identifier.dart';
+//import 'package:device_information/device_information.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -16,6 +20,13 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   DateTime selectedDate = DateTime.now();
   TextEditingController name = TextEditingController();
+  String _identifier='UnKnown';
+
+  @override
+  void initState() {
+    super.initState();
+    initUniqueIdentifierState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +47,7 @@ class _SignUpState extends State<SignUp> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('생년월일을 선택해 주세요', style: whitestyle.copyWith(fontSize: 24)),
+                  Text('생년월일을 선택해주세요', style: whitestyle.copyWith(fontSize: 24)),
                   SizedBox(height: 10),
                   Container(
                     width: 240,
@@ -89,6 +100,25 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  //유저 IMEI(ios:UDID) 가져오기
+  Future<void> initUniqueIdentifierState() async {
+    String? identifier;
+    try {
+      identifier = await UniqueIdentifier.serial;
+    } on  Exception{
+      identifier = 'Failed to get Unique Identifier';
+    }
+    if(identifier=='Failed to get Unique Identifier') {
+      final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
+      var data = await deviceInfoPlugin.iosInfo;
+      identifier = data.identifierForVendor;
+    }
+    //identifier = await DeviceInformation.deviceIMEINumber;
+    setState(() {
+      _identifier = identifier!;
+    });
   }
 }
 
@@ -204,8 +234,6 @@ class NextButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
           onPressed: () {
-            print(name.text);
-            print(selectedDate);
             //postRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString(),'dddd');
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => Home()));
