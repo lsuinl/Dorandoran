@@ -132,18 +132,32 @@ class NameInput extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Text('별명을 설정해주세요', style: whitestyle.copyWith(fontSize: 24)),
       SizedBox(height: 10),
-      Container(
-        child: TextField(
-          style: whitestyle,
-          decoration: InputDecoration(
-            enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white)),
-            hintText: "닉네임을 입력해주세요",
-            hintStyle: whitestyle.copyWith(color: Colors.indigo),
+      Row(
+        children: [
+          Container(
+            child: TextField(
+              style: whitestyle,
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white)),
+                hintText: "닉네임을 입력해주세요",
+                hintStyle: whitestyle.copyWith(color: Colors.indigo),
+              ),
+              controller: controller,
+            ),
+            width: 285,
           ),
-          controller: controller,
-        ),
-        width: 250,
+          SizedBox(width: 20),
+          TextButton(
+              onPressed: (){},
+              child: Text("확인"),
+              style:  TextButton.styleFrom(
+                  primary: Colors.white,
+                  side: BorderSide(
+                    color: Colors.white,
+                  )
+                  )),
+        ],
       )
     ]);
   }

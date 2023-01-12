@@ -1,3 +1,4 @@
+import 'package:dorandoran/screen/kakao_login.dart';
 import 'package:dorandoran/screen/using_agree.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -7,7 +8,7 @@ void main() {
   KakaoSdk.init(nativeAppKey: 'd54cd76337470f87b093bfdadfa53292');
   runApp(
       MaterialApp(
-        home: UsingAgree(),
+        home: KaKaoLogin(),
       )
   );
 }

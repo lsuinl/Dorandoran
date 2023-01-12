@@ -11,7 +11,6 @@ class UsingAgree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: backgroundcolor,
         body: Container(
         decoration: gradient,
       child: SafeArea(
@@ -156,7 +155,7 @@ class _AgreeButtonState extends State<AgreeButton> {
               onPressed: () {
                 if (agree[0] == true) {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUp()));
+                      MaterialPageRoute(builder: (context) =>SignUp()));
                 }
               },
               child: Text('다음', style: widget.style),

@@ -13,11 +13,10 @@ Color backgroundcolor=Color(0xFF000054);
 
 //배경색상2(그라데이션)
 Decoration gradient= BoxDecoration(
-borderRadius: BorderRadius.circular(80),
 gradient: LinearGradient(
 begin: Alignment.topLeft,
 end: Alignment.bottomRight,
-colors: [Color(0xff3F0099),Color(0xFF000054)],
+colors: [Color(0xFF001954),Color(0xff3F2E99)],
 ));
 
 //서버 url
