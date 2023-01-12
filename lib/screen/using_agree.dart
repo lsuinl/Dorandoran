@@ -1,18 +1,20 @@
 import 'package:dorandoran/screen/home.dart';
 import 'package:dorandoran/screen/sign_up.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/const/util.dart';
 
 class UsingAgree extends StatelessWidget {
   final TextStyle textStyle = whitestyle;
+  final String token;
 
-  UsingAgree({Key? key}) : super(key: key);
+  UsingAgree({required this.token, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-        decoration: gradient,
+      decoration: gradient,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 30.0, right: 30),
@@ -21,14 +23,13 @@ class UsingAgree extends StatelessWidget {
               Logo(text: '회원님,\n안녕하세요!', style: textStyle),
               SizedBox(height: 2.0),
               SizedBox(height: 100),
-              AgreeButton(style: textStyle),
+              AgreeButton(style: textStyle, token: token),
               SizedBox(height: 20),
             ],
           ),
         ),
       ),
-    )
-    );
+    ));
   }
 }
 
@@ -61,74 +62,112 @@ class Logo extends StatelessWidget {
 
 class AgreeButton extends StatefulWidget {
   final TextStyle style;
+  final String token;
 
-  const AgreeButton({required this.style, Key? key}) : super(key: key);
+  const AgreeButton({required this.token, required this.style, Key? key})
+      : super(key: key);
 
   @override
   State<AgreeButton> createState() => _AgreeButtonState();
 }
 
-List<bool?> agree = [false, false, false, false];
+List<bool> agree = [false, false, false, false];
 
 class _AgreeButtonState extends State<AgreeButton> {
   Widget checkbutton(String text, int index) {
     bool? isagree = false;
     isagree = agree[index];
     return Builder(builder: (context) {
-      return CheckboxListTile(
-          controlAffinity: ListTileControlAffinity.leading,
-          side: BorderSide(color: Colors.white),
-          checkboxShape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: Text(
-            text,
-            style: widget.style,
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Checkbox(
+                  value: isagree,
+                  onChanged: (value) {
+                    setState(() {
+                      isagree = value;
+                      agree[index] = value!;
+                    });
+                    if (agree[0] == false && agree[1] && agree[2] && agree[3]) {
+                      agree[0] = true;
+                    }
+                    if (value == false && agree[0]) agree[0] = false;
+                  }),
+              Text(
+                text,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+            ],
           ),
-          value: isagree,
-          onChanged: (value) {
-            showDialog(
-                context: context,
-                barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    backgroundColor: Colors.black,
-                    content: const Text("..."),
-                    actions: [
-                      TextButton(
-                        child: const Text('동의',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700)),
-                        onPressed: () {
-                          isagree = true;
-                          setState(() {
-                            value = isagree;
-                            agree[index] = true;
-                            if (index == 0) {
-                              for (int i = 0; i < 4; i++) agree[i] = true;
-                            }
-                            if (agree[1] == true &&
-                                agree[2] == true &&
-                                agree[3] == true &&
-                                agree[0] == false) //모두동의
-                              agree[0] = true;
-                          });
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
+          IconButton(
+            alignment: Alignment.centerRight,
+            icon: Icon(
+              Icons.chevron_right,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.black,
+                      content: const Text("..."),
+                      actions: [
+                        TextButton(
+                          child: const Text('확인',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700)),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  });
+            },
+          )
+        ],
+      );
+    });
+  }
+
+  Widget allbutton(int index) {
+    bool? isagree = false;
+    isagree = agree[index];
+    return Builder(builder: (context) {
+      return Row(
+        children: [
+          Checkbox(
+              value: isagree,
+              onChanged: (value) {
+                setState(() {
+                  isagree = value;
+                  for (int i = 0; i < agree.length; i++) agree[i] = value!;
                 });
-          });
+              }),
+          Text(
+            "전체동의",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ],
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    String token = widget.token;
     return Column(
       children: [
-        checkbutton("전체동의", 0),
+        allbutton(0),
         SizedBox(height: 5),
         Container(
           height: 1.0,
@@ -154,8 +193,10 @@ class _AgreeButtonState extends State<AgreeButton> {
                   padding: EdgeInsets.all(15)),
               onPressed: () {
                 if (agree[0] == true) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) =>SignUp()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SignUp(token: token)));
                 }
               },
               child: Text('다음', style: widget.style),
