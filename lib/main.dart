@@ -17,14 +17,9 @@ void main() async{
         home: KaKaoLogin(),
       )
   );
-
 }
-
 Future<void> initializefirebase() async {
   //FirebaseApp app = await Firebase.initializeApp();
   await Firebase.initializeApp();
   //print('Initialized default app $app');
 }
-// await Firebase.initializeApp(
-// options: DefaultFirebaseOptions.currentPlatform,
-// );

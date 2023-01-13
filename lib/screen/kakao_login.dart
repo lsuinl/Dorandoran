@@ -33,6 +33,7 @@ class KaKaoLogin extends StatelessWidget {
                               try {
                                 token =
                                     await UserApi.instance.loginWithKakaoTalk();
+                                print(token.accessToken);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -46,6 +47,7 @@ class KaKaoLogin extends StatelessWidget {
                                 try {
                                   token = await UserApi.instance
                                       .loginWithKakaoAccount();
+                                  print(token.accessToken);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -61,6 +63,7 @@ class KaKaoLogin extends StatelessWidget {
                               try {
                                 token = await UserApi.instance
                                     .loginWithKakaoAccount();
+                                print(token.accessToken);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

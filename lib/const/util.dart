@@ -21,7 +21,7 @@ colors: [Color(0xFF001954),Color(0xff3F2E99)],
 
 //서버 url
 final url=Uri.parse(
-  'http://124.60.219.83:8080/api/signup'
+  'http://116.44.231.162:8080/api/signup'
 );
 
 //00 시간 설절
