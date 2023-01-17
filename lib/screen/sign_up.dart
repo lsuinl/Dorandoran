@@ -1,12 +1,11 @@
+import 'package:dorandoran/const/storage.dart';
 import 'package:dorandoran/screen/home.dart';
 import 'package:dorandoran/screen/using_agree.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/const/util.dart';
 import 'package:dorandoran/model/user.dart';
-import 'dart:async';
-import 'package:unique_identifier/unique_identifier.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+
 
 class SignUp extends StatefulWidget {
 
@@ -19,12 +18,13 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   DateTime selectedDate = DateTime.now();
   TextEditingController name = TextEditingController();
-  String _identifier = 'UnKnown';
+  Map<String,bool> namecheck={'':false};
+  String text ="";
+
 
   @override
   void initState() {
     super.initState();
-    initUniqueIdentifierState();
   }
 
   @override
@@ -41,8 +41,41 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: 50),
               Column(
                 children: [
-                  NameInput(controller: name),
-                  SizedBox(height: 40),
+                  Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                Text('별명을 설정해주세요', style: whitestyle.copyWith(fontSize: 24)),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Container(
+                      child: TextField(
+                        style: whitestyle,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                          hintText: "닉네임을 입력해주세요",
+                          hintStyle: whitestyle.copyWith(color: Colors.indigo),
+                        ),
+                        controller: name,
+                        maxLength: 8,
+                      ),
+                      width: 285,
+                    ),
+                    SizedBox(width: 20),
+                    TextButton(
+                        onPressed: () {
+                          checkname(name.text.toString());
+                        },
+                        child: Text("확인"),
+                        style: TextButton.styleFrom(
+                            primary: Colors.white,
+                            side: BorderSide(
+                              color: Colors.white,
+                            ))),
+                  ],
+                ),
+                Text(text,style: text=='사용가능한 이름입니다.' ? whitestyle.copyWith(color: Colors.blue):whitestyle.copyWith(color: Colors.red),),
+              ]),
+                  SizedBox(height: 20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -95,6 +128,7 @@ class _SignUpState extends State<SignUp> {
                   NextButton(
                     selectedDate: selectedDate,
                     name: name,
+                    namecheck: namecheck,
                   )
                 ],
               ),
@@ -104,73 +138,45 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-
-  //유저 IMEI(ios:UDID) 가져오기
-  Future<void> initUniqueIdentifierState() async {
-    String? identifier;
-    try {
-      identifier = await UniqueIdentifier.serial;
-    } on Exception {
-      identifier = 'Failed to get Unique Identifier';
-    }
-    if (identifier == 'Failed to get Unique Identifier') {
-      final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
-      var data = await deviceInfoPlugin.iosInfo;
-      identifier = data.identifierForVendor;
-    }
-    //identifier = await DeviceInformation.deviceIMEINumber;
-    setState(() {
-      _identifier = identifier!;
+  void textchange(String context){
+    setState((){
+      text=context;
     });
   }
-}
 
-class NameInput extends StatelessWidget {
-  final TextEditingController controller;
-
-  const NameInput({required this.controller, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Text('별명을 설정해주세요', style: whitestyle.copyWith(fontSize: 24)),
-      SizedBox(height: 10),
-      Row(
-        children: [
-          Container(
-            child: TextField(
-              style: whitestyle,
-              decoration: InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white)),
-                hintText: "닉네임을 입력해주세요",
-                hintStyle: whitestyle.copyWith(color: Colors.indigo),
-              ),
-              controller: controller,
-            ),
-            width: 285,
-          ),
-          SizedBox(width: 20),
-          TextButton(
-              onPressed: () {},
-              child: Text("확인"),
-              style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  side: BorderSide(
-                    color: Colors.white,
-                  ))),
-        ],
-      )
-    ]);
+  void checkname(String name){
+    if(name=='') { //null상태
+      textchange("닉네임을 입력해주세요.");
+      print('null');
+    }
+    else if(name.length<=1){
+      textchange("닉네임의 길이는 최소 2글자 이상이어야 합니다.");
+    }
+    else if(!RegExp(r"^[가-힣0-9a-zA-Z]*$").hasMatch(name)){ //제대로된 문자인지 확인.(특수문자.이모티콘 체크)
+      textchange("올바르지 않은 닉네임입니다.");
+    }
+    else { //형식은 통과
+      textchange("");
+      if(postNameCheckRequest(name)==200){
+        textchange('사용가능한 이름입니다.');
+        namecheck[name]=true;
+      }
+      else{
+        textchange('이미 사용중인 이름입니다.');
+        namecheck[name]=false;
+      }
+    }
   }
 }
 
 class NextButton extends StatelessWidget {
   final DateTime selectedDate;
   final TextEditingController name;
+  final Map<String,bool> namecheck;
 
   const NextButton(
       {
+        required this.namecheck,
       required this.selectedDate,
       required this.name,
       Key? key})
@@ -190,9 +196,17 @@ class NextButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
           onPressed: () {
+          if(namecheck[name]==true) {
             //postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString(),firebasetoken!,kakaotoken!);
+            print('${selectedDate.year}-${getTimeFormat(
+                selectedDate.month)}-${getTimeFormat(selectedDate.day)}');
+            print('${name.text.toString()}');
+            print(firebasetoken!);
+            print(kakaotoken!);
+
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => Home()));
+          }
           },
           child: Text('다음', style: whitestyle),
         ),

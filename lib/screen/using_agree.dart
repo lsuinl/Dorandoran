@@ -1,4 +1,3 @@
-import 'package:dorandoran/screen/home.dart';
 import 'package:dorandoran/screen/sign_up.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,8 +61,7 @@ class Logo extends StatelessWidget {
 class AgreeButton extends StatefulWidget {
   final TextStyle style;
 
-  const AgreeButton({required this.style, Key? key})
-      : super(key: key);
+  const AgreeButton({required this.style, Key? key}) : super(key: key);
 
   @override
   State<AgreeButton> createState() => _AgreeButtonState();
@@ -88,9 +86,7 @@ class _AgreeButtonState extends State<AgreeButton> {
                       isagree = value;
                       agree[index] = value!;
                     });
-                    if (agree[0] == false && agree[1] && agree[2] && agree[3]) {
-                      agree[0] = true;
-                    }
+                    if (agree[0] == false && agree[1] && agree[2] && agree[3]) agree[0] = true;
                     if (value == false && agree[0]) agree[0] = false;
                   }),
               Text(
@@ -151,8 +147,7 @@ class _AgreeButtonState extends State<AgreeButton> {
                   for (int i = 0; i < agree.length; i++) agree[i] = value!;
                 });
               }),
-          Text(
-            "전체동의",
+          Text("전체동의",
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         ],
@@ -190,10 +185,8 @@ class _AgreeButtonState extends State<AgreeButton> {
                   padding: EdgeInsets.all(15)),
               onPressed: () {
                 if (agree[0] == true) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SignUp()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignUp()));
                 }
               },
               child: Text('다음', style: widget.style),

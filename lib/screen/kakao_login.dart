@@ -1,5 +1,5 @@
 import 'package:dorandoran/const/util.dart';
-import 'package:dorandoran/screen/sign_up.dart';
+import 'package:dorandoran/const/storage.dart';
 import 'package:dorandoran/screen/using_agree.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
