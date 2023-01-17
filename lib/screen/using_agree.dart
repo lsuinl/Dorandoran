@@ -6,9 +6,8 @@ import 'package:dorandoran/const/util.dart';
 
 class UsingAgree extends StatelessWidget {
   final TextStyle textStyle = whitestyle;
-  final String token;
 
-  UsingAgree({required this.token, Key? key}) : super(key: key);
+  UsingAgree({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class UsingAgree extends StatelessWidget {
               Logo(text: '회원님,\n안녕하세요!', style: textStyle),
               SizedBox(height: 2.0),
               SizedBox(height: 100),
-              AgreeButton(style: textStyle, token: token),
+              AgreeButton(style: textStyle),
               SizedBox(height: 20),
             ],
           ),
@@ -62,9 +61,8 @@ class Logo extends StatelessWidget {
 
 class AgreeButton extends StatefulWidget {
   final TextStyle style;
-  final String token;
 
-  const AgreeButton({required this.token, required this.style, Key? key})
+  const AgreeButton({required this.style, Key? key})
       : super(key: key);
 
   @override
@@ -164,7 +162,6 @@ class _AgreeButtonState extends State<AgreeButton> {
 
   @override
   Widget build(BuildContext context) {
-    String token = widget.token;
     return Column(
       children: [
         allbutton(0),
@@ -196,7 +193,7 @@ class _AgreeButtonState extends State<AgreeButton> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SignUp(token: token)));
+                          builder: (context) => SignUp()));
                 }
               },
               child: Text('다음', style: widget.style),

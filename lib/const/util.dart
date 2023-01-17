@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+String? firebasetoken;
+String? kakaotoken;
 //폰트스타일
 final TextStyle whitestyle = TextStyle(
   color: Colors.white,

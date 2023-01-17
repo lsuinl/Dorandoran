@@ -31,30 +31,22 @@ class KaKaoLogin extends StatelessWidget {
                           onPressed: () async {
                             if (await isKakaoTalkInstalled()) {
                               try {
-                                token =
-                                    await UserApi.instance.loginWithKakaoTalk();
-                                print(token.accessToken);
+                                token = await UserApi.instance.loginWithKakaoTalk();
+                                kakaotoken = token.accessToken.toString();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => UsingAgree(
-                                              token:
-                                                  token.accessToken.toString(),
-                                            )));
+                                        builder: (context) => UsingAgree()));
                               } catch (error) {
                                 print('카카오톡으로 로그인 실패 $error');
                                 // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
                                 try {
-                                  token = await UserApi.instance
-                                      .loginWithKakaoAccount();
-                                  print(token.accessToken);
+                                  token = await UserApi.instance.loginWithKakaoAccount();
+                                  kakaotoken = token.accessToken.toString();
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => UsingAgree(
-                                                token: token.accessToken
-                                                    .toString(),
-                                              )));
+                                          builder: (context) => UsingAgree()));
                                 } catch (error) {
                                   print('카카오계정으로 로그인 실패 $error');
                                 }
@@ -63,14 +55,11 @@ class KaKaoLogin extends StatelessWidget {
                               try {
                                 token = await UserApi.instance
                                     .loginWithKakaoAccount();
-                                print(token.accessToken);
+                                kakaotoken = token.accessToken.toString();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => UsingAgree(
-                                              token:
-                                                  token.accessToken.toString(),
-                                            )));
+                                        builder: (context) => UsingAgree()));
                               } catch (error) {
                                 print('카카오계정으로 로그인 실패 $error');
                               }

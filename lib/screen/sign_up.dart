@@ -4,17 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/const/util.dart';
 import 'package:dorandoran/model/user.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:unique_identifier/unique_identifier.dart';
-
-//import 'package:device_information/device_information.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
 class SignUp extends StatefulWidget {
-  final String token;
 
-  const SignUp({required this.token, Key? key}) : super(key: key);
+  const SignUp({ Key? key}) : super(key: key);
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -33,8 +29,6 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    String token = widget.token;
-
     return Scaffold(
       backgroundColor: backgroundcolor,
       body: Container(
@@ -101,7 +95,6 @@ class _SignUpState extends State<SignUp> {
                   NextButton(
                     selectedDate: selectedDate,
                     name: name,
-                    token: token,
                   )
                 ],
               ),
@@ -175,10 +168,9 @@ class NameInput extends StatelessWidget {
 class NextButton extends StatelessWidget {
   final DateTime selectedDate;
   final TextEditingController name;
-  final String token;
 
   const NextButton(
-      {required this.token,
+      {
       required this.selectedDate,
       required this.name,
       Key? key})
@@ -198,7 +190,7 @@ class NextButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
           onPressed: () {
-            postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString(),token);
+            //postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString(),firebasetoken!,kakaotoken!);
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => Home()));
           },
