@@ -101,9 +101,10 @@ class _SignUpState extends State<SignUp> {
                               barrierDismissible: true,
                               builder: (BuildContext context) {
                                 return Align(
+                                  alignment: Alignment.bottomCenter,
                                   child: Container(
-                                    color: Colors.white,
-                                    height: 300.0,
+                                    color: Color(0xDDFFFFFF), //색상,,
+                                    height: 250.0,
                                     child: CupertinoDatePicker(
                                       mode: CupertinoDatePickerMode.date,
                                       initialDateTime: selectedDate,
@@ -157,14 +158,14 @@ class _SignUpState extends State<SignUp> {
     }
     else { //형식은 통과
       textchange("");
-      if(postNameCheckRequest(name)==200){
-        textchange('사용가능한 이름입니다.');
-        namecheck[name]=true;
-      }
-      else{
-        textchange('이미 사용중인 이름입니다.');
-        namecheck[name]=false;
-      }
+      // if(postNameCheckRequest(name)==200){
+      //   textchange('사용가능한 이름입니다.');
+      //   namecheck[name]=true;
+      // }
+      // else{
+      //   textchange('이미 사용중인 이름입니다.');
+      //   namecheck[name]=false;
+      // }
     }
   }
 }
@@ -197,7 +198,7 @@ class NextButton extends StatelessWidget {
               padding: EdgeInsets.all(15)),
           onPressed: () {
           if(namecheck[name]==true) {
-            //postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString(),firebasetoken!,kakaotoken!);
+           // postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString(),firebasetoken!,kakaotoken!);
             print('${selectedDate.year}-${getTimeFormat(
                 selectedDate.month)}-${getTimeFormat(selectedDate.day)}');
             print('${name.text.toString()}');
