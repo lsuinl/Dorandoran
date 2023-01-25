@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //폰트스타일
 final TextStyle whitestyle = TextStyle(
   color: Colors.white,
-  fontSize: 17.0,
+  fontSize: 17.sp,
   fontWeight: FontWeight.w500,
 );
 

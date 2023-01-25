@@ -1,6 +1,9 @@
+import 'package:dorandoran/screen/home.dart';
 import 'package:dorandoran/screen/kakao_login.dart';
+import 'package:dorandoran/screen/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -14,16 +17,20 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   firebasetoken = await FirebaseMessaging.instance.getToken();
-  runApp(MaterialApp(
-    home: KaKaoLogin(),
-    localizationsDelegates: [
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate
-    ],
-    supportedLocales: [
-      Locale('ko',''),
-      Locale('en',''),
-    ],
+  runApp(ScreenUtilInit(
+    builder: (context,child){
+      return MaterialApp(
+        home: KaKaoLogin(),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        supportedLocales: [
+          Locale('ko',''),
+          Locale('en',''),
+        ],
+      );
+    },
   ));
 }
