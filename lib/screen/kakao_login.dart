@@ -2,6 +2,7 @@ import 'package:dorandoran/const/util.dart';
 import 'package:dorandoran/const/storage.dart';
 import 'package:dorandoran/screen/using_agree.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class KaKaoLogin extends StatelessWidget {
@@ -16,12 +17,12 @@ class KaKaoLogin extends StatelessWidget {
         decoration: gradient,
         child: SafeArea(
           child: Padding(
-              padding: const EdgeInsets.only(left: 30.0, right: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30),
               child: Column(
                 children: [
-                  SizedBox(height: 100),
+                  SizedBox(height: 70.h),
                   MainLogo(text: "도란도란", style: whitestyle),
-                  SizedBox(height: 200),
+                  SizedBox(height: 180.h),
                   Center(
                       child: TextButton(
                           child: Image.asset(
@@ -53,8 +54,10 @@ class KaKaoLogin extends StatelessWidget {
                               }
                             } else {
                               try {
+                                print("어3");
                                 token = await UserApi.instance
                                     .loginWithKakaoAccount();
+                                print("미");
                                 kakaotoken = token.accessToken.toString();
                                 Navigator.push(
                                     context,
@@ -86,8 +89,8 @@ class MainLogo extends StatelessWidget {
       SizedBox(height: 100),
       Image.asset(
         'asset/image/logo.png',
-        width: 200,
-        height: 200,
+        width: 135.w,
+        height: 135.h,
         alignment: Alignment.centerLeft,
       ),
       SizedBox(height: 20),
