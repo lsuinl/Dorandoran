@@ -22,7 +22,7 @@ class KaKaoLogin extends StatelessWidget {
                 children: [
                   SizedBox(height: 70.h),
                   MainLogo(text: "도란도란", style: whitestyle),
-                  SizedBox(height: 200.h),
+                  SizedBox(height: 180.h),
                   Center(
                       child: TextButton(
                           child: Image.asset(
@@ -89,8 +89,8 @@ class MainLogo extends StatelessWidget {
       SizedBox(height: 100),
       Image.asset(
         'asset/image/logo.png',
-        width: 200,
-        height: 200,
+        width: 135.w,
+        height: 135.h,
         alignment: Alignment.centerLeft,
       ),
       SizedBox(height: 20),

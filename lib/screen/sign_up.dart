@@ -58,9 +58,9 @@ class _SignUpState extends State<SignUp> {
                         controller: name,
                         maxLength: 8,
                       ),
-                      width: 235.w,
+                      width: 220.w,
                     ),
-                    SizedBox(width: 20.w),
+                    SizedBox(width: 15.w),
                     TextButton(
                         onPressed: () {
                           checkname(name.text.toString());
@@ -73,9 +73,9 @@ class _SignUpState extends State<SignUp> {
                             ))),
                   ],
                 ),
-                Text(text,style: text=='사용가능한 이름입니다.' ? whitestyle.copyWith(color: Colors.blue):whitestyle.copyWith(color: Colors.red),),
+                Text(text,style: text=='사용가능한 이름입니다.' ? whitestyle.copyWith(color: Colors.blue,fontSize: 14.sp):whitestyle.copyWith(color: Colors.red,fontSize: 14.sp),),
               ]),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: 12.h),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
