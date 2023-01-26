@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -24,12 +25,13 @@ void main() async {
     designSize: Size(360,690),
     builder: (context,child){
       return MaterialApp(
+        theme: ThemeData(fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily),
         builder: (context, child) { //폰트크기고정
           return MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!);
         },
-        home: KaKaoLogin(),
+        home: Home(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

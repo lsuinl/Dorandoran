@@ -1,12 +1,10 @@
 import 'package:dorandoran/const/util.dart';
+import 'package:dorandoran/screen/card.dart';
+import 'package:dorandoran/screen/write.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:path_provider/path_provider.dart';
-
-
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,48 +14,279 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   FlutterDownloader.registerCallback(downloadCallback);
-  //
-  // }
   @override
   Widget build(BuildContext context) {
-    Image img=Image.network('http://116.44.231.162:8080/api/background/1');
     return Scaffold(
-      backgroundColor:backgroundcolor,
-      body: Center(
-      child: SafeArea(
+        backgroundColor: backgroundcolor,
+        body: Container(
+          decoration: gradient,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SafeArea(
+                child: Stack(children: [
+                  Column(
+                    children: [
+                      Top(),
+                      SizedBox(height: 10.h),
+                      Tag(),
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            Message_Card(
+                                time: 2,
+                                heart: 39,
+                                chat: 10,
+                                map: 6,
+                                message: "안녕하쇼"),
+                            Message_Card(
+                                time: 1,
+                                heart: 2,
+                                chat: 18,
+                                map: 19,
+                                message: "도란도란"),
+                            Message_Card(
+                                time: 3,
+                                heart: 0,
+                                chat: 0,
+                                map: 2,
+                                message:
+                                    "2022-01-27 금요일ddddddddddddddddddddddddfakdfjakldsfjldksjflkasjdflkadsjflkjasldjdlfjdsl;fajsdlkjfksadlfajddddddddddddddddddddd"),
+                            Message_Card(
+                                time: 3,
+                                heart: 3,
+                                chat: 1,
+                                map: 5,
+                                message: "글글글글글글")
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  BottomButton()
+                ]),
+              ),
+            ),
+          ),
+        ));
+  }
+}
+
+//---------------------------------------------------
+class Message_Card extends StatelessWidget {
+  final int time;
+  final int heart;
+  final int chat;
+  final int map;
+  final String message;
+
+  const Message_Card(
+      {required this.time,
+      required this.heart,
+      required this.chat,
+      required this.map,
+      required this.message,
+      Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+      elevation: 2, //그림자
+      color: Colors.white70,
+      child: InkWell(
+        onTap: (){
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Card_inside()));
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
-              SizedBox(height: 200.h,),
-              Container(
-                width: 200.w,
-                height: 300.h,
-                decoration: BoxDecoration(
-                  image:  DecorationImage(image: img.image, fit: BoxFit.none),
+              SizedBox(
+                height: 150.h,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(message,
+                        maxLines: 4,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 20.sp)),
+                  ),
                 ),
-              )
-              // GestureDetector(
-              //     onTap: () async{
-              //       String dir = (await getApplicationDocumentsDirectory()).path; 	//path provider로 저장할 경로 가져오기
-              //       try{
-              //         await FlutterDownloader.enqueue(
-              //           url: "http://116.44.231.162:8080/api/background/1", 	// file url
-              //           savedDir: 'asset/img/',	// 저장할 dir
-              //           fileName: '${}',	// 파일명
-              //           saveInPublicStorage: true ,	// 동일한 파일 있을 경우 덮어쓰기 없으면 오류발생함!
-              //         );
-              //       }catch(e){
-              //         print("eerror :::: $e");
-              //       }
-              //     }
-              // ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.access_time_filled_rounded),
+                      SizedBox(width: 3.w),
+                      Text('${time}시간 전'),
+                      SizedBox(width: 7.w),
+                      Icon(Icons.place),
+                      Text('${map}km'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.favorite),
+                        constraints: BoxConstraints(),
+                        padding: EdgeInsets.zero,
+                      ),
+                      SizedBox(width: 3.w),
+                      Text('${heart}'),
+                      SizedBox(width: 7.w),
+                      Icon(Icons.forum),
+                      SizedBox(width: 3.w),
+                      Text('${chat}'),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.h),
             ],
           ),
         ),
-      )
+      ),
+    );
+  }
+}
+
+class Top extends StatefulWidget {
+  const Top({Key? key}) : super(key: key);
+
+  @override
+  State<Top> createState() => _TopState();
+}
+
+bool suin = true;
+
+class _TopState extends State<Top> {
+  final List<String> _menulist = ['내 정보', '좋아요 한 글', '문의하기'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              suin = !suin;
+            });
+          },
+          icon: Icon(
+            suin ? Icons.notifications : Icons.notifications_off,
+            size: 30.0.r,
+          ),
+          padding: EdgeInsets.all(10.0),
+        ),
+        Text("도란도란", style: TextStyle(fontSize: 30.sp)),
+        // RawMaterialButton(
+        //   onPressed: () {},
+        //   elevation: 0,
+        //   fillColor: Colors.white,
+        //   child: Icon(
+        //     Icons.person,
+        //     size: 30.0.r,
+        //   ),
+        //   padding: EdgeInsets.all(15.0),
+        //   shape: CircleBorder(),
+        // ),
+        DropdownButton2(
+          customButton: const Icon(
+            Icons.person,
+            size: 40,
+          ),
+          dropdownWidth: 150,
+          dropdownDirection: DropdownDirection.left,
+          items: [
+            ..._menulist.map(
+              (item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(item),
+              ),
+            ),
+          ],
+          onChanged: (value) {},
+        ),
+      ],
+    );
+  }
+}
+
+class Tag extends StatelessWidget {
+  const Tag({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Widget tagname(String name) {
+      return TextButton(
+        onPressed: () {},
+        child: Text(
+          name,
+          style: TextStyle(fontSize: 18, color: Colors.black),
+        ),
+      );
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        tagname("#근처에"),
+        tagname("#인기있는"),
+        tagname("#새로운"),
+        tagname("#관심있는"),
+      ],
+    );
+  }
+}
+
+class BottomButton extends StatelessWidget {
+  const BottomButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.bottomRight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          RawMaterialButton(
+            onPressed: () {},
+            elevation: 5.0,
+            fillColor: Colors.white,
+            child: Icon(
+              Icons.restart_alt,
+              size: 20.0.r,
+            ),
+            padding: EdgeInsets.all(15.0),
+            shape: CircleBorder(),
+          ),
+          SizedBox(
+            height: 5.h,
+          ),
+          RawMaterialButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Write()));
+            },
+            elevation: 5.0,
+            fillColor: Colors.white,
+            child: Icon(
+              Icons.edit,
+              size: 50.0,
+            ),
+            padding: EdgeInsets.all(15.0),
+            shape: CircleBorder(),
+          )
+        ],
+      ),
     );
   }
 }

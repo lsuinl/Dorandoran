@@ -17,7 +17,7 @@ Decoration gradient = BoxDecoration(
     gradient: LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  colors: [Color(0xFF001954), Color(0xff3F2E99)],
+  colors: [Color(0xFFFFFFFF),Color(0xFFFFFFFF) ],
 ));
 
 //00 시간 설절
