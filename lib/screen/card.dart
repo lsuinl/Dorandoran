@@ -1,4 +1,4 @@
-import 'package:dorandoran/const/util.dart';
+import 'package:dorandoran/const/css.dart';
 import 'package:flutter/material.dart';
 
 class Card_inside extends StatelessWidget {

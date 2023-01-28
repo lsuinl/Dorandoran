@@ -1,5 +1,7 @@
+import 'package:dorandoran/const/permission.dart';
 import 'package:flutter/material.dart';
-import '../const/util.dart';
+import '../const/css.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 
 class Write extends StatefulWidget {
@@ -9,11 +11,15 @@ class Write extends StatefulWidget {
   State<Write> createState() => _WriteState();
 }
 
-
 TextEditingController name = TextEditingController();
 bool forme=false;
 
 class _WriteState extends State<Write> {
+  @override
+  void initState() {
+    permissionquest();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,11 +49,17 @@ class _WriteState extends State<Write> {
                   },
                   child: Text("나만보기"),
               ),
+              IconButton(
+                  onPressed: (){
 
+                  },
+                  icon: Icon(Icons.image))
             ],
           ),
         )
       ),
     );
   }
+
+
 }

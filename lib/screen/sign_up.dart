@@ -3,7 +3,7 @@ import 'package:dorandoran/screen/home.dart';
 import 'package:dorandoran/screen/using_agree.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dorandoran/const/util.dart';
+import 'package:dorandoran/const/css.dart';
 import 'package:dorandoran/model/user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
