@@ -1,6 +1,7 @@
 import 'package:dorandoran/screen/home.dart';
 import 'package:dorandoran/screen/kakao_login.dart';
 import 'package:dorandoran/screen/sign_up.dart';
+import 'package:dorandoran/screen/write.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -31,7 +32,7 @@ void main() async {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!);
         },
-        home: Home(),
+        home: Write(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

@@ -1,4 +1,5 @@
 import 'package:dorandoran/const/util.dart';
+import 'package:dorandoran/model/post.dart';
 import 'package:dorandoran/screen/card.dart';
 import 'package:dorandoran/screen/write.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -258,7 +259,9 @@ class BottomButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           RawMaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              getPostContent();
+            },
             elevation: 5.0,
             fillColor: Colors.white,
             child: Icon(

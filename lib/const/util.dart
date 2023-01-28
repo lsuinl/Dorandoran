@@ -24,3 +24,7 @@ Decoration gradient = BoxDecoration(
 String getTimeFormat(int number) {
   return number.toString().padLeft(2, '0');
 }
+
+// 20개씩 데이터줄것임.
+// 글 하나 당 json받아서 쓰기
+//사용자지정사지 ㄴmultpartfile
