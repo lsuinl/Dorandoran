@@ -199,10 +199,10 @@ class NextButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
-          onPressed: () {
+          onPressed: () async {
           // if(namecheck[name]==true) {
             //포스트
-           postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString(),firebasetoken!,kakaotoken!);
+           useremail  = await postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString(),firebasetoken!,kakaotoken!);
             print('${selectedDate.year}-${getTimeFormat(
                 selectedDate.month)}-${getTimeFormat(selectedDate.day)}');
             print('${name.text.toString()}');

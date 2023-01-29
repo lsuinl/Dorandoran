@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dorandoran/const/storage.dart';
 
 //회원가입: 데이터 전송 500
-postUserRequest(String dateOfBirth, String nickName, String firebasetoken,
+Future<String> postUserRequest(String dateOfBirth, String nickName, String firebasetoken,
     String kakaoAccessToken) async {
   var response = await http.post(
     signupurl,
@@ -27,6 +27,8 @@ postUserRequest(String dateOfBirth, String nickName, String firebasetoken,
     print("종목코드가 올바르지 않습니다.");
     throw Exception('Failed to contect Server.');
   }
+
+  return response.body;
 }
 
 //사용가능닉네임 statusCode:200, 불가능닉네임 statusCode:400

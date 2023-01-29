@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/const/storage.dart';
@@ -18,5 +20,31 @@ getPostContent() async {
   } else {
     print("올바르지 않습니다.");
     throw Exception('Failed to contect Server.');
+  }
+}
+
+//글써서 보내기
+Future<int> writing(String email,String content, bool forme, String? latitude, String? longtitude, String? backgroundImgName, List<String>? hashTag, File? file) async {
+  var response = await http.post(
+    namecheckurl,
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({
+      'email': email,
+      'content':content,
+      'forMe':forme,
+      'location':"${latitude},${longtitude}",
+      'backgroundImgName':backgroundImgName,
+      'hashTagName':hashTag,
+      'file':file,
+    }),
+  );
+  if (response.statusCode == 200) {
+    return 200;
+  } else if (response.statusCode == 500) {
+    return 400;
+  } else {
+    return 0;
   }
 }
