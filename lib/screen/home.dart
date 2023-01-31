@@ -13,8 +13,10 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
+// 서버에 저장되어 있는 데이터들(가상으로 사용하기 위해)
 
 class _HomeState extends State<Home> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,33 +35,14 @@ class _HomeState extends State<Home> {
                       Tag(),
                       Expanded(
                         child: ListView(
-                          children: [
-                            Message_Card(
-                                time: 2,
-                                heart: 39,
-                                chat: 10,
-                                map: 6,
-                                message: "안녕하쇼"),
-                            Message_Card(
-                                time: 1,
-                                heart: 2,
-                                chat: 18,
-                                map: 19,
-                                message: "도란도란"),
-                            Message_Card(
-                                time: 3,
-                                heart: 0,
-                                chat: 0,
-                                map: 2,
-                                message:
-                                    "2022-01-27 금요일ddddddddddddddddddddddddfakdfjakldsfjldksjflkasjdflkadsjflkjasldjdlfjdsl;fajsdlkjfksadlfajddddddddddddddddddddd"),
-                            Message_Card(
-                                time: 3,
-                                heart: 3,
-                                chat: 1,
-                                map: 5,
-                                message: "글글글글글글")
-                          ],
+                          children:[
+                                        Message_Card(
+                                            time: 3,
+                                            heart: 3,
+                                            chat: 1,
+                                            map: 5,
+                                            message: "글글글글글글")
+]
                         ),
                       )
                     ],

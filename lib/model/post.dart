@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/const/storage.dart';
 
-
+//글 가져오기
 getPostContent() async {
   print('실행');
   var response = await http.get(
@@ -22,6 +22,8 @@ getPostContent() async {
     throw Exception('Failed to contect Server.');
   }
 }
+
+
 
 //글써서 보내기
 Future<int> writing(String email,String content, bool forme, String? latitude, String? longtitude, String? backgroundImgName, List<String>? hashTag, File? file) async {

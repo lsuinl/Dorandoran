@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:dorandoran/const/permission.dart';
 import 'package:dorandoran/const/storage.dart';
 import 'package:dorandoran/model/post.dart';
@@ -24,6 +25,7 @@ File? dummyFille;
 List<String>? hashtag;
 String? backgroundimgname;
 String? latitude, longtitude;
+Set<int> imagenumber={0,1,2,3,4,5,6,7,8,9};
 
 class _WriteState extends State<Write> {
   @override
@@ -66,6 +68,7 @@ class _WriteState extends State<Write> {
                                         //     hashtag,
                                         //     dummyFille
                                         // );
+                                        print("useremail:${useremail}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${latitude},${longtitude}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
                                       }
                                     },
                                     child: Text("완료"))),
@@ -81,9 +84,9 @@ class _WriteState extends State<Write> {
                                         bottom: 10,
                                         left: 16,
                                         right: 16),
-                                    child: TextField(
+                                    child: TextFormField(
                                       style: TextStyle(fontSize: 20.sp),
-                                      maxLines: null,
+                                      maxLines: 100,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
                                         enabledBorder: UnderlineInputBorder(
@@ -124,36 +127,32 @@ class _WriteState extends State<Write> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return Container(
-                                          height: 200,
+                                          height: 200.h,
                                           color: Colors.white70,
-                                          child: Center(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
+                                          child: Column(
                                               children: <Widget>[
                                                 Column(
                                                   children: [
-                                                    Row(children: [
-                                                      Text("a"),
-                                                      Text("b"),
-                                                      Text("c"),
-                                                      Text("a"),
-                                                      Text("b"),
-                                                    ]),
-                                                    Row(children: [
-                                                      Text("a"),
-                                                      Text("b"),
-                                                      Text("c"),
-                                                      Text("a"),
-                                                      Text("b"),
-                                                    ])
+                                                    IconButton(
+                                                        onPressed: (){
+                                                          //이미지 리셋
+                                                          imagenumber.clear();
+                                                          while(imagenumber.length<10){
+                                                            imagenumber.add(Random().nextInt(100));
+                                                          }
+                                                        },
+                                                        icon: Icon(Icons.restart_alt)),
+                                                    Wrap(
+                                                      children: imagenumber.map((e)=>
+                                                          Image.network(imgurl,width: 72.w,height: 72.h,),
+                                                         //Image.network(imgurl+e.toString(),width: 72.w,height: 72.h,),
+                                                      ).toList(),
+                                                    ),
                                                   ],
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                        );
+                                          );
                                       },
                                     );
                                   },
