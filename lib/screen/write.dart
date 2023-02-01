@@ -18,7 +18,6 @@ class Write extends StatefulWidget {
   State<Write> createState() => _WriteState();
 }
 
-
 TextEditingController contextcontroller = TextEditingController();
 bool forme = false;
 File? dummyFille;

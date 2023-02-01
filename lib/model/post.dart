@@ -1,17 +1,16 @@
 import 'dart:io';
-
+import 'postcard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/const/storage.dart';
 
 //글 가져오기
-getPostContent() async {
+Future<List<postcard>> getPostContent() async {
   print('실행');
   var response = await http.get(
     getposturl,
   );
   print("실행됨");
-  print(response.headers);
   print(response.body);
   if (response.statusCode == 201 || response.statusCode == 200) {
     print("서버 통신양호");
@@ -21,8 +20,11 @@ getPostContent() async {
     print("올바르지 않습니다.");
     throw Exception('Failed to contect Server.');
   }
+  List<dynamic> body = json.decode(response.body);
+  List<postcard> card =
+      body.map((dynamic item) => postcard.fromJson(item)).toList();
+  return card;
 }
-
 
 
 //글써서 보내기

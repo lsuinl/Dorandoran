@@ -1,66 +1,73 @@
 import 'package:dorandoran/const/css.dart';
 import 'package:dorandoran/model/post.dart';
-import 'package:dorandoran/screen/card.dart';
+import 'package:dorandoran/screen/maintext.dart';
 import 'package:dorandoran/screen/write.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:dorandoran/model/postcard.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
-// 서버에 저장되어 있는 데이터들(가상으로 사용하기 위해)
 
 class _HomeState extends State<Home> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: backgroundcolor,
-        body: Container(
-          decoration: gradient,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: SafeArea(
-                child: Stack(children: [
-                  Column(
-                    children: [
-                      Top(),
-                      SizedBox(height: 10.h),
-                      Tag(),
-                      Expanded(
-                        child: ListView(
-                          children:[
-                                        Message_Card(
-                                            time: 3,
-                                            heart: 3,
-                                            chat: 1,
-                                            map: 5,
-                                            message: "글글글글글글")
-]
+        body: FutureBuilder(
+          future: getPostContent(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Container(
+                decoration: gradient,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: SafeArea(
+                      child: Stack(children: [
+                        Column(
+                          children: [
+                            Top(),
+                            SizedBox(height: 10.h),
+                            Tag(),
+                            Expanded(
+                              child: ListView(
+                                children:
+                                snapshot.data!.map((e) =>
+                                    Message_Card(time: e.postTime,
+                                        heart: e.likeCnt,
+                                        chat: e.replyCnt,
+                                        map: e.location,
+                                        message: e.contents
+                                    )
+                                ).toList(),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
+                        BottomButton()
+                      ]),
+                    ),
                   ),
-                  BottomButton()
-                ]),
-              ),
-            ),
-          ),
-        ));
+                ),
+              );
+            }
+            else {
+              return CircularProgressIndicator();
+            }
+          }));
   }
 }
-
 //---------------------------------------------------
 class Message_Card extends StatelessWidget {
-  final int time;
+  final String time;
   final int heart;
-  final int chat;
+  final int? chat;
   final int map;
   final String message;
 
@@ -82,7 +89,7 @@ class Message_Card extends StatelessWidget {
       child: InkWell(
         onTap: (){
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Card_inside()));
+              context, MaterialPageRoute(builder: (context) => Main_Text()));
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -108,7 +115,7 @@ class Message_Card extends StatelessWidget {
                     children: [
                       Icon(Icons.access_time_filled_rounded),
                       SizedBox(width: 3.w),
-                      Text('${time}시간 전'),
+                      Text(timecount(time)),
                       SizedBox(width: 7.w),
                       Icon(Icons.place),
                       Text('${map}km'),

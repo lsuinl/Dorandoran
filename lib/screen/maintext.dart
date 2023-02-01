@@ -1,8 +1,8 @@
 import 'package:dorandoran/const/css.dart';
 import 'package:flutter/material.dart';
 
-class Card_inside extends StatelessWidget {
-  const Card_inside({Key? key}) : super(key: key);
+class Main_Text extends StatelessWidget {
+  const Main_Text({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
