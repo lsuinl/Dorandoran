@@ -1,7 +1,7 @@
-import 'package:dorandoran/screen/sign_up.dart';
+import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dorandoran/const/css.dart';
+import 'package:dorandoran/common/css.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UsingAgree extends StatelessWidget {

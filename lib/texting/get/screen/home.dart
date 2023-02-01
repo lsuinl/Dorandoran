@@ -1,12 +1,13 @@
-import 'package:dorandoran/const/css.dart';
-import 'package:dorandoran/model/post.dart';
-import 'package:dorandoran/screen/maintext.dart';
-import 'package:dorandoran/screen/write.dart';
+import 'package:dorandoran/common/css.dart';
+import 'package:dorandoran/texting/write/post.dart';
+import 'package:dorandoran/texting/get/screen/maintext.dart';
+import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-import 'package:dorandoran/model/postcard.dart';
+import 'package:dorandoran/texting/get/postcard.dart';
+import 'package:dorandoran/common/util.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 

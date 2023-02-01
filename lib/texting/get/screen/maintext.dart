@@ -1,4 +1,4 @@
-import 'package:dorandoran/const/css.dart';
+import 'package:dorandoran/common/css.dart';
 import 'package:flutter/material.dart';
 
 class Main_Text extends StatelessWidget {

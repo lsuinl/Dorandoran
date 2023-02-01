@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:dorandoran/const/storage.dart';
+import 'package:dorandoran/common/uri.dart';
 
 //회원가입: 데이터 전송 500
 Future<String> postUserRequest(String dateOfBirth, String nickName, String firebasetoken,

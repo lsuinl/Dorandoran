@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'postcard.dart';
+import '../get/postcard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:dorandoran/const/storage.dart';
+import 'package:dorandoran/common/uri.dart';
 
 //글 가져오기
 Future<List<postcard>> getPostContent() async {

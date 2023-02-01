@@ -1,11 +1,12 @@
-import 'package:dorandoran/const/storage.dart';
-import 'package:dorandoran/screen/home.dart';
-import 'package:dorandoran/screen/using_agree.dart';
+import 'package:dorandoran/common/storage.dart';
+import 'package:dorandoran/texting/get/screen/home.dart';
+import 'package:dorandoran/user/sign_up/screen/using_agree.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dorandoran/const/css.dart';
-import 'package:dorandoran/model/user.dart';
+import 'package:dorandoran/common/css.dart';
+import 'package:dorandoran/user/sign_up/user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dorandoran/common/util.dart';
 
 class SignUp extends StatefulWidget {
 

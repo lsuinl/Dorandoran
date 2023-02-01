@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:dorandoran/const/permission.dart';
-import 'package:dorandoran/const/storage.dart';
-import 'package:dorandoran/model/post.dart';
+import 'package:dorandoran/user/sign_up/permission.dart';
+import 'package:dorandoran/common/storage.dart';
+import 'package:dorandoran/texting/write/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
-import '../const/css.dart';
+import '../../../common/css.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:dorandoran/common/uri.dart';
 
 class Write extends StatefulWidget {
   const Write({Key? key}) : super(key: key);
