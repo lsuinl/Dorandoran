@@ -1,13 +1,14 @@
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/texting/write/post.dart';
+import 'package:dorandoran/common/storage.dart';
+import 'package:dorandoran/texting/get/post.dart';
 import 'package:dorandoran/texting/get/screen/maintext.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart' as http;
-import 'package:dorandoran/texting/get/postcard.dart';
 import 'package:dorandoran/common/util.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -16,14 +17,49 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+RefreshController _refreshController =
+RefreshController(initialRefresh: false);
+late Future myfuture;
+List<Message_Card>? item;
+int? checknumber;
+
+@override
+void initState(){
+  super.initState();
+  myfuture=getPostContent(useremail,0,'mmmmmm');
+}
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: backgroundcolor,
         body: FutureBuilder(
-          future: getPostContent(),
+          future: myfuture,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              int lastnumber=snapshot.data!.last.postId;
+              if(item==null){
+               item= snapshot.data!.map<Message_Card>((e) =>
+                    Message_Card(time: e.postTime,
+                        heart: e.likeCnt,
+                        chat: e.replyCnt,
+                        map: e.location,
+                        message: e.contents
+                    )
+                ).toList();
+              }
+              else{
+                if(checknumber!=lastnumber) {
+                  item!.addAll(snapshot.data!.map<Message_Card>((e) =>
+                      Message_Card(time: e.postTime,
+                          heart: e.likeCnt,
+                          chat: e.replyCnt,
+                          map: e.location,
+                          message: e.contents
+                      )
+                  ).toList());
+                }
+              }
               return Container(
                 decoration: gradient,
                 child: SafeArea(
@@ -37,16 +73,66 @@ class _HomeState extends State<Home> {
                             SizedBox(height: 10.h),
                             Tag(),
                             Expanded(
-                              child: ListView(
-                                children:
-                                snapshot.data!.map((e) =>
-                                    Message_Card(time: e.postTime,
-                                        heart: e.likeCnt,
-                                        chat: e.replyCnt,
-                                        map: e.location,
-                                        message: e.contents
-                                    )
-                                ).toList(),
+                              child: SmartRefresher(
+                                enablePullDown: true,
+                                // 아래로 당겨서 새로고침
+                                enablePullUp: true,
+                                // 위로 당겨서 새로운 데이터
+                                //새로고침 로딩
+                                header: CustomHeader(
+                                  builder: (BuildContext context,
+                                      RefreshStatus? mode) {
+                                    Widget body;
+                                    if (mode == RefreshStatus.refreshing) {
+                                      body = CupertinoActivityIndicator();
+                                    } else {
+                                      body = Text('');
+                                    }
+                                    return Container(
+                                      height: 55.0,
+                                      child: Center(child: body),
+                                    );
+                                  },
+                                ),
+                                // 바닥글
+                                footer: CustomFooter(
+                                  builder: (BuildContext context, LoadStatus) {
+                                    return Container(
+                                      height: 55.0,
+                                      child: Center(child: Text("")),
+                                    );
+                                  },
+                                ),
+                                onRefresh: () async {
+                                  await Future.delayed(Duration(
+                                      milliseconds: 1000)); //1초를 기다린 후 새로고침한다.
+                                  setState(() {
+                                    item!.clear();
+                                    myfuture = getPostContent(useremail,0,'mmmmmm');
+                                  });
+                                  print('새로고침');
+                                  _refreshController.refreshCompleted();
+                                },
+                                // 새로고침
+                                onLoading: //무한 스크롤
+                                    () async {
+                                  await Future.delayed(Duration(
+                                      milliseconds: 1000)); //1초를 기다린 후 새로운 데이터를 불러온다.
+                                  if(lastnumber-1>0) {
+                                    setState(() {
+                                      myfuture = getPostContent(
+                                          useremail, lastnumber - 1, 'mmmmmm');
+                                      checknumber = lastnumber;
+                                    });
+                                    _refreshController.loadComplete();
+                                  }
+                                },
+                                controller: _refreshController,
+                                child: ListView(
+                                  children: item!.map<Widget>((e) =>
+                                   e
+                                  ).toList(),
+                                ),
                               ),
                             )
                           ],
@@ -61,8 +147,12 @@ class _HomeState extends State<Home> {
             else {
               return CircularProgressIndicator();
             }
-          }));
+          }
+          )
+    );
   }
+
+
 }
 //---------------------------------------------------
 class Message_Card extends StatelessWidget {
@@ -251,7 +341,7 @@ class BottomButton extends StatelessWidget {
         children: [
           RawMaterialButton(
             onPressed: () {
-              getPostContent();
+              getPostContent(useremail,0,'mmmmmm');
             },
             elevation: 5.0,
             fillColor: Colors.white,

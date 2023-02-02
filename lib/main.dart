@@ -1,6 +1,3 @@
-import 'package:dorandoran/user/login/screen/kakao_login.dart';
-import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
-import 'package:dorandoran/texting/write/screen/write.dart';
 import 'texting/get/screen/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

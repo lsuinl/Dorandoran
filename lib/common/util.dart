@@ -7,7 +7,6 @@ String getTimeFormat(int number) {
 //2023-02-01T19:20:48.47707
 //0-3:년,4-5:월,6-7:일,8-9:시,10-11:분,11-12:초
 String timecount(String time){
-  print(time);
   DateTime today=DateTime.now();
   String timer=time.replaceAll(RegExp('\\D'), "");
   int year=int.parse(timer.substring(0,4));

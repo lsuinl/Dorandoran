@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:dorandoran/user/sign_up/permission.dart';
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/write/post.dart';
+import 'package:dorandoran/texting/get/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
