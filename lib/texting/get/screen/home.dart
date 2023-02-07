@@ -1,6 +1,6 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/post.dart';
+import 'package:dorandoran/texting/get/quest/post.dart';
 import 'package:dorandoran/texting/get/screen/maintext.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -26,11 +27,12 @@ int? checknumber;
 @override
 void initState(){
   super.initState();
-  myfuture=getPostContent(useremail,0,'mmmmmm');
+  getlocation();
+ // Future.delayed(Duration(microseconds: 500));
+  myfuture=getPostContent(useremail,0,'37.2235,127.184');
 }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         backgroundColor: backgroundcolor,
         body: FutureBuilder(
@@ -104,11 +106,9 @@ void initState(){
                                   },
                                 ),
                                 onRefresh: () async {
-                                  await Future.delayed(Duration(
-                                      milliseconds: 1000)); //1초를 기다린 후 새로고침한다.
                                   setState(() {
                                     item!.clear();
-                                    myfuture = getPostContent(useremail,0,'mmmmmm');
+                                    myfuture = getPostContent(useremail,0,'${latitude},${longtitude}');
                                   });
                                   print('새로고침');
                                   _refreshController.refreshCompleted();
@@ -116,12 +116,10 @@ void initState(){
                                 // 새로고침
                                 onLoading: //무한 스크롤
                                     () async {
-                                  await Future.delayed(Duration(
-                                      milliseconds: 1000)); //1초를 기다린 후 새로운 데이터를 불러온다.
                                   if(lastnumber-1>0) {
                                     setState(() {
                                       myfuture = getPostContent(
-                                          useremail, lastnumber - 1, 'mmmmmm');
+                                          useremail, lastnumber - 1, '${latitude},${longtitude}');
                                       checknumber = lastnumber;
                                     });
                                     _refreshController.loadComplete();
@@ -137,7 +135,49 @@ void initState(){
                             )
                           ],
                         ),
-                        BottomButton()
+                      Container(
+                        alignment: Alignment.bottomRight,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            RawMaterialButton(
+                              onPressed: () async {
+                                setState(() {
+                                  item!.clear();
+                                  myfuture = getPostContent(useremail,0,'${latitude},${longtitude}');
+                                });
+                                print('새로고침');
+                                _refreshController.refreshCompleted();
+                              },
+                              elevation: 5.0,
+                              fillColor: Colors.white,
+                              child: Icon(
+                                Icons.restart_alt,
+                                size: 20.0.r,
+                              ),
+                              padding: EdgeInsets.all(15.0),
+                              shape: CircleBorder(),
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            RawMaterialButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context, MaterialPageRoute(builder: (context) => Write()));
+                              },
+                              elevation: 5.0,
+                              fillColor: Colors.white,
+                              child: Icon(
+                                Icons.edit,
+                                size: 50.0,
+                              ),
+                              padding: EdgeInsets.all(15.0),
+                              shape: CircleBorder(),
+                            )
+                          ],
+                        ),
+                      )
                       ]),
                     ),
                   ),
@@ -145,14 +185,23 @@ void initState(){
               );
             }
             else {
-              return CircularProgressIndicator();
+              return Container(
+                decoration: gradient,
+                  child: Center(child: CircularProgressIndicator()));
             }
           }
           )
     );
   }
-
-
+void getlocation() async {
+  //현재위치 가져오기
+  Position position = await Geolocator.getCurrentPosition();
+  setState(() {
+    latitude = position.latitude.toString();
+    longtitude = position.longitude.toString();
+  });
+  print('${latitude},${longtitude}');
+}
 }
 //---------------------------------------------------
 class Message_Card extends StatelessWidget {
@@ -329,48 +378,3 @@ class Tag extends StatelessWidget {
   }
 }
 
-class BottomButton extends StatelessWidget {
-  const BottomButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.bottomRight,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          RawMaterialButton(
-            onPressed: () {
-              getPostContent(useremail,0,'mmmmmm');
-            },
-            elevation: 5.0,
-            fillColor: Colors.white,
-            child: Icon(
-              Icons.restart_alt,
-              size: 20.0.r,
-            ),
-            padding: EdgeInsets.all(15.0),
-            shape: CircleBorder(),
-          ),
-          SizedBox(
-            height: 5.h,
-          ),
-          RawMaterialButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Write()));
-            },
-            elevation: 5.0,
-            fillColor: Colors.white,
-            child: Icon(
-              Icons.edit,
-              size: 50.0,
-            ),
-            padding: EdgeInsets.all(15.0),
-            shape: CircleBorder(),
-          )
-        ],
-      ),
-    );
-  }
-}

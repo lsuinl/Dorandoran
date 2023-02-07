@@ -17,5 +17,5 @@ Decoration gradient = BoxDecoration(
     gradient: LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  colors: [Color(0xFFFFFFFF),Color(0xFFFFFFFF) ],
+  colors: [Color(0xffFFAE88), Color(0xff8F93EA) ],
 ));

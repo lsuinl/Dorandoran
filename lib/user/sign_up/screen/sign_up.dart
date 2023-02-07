@@ -45,7 +45,7 @@ class _SignUpState extends State<SignUp> {
               Column(
                 children: [
                   Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                Text('별명을 설정해주세요', style: whitestyle.copyWith(fontSize: 20.sp)),
+                Text('닉네임을 설정해주세요', style: whitestyle.copyWith(fontSize: 20.sp)),
                 SizedBox(height: 5.h),
                 Row(
                   children: [
