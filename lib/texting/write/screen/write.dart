@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:dorandoran/texting/get/screen/home.dart';
 import 'package:dorandoran/texting/write/quest/post.dart';
 import 'package:dorandoran/user/sign_up/quest/permission.dart';
 import 'package:dorandoran/common/storage.dart';
@@ -26,6 +27,7 @@ String? latitude, longtitude;
 Set<int> imagenumber = {int.parse(backgroundimgname)};
 
 class _WriteState extends State<Write> {
+  String backimg = backgroundimgname;
   setimagenumber() {
     while (imagenumber.length < 10) {
       imagenumber.add(Random().nextInt(99) + 1);
@@ -40,7 +42,6 @@ class _WriteState extends State<Write> {
 
   @override
   Widget build(BuildContext context) {
-    print("d");
     return Scaffold(
       body: Container(
           alignment: Alignment.center,
@@ -59,8 +60,110 @@ class _WriteState extends State<Write> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Top(),
-                            MiddleTextField(),
-                            BottomButton(onpressed: selectbackimg,),
+                            MiddleTextField(backimg: backimg),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        forme = !forme;
+                                      });
+                                      print(forme);
+                                    },
+                                    icon: forme
+                                        ? Icon(Icons.lock)
+                                        : Icon(Icons.lock_open)),
+                                IconButton(
+                                    onPressed: () {
+                                      GetImageFile();
+                                    },
+                                    icon: Icon(Icons.image)),
+                                IconButton(
+                                  icon: Icon(Icons.grid_view),
+                                  onPressed: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        imagenumber.clear();
+                                        if (backgroundimgname != null) {
+                                          imagenumber.add(
+                                              int.parse(backgroundimgname));
+                                        }
+                                        while (imagenumber.length < 10) {
+                                          imagenumber
+                                              .add(Random().nextInt(99) + 1);
+                                        }
+                                        return StatefulBuilder(builder:
+                                            (context, StateSetter setState) {
+                                          return Container(
+                                            height: 200.h,
+                                            color: Colors.white70,
+                                            child: Column(
+                                              children: <Widget>[
+                                                Column(
+                                                  children: [
+                                                    IconButton(
+                                                        onPressed: () {
+                                                          // 이미지 리셋
+                                                          setState(() {
+                                                            imagenumber.clear();
+                                                            if (backgroundimgname !=
+                                                                null) {
+                                                              imagenumber.add(
+                                                                  int.parse(
+                                                                      backgroundimgname));
+                                                            }
+                                                            while (imagenumber
+                                                                    .length <
+                                                                10) {
+                                                              imagenumber.add(
+                                                                  Random().nextInt(
+                                                                          99) +
+                                                                      1);
+                                                            }
+                                                          });
+                                                        },
+                                                        icon: Icon(
+                                                            Icons.restart_alt)),
+                                                    Wrap(
+                                                      children: imagenumber
+                                                          .map(
+                                                            (e) => TextButton(
+                                                              child:
+                                                                  Image.network(
+                                                                imgurl +
+                                                                    e.toString(),
+                                                                width: 72.w,
+                                                                height: 72.h,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                              onPressed: ()=>wow(e),
+                                                              style:
+                                                                  ButtonStyle(
+                                                                padding: MaterialStateProperty
+                                                                    .all(EdgeInsets
+                                                                        .zero),
+                                                              ),
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                    onPressed: () {}, icon: Icon(Icons.tag)),
+                              ],
+                            )
                           ]),
                     ),
                   ],
@@ -68,8 +171,20 @@ class _WriteState extends State<Write> {
           )),
     );
   }
-  selectbackimg(){
-    didUpdateWidget(widget);
+wow(int e){
+  print(backimg);
+  dummyFille = null;
+  Navigator.pop(context);
+  setState(() {
+    backgroundimgname = e.toString();
+    backimg=backgroundimgname;
+  });
+
+}
+  GetImageFile() async {
+    XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
+    dummyFille = File(f!.path);
+    print(dummyFille);
   }
 }
 
@@ -103,65 +218,59 @@ class Top extends StatelessWidget {
   }
 }
 
-class MiddleTextField extends StatefulWidget {
-  const MiddleTextField({Key? key}) : super(key: key);
+class MiddleTextField extends StatelessWidget {
+  final String backimg;
 
-  @override
-  State<MiddleTextField> createState() => _MiddleTextFieldState();
-}
+  const MiddleTextField({required this.backimg, Key? key}) : super(key: key);
 
-class _MiddleTextFieldState extends State<MiddleTextField> {
   @override
   Widget build(BuildContext context) {
-        return Container(
-          height: 300.h,
-          decoration: BoxDecoration(
-            border: Border.all(),
-            image: DecorationImage(
-                image: NetworkImage(
-                  imgurl + backgroundimgname,
-                ),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.5), BlendMode.dstATop)),
-          ),
-          child: ListView(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 16),
-                child: TextFormField(
-                  style: TextStyle(fontSize: 20.sp),
-                  maxLines: 100,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black)),
-                    hintText: "내용을 작성해주세요",
-                    hintStyle: whitestyle.copyWith(color: Colors.black12),
-                  ),
-                  controller: contextcontroller,
-                ),
+    return Container(
+      height: 300.h,
+      decoration: BoxDecoration(
+        border: Border.all(),
+        image: DecorationImage(
+            image: NetworkImage(
+              imgurl + backimg,
+            ),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.5), BlendMode.dstATop)),
+      ),
+      child: ListView(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 16),
+            child: TextFormField(
+              style: TextStyle(fontSize: 20.sp),
+              maxLines: 100,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black)),
+                hintText: "내용을 작성해주세요",
+                hintStyle: whitestyle.copyWith(color: Colors.black12),
               ),
-            ],
+              controller: contextcontroller,
+            ),
           ),
-        );
-      }
+        ],
+      ),
+    );
+  }
 }
-
 
 class BottomButton extends StatefulWidget {
   final VoidCallback onpressed;
-  const BottomButton({
-    required this.onpressed,
-    Key? key}) : super(key: key);
+
+  const BottomButton({required this.onpressed, Key? key}) : super(key: key);
 
   @override
   State<BottomButton> createState() => _BottomButtonState();
 }
 
 class _BottomButtonState extends State<BottomButton> {
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -186,14 +295,13 @@ class _BottomButtonState extends State<BottomButton> {
             showModalBottomSheet<void>(
               context: context,
               builder: (BuildContext context) {
-                  imagenumber.clear();
-                  if (backgroundimgname != null) {
-                    imagenumber
-                        .add(int.parse(backgroundimgname));
-                  }
-                  while (imagenumber.length < 10) {
-                    imagenumber.add(Random().nextInt(99) + 1);
-                  }
+                imagenumber.clear();
+                if (backgroundimgname != null) {
+                  imagenumber.add(int.parse(backgroundimgname));
+                }
+                while (imagenumber.length < 10) {
+                  imagenumber.add(Random().nextInt(99) + 1);
+                }
                 return StatefulBuilder(
                     builder: (context, StateSetter setState) {
                   return Container(
@@ -229,11 +337,9 @@ class _BottomButtonState extends State<BottomButton> {
                                         fit: BoxFit.cover,
                                       ),
                                       onPressed: () {
-                                          backgroundimgname = e.toString();
-                                          dummyFille = null;
-                                          Navigator.pop(context);
-                                          widget.onpressed;
-                                          print("실행됨");
+                                        backgroundimgname = e.toString();
+                                        dummyFille = null;
+                                        Navigator.pop(context);
                                       },
                                       style: ButtonStyle(
                                         padding: MaterialStateProperty.all(
@@ -257,10 +363,10 @@ class _BottomButtonState extends State<BottomButton> {
       ],
     );
   }
+}
 
-  GetImageFile() async {
-    XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
-    dummyFille = File(f!.path);
-    print(dummyFille);
-  }
+GetImageFile() async {
+  XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
+  dummyFille = File(f!.path);
+  print(dummyFille);
 }
