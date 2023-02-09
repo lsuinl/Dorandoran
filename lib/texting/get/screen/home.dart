@@ -47,7 +47,8 @@ void initState(){
                         heart: e.likeCnt,
                         chat: e.replyCnt,
                         map: e.location,
-                        message: e.contents
+                        message: e.contents,
+                      backimg: e.backgroundPicUri
                     )
                 ).toList();
               }
@@ -58,7 +59,8 @@ void initState(){
                           heart: e.likeCnt,
                           chat: e.replyCnt,
                           map: e.location,
-                          message: e.contents
+                          message: e.contents,
+                          backimg: e.backgroundPicUri
                       )
                   ).toList());
                 }
@@ -210,6 +212,7 @@ class Message_Card extends StatelessWidget {
   final int? chat;
   final int map;
   final String message;
+  final String backimg;
 
   const Message_Card(
       {required this.time,
@@ -217,6 +220,7 @@ class Message_Card extends StatelessWidget {
       required this.chat,
       required this.map,
       required this.message,
+        required this.backimg,
       Key? key})
       : super(key: key);
 
@@ -225,15 +229,21 @@ class Message_Card extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       elevation: 2, //그림자
-      color: Colors.white70,
       child: InkWell(
         onTap: (){
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Main_Text()));
         },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Column(
+          child:Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.r),
+                  image: DecorationImage(image:NetworkImage('http://116.44.231.155:8080/api/background/2'),fit: BoxFit.cover,colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.7), BlendMode.dstATop),)),
+              //BoxDecoration(image: DecorationImage(image:NetworkImage('http://'+backimg))),
+          child:
+          Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+         child: Column(
             children: [
               SizedBox(
                 height: 150.h,
@@ -281,10 +291,11 @@ class Message_Card extends StatelessWidget {
               ),
               SizedBox(height: 10.h),
             ],
-          ),
+          )   ),
         ),
       ),
     );
+
   }
 }
 
