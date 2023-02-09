@@ -20,6 +20,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 RefreshController _refreshController =
 RefreshController(initialRefresh: false);
+ScrollController scrollController=ScrollController();
 late Future myfuture;
 List<Message_Card>? item;
 int? checknumber;
@@ -62,6 +63,7 @@ void initState(){
                   ).toList());
                 }
               }
+              print(item);
               return Container(
                 decoration: gradient,
                 child: SafeArea(
@@ -108,10 +110,12 @@ void initState(){
                                 onRefresh: () async {
                                   setState(() {
                                     item!.clear();
-                                    myfuture = getPostContent(useremail,0,'${latitude},${longtitude}');
+                                    myfuture = getPostContent(useremail,0,'$latitude,$longtitude');
                                   });
                                   print('새로고침');
-                                  _refreshController.refreshCompleted();
+                                  _refreshController.position!.animateTo(   0.0,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.linear,);
                                 },
                                 // 새로고침
                                 onLoading: //무한 스크롤
@@ -119,7 +123,7 @@ void initState(){
                                   if(lastnumber-1>0) {
                                     setState(() {
                                       myfuture = getPostContent(
-                                          useremail, lastnumber - 1, '${latitude},${longtitude}');
+                                          useremail, lastnumber - 1, '$latitude,$longtitude');
                                       checknumber = lastnumber;
                                     });
                                     _refreshController.loadComplete();
@@ -127,6 +131,7 @@ void initState(){
                                 },
                                 controller: _refreshController,
                                 child: ListView(
+                                  controller: scrollController,
                                   children: item!.map<Widget>((e) =>
                                    e
                                   ).toList(),
@@ -142,12 +147,16 @@ void initState(){
                           children: [
                             RawMaterialButton(
                               onPressed: () async {
+                                _refreshController.position!.animateTo(   0.0,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.linear,);
                                 setState(() {
                                   item!.clear();
-                                  myfuture = getPostContent(useremail,0,'${latitude},${longtitude}');
+                                  myfuture = getPostContent(useremail,0,'$latitude,$longtitude');
                                 });
                                 print('새로고침');
                                 _refreshController.refreshCompleted();
+                                scrollController.jumpTo(0);
                               },
                               elevation: 5.0,
                               fillColor: Colors.white,
@@ -193,15 +202,6 @@ void initState(){
           )
     );
   }
-void getlocation() async {
-  //현재위치 가져오기
-  Position position = await Geolocator.getCurrentPosition();
-  setState(() {
-    latitude = position.latitude.toString();
-    longtitude = position.longitude.toString();
-  });
-  print('${latitude},${longtitude}');
-}
 }
 //---------------------------------------------------
 class Message_Card extends StatelessWidget {

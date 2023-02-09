@@ -1,5 +1,6 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
+import 'package:dorandoran/common/util.dart';
 import 'package:dorandoran/user/sign_up/screen/using_agree.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +22,7 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
   void initState() {
     getlocation();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +42,7 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
                             'asset/image/kakao_login.png',
                             alignment: Alignment.center,
                           ),
-                          onPressed:(){questkakaologin();},
+                          onPressed:questkakaologin,
                           ),
                   ),
                 ],
@@ -48,15 +50,6 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
         ),
       ),
     );
-  }
-  void getlocation() async {
-    //현재위치 가져오기
-    Position position = await Geolocator.getCurrentPosition();
-    setState(() {
-      latitude = position.latitude.toString();
-      longtitude = position.longitude.toString();
-    });
-    print('${latitude},${longtitude}');
   }
 
   questkakaologin() async {

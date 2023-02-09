@@ -25,6 +25,7 @@ void main() async {
   runApp(ScreenUtilInit(
     designSize: Size(360,690),
     builder: (context,child){
+      //실행(with 폰트)
       return MaterialApp(
         theme: ThemeData(fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily),
         builder: (context, child) { //폰트크기고정
@@ -33,6 +34,7 @@ void main() async {
               child: child!);
         },
         home: Home(),
+        //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
