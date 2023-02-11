@@ -20,6 +20,7 @@ class Write extends StatefulWidget {
 
 TextEditingController contextcontroller = TextEditingController();
 bool forme = false;
+bool usinglocation = false;
 File? dummyFille;
 List<String>? hashtag;
 String? backgroundimgname = (Random().nextInt(99) + 1).toString();
@@ -75,6 +76,15 @@ class _WriteState extends State<Write> {
                                         ? Icon(Icons.lock)
                                         : Icon(Icons.lock_open)),
                                 IconButton(
+                                    onPressed: (){
+                                      setState(() {
+                                        usinglocation = !usinglocation;
+                                      });
+                                      print(usinglocation);
+                                    },
+                                    icon: usinglocation ? Icon(Icons.location_on):Icon(Icons.location_off_outlined)
+                                ),
+                                IconButton(
                                     onPressed: () {
                                       GetImageFile();
                                     },
@@ -119,17 +129,17 @@ class _WriteState extends State<Write> {
                                                         icon: Icon(
                                                             Icons.restart_alt)),
                                                     Wrap(
-                                                      children: imagenumber
-                                                          .map(
+                                                      children: imagenumber.map(
                                                             (e) => TextButton(
-                                                              child:
-                                                                  Image.network(
+                                                              child: Image.network(
                                                                 imgurl +
                                                                     e.toString(),
                                                                 width: 72.w,
                                                                 height: 72.h,
                                                                 fit: BoxFit
                                                                     .cover,
+                                                                    // colorBlendMode: e==backimg ? BlendMode.modulate: BlendMode.clear,
+                                                                opacity: e.toString()==backgroundimgname ?  AlwaysStoppedAnimation<double>(0.3):AlwaysStoppedAnimation<double>(1),
                                                               ),
                                                               onPressed: () =>
                                                                   wow(e),
@@ -195,21 +205,29 @@ class Top extends StatelessWidget {
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(primary: Colors.black),
             onPressed: () {
+              String? locations;
+              if(usinglocation){
+                locations='${latitude},${longtitude}';
+              }
+              else{
+                locations=null;
+              }
               if (contextcontroller.text != null) {
                 print('되었어요');
                 writing(
                   '404@gmail.com',
                   contextcontroller.text,
                   forme,
-                  latitude,
-                  longtitude,
-                  '2',
-                  ['ㅇㄹㄴ', 'ㅇㄹㄴㅇ'],
+                  locations,
+                  backgroundimgname,
                   null,
+                  dummyFille,
                 );
                 print(
-                    "useremail:${useremail}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${latitude},${longtitude}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
+                    "useremail:${useremail}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${locations}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
               }
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Home()));
             },
             child: Text("완료")));
   }
@@ -232,26 +250,24 @@ class MiddleTextField extends StatelessWidget {
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.5), BlendMode.dstATop)),
       ),
-      child: ListView(
-        children: [
-          Padding(
+      child: Padding(
             padding:
-                const EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 16),
+                const EdgeInsets.symmetric(horizontal: 16),
             child: TextFormField(
+              textAlignVertical: TextAlignVertical.center,
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20.sp),
-              maxLines: 100,
+              maxLines:null,
+              expands: true,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black)),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                 hintText: "내용을 작성해주세요",
                 hintStyle: whitestyle.copyWith(color: Colors.black12),
               ),
               controller: contextcontroller,
             ),
           ),
-        ],
-      ),
     );
   }
 }

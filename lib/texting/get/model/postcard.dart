@@ -2,7 +2,7 @@ class postcard {
   final int postId;
   final String contents;
   final String postTime;
-  final int location;
+  final int? location;
   final int likeCnt;
   final bool likeResult;
   final String backgroundPicUri;

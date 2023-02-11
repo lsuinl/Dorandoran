@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'dart:io';
 import '../model/postcard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,8 +15,12 @@ Future<List<postcard>> getPostContent(String? userEmail, int number, String loca
   } else {
     getPostContent(userEmail, number-1, location);
   }
+
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  List<postcard> card =
-      body.map((dynamic item) => postcard.fromJson(item)).toList();
+  //List<dynamic> body = json.decode(response.body);
+ // List<postcard> card = body.map((dynamic item) => postcard.fromJson(item)).toList();
+  print(body);
+  List<postcard> card=body.map((dynamic e) => postcard.fromJson(e)).toList();
+  print("어$card");
   return card;
 }

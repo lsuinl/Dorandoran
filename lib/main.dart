@@ -1,5 +1,6 @@
 import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
+import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
 
 import 'texting/get/screen/home.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ void main() async {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!);
         },
-        home: Home(),
+        home: Write(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

@@ -29,8 +29,7 @@ int? checknumber;
 void initState(){
   super.initState();
   getlocation();
- // Future.delayed(Duration(microseconds: 500));
-  myfuture=getPostContent(useremail,0,'37.2235,127.184');
+  myfuture=getPostContent(useremail,0,'');
 }
   @override
   Widget build(BuildContext context) {
@@ -40,15 +39,16 @@ void initState(){
           future: myfuture,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              int lastnumber=snapshot.data!.last.postId;
-              if(item==null){
-               item= snapshot.data!.map<Message_Card>((e) =>
+              print(item?.map((e) => e.message).toList().toString());
+              int lastnumber = snapshot.data!.last.postId;
+              if (item?.length == 0 || item==null) {
+                item = snapshot.data!.map<Message_Card>((e) =>
                     Message_Card(time: e.postTime,
                         heart: e.likeCnt,
                         chat: e.replyCnt,
                         map: e.location,
                         message: e.contents,
-                      backimg: e.backgroundPicUri
+                        backimg: e.backgroundPicUri
                     )
                 ).toList();
               }
@@ -65,7 +65,6 @@ void initState(){
                   ).toList());
                 }
               }
-              print(item);
               return Container(
                 decoration: gradient,
                 child: SafeArea(
@@ -110,14 +109,13 @@ void initState(){
                                   },
                                 ),
                                 onRefresh: () async {
+                                  _refreshController.resetNoData();
                                   setState(() {
                                     item!.clear();
                                     myfuture = getPostContent(useremail,0,'$latitude,$longtitude');
                                   });
                                   print('새로고침');
-                                  _refreshController.position!.animateTo(   0.0,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.linear,);
+                                  _refreshController.refreshCompleted();
                                 },
                                 // 새로고침
                                 onLoading: //무한 스크롤
@@ -149,16 +147,16 @@ void initState(){
                           children: [
                             RawMaterialButton(
                               onPressed: () async {
-                                _refreshController.position!.animateTo(   0.0,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.linear,);
+                                _refreshController.position!.animateTo(0.0,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.linear,);
+                                _refreshController.resetNoData();
                                 setState(() {
                                   item!.clear();
                                   myfuture = getPostContent(useremail,0,'$latitude,$longtitude');
                                 });
                                 print('새로고침');
                                 _refreshController.refreshCompleted();
-                                scrollController.jumpTo(0);
                               },
                               elevation: 5.0,
                               fillColor: Colors.white,
@@ -210,7 +208,7 @@ class Message_Card extends StatelessWidget {
   final String time;
   final int heart;
   final int? chat;
-  final int map;
+  final int? map;
   final String message;
   final String backimg;
 
@@ -237,7 +235,7 @@ class Message_Card extends StatelessWidget {
           child:Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.r),
-                  image: DecorationImage(image:NetworkImage('http://116.44.231.155:8080/api/background/2'),fit: BoxFit.cover,colorFilter: ColorFilter.mode(
+                  image: DecorationImage(image:NetworkImage('http://'+backimg),fit: BoxFit.cover,colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.7), BlendMode.dstATop),)),
               //BoxDecoration(image: DecorationImage(image:NetworkImage('http://'+backimg))),
           child:
@@ -268,7 +266,7 @@ class Message_Card extends StatelessWidget {
                       Text(timecount(time)),
                       SizedBox(width: 7.w),
                       Icon(Icons.place),
-                      Text('${map}km'),
+                      Text(map==null ? '':'${map}km'),
                     ],
                   ),
                   Row(
