@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -26,8 +25,13 @@ List<Message_Card>? item;
 int? checknumber;
 
 @override
-void initState(){
+void initState (){
+  print("다시하는중");
   super.initState();
+  setState(() {
+    _refreshController = RefreshController(initialRefresh: false);
+    scrollController=ScrollController();
+  });
   getlocation();
   myfuture=getPostContent(useremail,0,'');
 }
@@ -43,7 +47,9 @@ void initState(){
               int lastnumber = snapshot.data!.last.postId;
               if (item?.length == 0 || item==null) {
                 item = snapshot.data!.map<Message_Card>((e) =>
-                    Message_Card(time: e.postTime,
+                    Message_Card(
+                        movetocard: movetocard,
+                        time: e.postTime,
                         heart: e.likeCnt,
                         chat: e.replyCnt,
                         map: e.location,
@@ -55,7 +61,9 @@ void initState(){
               else{
                 if(checknumber!=lastnumber) {
                   item!.addAll(snapshot.data!.map<Message_Card>((e) =>
-                      Message_Card(time: e.postTime,
+                      Message_Card(
+                          movetocard: movetocard,
+                          time: e.postTime,
                           heart: e.likeCnt,
                           chat: e.replyCnt,
                           map: e.location,
@@ -202,9 +210,14 @@ void initState(){
           )
     );
   }
+  void movetocard(){
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Main_Text()));
+  }
 }
 //---------------------------------------------------
 class Message_Card extends StatelessWidget {
+  final VoidCallback movetocard;
   final String time;
   final int heart;
   final int? chat;
@@ -213,7 +226,9 @@ class Message_Card extends StatelessWidget {
   final String backimg;
 
   const Message_Card(
-      {required this.time,
+      {
+        required this.movetocard,
+        required this.time,
       required this.heart,
       required this.chat,
       required this.map,
@@ -228,10 +243,7 @@ class Message_Card extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       elevation: 2, //그림자
       child: InkWell(
-        onTap: (){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Main_Text()));
-        },
+        onTap: movetocard,
           child:Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.r),
@@ -265,7 +277,7 @@ class Message_Card extends StatelessWidget {
                       SizedBox(width: 3.w),
                       Text(timecount(time)),
                       SizedBox(width: 7.w),
-                      Icon(Icons.place),
+                      if(map!=null)Icon(Icons.place),
                       Text(map==null ? '':'${map}km'),
                     ],
                   ),

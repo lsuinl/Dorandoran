@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:dorandoran/common/util.dart';
 import 'package:dorandoran/texting/get/screen/home.dart';
+import 'package:dorandoran/texting/get/screen/loding.dart';
 import 'package:dorandoran/texting/write/quest/post.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/get/quest/post.dart';
@@ -23,26 +24,36 @@ bool forme = false;
 bool usinglocation = false;
 File? dummyFille;
 List<String>? hashtag;
-String? backgroundimgname = (Random().nextInt(99) + 1).toString();
+String? backgroundimgname=(Random().nextInt(99) + 1).toString();
 Set<int> imagenumber = {int.parse(backgroundimgname!)};
 
 class _WriteState extends State<Write> {
-  Image backimg = Image.network(imgurl + backgroundimgname!);
 
   setimagenumber() {
     while (imagenumber.length < 10) {
       imagenumber.add(Random().nextInt(99) + 1);
     }
   }
-
   @override
   void initState() {
+    setState(() {
+     contextcontroller = TextEditingController();
+     forme = false;
+     usinglocation = false;
+     dummyFille=null;
+     hashtag=null;
+     backgroundimgname = (Random().nextInt(99) + 1).toString();
+     backimg = Image.network(imgurl + backgroundimgname!);
+     imagenumber = {int.parse(backgroundimgname!)};
+    });
     permissionquest();
     setimagenumber();
   }
+  Image backimg = Image.network(imgurl + backgroundimgname!);
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
           alignment: Alignment.center,
@@ -70,7 +81,6 @@ class _WriteState extends State<Write> {
                                       setState(() {
                                         forme = !forme;
                                       });
-                                      print(forme);
                                     },
                                     icon: forme
                                         ? Icon(Icons.lock)
@@ -82,6 +92,7 @@ class _WriteState extends State<Write> {
                                       });
                                       print(usinglocation);
                                     },
+
                                     icon: usinglocation ? Icon(Icons.location_on):Icon(Icons.location_off_outlined)
                                 ),
                                 IconButton(
@@ -142,7 +153,7 @@ class _WriteState extends State<Write> {
                                                                 opacity: e.toString()==backgroundimgname ?  AlwaysStoppedAnimation<double>(0.3):AlwaysStoppedAnimation<double>(1),
                                                               ),
                                                               onPressed: () =>
-                                                                  wow(e),
+                                                                  pickdefaultimg(e),
                                                               style:
                                                                   ButtonStyle(
                                                                 padding: MaterialStateProperty
@@ -175,7 +186,7 @@ class _WriteState extends State<Write> {
     );
   }
 
-  wow(int e) {
+  pickdefaultimg(int e) {
     dummyFille = null;
     Navigator.pop(context);
     setState(() {
@@ -204,7 +215,7 @@ class Top extends StatelessWidget {
         alignment: Alignment.topRight,
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(primary: Colors.black),
-            onPressed: () {
+            onPressed: () async{
               String? locations;
               if(usinglocation){
                 locations='${latitude},${longtitude}';
@@ -227,7 +238,16 @@ class Top extends StatelessWidget {
                     "useremail:${useremail}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${locations}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
               }
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+                context,
+                PageRouteBuilder( //애니매이션제거
+                  pageBuilder: (BuildContext context, Animation<double> animation1,
+                      Animation<double> animation2) {
+                    return loding();
+                  },
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ),
+              );
             },
             child: Text("완료")));
   }
@@ -271,3 +291,4 @@ class MiddleTextField extends StatelessWidget {
     );
   }
 }
+
