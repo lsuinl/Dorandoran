@@ -1,5 +1,6 @@
 import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
+import 'package:dorandoran/user/login/screen/login_check.dart';
 import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
 
 import 'texting/get/screen/home.dart';
@@ -28,13 +29,14 @@ void main() async {
     builder: (context,child){
       //실행(with 폰트)
       return MaterialApp(
-        theme: ThemeData(fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily),
+        theme: ThemeData(fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily,       primarySwatch: Colors.blue,
+          canvasColor: Colors.transparent,),
         builder: (context, child) { //폰트크기고정
           return MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!);
         },
-        home: Home(),
+        home: KaKaoLogin(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

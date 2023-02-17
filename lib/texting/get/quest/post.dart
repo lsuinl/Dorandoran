@@ -7,6 +7,7 @@ import 'package:dorandoran/common/uri.dart';
 
 //글 가져오기
 Future<List<postcard>> getPostContent(String? userEmail, int number, String location) async {
+  print("실행된넘버:$number");
   var response = await http.get(
     Uri.parse('${getposturl}userEmail=${userEmail}&postCnt=${number}&location=${location}'),
   );
@@ -15,12 +16,12 @@ Future<List<postcard>> getPostContent(String? userEmail, int number, String loca
   } else {
     getPostContent(userEmail, number-1, location);
   }
-
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   //List<dynamic> body = json.decode(response.body);
  // List<postcard> card = body.map((dynamic item) => postcard.fromJson(item)).toList();
-  print(body);
   List<postcard> card=body.map((dynamic e) => postcard.fromJson(e)).toList();
-  print("어$card");
+  print(card.map((e) => e.backgroundPicUri));
+
   return card;
+
 }

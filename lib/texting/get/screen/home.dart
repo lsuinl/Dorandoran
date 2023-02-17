@@ -1,5 +1,6 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
+import 'package:dorandoran/texting/get/quest/like.dart';
 import 'package:dorandoran/texting/get/quest/post.dart';
 import 'package:dorandoran/texting/get/screen/maintext.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -17,204 +19,230 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-RefreshController _refreshController =
-RefreshController(initialRefresh: false);
-ScrollController scrollController=ScrollController();
-late Future myfuture;
-List<Message_Card>? item;
-int? checknumber;
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  ScrollController scrollController = ScrollController();
+  late Future myfuture;
+  List<Message_Card>? item;
+  int? checknumber;
+  bool like = false;
 
-@override
-void initState (){
-  print("다시하는중");
-  super.initState();
-  setState(() {
-    _refreshController = RefreshController(initialRefresh: false);
-    scrollController=ScrollController();
-  });
-  getlocation();
-  myfuture=getPostContent(useremail,0,'');
-}
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _refreshController = RefreshController(initialRefresh: false);
+      scrollController = ScrollController();
+    });
+    getlocation(); //임시
+    myfuture = getPostContent(useremail, 0, '');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: backgroundcolor,
         body: FutureBuilder(
-          future: myfuture,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              print(item?.map((e) => e.message).toList().toString());
-              int lastnumber = snapshot.data!.last.postId;
-              if (item?.length == 0 || item==null) {
-                item = snapshot.data!.map<Message_Card>((e) =>
-                    Message_Card(
-                        movetocard: movetocard,
-                        time: e.postTime,
-                        heart: e.likeCnt,
-                        chat: e.replyCnt,
-                        map: e.location,
-                        message: e.contents,
-                        backimg: e.backgroundPicUri
-                    )
-                ).toList();
-              }
-              else{
-                if(checknumber!=lastnumber) {
-                  item!.addAll(snapshot.data!.map<Message_Card>((e) =>
-                      Message_Card(
-                          movetocard: movetocard,
-                          time: e.postTime,
-                          heart: e.likeCnt,
-                          chat: e.replyCnt,
-                          map: e.location,
-                          message: e.contents,
-                          backimg: e.backgroundPicUri
-                      )
-                  ).toList());
-                }
-              }
-              return Container(
-                decoration: gradient,
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: SafeArea(
-                      child: Stack(children: [
-                        Column(
-                          children: [
-                            Top(),
-                            SizedBox(height: 10.h),
-                            Tag(),
-                            Expanded(
-                              child: SmartRefresher(
-                                enablePullDown: true,
-                                // 아래로 당겨서 새로고침
-                                enablePullUp: true,
-                                // 위로 당겨서 새로운 데이터
-                                //새로고침 로딩
-                                header: CustomHeader(
-                                  builder: (BuildContext context,
-                                      RefreshStatus? mode) {
-                                    Widget body;
-                                    if (mode == RefreshStatus.refreshing) {
-                                      body = CupertinoActivityIndicator();
-                                    } else {
-                                      body = Text('');
-                                    }
-                                    return Container(
-                                      height: 55.0,
-                                      child: Center(child: body),
-                                    );
-                                  },
-                                ),
-                                // 바닥글
-                                footer: CustomFooter(
-                                  builder: (BuildContext context, LoadStatus) {
-                                    return Container(
-                                      height: 55.0,
-                                      child: Center(child: Text("")),
-                                    );
-                                  },
-                                ),
-                                onRefresh: () async {
-                                  _refreshController.resetNoData();
-                                  setState(() {
-                                    item!.clear();
-                                    myfuture = getPostContent(useremail,0,'$latitude,$longtitude');
-                                  });
-                                  print('새로고침');
-                                  _refreshController.refreshCompleted();
-                                },
-                                // 새로고침
-                                onLoading: //무한 스크롤
-                                    () async {
-                                  if(lastnumber-1>0) {
-                                    setState(() {
-                                      myfuture = getPostContent(
-                                          useremail, lastnumber - 1, '$latitude,$longtitude');
-                                      checknumber = lastnumber;
-                                    });
-                                    _refreshController.loadComplete();
-                                  }
-                                },
-                                controller: _refreshController,
-                                child: ListView(
-                                  controller: scrollController,
-                                  children: item!.map<Widget>((e) =>
-                                   e
-                                  ).toList(),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      Container(
-                        alignment: Alignment.bottomRight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            RawMaterialButton(
-                              onPressed: () async {
-                                _refreshController.position!.animateTo(0.0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.linear,);
-                                _refreshController.resetNoData();
+            future: myfuture,
+            builder: (context, snapshot) {
+              print("실행됨");
+              if (snapshot.hasData) {
+                int lastnumber = snapshot.data!.last.postId;
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (item?.length == 0 || item == null) {
+                    item = snapshot.data!
+                        .map<Message_Card>((e) => Message_Card(
+                              movetocard: movetocard,
+                              time: e.postTime,
+                              heart: e.likeCnt,
+                              chat: e.replyCnt,
+                              map: e.location,
+                              message: e.contents,
+                              backimg: e.backgroundPicUri,
+                              postId: e.postId,
+                              postlike: () {
                                 setState(() {
-                                  item!.clear();
-                                  myfuture = getPostContent(useremail,0,'$latitude,$longtitude');
+                                  like != like;
                                 });
-                                print('새로고침');
-                                _refreshController.refreshCompleted();
+                                postLike(e.postId, useremail);
+                                print('l');
                               },
-                              elevation: 5.0,
-                              fillColor: Colors.white,
-                              child: Icon(
-                                Icons.restart_alt,
-                                size: 20.0.r,
-                              ),
-                              padding: EdgeInsets.all(15.0),
-                              shape: CircleBorder(),
+                              like: like,
+                            ))
+                        .toList();
+                  } else {
+                    if (checknumber != lastnumber) {
+                      item!.addAll(snapshot.data!
+                          .map<Message_Card>((e) => Message_Card(
+                                movetocard: movetocard,
+                                time: e.postTime,
+                                heart: e.likeCnt,
+                                chat: e.replyCnt,
+                                map: e.location,
+                                message: e.contents,
+                                backimg: e.backgroundPicUri,
+                                postId: e.postId,
+                                postlike: () {
+                                  setState(() {
+                                    postLike(e.postId, useremail);
+                                    like != like;
+                                  });
+                                  print(like);
+                                },
+                                like: like,
+                              ))
+                          .toList());
+                    }
+                  }
+                }
+                print(item!.map((e) => e.map));
+                return Container(
+                  decoration: gradient,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: SafeArea(
+                        child: Stack(children: [
+                          Column(
+                            children: [
+                              Top(),
+                              SizedBox(height: 10.h),
+                              Tag(),
+                              Expanded(
+                                child: SmartRefresher(
+                                  enablePullDown: true,
+                                  // 아래로 당겨서 새로고침
+                                  enablePullUp: true,
+                                  // 위로 당겨서 새로운 데이터
+                                  //새로고침 로딩
+                                  header: CustomHeader(
+                                    builder: (BuildContext context,
+                                        RefreshStatus? mode) {
+                                      Widget body;
+                                      if (mode == RefreshStatus.refreshing) {
+                                        body = CupertinoActivityIndicator();
+                                      } else {
+                                        body = Text('');
+                                      }
+                                      return Container(
+                                        height: 55.0,
+                                        child: Center(child: body),
+                                      );
+                                    },
+                                  ),
+                                  // 바닥글
+                                  footer: CustomFooter(
+                                    builder:
+                                        (BuildContext context, LoadStatus) {
+                                      return Container(
+                                        height: 55.0,
+                                        child: Center(child: Text("")),
+                                      );
+                                    },
+                                  ),
+                                  onRefresh: () async {
+                                    setState(() {
+                                      item!.clear();
+                                      myfuture = getPostContent(useremail, 0,
+                                          '$latitude,$longtitude');
+                                    });
+                                    _refreshController.refreshCompleted();
+                                  },
+                                  // 새로고침
+                                  onLoading: //무한 스크롤
+                                      () async {
+                                    if (lastnumber - 1 > 0) {
+                                      setState(() {
+                                        myfuture = getPostContent(
+                                            useremail,
+                                            lastnumber - 1,
+                                            '$latitude,$longtitude');
+                                        checknumber = lastnumber;
+                                      });
+                                      _refreshController.loadComplete();
+                                    }
+                                  },
+                                  controller: _refreshController,
+                                  child: ListView(
+                                    controller: scrollController,
+                                    children:
+                                        item!.map<Widget>((e) => e).toList(),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Container(
+                            alignment: Alignment.bottomRight,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                RawMaterialButton(
+                                  onPressed: () async {
+                                    _refreshController.position!.animateTo(
+                                      0.0,
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      curve: Curves.linear,
+                                    );
+                                    setState(() {
+                                      item!.clear();
+                                      myfuture = getPostContent(useremail, 0,
+                                          '$latitude,$longtitude');
+                                    });
+                                    print('새로고침');
+                                    _refreshController.refreshCompleted();
+                                  },
+                                  elevation: 5.0,
+                                  fillColor: Colors.white,
+                                  child: Icon(
+                                    Icons.restart_alt,
+                                    size: 20.0.r,
+                                  ),
+                                  padding: EdgeInsets.all(15.0),
+                                  shape: CircleBorder(),
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                RawMaterialButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Write()));
+                                  },
+                                  elevation: 5.0,
+                                  fillColor: Colors.white,
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 50.0,
+                                  ),
+                                  padding: EdgeInsets.all(15.0),
+                                  shape: CircleBorder(),
+                                )
+                              ],
                             ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            RawMaterialButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => Write()));
-                              },
-                              elevation: 5.0,
-                              fillColor: Colors.white,
-                              child: Icon(
-                                Icons.edit,
-                                size: 50.0,
-                              ),
-                              padding: EdgeInsets.all(15.0),
-                              shape: CircleBorder(),
-                            )
-                          ],
-                        ),
-                      )
-                      ]),
+                          )
+                        ]),
+                      ),
                     ),
                   ),
-                ),
-              );
-            }
-            else {
-              return Container(
-                decoration: gradient,
-                  child: Center(child: CircularProgressIndicator()));
-            }
-          }
-          )
-    );
+                );
+              } else {
+                return Container(
+                    decoration: gradient,
+                    child: Center(child: CircularProgressIndicator()));
+              }
+            }));
   }
-  void movetocard(){
+
+  void movetocard() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => Main_Text()));
   }
 }
+
 //---------------------------------------------------
 class Message_Card extends StatelessWidget {
   final VoidCallback movetocard;
@@ -224,16 +252,21 @@ class Message_Card extends StatelessWidget {
   final int? map;
   final String message;
   final String backimg;
+  final int postId;
+  final VoidCallback postlike;
+  final bool like;
 
   const Message_Card(
-      {
-        required this.movetocard,
-        required this.time,
+      {required this.postId,
+      required this.movetocard,
+      required this.time,
       required this.heart,
       required this.chat,
       required this.map,
       required this.message,
-        required this.backimg,
+      required this.backimg,
+      required this.postlike,
+      required this.like,
       Key? key})
       : super(key: key);
 
@@ -244,68 +277,72 @@ class Message_Card extends StatelessWidget {
       elevation: 2, //그림자
       child: InkWell(
         onTap: movetocard,
-          child:Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16.r),
-                  image: DecorationImage(image:NetworkImage('http://'+backimg),fit: BoxFit.cover,colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.7), BlendMode.dstATop),)),
-              //BoxDecoration(image: DecorationImage(image:NetworkImage('http://'+backimg))),
-          child:
-          Padding(
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.r),
+              image: DecorationImage(
+                image: NetworkImage('http://' + backimg),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.7), BlendMode.dstATop),
+              )),
+          //BoxDecoration(image: DecorationImage(image:NetworkImage('http://'+backimg))),
+          child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
-         child: Column(
-            children: [
-              SizedBox(
-                height: 150.h,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(message,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 20.sp)),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Icon(Icons.access_time_filled_rounded),
-                      SizedBox(width: 3.w),
-                      Text(timecount(time)),
-                      SizedBox(width: 7.w),
-                      if(map!=null)Icon(Icons.place),
-                      Text(map==null ? '':'${map}km'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.favorite),
-                        constraints: BoxConstraints(),
-                        padding: EdgeInsets.zero,
+                  SizedBox(
+                    height: 150.h,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(message,
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 20.sp)),
                       ),
-                      SizedBox(width: 3.w),
-                      Text('${heart}'),
-                      SizedBox(width: 7.w),
-                      Icon(Icons.forum),
-                      SizedBox(width: 3.w),
-                      Text('${chat}'),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.access_time_filled_rounded),
+                          SizedBox(width: 3.w),
+                          Text(timecount(time)),
+                          SizedBox(width: 7.w),
+                          if (map != null) Icon(Icons.place),
+                          Text(map == null ? '' : '${map}km'),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: postlike,
+                            icon: like == true
+                                ? Icon(Icons.favorite)
+                                : Icon(Icons.favorite_border),
+                            constraints: BoxConstraints(),
+                            padding: EdgeInsets.zero,
+                          ),
+                          SizedBox(width: 3.w),
+                          Text(like == true ? '${heart + 1}' : '${heart}'),
+                          SizedBox(width: 7.w),
+                          Icon(Icons.forum),
+                          SizedBox(width: 3.w),
+                          Text('${chat}'),
+                        ],
+                      ),
                     ],
                   ),
+                  SizedBox(height: 10.h),
                 ],
-              ),
-              SizedBox(height: 10.h),
-            ],
-          )   ),
+              )),
         ),
       ),
     );
-
   }
 }
 
@@ -398,4 +435,3 @@ class Tag extends StatelessWidget {
     );
   }
 }
-

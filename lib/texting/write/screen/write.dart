@@ -1,16 +1,16 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:dorandoran/common/util.dart';
-import 'package:dorandoran/texting/get/screen/home.dart';
 import 'package:dorandoran/texting/get/screen/loding.dart';
 import 'package:dorandoran/texting/write/quest/post.dart';
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/quest/post.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../common/css.dart';
 import 'package:dorandoran/common/uri.dart';
+import 'package:http/http.dart' as http;
 
 class Write extends StatefulWidget {
   const Write({Key? key}) : super(key: key);
@@ -23,37 +23,40 @@ TextEditingController contextcontroller = TextEditingController();
 bool forme = false;
 bool usinglocation = false;
 File? dummyFille;
-List<String>? hashtag;
-String? backgroundimgname=(Random().nextInt(99) + 1).toString();
+List<String> hashtag = [];
+String? backgroundimgname = (Random().nextInt(99) + 1).toString();
 Set<int> imagenumber = {int.parse(backgroundimgname!)};
 
 class _WriteState extends State<Write> {
-
   setimagenumber() {
     while (imagenumber.length < 10) {
       imagenumber.add(Random().nextInt(99) + 1);
     }
   }
+
   @override
   void initState() {
     setState(() {
-     contextcontroller = TextEditingController();
-     forme = false;
-     usinglocation = false;
-     dummyFille=null;
-     hashtag=null;
-     backgroundimgname = (Random().nextInt(99) + 1).toString();
-     backimg = Image.network(imgurl + backgroundimgname!);
-     imagenumber = {int.parse(backgroundimgname!)};
+      contextcontroller = TextEditingController();
+      forme = false;
+      usinglocation = false;
+      hashtag = [];
+      dummyFille = null;
+      backgroundimgname = (Random().nextInt(99) + 1).toString();
+      if (backgroundimgname != null) {
+        backimg = Image.network(imgurl + backgroundimgname!);
+        imagenumber = {int.parse(backgroundimgname!)};
+      }
     });
+    getlocation();
     permissionquest();
     setimagenumber();
   }
-  Image backimg = Image.network(imgurl + backgroundimgname!);
+
+  Image backimg = Image.network(imgurl + '1');
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
           alignment: Alignment.center,
@@ -72,7 +75,17 @@ class _WriteState extends State<Write> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Top(),
-                            MiddleTextField(backimg: backimg),
+                            Column(
+                            children: [
+                              MiddleTextField(backimg: backimg),
+                            Wrap(
+                              children:
+                                hashtag!=[] ? hashtag.map(
+                                        (e) =>
+                                            Chip(label: Text(e))
+                                ).toList() :[Text("")]
+                            )]
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -86,15 +99,15 @@ class _WriteState extends State<Write> {
                                         ? Icon(Icons.lock)
                                         : Icon(Icons.lock_open)),
                                 IconButton(
-                                    onPressed: (){
+                                    onPressed: () {
                                       setState(() {
                                         usinglocation = !usinglocation;
                                       });
                                       print(usinglocation);
                                     },
-
-                                    icon: usinglocation ? Icon(Icons.location_on):Icon(Icons.location_off_outlined)
-                                ),
+                                    icon: usinglocation
+                                        ? Icon(Icons.location_on)
+                                        : Icon(Icons.location_off_outlined)),
                                 IconButton(
                                     onPressed: () {
                                       GetImageFile();
@@ -129,31 +142,48 @@ class _WriteState extends State<Write> {
                                                           // 이미지 리셋
                                                           setState(() {
                                                             imagenumber.clear();
-                                                            if (backgroundimgname != null) {
-                                                              imagenumber.add(int.parse(backgroundimgname!));
+                                                            if (backgroundimgname !=
+                                                                null) {
+                                                              imagenumber.add(
+                                                                  int.parse(
+                                                                      backgroundimgname!));
                                                             }
-                                                            while (imagenumber.length < 10) {
-                                                              imagenumber.add(Random().nextInt(99) + 1);
+                                                            while (imagenumber
+                                                                    .length <
+                                                                10) {
+                                                              imagenumber.add(
+                                                                  Random().nextInt(
+                                                                          99) +
+                                                                      1);
                                                             }
                                                           });
                                                         },
                                                         icon: Icon(
                                                             Icons.restart_alt)),
                                                     Wrap(
-                                                      children: imagenumber.map(
+                                                      children: imagenumber
+                                                          .map(
                                                             (e) => TextButton(
-                                                              child: Image.network(
+                                                              child:
+                                                                  Image.network(
                                                                 imgurl +
                                                                     e.toString(),
                                                                 width: 72.w,
                                                                 height: 72.h,
                                                                 fit: BoxFit
                                                                     .cover,
-                                                                    // colorBlendMode: e==backimg ? BlendMode.modulate: BlendMode.clear,
-                                                                opacity: e.toString()==backgroundimgname ?  AlwaysStoppedAnimation<double>(0.3):AlwaysStoppedAnimation<double>(1),
+                                                                // colorBlendMode: e==backimg ? BlendMode.modulate: BlendMode.clear,
+                                                                opacity: e.toString() ==
+                                                                        backgroundimgname
+                                                                    ? AlwaysStoppedAnimation<
+                                                                            double>(
+                                                                        0.3)
+                                                                    : AlwaysStoppedAnimation<
+                                                                        double>(1),
                                                               ),
                                                               onPressed: () =>
-                                                                  pickdefaultimg(e),
+                                                                  pickdefaultimg(
+                                                                      e),
                                                               style:
                                                                   ButtonStyle(
                                                                 padding: MaterialStateProperty
@@ -175,7 +205,133 @@ class _WriteState extends State<Write> {
                                   },
                                 ),
                                 IconButton(
-                                    onPressed: () {}, icon: Icon(Icons.tag)),
+                                    onPressed: () {
+                                      inserttag(List<Chip> taglist) {
+                                        taglist.addAll(
+                                            hashtag.map(
+                                                    (e) => Chip(
+                                                  label: Text(e),
+                                                  onDeleted: () {
+                                                    // setState(() {
+                                                    //   taglist.removeAt(hashtag.indexOf(e));
+                                                    // });
+                                                    // hashtag.remove(e);
+                                                  },
+                                                ))
+                                            .toList());
+                                      }
+
+                                      showModalBottomSheet<void>(
+                                          isDismissible: false,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            List<Chip> taglist = [];
+                                            inserttag(taglist);
+                                            TextEditingController
+                                                tagcontroller =
+                                                TextEditingController();
+                                            return StatefulBuilder(builder:
+                                                (BuildContext context,
+                                                    StateSetter setState) {
+                                              return Container(
+                                                  height: 200.h,
+                                                  color: Colors.transparent,
+                                                  child: Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color:
+                                                            Color(0xBBFFFFFF),
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  30),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  30),
+                                                        ),
+                                                      ),
+                                                      child: Center(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            Container(
+                                                              width: 300.w,
+                                                              child:
+                                                                  TextFormField(
+                                                                textInputAction:
+                                                                    TextInputAction
+                                                                        .go,
+                                                                onFieldSubmitted:
+                                                                    (value) {
+                                                                  setState(() {
+                                                                    tagcontroller
+                                                                        .clear();
+                                                                    taglist.add(
+                                                                        Chip(
+                                                                      label: Text(value),
+                                                                      onDeleted:
+                                                                          () {
+                                                                            setState(() {
+                                                                              taglist.removeAt(hashtag.indexOf(value));
+                                                                            });
+                                                                            hashtag.remove(value);
+                                                                      },
+                                                                    ));
+                                                                  });
+                                                                  hashtag.add(
+                                                                      value);
+                                                                  print(taglist
+                                                                      .map((e) =>
+                                                                          e.label));
+                                                                  print(
+                                                                      hashtag);
+                                                                },
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        20.sp),
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  hintText:
+                                                                      "태그명을 입력해주세요",
+                                                                  hintStyle: whitestyle.copyWith(
+                                                                      fontSize:
+                                                                          15.sp,
+                                                                      color: Colors
+                                                                          .black12),
+                                                                ),
+                                                                controller:
+                                                                    tagcontroller,
+                                                              ),
+                                                            ),
+                                                            Wrap(
+                                                              children:
+                                                                  taglist ==
+                                                                          null
+                                                                      ? [
+                                                                          Text(
+                                                                              '')
+                                                                        ]
+                                                                      : taglist,
+                                                            ),
+                                                            ElevatedButton(
+                                                              child: const Text(
+                                                                  'Done!'),
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      context),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )));
+                                            });
+                                          });
+                                    },
+                                    icon: Icon(Icons.tag)),
                               ],
                             )
                           ]),
@@ -191,13 +347,17 @@ class _WriteState extends State<Write> {
     Navigator.pop(context);
     setState(() {
       backgroundimgname = e.toString();
-      backimg = Image.network(imgurl + backgroundimgname!);
+      if (backgroundimgname != null) {
+        backimg = Image.network(imgurl + backgroundimgname!);
+      }
     });
   }
 
   GetImageFile() async {
     XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
-    dummyFille = File(f!.path);
+    if (f != null) {
+      dummyFille = File(f.path);
+    }
     print(dummyFille);
     setState(() {
       backgroundimgname = null;
@@ -215,39 +375,47 @@ class Top extends StatelessWidget {
         alignment: Alignment.topRight,
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(primary: Colors.black),
-            onPressed: () async{
+            onPressed: () async {
               String? locations;
-              if(usinglocation){
-                locations='${latitude},${longtitude}';
+              http.MultipartFile? userimage;
+              if (usinglocation) {
+                locations = '${latitude},${longtitude}';
+              } else {
+                locations = null;
               }
-              else{
-                locations=null;
+              if (dummyFille != null) {
+                userimage = await http.MultipartFile.fromPath(
+                    'POST', Uri.parse(dummyFille!.path).toString());
+              } else {
+                userimage = null;
               }
-              if (contextcontroller.text != null) {
+              if (contextcontroller.text != '') {
                 print('되었어요');
                 writing(
-                  '404@gmail.com',
+                  useremail,
                   contextcontroller.text,
                   forme,
                   locations,
                   backgroundimgname,
-                  null,
-                  dummyFille,
+                  hashtag,
+                  userimage,
                 );
                 print(
                     "useremail:${useremail}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${locations}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    //애니매이션제거
+                    pageBuilder: (BuildContext context,
+                        Animation<double> animation1,
+                        Animation<double> animation2) {
+                      return loding();
+                    },
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
+                  ),
+                );
               }
-              Navigator.push(
-                context,
-                PageRouteBuilder( //애니매이션제거
-                  pageBuilder: (BuildContext context, Animation<double> animation1,
-                      Animation<double> animation2) {
-                    return loding();
-                  },
-                  transitionDuration: Duration.zero,
-                  reverseTransitionDuration: Duration.zero,
-                ),
-              );
             },
             child: Text("완료")));
   }
@@ -271,24 +439,22 @@ class MiddleTextField extends StatelessWidget {
                 Colors.black.withOpacity(0.5), BlendMode.dstATop)),
       ),
       child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16),
-            child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20.sp),
-              maxLines:null,
-              expands: true,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                hintText: "내용을 작성해주세요",
-                hintStyle: whitestyle.copyWith(color: Colors.black12),
-              ),
-              controller: contextcontroller,
-            ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: TextFormField(
+          textAlignVertical: TextAlignVertical.center,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20.sp),
+          maxLines: null,
+          expands: true,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+            hintText: "내용을 작성해주세요",
+            hintStyle: whitestyle.copyWith(color: Colors.black12),
           ),
+          controller: contextcontroller,
+        ),
+      ),
     );
   }
 }
-
