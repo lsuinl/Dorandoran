@@ -3,6 +3,7 @@ import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:dorandoran/texting/get/screen/home.dart';
 import 'package:dorandoran/user/login/quest/logincheck.dart';
+import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/sign_up/quest/namecheck.dart';
 import 'package:dorandoran/user/sign_up/screen/using_agree.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../../texting/write/screen/write.dart';
 import '../component/mainlogo.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class Login_check extends StatefulWidget {
   const Login_check({Key? key}) : super(key: key);
 
@@ -20,13 +21,14 @@ class Login_check extends StatefulWidget {
 }
 
 class _Login_checkState extends State<Login_check> {
-@override
-void initState() {
-    LodingData();
+  @override
+  void initState() {
+    getlocation();
   }
 
   @override
   Widget build(BuildContext context) {
+    logincheck();
     return Scaffold(
       body: Container(
         decoration: gradient,
@@ -44,14 +46,31 @@ void initState() {
                       SizedBox(height: 20.h,),
                       CircularProgressIndicator(),
                       SizedBox(height: 20.h,),
-                      Text("데이터를 로딩 중입니다. 잠시만 기다려주세요.", style: TextStyle(fontSize: 12.sp,color: Colors.white54)),
+                      Text("데이터를 로딩 중입니다. 잠시만 기다려주세요.", style: TextStyle(
+                          fontSize: 12.sp, color: Colors.white54)),
                     ],
                   )),)
         ),
       ),
     );
   }
-  LodingData(){
 
-}
-}
+   logincheck() async {
+    final prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('email')!.isNotEmpty) {
+      useremail=prefs.getString('email');
+      kakaotoken=prefs.getString('kakaotoken');
+      firebasetoken=prefs.getString('firebasetoken');
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Home()));
+    }
+      else{
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => KaKaoLogin()));
+      }
+    }
+    }

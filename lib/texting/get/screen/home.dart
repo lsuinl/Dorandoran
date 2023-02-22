@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -44,7 +43,6 @@ class _HomeState extends State<Home> {
         body: FutureBuilder(
             future: myfuture,
             builder: (context, snapshot) {
-              print("실행됨");
               if (snapshot.hasData) {
                 int lastnumber = snapshot.data!.last.postId;
                 if (snapshot.connectionState == ConnectionState.done) {
@@ -78,7 +76,6 @@ class _HomeState extends State<Home> {
                     }
                   }
                 }
-                print(item!.map((e) => e.map));
                 return Container(
                   decoration: gradient,
                   child: SafeArea(
@@ -310,7 +307,7 @@ class _Message_CardState extends State<Message_Card> {
                               setState(() {
                                 like = !like;
                               });
-                              postLike(widget.postId, useremail);
+                              postLike(widget.postId, useremail!);
                             },
                             icon: like == true
                                 ? Icon(Icons.favorite)

@@ -11,6 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import '../../../texting/write/screen/write.dart';
 import '../component/mainlogo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class KaKaoLogin extends StatefulWidget {
   const KaKaoLogin({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
   @override
   void initState() {
     getlocation();
+
   }
 
   @override
@@ -55,11 +57,13 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
   }
 
   questkakaologin() async {
+    final prefs = await SharedPreferences.getInstance();
     OAuthToken token;
     if (await isKakaoTalkInstalled()) {
       try {
         token = await UserApi.instance.loginWithKakaoTalk();
-        kakaotoken = token.accessToken.toString();
+        kakaotoken  =token.accessToken.toString();
+        prefs.setString('kakaotoken', kakaotoken!);
         User user = await UserApi.instance.me();
         int ok= await postNameCheckRequest(user.kakaoAccount!.email.toString());
         if(ok==200) {
@@ -80,6 +84,7 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
         try {
           token = await UserApi.instance.loginWithKakaoAccount();
           kakaotoken = token.accessToken.toString();
+          prefs.setString('kakaotoken', kakaotoken!);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -90,13 +95,14 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
       }
     } else {
       try {
-        print("어3");
+
         token = await UserApi.instance
             .loginWithKakaoAccount();
-        print("미");
         kakaotoken = token.accessToken.toString();
+        prefs.setString('kakaotoken', kakaotoken!);
         User user = await UserApi.instance.me();
-        print(user.kakaoAccount!.email.toString());
+//        print(user.kakaoAccount!.email.toString());
+        prefs.setString('email',user.kakaoAccount!.email.toString());
         int ok= await postUserCheckRequest(user.kakaoAccount!.email.toString());
         if(ok==200) {
           print(ok);

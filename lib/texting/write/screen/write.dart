@@ -367,7 +367,7 @@ class Top extends StatelessWidget {
               if (contextcontroller.text != '') {
                 print('되었어요');
                 writing(
-                  useremail,
+                  useremail!,
                   contextcontroller.text,
                   forme,
                   locations,

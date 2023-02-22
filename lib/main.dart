@@ -2,7 +2,7 @@ import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
 import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'texting/get/screen/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +24,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
   firebasetoken = await FirebaseMessaging.instance.getToken();
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setString('firebasetoken', firebasetoken!);
   runApp(ScreenUtilInit(
     designSize: Size(360, 690),
     builder: (context, child) {
@@ -40,7 +42,7 @@ void main() async {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!);
         },
-        home: Write(),
+        home: Login_check(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
