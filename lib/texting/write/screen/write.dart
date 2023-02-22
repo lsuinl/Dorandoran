@@ -23,7 +23,7 @@ TextEditingController contextcontroller = TextEditingController();
 bool forme = false;
 bool usinglocation = false;
 File? dummyFille;
-//List<String> hashtag = [];
+List<String> hashtag = [];
 String? backgroundimgname = (Random().nextInt(99) + 1).toString();
 Set<int> imagenumber = {int.parse(backgroundimgname!)};
 
@@ -40,7 +40,7 @@ class _WriteState extends State<Write> {
       contextcontroller = TextEditingController();
       forme = false;
       usinglocation = false;
-    // hashtag = [];
+     hashtag = [];
       dummyFille = null;
       backgroundimgname = (Random().nextInt(99) + 1).toString();
       if (backgroundimgname != null) {
@@ -54,7 +54,6 @@ class _WriteState extends State<Write> {
   }
 
   Image backimg = Image.network(imgurl + '1');
-  List<String> hashtag = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +73,7 @@ class _WriteState extends State<Write> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Top(hashtag: hashtag,),
+                            Top(),
                             Column(children: [
                               MiddleTextField(backimg: backimg),
                               Wrap(
@@ -255,7 +254,6 @@ class _WriteState extends State<Write> {
                                                                   tagcontroller.clear();
                                                                   hashtag.add(value);
                                                                 });
-                                                                addhashtag;
                                                                 print(hashtag);
                                                               },
                                                               style: TextStyle(
@@ -290,9 +288,7 @@ class _WriteState extends State<Write> {
                                                           ElevatedButton(
                                                             child: const Text(
                                                                 '완료'),
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    context),
+                                                            onPressed:  resetting,
                                                           )
                                                         ],
                                                       ),
@@ -310,10 +306,11 @@ class _WriteState extends State<Write> {
           )),
     );
   }
-  addhashtag(String value){
+  resetting(){
     setState(() {
-      hashtag;
+        backimg = backimg;
     });
+    Navigator.pop(context);
   }
 
   pickdefaultimg(int e) {
@@ -344,9 +341,7 @@ class _WriteState extends State<Write> {
 
 class Top extends StatelessWidget {
   //완료(글보내기)
-  final List<String> hashtag;
   const Top({
-    required this.hashtag,
     Key? key}) : super(key: key);
 
   @override
