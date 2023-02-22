@@ -23,7 +23,7 @@ TextEditingController contextcontroller = TextEditingController();
 bool forme = false;
 bool usinglocation = false;
 File? dummyFille;
-List<String> hashtag = [];
+//List<String> hashtag = [];
 String? backgroundimgname = (Random().nextInt(99) + 1).toString();
 Set<int> imagenumber = {int.parse(backgroundimgname!)};
 
@@ -40,7 +40,7 @@ class _WriteState extends State<Write> {
       contextcontroller = TextEditingController();
       forme = false;
       usinglocation = false;
-      hashtag = [];
+    // hashtag = [];
       dummyFille = null;
       backgroundimgname = (Random().nextInt(99) + 1).toString();
       if (backgroundimgname != null) {
@@ -54,7 +54,7 @@ class _WriteState extends State<Write> {
   }
 
   Image backimg = Image.network(imgurl + '1');
-
+  List<String> hashtag = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,19 +74,18 @@ class _WriteState extends State<Write> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Top(),
-                            Column(
-                            children: [
+                            Top(hashtag: hashtag,),
+                            Column(children: [
                               MiddleTextField(backimg: backimg),
-                            Wrap(
-                              children:
-                                hashtag!=[] ? hashtag.map(
-                                        (e) =>
-                                            Chip(label: Text(e))
-                                ).toList() :[Text("")]
-                            )]
-                            ),
+                              Wrap(
+                                  children: hashtag != []
+                                      ? hashtag
+                                          .map((e) => Chip(label: Text(e)))
+                                          .toList()
+                                      : [Text("")])
+                            ]),
                             Row(
+                              //하단메뉴
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 IconButton(
@@ -114,6 +113,7 @@ class _WriteState extends State<Write> {
                                     },
                                     icon: Icon(Icons.image)),
                                 IconButton(
+                                  //기본이미지
                                   icon: Icon(Icons.grid_view),
                                   onPressed: () {
                                     showModalBottomSheet<void>(
@@ -128,8 +128,10 @@ class _WriteState extends State<Write> {
                                           imagenumber
                                               .add(Random().nextInt(99) + 1);
                                         }
-                                        return StatefulBuilder(builder:
-                                            (context, StateSetter setState) {
+                                        return StatefulBuilder(
+                                            builder: //10개가져오기
+                                                (context,
+                                                    StateSetter setState) {
                                           return Container(
                                             height: 200.h,
                                             color: Colors.white70,
@@ -205,133 +207,100 @@ class _WriteState extends State<Write> {
                                   },
                                 ),
                                 IconButton(
-                                    onPressed: () {
-                                      inserttag(List<Chip> taglist) {
-                                        taglist.addAll(
-                                            hashtag.map(
-                                                    (e) => Chip(
-                                                  label: Text(e),
-                                                  onDeleted: () {
-                                                    // setState(() {
-                                                    //   taglist.removeAt(hashtag.indexOf(e));
-                                                    // });
-                                                    // hashtag.remove(e);
-                                                  },
-                                                ))
-                                            .toList());
-                                      }
-
-                                      showModalBottomSheet<void>(
-                                          isDismissible: false,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            List<Chip> taglist = [];
-                                            inserttag(taglist);
-                                            TextEditingController
-                                                tagcontroller =
-                                                TextEditingController();
-                                            return StatefulBuilder(builder:
-                                                (BuildContext context,
-                                                    StateSetter setState) {
-                                              return Container(
-                                                  height: 200.h,
-                                                  color: Colors.transparent,
-                                                  child: Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color:
-                                                            Color(0xBBFFFFFF),
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  30),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  30),
-                                                        ),
+                                  //태그
+                                  icon: Icon(Icons.tag),
+                                  onPressed: () {
+                                    showModalBottomSheet<void>(
+                                        isDismissible: false,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          TextEditingController tagcontroller =
+                                              TextEditingController();
+                                          return StatefulBuilder(builder:
+                                              (BuildContext context,
+                                                  StateSetter setState) {
+                                            return Container(
+                                                height: 200.h,
+                                                color: Colors.transparent,
+                                                child: Container(
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: Color(0xBBFFFFFF),
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(30),
+                                                        topRight:
+                                                            Radius.circular(30),
                                                       ),
-                                                      child: Center(
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: <Widget>[
-                                                            Container(
-                                                              width: 300.w,
-                                                              child:
-                                                                  TextFormField(
-                                                                textInputAction:
-                                                                    TextInputAction
-                                                                        .go,
-                                                                onFieldSubmitted:
-                                                                    (value) {
-                                                                  setState(() {
-                                                                    tagcontroller
-                                                                        .clear();
-                                                                    taglist.add(
-                                                                        Chip(
-                                                                      label: Text(value),
-                                                                      onDeleted:
-                                                                          () {
-                                                                            setState(() {
-                                                                              taglist.removeAt(hashtag.indexOf(value));
-                                                                            });
-                                                                            hashtag.remove(value);
-                                                                      },
-                                                                    ));
-                                                                  });
-                                                                  hashtag.add(
-                                                                      value);
-                                                                  print(taglist
-                                                                      .map((e) =>
-                                                                          e.label));
-                                                                  print(
-                                                                      hashtag);
-                                                                },
-                                                                style: TextStyle(
+                                                    ),
+                                                    child: Center(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          Container(
+                                                            width: 300.w,
+                                                            child:
+                                                                TextFormField(
+                                                              textInputAction:
+                                                                  TextInputAction
+                                                                      .go,
+                                                              onFieldSubmitted:
+                                                                  (value) {
+                                                                setState(() {
+                                                                  tagcontroller.clear();
+                                                                  hashtag.add(value);
+                                                                });
+                                                                addhashtag;
+                                                                print(hashtag);
+                                                              },
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      20.sp),
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                hintText:
+                                                                    "태그명을 입력해주세요",
+                                                                hintStyle: whitestyle.copyWith(
                                                                     fontSize:
-                                                                        20.sp),
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  hintText:
-                                                                      "태그명을 입력해주세요",
-                                                                  hintStyle: whitestyle.copyWith(
-                                                                      fontSize:
-                                                                          15.sp,
-                                                                      color: Colors
-                                                                          .black12),
-                                                                ),
-                                                                controller:
-                                                                    tagcontroller,
+                                                                        15.sp,
+                                                                    color: Colors
+                                                                        .black12),
                                                               ),
+                                                              controller:
+                                                                  tagcontroller,
                                                             ),
-                                                            Wrap(
-                                                              children:
-                                                                  taglist ==
-                                                                          null
-                                                                      ? [
-                                                                          Text(
-                                                                              '')
-                                                                        ]
-                                                                      : taglist,
-                                                            ),
-                                                            ElevatedButton(
-                                                              child: const Text(
-                                                                  'Done!'),
-                                                              onPressed: () =>
-                                                                  Navigator.pop(
-                                                                      context),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )));
-                                            });
+                                                          ),
+                                                          Wrap(
+                                                            children:
+                                                                hashtag == null
+                                                                    ? [Text('')]
+                                                                    : hashtag.map((e) => Chip(label: Text(e),
+                                                                  onDeleted: () {
+                                                                  setState(() {
+                                                                    hashtag.removeAt(hashtag.indexOf(e));
+                                                                  });
+                                                                  hashtag.remove(e);
+                                                                },)).toList(),
+                                                          ),
+                                                          ElevatedButton(
+                                                            child: const Text(
+                                                                '완료'),
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    context),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )));
                                           });
-                                    },
-                                    icon: Icon(Icons.tag)),
+                                        });
+                                  },
+                                )
                               ],
                             )
                           ]),
@@ -341,8 +310,14 @@ class _WriteState extends State<Write> {
           )),
     );
   }
+  addhashtag(String value){
+    setState(() {
+      hashtag;
+    });
+  }
 
   pickdefaultimg(int e) {
+    //기본이미지
     dummyFille = null;
     Navigator.pop(context);
     setState(() {
@@ -354,6 +329,7 @@ class _WriteState extends State<Write> {
   }
 
   GetImageFile() async {
+    //사용자이미지
     XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (f != null) {
       dummyFille = File(f.path);
@@ -367,7 +343,11 @@ class _WriteState extends State<Write> {
 }
 
 class Top extends StatelessWidget {
-  const Top({Key? key}) : super(key: key);
+  //완료(글보내기)
+  final List<String> hashtag;
+  const Top({
+    required this.hashtag,
+    Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -422,6 +402,7 @@ class Top extends StatelessWidget {
 }
 
 class MiddleTextField extends StatelessWidget {
+  //글쓰기칸
   final Image backimg;
 
   const MiddleTextField({required this.backimg, Key? key}) : super(key: key);

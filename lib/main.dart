@@ -25,18 +25,22 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
   firebasetoken = await FirebaseMessaging.instance.getToken();
   runApp(ScreenUtilInit(
-    designSize: Size(360,690),
-    builder: (context,child){
+    designSize: Size(360, 690),
+    builder: (context, child) {
       //실행(with 폰트)
       return MaterialApp(
-        theme: ThemeData(fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily,       primarySwatch: Colors.blue,
-          canvasColor: Colors.transparent,),
-        builder: (context, child) { //폰트크기고정
+        theme: ThemeData(
+          fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily,
+          primarySwatch: Colors.blue,
+          canvasColor: Colors.transparent,
+        ),
+        builder: (context, child) {
+          //폰트크기고정
           return MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!);
         },
-        home: KaKaoLogin(),
+        home: Write(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
@@ -44,8 +48,8 @@ void main() async {
           GlobalCupertinoLocalizations.delegate
         ],
         supportedLocales: [
-          Locale('ko',''),
-          Locale('en',''),
+          Locale('ko', ''),
+          Locale('en', ''),
         ],
       );
     },

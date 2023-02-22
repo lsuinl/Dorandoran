@@ -25,7 +25,6 @@ class _HomeState extends State<Home> {
   late Future myfuture;
   List<Message_Card>? item;
   int? checknumber;
-  bool like = false;
 
   @override
   void initState() {
@@ -60,14 +59,6 @@ class _HomeState extends State<Home> {
                               message: e.contents,
                               backimg: e.backgroundPicUri,
                               postId: e.postId,
-                              postlike: () {
-                                setState(() {
-                                  like != like;
-                                });
-                                postLike(e.postId, useremail);
-                                print('l');
-                              },
-                              like: like,
                             ))
                         .toList();
                   } else {
@@ -82,14 +73,6 @@ class _HomeState extends State<Home> {
                                 message: e.contents,
                                 backimg: e.backgroundPicUri,
                                 postId: e.postId,
-                                postlike: () {
-                                  setState(() {
-                                    postLike(e.postId, useremail);
-                                    like != like;
-                                  });
-                                  print(like);
-                                },
-                                like: like,
                               ))
                           .toList());
                     }
@@ -244,7 +227,7 @@ class _HomeState extends State<Home> {
 }
 
 //---------------------------------------------------
-class Message_Card extends StatelessWidget {
+class Message_Card extends StatefulWidget {
   final VoidCallback movetocard;
   final String time;
   final int heart;
@@ -253,8 +236,6 @@ class Message_Card extends StatelessWidget {
   final String message;
   final String backimg;
   final int postId;
-  final VoidCallback postlike;
-  final bool like;
 
   const Message_Card(
       {required this.postId,
@@ -265,23 +246,28 @@ class Message_Card extends StatelessWidget {
       required this.map,
       required this.message,
       required this.backimg,
-      required this.postlike,
-      required this.like,
       Key? key})
       : super(key: key);
 
+  @override
+  State<Message_Card> createState() => _Message_CardState();
+}
+
+bool like = false;
+
+class _Message_CardState extends State<Message_Card> {
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       elevation: 2, //그림자
       child: InkWell(
-        onTap: movetocard,
+        onTap: widget.movetocard,
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.r),
               image: DecorationImage(
-                image: NetworkImage('http://' + backimg),
+                image: NetworkImage('http://' + widget.backimg),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.7), BlendMode.dstATop),
@@ -297,7 +283,7 @@ class Message_Card extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Text(message,
+                        child: Text(widget.message,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: 20.sp)),
@@ -311,16 +297,21 @@ class Message_Card extends StatelessWidget {
                         children: [
                           Icon(Icons.access_time_filled_rounded),
                           SizedBox(width: 3.w),
-                          Text(timecount(time)),
+                          Text(timecount(widget.time)),
                           SizedBox(width: 7.w),
-                          if (map != null) Icon(Icons.place),
-                          Text(map == null ? '' : '${map}km'),
+                          if (widget.map != null) Icon(Icons.place),
+                          Text(widget.map == null ? '' : '${widget.map}km'),
                         ],
                       ),
                       Row(
                         children: [
                           IconButton(
-                            onPressed: postlike,
+                            onPressed: () {
+                              setState(() {
+                                like = !like;
+                              });
+                              postLike(widget.postId, useremail);
+                            },
                             icon: like == true
                                 ? Icon(Icons.favorite)
                                 : Icon(Icons.favorite_border),
@@ -328,11 +319,13 @@ class Message_Card extends StatelessWidget {
                             padding: EdgeInsets.zero,
                           ),
                           SizedBox(width: 3.w),
-                          Text(like == true ? '${heart + 1}' : '${heart}'),
+                          Text(like == true
+                              ? '${widget.heart + 1}'
+                              : '${widget.heart}'),
                           SizedBox(width: 7.w),
                           Icon(Icons.forum),
                           SizedBox(width: 3.w),
-                          Text('${chat}'),
+                          Text('${widget.chat}'),
                         ],
                       ),
                     ],
