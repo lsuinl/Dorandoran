@@ -11,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../../common/css.dart';
 import 'package:dorandoran/common/uri.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class Write extends StatefulWidget {
   const Write({Key? key}) : super(key: key);
@@ -54,6 +56,7 @@ class _WriteState extends State<Write> {
   }
 
   Image backimg = Image.network(imgurl + '1');
+  TextStyle style=TextStyle();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +78,7 @@ class _WriteState extends State<Write> {
                           children: [
                             Top(),
                             Column(children: [
-                              MiddleTextField(backimg: backimg),
+                              MiddleTextField(backimg: backimg, style: style,),
                               Wrap(
                                   children: hashtag != []
                                       ? hashtag
@@ -83,6 +86,14 @@ class _WriteState extends State<Write> {
                                           .toList()
                                       : [Text("")])
                             ]),
+                            Row(
+                              children: [
+                                IconButton(onPressed: (){}, icon: Icon(Icons.font_download)), //폰트종류
+                                IconButton(onPressed: (){ }, icon: Icon(Icons.palette)), //색상
+                                IconButton(onPressed: (){}, icon: Icon(Icons.format_size)), //글자포인트크기
+                                IconButton(onPressed: (){}, icon: Icon(Icons.title)), //굵기굵게얇게
+                              ],
+                            ),
                             Row(
                               //하단메뉴
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -298,7 +309,7 @@ class _WriteState extends State<Write> {
                                   },
                                 )
                               ],
-                            )
+                            ),
                           ]),
                     ),
                   ],
@@ -352,27 +363,27 @@ class Top extends StatelessWidget {
             style: ElevatedButton.styleFrom(primary: Colors.black),
             onPressed: () async {
               String? locations;
-              http.MultipartFile? userimage;
+              MultipartFile? userimage;
               if (usinglocation) {
                 locations = '${latitude},${longtitude}';
               } else {
                 locations = null;
               }
               if (dummyFille != null) {
-                userimage = await http.MultipartFile.fromPath(
-                    'POST', Uri.parse(dummyFille!.path).toString());
+                userimage = await MultipartFile.fromFile(
+                    dummyFille!.path, filename:dummyFille!.path.split('/').last);
               } else {
                 userimage = null;
               }
               if (contextcontroller.text != '') {
-                print('되었어요');
                 writing(
-                  useremail!,
+                  //useremail!,
+                  '4@gmail.com',
                   contextcontroller.text,
                   forme,
                   locations,
                   backgroundimgname,
-                  hashtag,
+                  hashtag==[]?null:hashtag,
                   userimage,
                 );
                 print(
@@ -399,8 +410,12 @@ class Top extends StatelessWidget {
 class MiddleTextField extends StatelessWidget {
   //글쓰기칸
   final Image backimg;
+  final TextStyle style;
 
-  const MiddleTextField({required this.backimg, Key? key}) : super(key: key);
+  const MiddleTextField({
+    required this.backimg,
+    required this.style,
+    Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -419,7 +434,7 @@ class MiddleTextField extends StatelessWidget {
         child: TextFormField(
           textAlignVertical: TextAlignVertical.center,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20.sp),
+          style: style,
           maxLines: null,
           expands: true,
           decoration: InputDecoration(

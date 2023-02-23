@@ -1,7 +1,7 @@
 
-String? firebasetoken;
-String? kakaotoken;
-String? useremail;
+String? firebasetoken='임시';
+String? kakaotoken='임시';
+String? useremail='4@gmail.com';
 String latitude='0';
 String longtitude='0';
 
