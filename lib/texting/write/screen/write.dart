@@ -4,6 +4,7 @@ import 'package:dorandoran/common/util.dart';
 import 'package:dorandoran/texting/get/screen/loding.dart';
 import 'package:dorandoran/texting/write/quest/post.dart';
 import 'package:dorandoran/common/storage.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,7 @@ import '../../../common/css.dart';
 import 'package:dorandoran/common/uri.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class Write extends StatefulWidget {
@@ -42,7 +44,7 @@ class _WriteState extends State<Write> {
       contextcontroller = TextEditingController();
       forme = false;
       usinglocation = false;
-     hashtag = [];
+      hashtag = [];
       dummyFille = null;
       backgroundimgname = (Random().nextInt(99) + 1).toString();
       if (backgroundimgname != null) {
@@ -56,6 +58,7 @@ class _WriteState extends State<Write> {
   }
 
   Image backimg = Image.network(imgurl + '1');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -253,8 +256,10 @@ class _WriteState extends State<Write> {
                                                               onFieldSubmitted:
                                                                   (value) {
                                                                 setState(() {
-                                                                  tagcontroller.clear();
-                                                                  hashtag.add(value);
+                                                                  tagcontroller
+                                                                      .clear();
+                                                                  hashtag.add(
+                                                                      value);
                                                                 });
                                                                 print(hashtag);
                                                               },
@@ -276,21 +281,29 @@ class _WriteState extends State<Write> {
                                                             ),
                                                           ),
                                                           Wrap(
-                                                            children:
-                                                                hashtag == null
-                                                                    ? [Text('')]
-                                                                    : hashtag.map((e) => Chip(label: Text(e),
-                                                                  onDeleted: () {
-                                                                  setState(() {
-                                                                    hashtag.removeAt(hashtag.indexOf(e));
-                                                                  });
-                                                                  hashtag.remove(e);
-                                                                },)).toList(),
+                                                            children: hashtag ==
+                                                                    null
+                                                                ? [Text('')]
+                                                                : hashtag
+                                                                    .map((e) =>
+                                                                        Chip(
+                                                                          label:
+                                                                              Text(e),
+                                                                          onDeleted:
+                                                                              () {
+                                                                            setState(() {
+                                                                              hashtag.removeAt(hashtag.indexOf(e));
+                                                                            });
+                                                                            hashtag.remove(e);
+                                                                          },
+                                                                        ))
+                                                                    .toList(),
                                                           ),
                                                           ElevatedButton(
                                                             child: const Text(
                                                                 '완료'),
-                                                            onPressed:  resetting,
+                                                            onPressed:
+                                                                resetting,
                                                           )
                                                         ],
                                                       ),
@@ -308,12 +321,14 @@ class _WriteState extends State<Write> {
           )),
     );
   }
-  resetting(){
+
+  resetting() {
     setState(() {
-        backimg = backimg;
+      backimg = backimg;
     });
     Navigator.pop(context);
   }
+
   pickdefaultimg(int e) {
     //기본이미지
     dummyFille = null;
@@ -342,8 +357,7 @@ class _WriteState extends State<Write> {
 
 class Top extends StatelessWidget {
   //완료(글보내기)
-  const Top({
-    Key? key}) : super(key: key);
+  const Top({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -360,8 +374,8 @@ class Top extends StatelessWidget {
                 locations = "";
               }
               if (dummyFille != null) {
-                userimage = await MultipartFile.fromFile(
-                    dummyFille!.path, filename:dummyFille!.path.split('/').last);
+                userimage = await MultipartFile.fromFile(dummyFille!.path,
+                    filename: dummyFille!.path.split('/').last);
               } else {
                 userimage = null;
               }
@@ -373,7 +387,7 @@ class Top extends StatelessWidget {
                   forme,
                   locations,
                   backgroundimgname,
-                  hashtag==[]?null:hashtag,
+                  hashtag == [] ? null : hashtag,
                   userimage,
                 );
                 print(
@@ -400,68 +414,179 @@ class Top extends StatelessWidget {
 class MiddleTextField extends StatefulWidget {
   final Image backimg;
 
-  const MiddleTextField({
-    required this.backimg,
-    Key? key}) : super(key: key);
+  const MiddleTextField({required this.backimg, Key? key}) : super(key: key);
 
   @override
   State<MiddleTextField> createState() => _MiddleTextFieldState();
 }
 
-TextStyle style=TextStyle();
+List<int> menuitem = [10, 12, 15, 18, 24, 28, 32, 36, 48];
+List<String> menufontitem = [
+  'cuteFont',
+  'nanumGothic',
+  'nanumMyeongjo',
+  'dongle',
+  'Jua',
+  'sunflower'
+];
+
+TextStyle style = TextStyle();
+
 class _MiddleTextFieldState extends State<MiddleTextField> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children:[Container(
-          height: 300.h,
-          decoration: BoxDecoration(
-            border: Border.all(),
-            image: DecorationImage(
-                image: widget.backimg.image,
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.5), BlendMode.dstATop)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
-              textAlign: TextAlign.center,
-              style: style,
-              maxLines: null,
-              expands: true,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                hintText: "내용을 작성해주세요",
-                hintStyle: whitestyle.copyWith(color: Colors.black12),
-              ),
-              controller: contextcontroller,
+    void changeColor(Color color) {
+      setState(() {
+        style = style.copyWith(color: color);
+      });
+    }
+
+    return Column(children: [
+      Container(
+        height: 300.h,
+        decoration: BoxDecoration(
+          border: Border.all(),
+          image: DecorationImage(
+              image: widget.backimg.image,
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.5), BlendMode.dstATop)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: TextFormField(
+            textAlignVertical: TextAlignVertical.center,
+            textAlign: TextAlign.center,
+            style: style,
+            maxLines: null,
+            expands: true,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+              hintText: "내용을 작성해주세요",
+              hintStyle: whitestyle.copyWith(color: Colors.black12),
             ),
+            controller: contextcontroller,
           ),
         ),
-          Row(
-            children: [
-              IconButton(onPressed: (){}, icon: Icon(Icons.font_download)), //폰트종류
-              IconButton(onPressed: (){
-                setState(() {
-                  style.copyWith(color: Colors.red);
-                  print('dd');
-                });
-              }, icon: Icon(Icons.palette)), //색상
-              IconButton(onPressed: (){}, icon: Icon(Icons.format_size)), //글자포인트크기
-              IconButton(onPressed: setweight,
-              icon: Icon(Icons.title)), //굵기굵게얇게
+      ),
+      Row(
+        children: [
+          //폰트종류
+          DropdownButton2(
+            customButton: const Icon(
+              Icons.font_download,
+              size: 40,
+            ),
+            dropdownDecoration: BoxDecoration(color: Colors.white),
+            dropdownWidth: 150,
+            dropdownDirection: DropdownDirection.left,
+            items: [
+              ...menufontitem.map(
+                (item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text('$item'),
+                  onTap: () {
+                    setState(() {
+                      [
+                        'cuteFont',
+                        'nanumGothic',
+                        'nanumMyeongjo',
+                        'dongle',
+                        'Jua',
+                        'sunflower'
+                      ];
+                      if (item == 'cuteFont')
+                        style =
+                            GoogleFonts.getFont('Cute Font', textStyle: style);
+                      else if (item == 'nanumGothic')
+                        style = GoogleFonts.getFont('Nanum Gothic',
+                            textStyle: style);
+                      else if (item == 'nanumMyeongjo')
+                        style = GoogleFonts.getFont('Nanum Myeongjo',
+                            textStyle: style);
+                      else if (item == 'dongle')
+                        style = GoogleFonts.getFont('Dongle', textStyle: style);
+                      else if (item == 'Jua')
+                        style = GoogleFonts.getFont('Jua', textStyle: style);
+                      else if (item == 'sunflower')
+                        style =
+                            GoogleFonts.getFont('Sunflower', textStyle: style);
+                    });
+                  },
+                ),
+              ),
             ],
+            onChanged: (value) {},
           ),
-        ]);
-
-  }
-  setweight(){
-    setState(() {
-      style.copyWith(fontWeight: FontWeight.w900);
-      print('dd');
-    });
+          IconButton(
+              onPressed: () {
+                showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      Color pickerColor = Color(0xff443a49);
+                      Color currentColor = Color(0xff443a49);
+                      return Column(
+                        children: [
+                          ColorPicker(
+                            pickerColor: pickerColor,
+                            onColorChanged: (Color color) {
+                                currentColor = pickerColor;
+                            },
+                            pickerAreaHeightPercent: 0.9,
+                            enableAlpha: true,
+                            paletteType: PaletteType.hsvWithHue,
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                print(currentColor);
+                                print(pickerColor);
+                                changeColor(currentColor);
+                                Navigator.pop(context);
+                              },
+                              child: Text("확인"))
+                        ],
+                      );
+                    });
+              },
+              icon: Icon(Icons.palette)), //색상
+          DropdownButton2(
+            customButton: const Icon(
+              Icons.format_size,
+              size: 40,
+            ),
+            dropdownDecoration: BoxDecoration(color: Colors.white),
+            dropdownWidth: 150,
+            dropdownDirection: DropdownDirection.left,
+            items: [
+              ...menuitem.map(
+                (item) => DropdownMenuItem<int>(
+                  value: item,
+                  child: Text('$item'),
+                  onTap: () {
+                    setState(() {
+                      style = style.copyWith(fontSize: item.sp);
+                      print('dd');
+                    });
+                  },
+                ),
+              ),
+            ],
+            onChanged: (value) {},
+          ),
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  if (style.fontWeight == FontWeight.w900) {
+                    style = style.copyWith(fontWeight: FontWeight.w400);
+                  } else {
+                    style = style.copyWith(fontWeight: FontWeight.w900);
+                  }
+                });
+              },
+              icon: Icon(Icons.title)), //굵기굵게얇게
+        ],
+      ),
+    ]);
   }
 }

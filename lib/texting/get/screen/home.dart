@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
       scrollController = ScrollController();
     });
     getlocation(); //임시
-    myfuture = getPostContent(useremail, 0, '');
+    myfuture = getPostContent(useremail, 0, latitude==''?'':'$latitude,$longtitude');
   }
 
   @override
@@ -125,8 +125,7 @@ class _HomeState extends State<Home> {
                                   onRefresh: () async {
                                     setState(() {
                                       item!.clear();
-                                      myfuture = getPostContent(useremail, 0,
-                                          '$latitude,$longtitude');
+                                      myfuture = getPostContent(useremail, 0, latitude==null?'':'$latitude,$longtitude');
                                     });
                                     _refreshController.refreshCompleted();
                                   },
@@ -138,7 +137,7 @@ class _HomeState extends State<Home> {
                                         myfuture = getPostContent(
                                             useremail,
                                             lastnumber - 1,
-                                            '$latitude,$longtitude');
+                                            latitude==null?'':'$latitude,$longtitude');
                                         checknumber = lastnumber;
                                       });
                                       _refreshController.loadComplete();
@@ -170,7 +169,7 @@ class _HomeState extends State<Home> {
                                     setState(() {
                                       item!.clear();
                                       myfuture = getPostContent(useremail, 0,
-                                          '$latitude,$longtitude');
+                                          latitude==null?'':'$latitude,$longtitude');
                                     });
                                     print('새로고침');
                                     _refreshController.refreshCompleted();
@@ -408,6 +407,9 @@ class _TopState extends State<Top> {
             size: 40,
           ),
           dropdownWidth: 150,
+          dropdownDecoration: BoxDecoration(
+              color: Colors.white
+          ),
           dropdownDirection: DropdownDirection.left,
           items: [
             ..._menulist.map(
