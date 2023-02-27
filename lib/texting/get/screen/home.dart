@@ -57,6 +57,7 @@ class _HomeState extends State<Home> {
                               message: e.contents,
                               backimg: e.backgroundPicUri,
                               postId: e.postId,
+                      likeresult: e.likeResult,
                             ))
                         .toList();
                   } else {
@@ -71,6 +72,7 @@ class _HomeState extends State<Home> {
                                 message: e.contents,
                                 backimg: e.backgroundPicUri,
                                 postId: e.postId,
+                          likeresult: e.likeResult,
                               ))
                           .toList());
                     }
@@ -233,6 +235,7 @@ class Message_Card extends StatefulWidget {
   final String message;
   final String backimg;
   final int postId;
+  final bool likeresult;
 
   const Message_Card(
       {required this.postId,
@@ -243,6 +246,7 @@ class Message_Card extends StatefulWidget {
       required this.map,
       required this.message,
       required this.backimg,
+        required this.likeresult,
       Key? key})
       : super(key: key);
 
@@ -250,9 +254,21 @@ class Message_Card extends StatefulWidget {
   State<Message_Card> createState() => _Message_CardState();
 }
 
-bool like = false;
+//bool like=false;
+Map<int,bool> like={0:false};
+Map<int,int> click={0:0};
 
 class _Message_CardState extends State<Message_Card> {
+  @override
+  void initState(){
+    //print("응애는초기화에요");
+    setState(() {
+    //  like=widget.likeresult;
+      like.addAll({widget.postId : widget.likeresult});
+      click.addAll({widget.postId :widget.heart});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -305,20 +321,29 @@ class _Message_CardState extends State<Message_Card> {
                           IconButton(
                             onPressed: () {
                               setState(() {
-                                like = !like;
+                                print(like);
+                                like[widget.postId]= !like[widget.postId]!;
+                                if(widget.likeresult==true && like[widget.postId]==false){//눌린상태에서 취소
+                                  click[widget.postId]= click[widget.postId]!-1;
+                                }
+                                else if(widget.likeresult==false && like[widget.postId]==true){ //누르기
+                                  click[widget.postId]= click[widget.postId]!+1;
+                                }
+                                else{ //해당화면에서 상태변경취소
+                                  click[widget.postId]=widget.heart;
+                                }
                               });
+                              print('머게요${like}');
                               postLike(widget.postId, useremail!);
                             },
-                            icon: like == true
+                            icon: like[widget.postId]!
                                 ? Icon(Icons.favorite)
                                 : Icon(Icons.favorite_border),
                             constraints: BoxConstraints(),
                             padding: EdgeInsets.zero,
                           ),
-                          SizedBox(width: 3.w),
-                          Text(like == true
-                              ? '${widget.heart + 1}'
-                              : '${widget.heart}'),
+                              SizedBox(width: 3.w),
+                          Text('${click[widget.postId]}'),
                           SizedBox(width: 7.w),
                           Icon(Icons.forum),
                           SizedBox(width: 3.w),

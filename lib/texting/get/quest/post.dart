@@ -6,14 +6,13 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
 //글 가져오기
-Future<List<postcard>> getPostContent(String? userEmail, int number, String location) async {
-  print("실행된넘버:$number");
+Future<List<postcard>> getPostContent(String? userEmail, int number, String? location) async {
   var response = await http.get(
     Uri.parse('${getposturl}userEmail=${userEmail}&postCnt=${number}&location=${location}'),
   );
   if (response.statusCode == 201 || response.statusCode == 200) {
-    print("실행된넘버:$number");
   } else {
+    print(response.statusCode);
     getPostContent(userEmail, number-1, location);
   }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));

@@ -56,7 +56,6 @@ class _WriteState extends State<Write> {
   }
 
   Image backimg = Image.network(imgurl + '1');
-  TextStyle style=TextStyle();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +77,7 @@ class _WriteState extends State<Write> {
                           children: [
                             Top(),
                             Column(children: [
-                              MiddleTextField(backimg: backimg, style: style,),
+                              MiddleTextField(backimg: backimg),
                               Wrap(
                                   children: hashtag != []
                                       ? hashtag
@@ -86,14 +85,6 @@ class _WriteState extends State<Write> {
                                           .toList()
                                       : [Text("")])
                             ]),
-                            Row(
-                              children: [
-                                IconButton(onPressed: (){}, icon: Icon(Icons.font_download)), //폰트종류
-                                IconButton(onPressed: (){ }, icon: Icon(Icons.palette)), //색상
-                                IconButton(onPressed: (){}, icon: Icon(Icons.format_size)), //글자포인트크기
-                                IconButton(onPressed: (){}, icon: Icon(Icons.title)), //굵기굵게얇게
-                              ],
-                            ),
                             Row(
                               //하단메뉴
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -323,7 +314,6 @@ class _WriteState extends State<Write> {
     });
     Navigator.pop(context);
   }
-
   pickdefaultimg(int e) {
     //기본이미지
     dummyFille = null;
@@ -367,7 +357,7 @@ class Top extends StatelessWidget {
               if (usinglocation) {
                 locations = '${latitude},${longtitude}';
               } else {
-                locations = null;
+                locations = "";
               }
               if (dummyFille != null) {
                 userimage = await MultipartFile.fromFile(
@@ -407,45 +397,71 @@ class Top extends StatelessWidget {
   }
 }
 
-class MiddleTextField extends StatelessWidget {
-  //글쓰기칸
+class MiddleTextField extends StatefulWidget {
   final Image backimg;
-  final TextStyle style;
 
   const MiddleTextField({
     required this.backimg,
-    required this.style,
     Key? key}) : super(key: key);
 
   @override
+  State<MiddleTextField> createState() => _MiddleTextFieldState();
+}
+
+TextStyle style=TextStyle();
+class _MiddleTextFieldState extends State<MiddleTextField> {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300.h,
-      decoration: BoxDecoration(
-        border: Border.all(),
-        image: DecorationImage(
-            image: backimg.image,
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.5), BlendMode.dstATop)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: TextFormField(
-          textAlignVertical: TextAlignVertical.center,
-          textAlign: TextAlign.center,
-          style: style,
-          maxLines: null,
-          expands: true,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-            hintText: "내용을 작성해주세요",
-            hintStyle: whitestyle.copyWith(color: Colors.black12),
+    return Column(
+        children:[Container(
+          height: 300.h,
+          decoration: BoxDecoration(
+            border: Border.all(),
+            image: DecorationImage(
+                image: widget.backimg.image,
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.5), BlendMode.dstATop)),
           ),
-          controller: contextcontroller,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: TextFormField(
+              textAlignVertical: TextAlignVertical.center,
+              textAlign: TextAlign.center,
+              style: style,
+              maxLines: null,
+              expands: true,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                hintText: "내용을 작성해주세요",
+                hintStyle: whitestyle.copyWith(color: Colors.black12),
+              ),
+              controller: contextcontroller,
+            ),
+          ),
         ),
-      ),
-    );
+          Row(
+            children: [
+              IconButton(onPressed: (){}, icon: Icon(Icons.font_download)), //폰트종류
+              IconButton(onPressed: (){
+                setState(() {
+                  style.copyWith(color: Colors.red);
+                  print('dd');
+                });
+              }, icon: Icon(Icons.palette)), //색상
+              IconButton(onPressed: (){}, icon: Icon(Icons.format_size)), //글자포인트크기
+              IconButton(onPressed: setweight,
+              icon: Icon(Icons.title)), //굵기굵게얇게
+            ],
+          ),
+        ]);
+
+  }
+  setweight(){
+    setState(() {
+      style.copyWith(fontWeight: FontWeight.w900);
+      print('dd');
+    });
   }
 }
