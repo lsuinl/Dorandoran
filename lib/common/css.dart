@@ -17,10 +17,5 @@ Decoration gradient = BoxDecoration(
     gradient: LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  colors: [Color(0xFF001954), Color(0xff3F2E99)],
+  colors: [Color(0xffFFAE88), Color(0xff8F93EA) ],
 ));
-
-//00 시간 설절
-String getTimeFormat(int number) {
-  return number.toString().padLeft(2, '0');
-}

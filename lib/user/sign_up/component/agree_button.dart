@@ -1,62 +1,6 @@
-import 'package:dorandoran/screen/sign_up.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
 import 'package:flutter/material.dart';
-import 'package:dorandoran/const/util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-class UsingAgree extends StatelessWidget {
-  final TextStyle textStyle = whitestyle;
-
-  UsingAgree({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-      decoration: gradient,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 30.0, right: 30),
-          child: Column(
-            children: [
-              Logo(text: '회원님,\n안녕하세요!', style: textStyle),
-              SizedBox(height: 100.h),
-              AgreeButton(style: textStyle),
-              SizedBox(height: 20.h),
-            ],
-          ),
-        ),
-      ),
-    ));
-  }
-}
-
-class Logo extends StatelessWidget {
-  final TextStyle style;
-  final String text;
-
-  const Logo({required this.text, required this.style, Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      SizedBox(height: 80.h),
-      Image.asset(
-        'asset/image/logo.png',
-        width: 100.w,
-        height: 100.h,
-        alignment: Alignment.centerLeft,
-      ),
-      SizedBox(height: 20.h),
-      Text(text,
-          style: style.copyWith(
-            fontSize: 30.sp,
-            fontWeight: FontWeight.w500,
-          )),
-    ]);
-  }
-}
 
 class AgreeButton extends StatefulWidget {
   final TextStyle style;
