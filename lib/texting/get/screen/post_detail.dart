@@ -16,13 +16,26 @@ class PostDetail extends StatelessWidget {
             return Container(
               alignment: Alignment.center,
               decoration: gradient,
-              child:Center(
-             child: Column(
-                children: [
-                  Text("일단네"),
-                ],
-              )
+              child: SafeArea(
+                  child: Padding(
+                  padding: const EdgeInsets.all(20),
+                child:
+                Column(
+                  children: [
+                    // snapshot.data!.map<Detail_Card>((e)=>Detail_Card(
+                    //     content: e.content,
+                    //     postTime: e.postTime,
+                    //     location: e.location,
+                    //     postLikeCnt: e.postLikeCnt,
+                    //     postLikeResult: e.postLikeResult,
+                    //     commentCnt: e.commentCnt,
+                    //     backgroundPicUri: e.backgroundPicUri,
+                    //     postHashes: e.postHashes
+                    // ))
+                  ],
             )
+                )
+                )
             );
           }
           else{
@@ -33,5 +46,32 @@ class PostDetail extends StatelessWidget {
           }
     )
       );
+  }
+}
+
+class Detail_Card extends StatelessWidget {
+  final String content;
+  final String postTime;
+  final String? location;
+  final int postLikeCnt;
+  final bool? postLikeResult;
+  final int commentCnt;
+  final String backgroundPicUri;
+  final List<dynamic>? postHashes;
+
+  const Detail_Card({
+    required this.content,
+    required this.postTime,
+    required this.location,
+    required this.postLikeCnt,
+    required this.postLikeResult,
+    required this.commentCnt,
+    required this.backgroundPicUri,
+    required this.postHashes,
+    Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

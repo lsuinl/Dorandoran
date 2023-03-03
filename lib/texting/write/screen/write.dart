@@ -420,7 +420,7 @@ class MiddleTextField extends StatefulWidget {
   State<MiddleTextField> createState() => _MiddleTextFieldState();
 }
 
-List<int> menuitem = [10, 12, 15, 18, 24, 28, 32, 36, 48];
+List<int> menuitem = [10, 12, 18, 24, 28, 36, 48];
 List<String> menufontitem = [
   'cuteFont',
   'nanumGothic',
@@ -524,24 +524,24 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                 showModalBottomSheet<void>(
                     context: context,
                     builder: (BuildContext context) {
-                      Color pickerColor = Color(0xff443a49);
-                      Color currentColor = Color(0xff443a49);
+                      Color pickerColor = style.color!;
+
+                      void chancolor(Color color) {
+                        setState(() => pickerColor = color);
+                      }
+
                       return Column(
                         children: [
                           ColorPicker(
                             pickerColor: pickerColor,
-                            onColorChanged: (Color color) {
-                                currentColor = pickerColor;
-                            },
+                            onColorChanged: chancolor,
                             pickerAreaHeightPercent: 0.9,
                             enableAlpha: true,
                             paletteType: PaletteType.hsvWithHue,
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                print(currentColor);
-                                print(pickerColor);
-                                changeColor(currentColor);
+                                changeColor(pickerColor);
                                 Navigator.pop(context);
                               },
                               child: Text("확인"))
