@@ -10,7 +10,8 @@ class postcard {
 
 
   postcard(
-      {required this.postId,
+      {
+        required this.postId,
         required this.contents,
         required this.postTime,
         required this.location,

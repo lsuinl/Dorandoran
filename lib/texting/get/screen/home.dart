@@ -1,8 +1,8 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/quest/like.dart';
+import 'package:dorandoran/texting/get/component/message_card.dart';
 import 'package:dorandoran/texting/get/quest/post.dart';
-import 'package:dorandoran/texting/get/screen/maintext.dart';
+import 'package:dorandoran/texting/get/screen/post_detail.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
@@ -220,146 +220,11 @@ class _HomeState extends State<Home> {
 
   void movetocard() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Main_Text()));
+        context, MaterialPageRoute(builder: (context) => PostDetail()));
   }
 }
 
 //---------------------------------------------------
-class Message_Card extends StatefulWidget {
-  final VoidCallback movetocard;
-  final String time;
-  final int heart;
-  final int? chat;
-  final int? map;
-  final String message;
-  final String backimg;
-  final int postId;
-  final bool likeresult;
-
-  const Message_Card(
-      {required this.postId,
-      required this.movetocard,
-      required this.time,
-      required this.heart,
-      required this.chat,
-      required this.map,
-      required this.message,
-      required this.backimg,
-        required this.likeresult,
-      Key? key})
-      : super(key: key);
-
-  @override
-  State<Message_Card> createState() => _Message_CardState();
-}
-
-//bool like=false;
-Map<int,bool> like={0:false};
-Map<int,int> click={0:0};
-
-class _Message_CardState extends State<Message_Card> {
-  @override
-  void initState(){
-    //print("응애는초기화에요");
-    setState(() {
-    //  like=widget.likeresult;
-      like.addAll({widget.postId : widget.likeresult});
-      click.addAll({widget.postId :widget.heart});
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      elevation: 2, //그림자
-      child: InkWell(
-        onTap: widget.movetocard,
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
-              image: DecorationImage(
-                image: NetworkImage('http://' + widget.backimg),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.7), BlendMode.dstATop),
-              )),
-          //BoxDecoration(image: DecorationImage(image:NetworkImage('http://'+backimg))),
-          child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 150.h,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(widget.message,
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 20.sp)),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.access_time_filled_rounded),
-                          SizedBox(width: 3.w),
-                          Text(timecount(widget.time)),
-                          SizedBox(width: 7.w),
-                          if (widget.map != null) Icon(Icons.place),
-                          Text(widget.map == null ? '' : '${widget.map}km'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                print(like);
-                                like[widget.postId]= !like[widget.postId]!;
-                                if(widget.likeresult==true && like[widget.postId]==false){//눌린상태에서 취소
-                                  click[widget.postId]= click[widget.postId]!-1;
-                                }
-                                else if(widget.likeresult==false && like[widget.postId]==true){ //누르기
-                                  click[widget.postId]= click[widget.postId]!+1;
-                                }
-                                else{ //해당화면에서 상태변경취소
-                                  click[widget.postId]=widget.heart;
-                                }
-                              });
-                              print('머게요${like}');
-                              postLike(widget.postId, useremail!);
-                            },
-                            icon: like[widget.postId]!
-                                ? Icon(Icons.favorite)
-                                : Icon(Icons.favorite_border),
-                            constraints: BoxConstraints(),
-                            padding: EdgeInsets.zero,
-                          ),
-                              SizedBox(width: 3.w),
-                          Text('${click[widget.postId]}'),
-                          SizedBox(width: 7.w),
-                          Icon(Icons.forum),
-                          SizedBox(width: 3.w),
-                          Text('${widget.chat}'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
-                ],
-              )),
-        ),
-      ),
-    );
-  }
-}
-
 class Top extends StatefulWidget {
   const Top({Key? key}) : super(key: key);
 
