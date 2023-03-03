@@ -1,6 +1,6 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/component/message_card.dart';
+import 'package:dorandoran/texting/get/component/home_message_card.dart';
 import 'package:dorandoran/texting/get/quest/post.dart';
 import 'package:dorandoran/texting/get/screen/post_detail.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
@@ -10,6 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../component/home_tag.dart';
+import '../component/home_top.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -18,8 +22,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
   late Future myfuture;
   List<Message_Card>? item;
@@ -33,7 +36,7 @@ class _HomeState extends State<Home> {
       scrollController = ScrollController();
     });
     getlocation(); //임시
-    myfuture = getPostContent(useremail, 0, latitude==''?'':'$latitude,$longtitude');
+    myfuture = getPostContent(useremail, 0, latitude == '' ? '' : '$latitude,$longtitude');
   }
 
   @override
@@ -47,8 +50,7 @@ class _HomeState extends State<Home> {
                 int lastnumber = snapshot.data!.last.postId;
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (item?.length == 0 || item == null) {
-                    item = snapshot.data!
-                        .map<Message_Card>((e) => Message_Card(
+                    item = snapshot.data!.map<Message_Card>((e) => Message_Card(
                               movetocard: movetocard,
                               time: e.postTime,
                               heart: e.likeCnt,
@@ -57,13 +59,11 @@ class _HomeState extends State<Home> {
                               message: e.contents,
                               backimg: e.backgroundPicUri,
                               postId: e.postId,
-                      likeresult: e.likeResult,
-                            ))
-                        .toList();
+                              likeresult: e.likeResult,
+                            )).toList();
                   } else {
                     if (checknumber != lastnumber) {
-                      item!.addAll(snapshot.data!
-                          .map<Message_Card>((e) => Message_Card(
+                      item!.addAll(snapshot.data!.map<Message_Card>((e) => Message_Card(
                                 movetocard: movetocard,
                                 time: e.postTime,
                                 heart: e.likeCnt,
@@ -72,9 +72,7 @@ class _HomeState extends State<Home> {
                                 message: e.contents,
                                 backimg: e.backgroundPicUri,
                                 postId: e.postId,
-                          likeresult: e.likeResult,
-                              ))
-                          .toList());
+                                likeresult: e.likeResult,)).toList());
                     }
                   }
                 }
@@ -93,29 +91,21 @@ class _HomeState extends State<Home> {
                               Expanded(
                                 child: SmartRefresher(
                                   enablePullDown: true,
-                                  // 아래로 당겨서 새로고침
                                   enablePullUp: true,
-                                  // 위로 당겨서 새로운 데이터
-                                  //새로고침 로딩
                                   header: CustomHeader(
-                                    builder: (BuildContext context,
-                                        RefreshStatus? mode) {
+                                    builder: (BuildContext context, RefreshStatus? mode) {
                                       Widget body;
-                                      if (mode == RefreshStatus.refreshing) {
-                                        body = CupertinoActivityIndicator();
-                                      } else {
-                                        body = Text('');
-                                      }
+                                      if (mode == RefreshStatus.refreshing) body = CupertinoActivityIndicator();
+                                      else body = Text('');
+
                                       return Container(
                                         height: 55.0,
                                         child: Center(child: body),
                                       );
                                     },
                                   ),
-                                  // 바닥글
                                   footer: CustomFooter(
-                                    builder:
-                                        (BuildContext context, LoadStatus) {
+                                    builder: (BuildContext context, LoadStatus) {
                                       return Container(
                                         height: 55.0,
                                         child: Center(child: Text("")),
@@ -125,19 +115,15 @@ class _HomeState extends State<Home> {
                                   onRefresh: () async {
                                     setState(() {
                                       item!.clear();
-                                      myfuture = getPostContent(useremail, 0, latitude==null?'':'$latitude,$longtitude');
+                                      myfuture = getPostContent(useremail, 0, latitude == null ? '' : '$latitude,$longtitude');
                                     });
                                     _refreshController.refreshCompleted();
                                   },
                                   // 새로고침
-                                  onLoading: //무한 스크롤
-                                      () async {
+                                  onLoading: () async {
                                     if (lastnumber - 1 > 0) {
                                       setState(() {
-                                        myfuture = getPostContent(
-                                            useremail,
-                                            lastnumber - 1,
-                                            latitude==null?'':'$latitude,$longtitude');
+                                        myfuture = getPostContent(useremail, lastnumber - 1, latitude == null ? '' : '$latitude,$longtitude');
                                         checknumber = lastnumber;
                                       });
                                       _refreshController.loadComplete();
@@ -162,43 +148,33 @@ class _HomeState extends State<Home> {
                                   onPressed: () async {
                                     _refreshController.position!.animateTo(
                                       0.0,
-                                      duration:
-                                          const Duration(milliseconds: 300),
+                                      duration: const Duration(milliseconds: 300),
                                       curve: Curves.linear,
                                     );
                                     setState(() {
                                       item!.clear();
-                                      myfuture = getPostContent(useremail, 0,
-                                          latitude==null?'':'$latitude,$longtitude');
+                                      myfuture = getPostContent(
+                                          useremail,
+                                          0,
+                                          latitude == null ? '' : '$latitude,$longtitude');
                                     });
                                     print('새로고침');
                                     _refreshController.refreshCompleted();
                                   },
                                   elevation: 5.0,
                                   fillColor: Colors.white,
-                                  child: Icon(
-                                    Icons.restart_alt,
-                                    size: 20.0.r,
-                                  ),
+                                  child: Icon(Icons.restart_alt, size: 20.0.r,),
                                   padding: EdgeInsets.all(15.0),
                                   shape: CircleBorder(),
                                 ),
-                                SizedBox(
-                                  height: 5.h,
-                                ),
+                                SizedBox(height: 5.h),
                                 RawMaterialButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Write()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Write()));
                                   },
                                   elevation: 5.0,
                                   fillColor: Colors.white,
-                                  child: Icon(
-                                    Icons.edit,
-                                    size: 50.0,
-                                  ),
+                                  child: Icon(Icons.edit, size: 50.0,),
                                   padding: EdgeInsets.all(15.0),
                                   shape: CircleBorder(),
                                 )
@@ -217,103 +193,7 @@ class _HomeState extends State<Home> {
               }
             }));
   }
-
   void movetocard() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => PostDetail()));
-  }
-}
-
-//---------------------------------------------------
-class Top extends StatefulWidget {
-  const Top({Key? key}) : super(key: key);
-
-  @override
-  State<Top> createState() => _TopState();
-}
-
-bool suin = true;
-
-class _TopState extends State<Top> {
-  final List<String> _menulist = ['내 정보', '좋아요 한 글', '문의하기'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              suin = !suin;
-            });
-          },
-          icon: Icon(
-            suin ? Icons.notifications : Icons.notifications_off,
-            size: 30.0.r,
-          ),
-          padding: EdgeInsets.all(10.0),
-        ),
-        Text("도란도란", style: TextStyle(fontSize: 30.sp)),
-        // RawMaterialButton(
-        //   onPressed: () {},
-        //   elevation: 0,
-        //   fillColor: Colors.white,
-        //   child: Icon(
-        //     Icons.person,
-        //     size: 30.0.r,
-        //   ),
-        //   padding: EdgeInsets.all(15.0),
-        //   shape: CircleBorder(),
-        // ),
-        DropdownButton2(
-          customButton: const Icon(
-            Icons.person,
-            size: 40,
-          ),
-          dropdownWidth: 150,
-          dropdownDecoration: BoxDecoration(
-              color: Colors.white
-          ),
-          dropdownDirection: DropdownDirection.left,
-          items: [
-            ..._menulist.map(
-              (item) => DropdownMenuItem<String>(
-                value: item,
-                child: Text(item),
-              ),
-            ),
-          ],
-          onChanged: (value) {},
-        ),
-      ],
-    );
-  }
-}
-
-class Tag extends StatelessWidget {
-  const Tag({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Widget tagname(String name) {
-      return TextButton(
-        onPressed: () {},
-        child: Text(
-          name,
-          style: TextStyle(fontSize: 18, color: Colors.black),
-        ),
-      );
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        tagname("#근처에"),
-        tagname("#인기있는"),
-        tagname("#새로운"),
-        tagname("#관심있는"),
-      ],
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail()));
   }
 }

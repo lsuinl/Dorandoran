@@ -17,15 +17,15 @@ class Message_Card extends StatefulWidget {
 
   const Message_Card(
       {required this.postId,
-        required this.movetocard,
-        required this.time,
-        required this.heart,
-        required this.chat,
-        required this.map,
-        required this.message,
-        required this.backimg,
-        required this.likeresult,
-        Key? key})
+      required this.movetocard,
+      required this.time,
+      required this.heart,
+      required this.chat,
+      required this.map,
+      required this.message,
+      required this.backimg,
+      required this.likeresult,
+      Key? key})
       : super(key: key);
 
   @override
@@ -33,17 +33,17 @@ class Message_Card extends StatefulWidget {
 }
 
 //bool like=false;
-Map<int,bool> like={0:false};
-Map<int,int> click={0:0};
+Map<int, bool> like = {0: false};
+Map<int, int> click = {0: 0};
 
 class _Message_CardState extends State<Message_Card> {
   @override
-  void initState(){
+  void initState() {
     //print("응애는초기화에요");
     setState(() {
       //  like=widget.likeresult;
-      like.addAll({widget.postId : widget.likeresult});
-      click.addAll({widget.postId :widget.heart});
+      like.addAll({widget.postId: widget.likeresult});
+      click.addAll({widget.postId: widget.heart});
     });
   }
 
@@ -100,15 +100,20 @@ class _Message_CardState extends State<Message_Card> {
                             onPressed: () {
                               setState(() {
                                 print(like);
-                                like[widget.postId]= !like[widget.postId]!;
-                                if(widget.likeresult==true && like[widget.postId]==false){//눌린상태에서 취소
-                                  click[widget.postId]= click[widget.postId]!-1;
-                                }
-                                else if(widget.likeresult==false && like[widget.postId]==true){ //누르기
-                                  click[widget.postId]= click[widget.postId]!+1;
-                                }
-                                else{ //해당화면에서 상태변경취소
-                                  click[widget.postId]=widget.heart;
+                                like[widget.postId] = !like[widget.postId]!;
+                                if (widget.likeresult == true &&
+                                    like[widget.postId] == false) {
+                                  //눌린상태에서 취소
+                                  click[widget.postId] =
+                                      click[widget.postId]! - 1;
+                                } else if (widget.likeresult == false &&
+                                    like[widget.postId] == true) {
+                                  //누르기
+                                  click[widget.postId] =
+                                      click[widget.postId]! + 1;
+                                } else {
+                                  //해당화면에서 상태변경취소
+                                  click[widget.postId] = widget.heart;
                                 }
                               });
                               print('머게요${like}');

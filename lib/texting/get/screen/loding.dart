@@ -15,20 +15,17 @@ class _lodingState extends State<loding> {
     loading();
     return Scaffold(
         backgroundColor: backgroundcolor,
-        body:
-        Container(
+        body: Container(
             decoration: gradient,
             child: Center(
-      child: CircularProgressIndicator(),
-    )
-        )
+              child: CircularProgressIndicator(),
+            ),
+        ),
     );
   }
-  void loading() async{
-    await Future.delayed(Duration(seconds: 2));
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-        builder: (BuildContext context) =>
-            Home()), (route) => false);
-  }
 
+  void loading() async {
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => Home()), (route) => false);
+  }
 }

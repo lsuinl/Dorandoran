@@ -1,15 +1,9 @@
-
-class Reply{
-
-}
-
-class CommentDetailDto{
+class CommentDetailDto {
   late String comment;
   late int commentLike;
   late bool commentLikeResult;
-  //List<Reply> replies;
+//List<Reply> replies;
 }
-
 
 class postcardDetail {
   final String content;
@@ -22,30 +16,29 @@ class postcardDetail {
   final List<dynamic>? commentDetailDto;
   final List<dynamic>? postHashes;
 
-  postcardDetail(
-      {
-        required this.content,
-        required this.postTime,
-        required this.location,
-        required this.postLikeCnt,
-        required this.postLikeResult,
-        required this.commentCnt,
-        required this.backgroundPicUri,
-        required this.commentDetailDto,
-        required this.postHashes,
-      });
+  postcardDetail({
+    required this.content,
+    required this.postTime,
+    required this.location,
+    required this.postLikeCnt,
+    required this.postLikeResult,
+    required this.commentCnt,
+    required this.backgroundPicUri,
+    required this.commentDetailDto,
+    required this.postHashes,
+  });
 
   factory postcardDetail.fromJson(Map<String, dynamic> json) {
     return postcardDetail(
-        content: json["content"],
-        postTime: json["postTime"],
-        location: json["location"],
-        postLikeCnt: json["postLikeCnt"],
-        postLikeResult: json["likeResult"]?? false,
-        commentCnt: json["commentCnt"],
-        backgroundPicUri: json["backgroundPicUri"],
-        commentDetailDto: json["commentDetailDto"],
-        postHashes: json["postHashes"],
+      content: json["content"],
+      postTime: json["postTime"],
+      location: json["location"],
+      postLikeCnt: json["postLikeCnt"],
+      postLikeResult: json["likeResult"] ?? false,
+      commentCnt: json["commentCnt"],
+      backgroundPicUri: json["backgroundPicUri"],
+      commentDetailDto: json["commentDetailDto"],
+      postHashes: json["postHashes"],
     );
   }
 }
