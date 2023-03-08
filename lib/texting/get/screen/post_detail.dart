@@ -3,8 +3,10 @@ import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/get/component/home_message_card.dart';
 import 'package:dorandoran/texting/get/quest/get_post_detail.dart';
 import 'package:dorandoran/texting/get/quest/like.dart';
+import 'package:dorandoran/texting/write/component/write_middlefield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/util.dart';
 
@@ -26,20 +28,24 @@ class PostDetail extends StatelessWidget {
               child:
                 ListView(
                   padding: EdgeInsets.zero,
-                  children:[
-                    Detail_Card(
-                      postId: 4,
-                      content: e.content,
-                      postTime: e.postTime,
-                      location: e.location,
-                      postLikeCnt: e.postLikeCnt,
-                      postLikeResult: e.postLikeResult,
-                      commentCnt: e.commentCnt,
-                      backgroundPicUri: e.backgroundPicUri,
-                      postHashes: e.postHashes
-                  ),
-                    //댓글 넣어야디..
-              ]
+                  children:
+                              // Detail_Card(
+                              //     postId: 4,
+                              //     content: e.content,
+                              //     postTime: e.postTime,
+                              //     location: e.location,
+                              //     postLikeCnt: e.postLikeCnt,
+                              //     postLikeResult: e.postLikeResult,
+                              //     commentCnt: e.commentCnt,
+                              //     backgroundPicUri: e.backgroundPicUri,
+                              //     postHashes: e.postHashes
+                              // ),
+                e.commentDetailDto.map<CommentCard>((a) =>
+                    CommentCard(commentId: a['commentId'],
+                        comment: a['comment'],
+                        commentLike: a['commentLike'],
+                        commentLikeResult: a['commentLikeResult'],
+                        replies: a['replies'])).toList()
             )
             );
           }
@@ -52,6 +58,7 @@ class PostDetail extends StatelessWidget {
     )
       );
   }
+
 }
 
 class Detail_Card extends StatefulWidget {
@@ -174,5 +181,58 @@ class _Detail_CardState extends State<Detail_Card> {
           ),
 ]
     );
+  }
+}
+
+class CommentCard extends StatefulWidget {
+  final int commentId;
+  final String comment;
+  final int commentLike;
+  final bool commentLikeResult;
+  final List<dynamic>? replies;
+
+  const CommentCard({
+    required this.commentId,
+    required this.comment,
+    required this.commentLike,
+    required this.commentLikeResult,
+    required this.replies,
+    Key? key}) : super(key: key);
+
+  @override
+  State<CommentCard> createState() => _CommentCardState();
+}
+
+class _CommentCardState extends State<CommentCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child:Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+    elevation: 2, //그림자
+    child: Padding(padding: EdgeInsets.all(15),
+    child:
+    Row(
+    children:[
+      Icon(Icons.person, size: 50.r,),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("익명",style: GoogleFonts.jua(fontSize: 17.sp),),
+          Text(widget.comment, style: GoogleFonts.jua(),),
+        Row(
+            children: [
+              Icon(Icons.favorite_border),
+              SizedBox(width: 5.w),
+              Icon(Icons.comment),
+              SizedBox(width: 5.w),
+            ]
+        )
+        ],
+      ),
+        ]
+    )
+    )
+    ));
   }
 }

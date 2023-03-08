@@ -1,9 +1,3 @@
-class CommentDetailDto {
-  late String comment;
-  late int commentLike;
-  late bool commentLikeResult;
-//List<Reply> replies;
-}
 
 class postcardDetail {
   final String content;
