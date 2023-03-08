@@ -18,17 +18,14 @@ class PostDetail extends StatelessWidget {
         future: getpostDetail(4,"7@gmail.com", ""),
           builder:(context, snapshot) {
           if(snapshot.hasData){
-
             dynamic e = snapshot.data!;
 
             return Container(
-              alignment: Alignment.center,
+              alignment: Alignment.topCenter,
               decoration: gradient,
-              child: SafeArea(
-                  child: Padding(
-                  padding: const EdgeInsets.all(20),
-                child:
-                Column(
+              child:
+                ListView(
+                  padding: EdgeInsets.zero,
                   children:[
                     Detail_Card(
                       postId: 4,
@@ -41,11 +38,9 @@ class PostDetail extends StatelessWidget {
                       backgroundPicUri: e.backgroundPicUri,
                       postHashes: e.postHashes
                   ),
-                    Text('d'),
+                    //댓글 넣어야디..
               ]
             )
-                )
-                )
             );
           }
           else{
@@ -87,21 +82,20 @@ class Detail_Card extends StatefulWidget {
 }
 
 bool like=false;
+int likecnt=0;
 class _Detail_CardState extends State<Detail_Card> {
   @override
   void initState() {
     super.initState();
     setState(() {
       like=widget.postLikeResult!;
+      likecnt=widget.postLikeCnt;
     });
   }
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: [Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-          elevation: 2, //그림자
-          child: InkWell(
+        children: [InkWell(
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.r),
@@ -117,18 +111,15 @@ class _Detail_CardState extends State<Detail_Card> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 150.h,
+                        height: 450.h,
                         child: Container(
                           alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
                             child: Text(widget.content,
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(fontSize: 20.sp)),
                           ),
                         ),
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -148,17 +139,16 @@ class _Detail_CardState extends State<Detail_Card> {
                                 onPressed: () {
                                   setState(() {
                                     like= !like;
-                                    if(widget.postLikeResult==true && like==false){//눌린상태에서 취소
-                                      click[widget.postId]= click[widget.postId]!-1;
-                                    }
-                                    else if(widget.postLikeResult==false && like==true){ //누르기
-                                      click[widget.postId]= click[widget.postId]!+1;
-                                    }
-                                    else{ //해당화면에서 상태변경취소
-                                      click[widget.postId]=widget.postLikeCnt;
-                                    }
+                                  if(like!=widget.postLikeResult && like==false) { //화면에서 취소누르면,,
+                                    likecnt=widget.postLikeCnt-1;
+                                  }
+                                  else if(like!=widget.postLikeResult && like==true){ //화면에서 좋아요
+                                    likecnt=widget.postLikeCnt+1;
+                                  }
+                                  else{
+                                    likecnt=widget.postLikeCnt;
+                                  }
                                   });
-                                  print('머게요${like}');
                                   postLike(widget.postId, useremail!);
                                 },
                                 icon: like!
@@ -168,7 +158,7 @@ class _Detail_CardState extends State<Detail_Card> {
                                 padding: EdgeInsets.zero,
                               ),
                               SizedBox(width: 3.w),
-                              Text('${click[widget.postId]}'),
+                              Text('${likecnt}'),
                               SizedBox(width: 7.w),
                               Icon(Icons.forum),
                               SizedBox(width: 3.w),
@@ -182,7 +172,7 @@ class _Detail_CardState extends State<Detail_Card> {
                   )),
             ),
           ),
-        )
-    ]);
+]
+    );
   }
 }
