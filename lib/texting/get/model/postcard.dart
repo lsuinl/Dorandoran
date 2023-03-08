@@ -8,17 +8,16 @@ class postcard {
   final String backgroundPicUri;
   final int? replyCnt;
 
-
-  postcard(
-      {required this.postId,
-        required this.contents,
-        required this.postTime,
-        required this.location,
-        required this.likeCnt,
-        required this.likeResult,
-        required this.backgroundPicUri,
-        required this.replyCnt,
-       });
+  postcard({
+    required this.postId,
+    required this.contents,
+    required this.postTime,
+    required this.location,
+    required this.likeCnt,
+    required this.likeResult,
+    required this.backgroundPicUri,
+    required this.replyCnt,
+  });
 
   factory postcard.fromJson(Map<String, dynamic> json) {
     return postcard(

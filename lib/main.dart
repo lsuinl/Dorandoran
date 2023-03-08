@@ -1,3 +1,4 @@
+import 'package:dorandoran/texting/get/screen/post_detail.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
