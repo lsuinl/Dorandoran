@@ -21,31 +21,35 @@ class PostDetail extends StatelessWidget {
           builder:(context, snapshot) {
           if(snapshot.hasData){
             dynamic e = snapshot.data!;
-
             return Container(
               alignment: Alignment.topCenter,
               decoration: gradient,
               child:
                 ListView(
                   padding: EdgeInsets.zero,
-                  children:
-                              // Detail_Card(
-                              //     postId: 4,
-                              //     content: e.content,
-                              //     postTime: e.postTime,
-                              //     location: e.location,
-                              //     postLikeCnt: e.postLikeCnt,
-                              //     postLikeResult: e.postLikeResult,
-                              //     commentCnt: e.commentCnt,
-                              //     backgroundPicUri: e.backgroundPicUri,
-                              //     postHashes: e.postHashes
-                              // ),
-                e.commentDetailDto.map<CommentCard>((a) =>
-                    CommentCard(commentId: a['commentId'],
-                        comment: a['comment'],
-                        commentLike: a['commentLike'],
-                        commentLikeResult: a['commentLikeResult'],
-                        replies: a['replies'])).toList()
+                  children:[
+                              Detail_Card(
+                                  postId: 4,
+                                  content: e.content,
+                                  postTime: e.postTime,
+                                  location: e.location,
+                                  postLikeCnt: e.postLikeCnt,
+                                  postLikeResult: e.postLikeResult,
+                                  commentCnt: e.commentCnt,
+                                  backgroundPicUri: e.backgroundPicUri,
+                                  postHashes: e.postHashes
+                              ),
+                    SizedBox(height: 10.h),
+                    ListBody(
+                      children:
+                        e.commentDetailDto.map<CommentCard>((a) =>
+                            CommentCard(commentId: a['commentId'],
+                                comment: a['comment'],
+                                commentLike: a['commentLike'],
+                                commentLikeResult: a['commentLikeResult'],
+                                replies: a['replies'])).toList(),
+                    )
+                  ]
             )
             );
           }
