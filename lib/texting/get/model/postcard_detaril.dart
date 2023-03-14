@@ -7,6 +7,7 @@ class postcardDetail {
   final bool? postLikeResult;
   final int commentCnt;
   final String backgroundPicUri;
+  final String? postNickname;
   final List<dynamic>? commentDetailDto;
   final List<dynamic>? postHashes;
 
@@ -18,6 +19,7 @@ class postcardDetail {
     required this.postLikeResult,
     required this.commentCnt,
     required this.backgroundPicUri,
+    required this.postNickname,
     required this.commentDetailDto,
     required this.postHashes,
   });
@@ -31,6 +33,7 @@ class postcardDetail {
       postLikeResult: json["likeResult"] ?? false,
       commentCnt: json["commentCnt"],
       backgroundPicUri: json["backgroundPicUri"],
+      postNickname: json["postNickname"],
       commentDetailDto: json["commentDetailDto"],
       postHashes: json["postHashes"],
     );

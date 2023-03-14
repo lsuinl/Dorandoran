@@ -10,60 +10,78 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/util.dart';
 
-class PostDetail extends StatelessWidget {
+class PostDetail extends StatefulWidget {
   const PostDetail({Key? key}) : super(key: key);
 
   @override
+  State<PostDetail> createState() => _PostDetailState();
+}
+
+class _PostDetailState extends State<PostDetail> {
+  int number=1;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        future: getpostDetail(4,"7@gmail.com", ""),
-          builder:(context, snapshot) {
-          if(snapshot.hasData){
-            dynamic e = snapshot.data!;
-            return Container(
-              alignment: Alignment.topCenter,
-              decoration: gradient,
-              child:
-                ListView(
-                  padding: EdgeInsets.zero,
-                  children:[
-                              Detail_Card(
-                                  postId: 4,
-                                  content: e.content,
-                                  postTime: e.postTime,
-                                  location: e.location,
-                                  postLikeCnt: e.postLikeCnt,
-                                  postLikeResult: e.postLikeResult,
-                                  commentCnt: e.commentCnt,
-                                  backgroundPicUri: e.backgroundPicUri,
-                                  postHashes: e.postHashes
-                              ),
-                    SizedBox(height: 10.h),
-                    ListBody(
-                      children:
-                        e.commentDetailDto.map<CommentCard>((a) =>
-                            CommentCard(commentId: a['commentId'],
-                                comment: a['comment'],
-                                commentLike: a['commentLike'],
-                                commentLikeResult: a['commentLikeResult'],
-                                replies: a['replies'])).toList(),
+        body: FutureBuilder(
+            future: getpostDetail(4,"7@gmail.com", ""),
+            builder:(context, snapshot) {
+              if(snapshot.hasData){
+                dynamic e = snapshot.data!;
+                return Container(
+                    alignment: Alignment.topCenter,
+                    decoration: gradient,
+                    child:
+                    ListView(
+                        padding: EdgeInsets.zero,
+                        children:[
+                          Detail_Card(
+                              postNickname: e.postNickname,
+                              postId: 4,
+                              content: e.content,
+                              postTime: e.postTime,
+                              location: e.location,
+                              postLikeCnt: e.postLikeCnt,
+                              postLikeResult: e.postLikeResult,
+                              commentCnt: e.commentCnt,
+                              backgroundPicUri: e.backgroundPicUri,
+                              postHashes: e.postHashes
+                          ),
+                          SizedBox(height: 10.h),
+                          ListBody(
+                            children:
+                            e.commentDetailDto.map<CommentCard>((a) =>
+                                CommentCard(
+                                    number: number,
+                                    upnumber: upnumber,
+                                    commentId: a['commentId'],
+                                    comment: a['comment'],
+                                    commentLike: a['commentLike'],
+                                    commentLikeResult: a['commentLikeResult'],
+                                    replies: a['replies'],
+                                    commentNickname:a['commentNickname'],
+                                    commentTime:a['commentTime']
+                                )).toList(),
+                          )
+                        ]
                     )
-                  ]
-            )
-            );
-          }
-          else{
-            return Container(
-                decoration: gradient,
-                child: Center(child: CircularProgressIndicator()));
-          }
-          }
-    )
-      );
+                );
+              }
+              else{
+                return Container(
+                    decoration: gradient,
+                    child: Center(child: CircularProgressIndicator()));
+              }
+            }
+        )
+    );
   }
-
+  upnumber(){
+    setState(() {
+      number=number+1;
+    });
+  }
 }
+
 
 class Detail_Card extends StatefulWidget {
   final int postId;
@@ -75,8 +93,10 @@ class Detail_Card extends StatefulWidget {
   final int commentCnt;
   final String backgroundPicUri;
   final List<dynamic>? postHashes;
+  final String postNickname;
 
   const Detail_Card({
+    required this.postNickname,
     required this.postId,
     required this.content,
     required this.postTime,
@@ -121,14 +141,25 @@ class _Detail_CardState extends State<Detail_Card> {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Column(
                     children: [
+                      SizedBox(height: 20.h),
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        child: BackButton(),
+                      ),
                       SizedBox(
                         height: 450.h,
-                        child: Container(
-                          alignment: Alignment.center,
-                            child: Text(widget.content,
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 20.sp)),
+                        child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                             children:[ Text(widget.content,
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 20.sp)),
+                              SizedBox(height:20.h),
+                              Text("by ${widget.postNickname}",
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 12.sp)),
+    ]
                           ),
                         ),
                       Row(
@@ -150,10 +181,10 @@ class _Detail_CardState extends State<Detail_Card> {
                                 onPressed: () {
                                   setState(() {
                                     like= !like;
-                                  if(like!=widget.postLikeResult && like==false) { //화면에서 취소누르면,,
-                                    likecnt=widget.postLikeCnt-1;
+                                  if(likecnt!=widget.postLikeResult && like==false) { //화면에서 취소누르면,,
+                                    likecnt=likecnt-1;
                                   }
-                                  else if(like!=widget.postLikeResult && like==true){ //화면에서 좋아요
+                                  else if(likecnt!=widget.postLikeResult && like==true){ //화면에서 좋아요
                                     likecnt=widget.postLikeCnt+1;
                                   }
                                   else{
@@ -194,6 +225,10 @@ class CommentCard extends StatefulWidget {
   final int commentLike;
   final bool commentLikeResult;
   final List<dynamic>? replies;
+  final String? commentNickname;
+  final String commentTime;
+  final int number;
+  final VoidCallback upnumber;
 
   const CommentCard({
     required this.commentId,
@@ -201,13 +236,28 @@ class CommentCard extends StatefulWidget {
     required this.commentLike,
     required this.commentLikeResult,
     required this.replies,
+    required this.commentNickname,
+    required this.commentTime,
+    required this.number,
+    required this.upnumber,
     Key? key}) : super(key: key);
 
   @override
   State<CommentCard> createState() => _CommentCardState();
 }
-
+Map<int, bool> commentlike = {0: false};
+Map<int, int> commentlikecnt = {0: 0};
 class _CommentCardState extends State<CommentCard> {
+  @override
+  void initState() {
+    if(widget.commentNickname==null) widget.upnumber();
+    super.initState();
+    setState(() {
+      commentlike.addAll({widget.commentId: widget.commentLikeResult});
+      commentlikecnt.addAll({widget.commentId: widget.commentLike});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -222,14 +272,57 @@ class _CommentCardState extends State<CommentCard> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("익명",style: GoogleFonts.jua(fontSize: 17.sp),),
+          Text(widget.commentNickname??"익명${widget.number}",style: GoogleFonts.jua(fontSize: 17.sp),),
           Text(widget.comment, style: GoogleFonts.jua(),),
         Row(
             children: [
-              Icon(Icons.favorite_border),
-              SizedBox(width: 5.w),
-              Icon(Icons.comment),
-              SizedBox(width: 5.w),
+              Row(
+                children: [
+                  Text(timecount(widget.commentTime),style: TextStyle(fontSize: 12.sp),),
+                  SizedBox(width: 173.w),
+
+                  Row( //하트버튼
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            commentlike[widget.commentId] = !commentlike[widget.commentId]!;
+                            if (widget.commentLikeResult == true &&
+                                commentlike[widget.commentId] == false) {
+                              //눌린상태에서 취소
+                              commentlikecnt[widget.commentId] =
+                                  commentlikecnt[widget.commentId]! -1;
+                            } else if (widget.commentLikeResult == false &&
+                                commentlike[widget.commentId] == true) {
+                              //누르기
+                              commentlikecnt[widget.commentId] =
+                                  commentlikecnt[widget.commentId]! + 1;
+                            } else {
+                              //해당화면에서 상태변경취소
+                              commentlikecnt[widget.commentId] = widget.commentLike;
+                            }
+                            print(commentlikecnt[widget.commentId]);
+                            print(commentlike[widget.commentId]);
+                          });
+                         // 댓글좋아요
+                          //postLike(widget.postId, useremail!);
+                        },
+                        icon: commentlike[widget.commentId]!
+                            ? Icon(Icons.favorite)
+                            : Icon(Icons.favorite_border),
+                        constraints: BoxConstraints(),
+                        padding: EdgeInsets.zero,
+                      ),
+                      SizedBox(width: 2.w),
+                      Text('${commentlikecnt[widget.commentId]}'),
+                      SizedBox(width: 5.w),
+                      Icon(Icons.forum),
+                      SizedBox(width: 3.w),
+                      Text('${widget.replies!.length}'),
+                    ],
+                  ),
+                ],
+              ),
             ]
         )
         ],
