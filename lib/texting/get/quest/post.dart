@@ -16,6 +16,5 @@ Future<List<postcard>> getPostContent(
   }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
-  print("dddd");
   return card;
 }

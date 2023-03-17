@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
-import 'package:dorandoran/texting/get/quest/like.dart';
-
-import '../screen/post_detail.dart'; //??
+import 'package:dorandoran/texting/get/quest/like.dart'; //??
 
 class Message_Card extends StatefulWidget {
   final VoidCallback movetocard;
@@ -16,10 +14,6 @@ class Message_Card extends StatefulWidget {
   final String backimg;
   final int postId;
   final bool likeresult;
-  final String font;
-  final String fontColor;
-  final int fontSize;
-  final int fontBold;
 
   const Message_Card(
       {required this.postId,
@@ -31,10 +25,6 @@ class Message_Card extends StatefulWidget {
       required this.message,
       required this.backimg,
       required this.likeresult,
-      required this.font,
-      required this.fontColor,
-      required this.fontSize,
-      required this.fontBold,
       Key? key})
       : super(key: key);
 
@@ -63,8 +53,7 @@ class _Message_CardState extends State<Message_Card> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       elevation: 2, //그림자
       child: InkWell(
-        onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail(postId: widget.postId))),
-      //  widget.movetocard
+        onTap: widget.movetocard,
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.r),
@@ -88,8 +77,7 @@ class _Message_CardState extends State<Message_Card> {
                         child: Text(widget.message,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
-                            style: selectfont(widget.font, widget.fontColor,
-                                widget.fontSize, widget.fontBold)),
+                            style: TextStyle(fontSize: 20.sp)),
                       ),
                     ),
                   ),
@@ -128,6 +116,7 @@ class _Message_CardState extends State<Message_Card> {
                                   click[widget.postId] = widget.heart;
                                 }
                               });
+                              print('머게요${like}');
                               postLike(widget.postId, useremail!);
                             },
                             icon: like[widget.postId]!
