@@ -18,6 +18,5 @@ Future<postcardDetail> getpostDetail(
 
   Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   postcardDetail card = postcardDetail.fromJson(body);
-
   return card;
 }
