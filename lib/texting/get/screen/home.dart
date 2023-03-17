@@ -60,6 +60,10 @@ class _HomeState extends State<Home> {
                               backimg: e.backgroundPicUri,
                               postId: e.postId,
                               likeresult: e.likeResult,
+                      font: e.font,
+                      fontColor: e.fontColor,
+                      fontSize: e.fontSize,
+                      fontBold: e.fontBold,
                             )).toList();
                   } else {
                     if (checknumber != lastnumber) {
@@ -72,7 +76,13 @@ class _HomeState extends State<Home> {
                                 message: e.contents,
                                 backimg: e.backgroundPicUri,
                                 postId: e.postId,
-                                likeresult: e.likeResult,)).toList());
+                                likeresult: e.likeResult,
+                        font: e.font,
+                        fontColor: e.fontColor,
+                        fontSize: e.fontSize,
+                        fontBold: e.fontBold,
+
+                      )).toList());
                     }
                   }
                 }
@@ -194,6 +204,6 @@ class _HomeState extends State<Home> {
             }));
   }
   void movetocard() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail(postId: 3)));
   }
 }
