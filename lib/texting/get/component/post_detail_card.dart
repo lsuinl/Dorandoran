@@ -49,11 +49,11 @@ int likecnt=0;
 class _Detail_CardState extends State<Detail_Card> {
   @override
   void initState() {
-    super.initState();
     setState(() {
       like=widget.postLikeResult!;
       likecnt=widget.postLikeCnt;
     });
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {

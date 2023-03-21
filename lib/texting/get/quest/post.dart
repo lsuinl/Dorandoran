@@ -11,7 +11,6 @@ Future<List<postcard>> getPostContent(
         '${posturl}?userEmail=${userEmail}&postCnt=${number}&location=${location}'),
   );
   if (response.statusCode != 201 && response.statusCode != 200) {
-    print(response.statusCode);
     getPostContent(userEmail, number - 1, location);
   }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));

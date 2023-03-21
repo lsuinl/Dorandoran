@@ -1,8 +1,10 @@
+import 'package:dorandoran/texting/get/component/post_detail_inputcomment.dart';
 import 'package:dorandoran/texting/get/screen/post_detail.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
 import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'texting/get/screen/home.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,7 @@ void main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
-  firebasetoken = await FirebaseMessaging.instance.getToken();
+  firebasetoken = (await FirebaseMessaging.instance.getToken())!;
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('firebasetoken', firebasetoken!);
   runApp(ScreenUtilInit(
