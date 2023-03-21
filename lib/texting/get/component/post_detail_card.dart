@@ -1,3 +1,4 @@
+import 'package:dorandoran/texting/get/screen/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +17,7 @@ class Detail_Card extends StatefulWidget {
   final int commentCnt;
   final String backgroundPicUri;
   final List<dynamic>? postHashes;
-  final String postNickname;
+  final String? postNickname;
   final String font;
   final String fontColor;
   final int fontSize;
@@ -48,11 +49,11 @@ int likecnt=0;
 class _Detail_CardState extends State<Detail_Card> {
   @override
   void initState() {
-    super.initState();
     setState(() {
       like=widget.postLikeResult!;
       likecnt=widget.postLikeCnt;
     });
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,11 @@ class _Detail_CardState extends State<Detail_Card> {
                     SizedBox(height: 20.h),
                     Container(
                       alignment: Alignment.bottomLeft,
-                      child: BackButton(),
+                      child: BackButton(
+                        onPressed: ()=>Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => Home()))
+                            .then((value) => setState(() {})),
+                      ),
                     ),
                     SizedBox(
                       height: 450.h,
@@ -86,7 +91,7 @@ class _Detail_CardState extends State<Detail_Card> {
                               overflow: TextOverflow.ellipsis,
                               style:  selectfont(widget.font,widget.fontColor,widget.fontSize,widget.fontBold)),
                             SizedBox(height:20.h),
-                            Text("by ${widget.postNickname}",
+                            Text("by ${widget.postNickname?? "익명"}",
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: selectfont(widget.font,widget.fontColor,widget.fontSize,widget.fontBold).copyWith(fontSize: 12.sp)),

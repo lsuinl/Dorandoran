@@ -53,9 +53,9 @@ class _Login_checkState extends State<Login_check> {
    logincheck() async {
     final prefs = await SharedPreferences.getInstance();
     if(prefs.getString('email')!.isNotEmpty) {
-      useremail=prefs.getString('email');
-      kakaotoken=prefs.getString('kakaotoken');
-      firebasetoken=prefs.getString('firebasetoken');
+      useremail!=prefs.getString('email');
+      kakaotoken!=prefs.getString('kakaotoken');
+      firebasetoken!=prefs.getString('firebasetoken');
       Navigator.push(
           context,
           MaterialPageRoute(
