@@ -1,10 +1,8 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/get/component/home_message_card.dart';
-import 'package:dorandoran/texting/get/quest/post.dart';
-import 'package:dorandoran/texting/get/screen/post_detail.dart';
+import 'package:dorandoran/texting/get/quest/home_getcontent.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,11 +20,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
   late Future myfuture;
   List<Message_Card>? item;
   int? checknumber;
+  String? url;
 
   @override
   void initState() {
@@ -36,7 +36,8 @@ class _HomeState extends State<Home> {
       scrollController = ScrollController();
     });
     getlocation(); //임시
-    myfuture = getPostContent(useremail, 0, latitude == '' ? '' : '$latitude,$longtitude');
+    myfuture = getPostContent(
+        url, useremail, 0, latitude == '' ? '' : '$latitude,$longtitude');
   }
 
   @override
@@ -50,7 +51,8 @@ class _HomeState extends State<Home> {
                 int lastnumber = snapshot.data!.last.postId;
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (item?.length == 0 || item == null) {
-                    item = snapshot.data!.map<Message_Card>((e) => Message_Card(
+                    item = snapshot.data!
+                        .map<Message_Card>((e) => Message_Card(
                               time: e.postTime,
                               heart: e.likeCnt,
                               chat: e.replyCnt,
@@ -59,14 +61,16 @@ class _HomeState extends State<Home> {
                               backimg: e.backgroundPicUri,
                               postId: e.postId,
                               likeresult: e.likeResult,
-                      font: e.font,
-                      fontColor: e.fontColor,
-                      fontSize: e.fontSize,
-                      fontBold: e.fontBold,
-                            )).toList();
+                              font: e.font,
+                              fontColor: e.fontColor,
+                              fontSize: e.fontSize,
+                              fontBold: e.fontBold,
+                            ))
+                        .toList();
                   } else {
                     if (checknumber != lastnumber) {
-                      item!.addAll(snapshot.data!.map<Message_Card>((e) => Message_Card(
+                      item!.addAll(snapshot.data!
+                          .map<Message_Card>((e) => Message_Card(
                                 time: e.postTime,
                                 heart: e.likeCnt,
                                 chat: e.replyCnt,
@@ -75,15 +79,45 @@ class _HomeState extends State<Home> {
                                 backimg: e.backgroundPicUri,
                                 postId: e.postId,
                                 likeresult: e.likeResult,
-                        font: e.font,
-                        fontColor: e.fontColor,
-                        fontSize: e.fontSize,
-                        fontBold: e.fontBold,
-
-                      )).toList());
+                                font: e.font,
+                                fontColor: e.fontColor,
+                                fontSize: e.fontSize,
+                                fontBold: e.fontBold,
+                              ))
+                          .toList());
                     }
                   }
                 }
+
+                Widget tagname(String name) {
+                  return TextButton(
+                    onPressed: () {
+                      postlistchange(name);
+                      _refreshController.position!.animateTo(
+                        0.0,
+                        duration:
+                        const Duration(milliseconds: 300),
+                        curve: Curves.linear,
+                      );
+                      setState(() {
+                        item!.clear();
+                        myfuture = getPostContent(
+                            url,
+                            useremail,
+                            0,
+                            latitude == null
+                                ? ''
+                                : '$latitude,$longtitude');
+                      });
+                      _refreshController.refreshCompleted();
+                    },
+                    child: Text(
+                      name,
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  );
+                }
+
                 return Container(
                   decoration: gradient,
                   child: SafeArea(
@@ -95,16 +129,28 @@ class _HomeState extends State<Home> {
                             children: [
                               Top(),
                               SizedBox(height: 10.h),
-                              Tag(),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  tagname("근처에"),
+                                  tagname("인기있는"),
+                                  tagname("새로운"),
+                                  tagname("관심있는"),
+                                ],
+                              ),
                               Expanded(
                                 child: SmartRefresher(
                                   enablePullDown: true,
                                   enablePullUp: true,
                                   header: CustomHeader(
-                                    builder: (BuildContext context, RefreshStatus? mode) {
+                                    builder: (BuildContext context,
+                                        RefreshStatus? mode) {
                                       Widget body;
-                                      if (mode == RefreshStatus.refreshing) body = CupertinoActivityIndicator();
-                                      else body = Text('');
+                                      if (mode == RefreshStatus.refreshing)
+                                        body = CupertinoActivityIndicator();
+                                      else
+                                        body = Text('');
 
                                       return Container(
                                         height: 55.0,
@@ -113,7 +159,8 @@ class _HomeState extends State<Home> {
                                     },
                                   ),
                                   footer: CustomFooter(
-                                    builder: (BuildContext context, LoadStatus) {
+                                    builder:
+                                        (BuildContext context, LoadStatus) {
                                       return Container(
                                         height: 55.0,
                                         child: Center(child: Text("")),
@@ -123,7 +170,13 @@ class _HomeState extends State<Home> {
                                   onRefresh: () async {
                                     setState(() {
                                       item!.clear();
-                                      myfuture = getPostContent(useremail, 0, latitude == null ? '' : '$latitude,$longtitude');
+                                      myfuture = getPostContent(
+                                          url,
+                                          useremail,
+                                          0,
+                                          latitude == null
+                                              ? ''
+                                              : '$latitude,$longtitude');
                                     });
                                     _refreshController.refreshCompleted();
                                   },
@@ -131,7 +184,13 @@ class _HomeState extends State<Home> {
                                   onLoading: () async {
                                     if (lastnumber - 1 > 0) {
                                       setState(() {
-                                        myfuture = getPostContent(useremail, lastnumber - 1, latitude == null ? '' : '$latitude,$longtitude');
+                                        myfuture = getPostContent(
+                                            url,
+                                            useremail,
+                                            lastnumber - 1,
+                                            latitude == null
+                                                ? ''
+                                                : '$latitude,$longtitude');
                                         checknumber = lastnumber;
                                       });
                                       _refreshController.loadComplete();
@@ -156,32 +215,45 @@ class _HomeState extends State<Home> {
                                   onPressed: () async {
                                     _refreshController.position!.animateTo(
                                       0.0,
-                                      duration: const Duration(milliseconds: 300),
+                                      duration:
+                                          const Duration(milliseconds: 300),
                                       curve: Curves.linear,
                                     );
                                     setState(() {
                                       item!.clear();
                                       myfuture = getPostContent(
+                                          url,
                                           useremail,
                                           0,
-                                          latitude == null ? '' : '$latitude,$longtitude');
+                                          latitude == null
+                                              ? ''
+                                              : '$latitude,$longtitude');
                                     });
                                     _refreshController.refreshCompleted();
                                   },
                                   elevation: 5.0,
                                   fillColor: Colors.white,
-                                  child: Icon(Icons.restart_alt, size: 20.0.r,),
+                                  child: Icon(
+                                    Icons.restart_alt,
+                                    size: 20.0.r,
+                                  ),
                                   padding: EdgeInsets.all(15.0),
                                   shape: CircleBorder(),
                                 ),
                                 SizedBox(height: 5.h),
                                 RawMaterialButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Write()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Write()));
                                   },
                                   elevation: 5.0,
                                   fillColor: Colors.white,
-                                  child: Icon(Icons.edit, size: 50.0,),
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 50.0,
+                                  ),
                                   padding: EdgeInsets.all(15.0),
                                   shape: CircleBorder(),
                                 )
@@ -199,5 +271,24 @@ class _HomeState extends State<Home> {
                     child: Center(child: CircularProgressIndicator()));
               }
             }));
+  }
+
+  postlistchange(String name) {
+    setState(() {
+      switch (name) {
+        case "근처에":
+          url = '';
+          break;
+        case "인기있는":
+          url = '/popular';
+          break;
+        case "새로운":
+          url = '';
+          break;
+        case "관심있는":
+          url = '';
+          break;
+      }
+    });
   }
 }
