@@ -13,12 +13,14 @@ class CommentCard extends StatefulWidget {
   final int commentLike;
   final bool commentLikeResult;
   final List<dynamic>? replies;
-  final String? commentNickname;
+  final String commentNickname;
   final String commentTime;
-  final int number;
-  final VoidCallback upnumber;
   final VoidCallback changeinputtarget;
   final int postId;
+  final String? commentAnonymityNickname;
+  final bool commentCheckDelete;
+  final bool commentAnonymity;
+  final VoidCallback deletedreply;
 
   const CommentCard(
       {required this.commentId,
@@ -28,10 +30,12 @@ class CommentCard extends StatefulWidget {
       required this.replies,
       required this.commentNickname,
       required this.commentTime,
-      required this.number,
-      required this.upnumber,
       required this.postId,
       required this.changeinputtarget,
+        required this.commentAnonymityNickname,
+        required this.commentAnonymity,
+        required this.commentCheckDelete,
+        required this.deletedreply,
       Key? key})
       : super(key: key);
 
@@ -45,7 +49,6 @@ Map<int, int> commentlikecnt = {0: 0};
 class _CommentCardState extends State<CommentCard> {
   @override
   void initState() {
-    if (widget.commentNickname == null) widget.upnumber;
     setState(() {
       commentlike.addAll({widget.commentId: widget.commentLikeResult});
       commentlikecnt.addAll({widget.commentId: widget.commentLike});
@@ -81,9 +84,8 @@ class _CommentCardState extends State<CommentCard> {
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: Text(
-                                          widget.commentNickname ??
-                                              "익명${widget.number}",
+                                        child: Text(widget.commentCheckDelete ?"삭제":
+                                        ( widget.commentAnonymityNickname ?? widget.commentNickname),
                                           style:
                                               GoogleFonts.jua(fontSize: 17.sp),
                                         ),
@@ -106,7 +108,7 @@ class _CommentCardState extends State<CommentCard> {
                                     ],
                                   ),
                                   Text(
-                                    widget.comment,
+                                    widget.commentCheckDelete ? "!삭제된 댓글입니다.!": widget.comment,
                                     style: GoogleFonts.jua(),
                                   ),
                                   Row(children: [
@@ -201,8 +203,12 @@ class _CommentCardState extends State<CommentCard> {
                     replyId: a['replyId'],
                     replyNickname: a['replyNickname'],
                     reply: a['reply'],
+              replyAnonymityNickname: a['replyAnonymityNickname'],
+              replyAnonymity: a['replyAnonymity'],
+              replyCheckDelete:a['replyCheckDelete'],
                     replyTime: a['replyTime'],
-                    number: 1))
+              deletedreply: widget.deletedreply,
+                ))
                 .toList())
         : Center();
   }

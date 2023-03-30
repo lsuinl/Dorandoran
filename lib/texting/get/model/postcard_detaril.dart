@@ -13,6 +13,7 @@ class postcardDetail {
   final String fontColor;
   final int fontSize;
   final int fontBold;
+  final bool postAnonymity;
 
   postcardDetail({
     required this.content,
@@ -24,6 +25,7 @@ class postcardDetail {
     required this.backgroundPicUri,
     required this.postNickname,
     required this.commentDetailDto,
+    required this.postAnonymity,
     required this.postHashes,
     required this.font,
     required this.fontColor,
@@ -41,11 +43,12 @@ class postcardDetail {
         commentCnt: json["commentCnt"],
         backgroundPicUri: json["backgroundPicUri"],
         postNickname: json["postNickname"],
-        commentDetailDto: json["commentDetailDto"],
+        postAnonymity: json["postAnonymity"],
         postHashes: json["postHashes"],
         font: json["font"],
         fontColor: json["fontColor"],
         fontSize: json["fontSize"],
-        fontBold: json["fontBold"]);
+        fontBold: json["fontBold"],
+        commentDetailDto: json["commentDetailDto"]);
   }
 }

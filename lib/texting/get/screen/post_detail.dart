@@ -54,9 +54,10 @@ class _PostDetailState extends State<PostDetail> {
                   commentlist=  //await해야될듯
                   e.commentDetailDto.map<CommentCard>((a) =>
                       CommentCard(
-                          number: number,
-                          upnumber: upnumber,
+                        commentAnonymity: a['commentAnonymity'],
+                          commentCheckDelete:a['commentCheckDelete'],
                           commentId: a['commentId'],
+                        commentAnonymityNickname: a['commentAnonymityNickname'],
                           comment: a['comment'],
                           commentLike: a['commentLike'],
                           commentLikeResult: a['commentLikeResult'],
@@ -65,6 +66,7 @@ class _PostDetailState extends State<PostDetail> {
                           commentTime:a['commentTime'],
                         postId: widget.postId,
                         changeinputtarget: changeinputtarget,
+                        deletedreply: deletereply,
                       )).toList();
                 }
                 returncommentlist();
@@ -79,6 +81,7 @@ class _PostDetailState extends State<PostDetail> {
                       children: [
                               Detail_Card(
                                 postNickname: e.postNickname,
+                                postAnonymity: e.postAnonymity,
                                 postId: widget.postId,
                                 content: e.content,
                                 postTime: e.postTime,
@@ -126,15 +129,13 @@ class _PostDetailState extends State<PostDetail> {
     });
   }
 
-  upnumber(){
-    setState(() {
-      number=number+1;
-    });
-  }
-
   changeinputtarget(){
     setState(() {
       selectcommentid=select;
+    });
+  }
+  deletereply()  {
+    setState(() {
     });
   }
 }
