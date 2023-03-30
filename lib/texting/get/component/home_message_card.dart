@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
-import 'package:dorandoran/texting/get/quest/like.dart';
 
 import '../screen/post_detail.dart'; //??
 
@@ -150,4 +149,6 @@ class _Message_CardState extends State<Message_Card> {
       ),
     );
   }
+
+  void postLike(int postId, String s) {}
 }

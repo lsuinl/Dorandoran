@@ -56,9 +56,40 @@ class ReplyCard extends StatelessWidget {
                               Expanded(child:Text( replyAnonymityNickname ?? replyNickname ,style: GoogleFonts.jua(fontSize: 17.sp),), ),
                               "nickname7" == replyNickname
                                   ? TextButton(
-                                onPressed:() async {
-                                  await deletereply(replyId,useremail);
-                                  deletedreply();
+                                onPressed:() {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: Colors.white,
+                                          content: const Text("작성한 댓글을 삭제하시겠습니까?"),
+                                          actions: [
+                                            TextButton(
+                                              child: const Text('확인',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700)),
+                                              onPressed: () async {
+                                                await deletereply(replyId,useremail);
+                                                deletedreply();
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: const Text('취소',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700)),
+                                              onPressed: ()  {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      });
                                 },
                                 style: TextButton.styleFrom(
                                   minimumSize:

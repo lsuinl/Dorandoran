@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/storage.dart';
 import '../../../common/util.dart';
-import '../quest/like.dart';
 
 
 class Detail_Card extends StatefulWidget {
@@ -155,4 +154,6 @@ class _Detail_CardState extends State<Detail_Card> {
         ]
     );
   }
+
+  void postLike(int postId, String s) {}
 }
