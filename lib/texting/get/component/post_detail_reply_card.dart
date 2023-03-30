@@ -25,21 +25,41 @@ class ReplyCard extends StatelessWidget {
         child:Row(
        children:[
         SizedBox(width: 10.w),
-        Icon(Icons.subdirectory_arrow_right_outlined,size: 30),
+        Icon(Icons.subdirectory_arrow_right_outlined,size: 30,),
          Expanded(
          child: Card(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-            elevation: 2, //그림자
-            child: Padding(padding: EdgeInsets.symmetric(vertical: 15),
+            elevation: 4, //그림자
+            child: Padding(padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 child:
                 Row(
                     children:[
                       SizedBox(width: 10.w),
                       Icon(Icons.person, size: 50.r,),
+                      Expanded(child:
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(replyNickname??"익명${number}",style: GoogleFonts.jua(fontSize: 17.sp),),
+                          Row(
+                            children: [
+                              Expanded(child:Text(replyNickname??"익명${number}",style: GoogleFonts.jua(fontSize: 17.sp),), ),
+                              "nickname7" == replyNickname
+                                  ? TextButton(
+                                onPressed: () {},
+                                style: TextButton.styleFrom(
+                                  minimumSize:
+                                  Size.fromRadius(10.r),
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: Text(
+                                  "삭제",
+                                  style: TextStyle(
+                                      color: Colors.black),
+                                ),
+                              )
+                                  : Container(),
+                            ],
+                          ),
                           Text(reply!, style: GoogleFonts.jua(),),
                           Row(
                               children: [
@@ -48,7 +68,7 @@ class ReplyCard extends StatelessWidget {
                               ]
                           )
                         ],
-                      ),
+                      ),)
                     ]
                 )
             )

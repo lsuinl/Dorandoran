@@ -58,7 +58,8 @@ class _Message_CardState extends State<Message_Card> {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      elevation: 2, //그림자
+      elevation: 5, //그림자
+
       child: InkWell(
         onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail(postId:widget.postId))),
       //  widget.movetocard
