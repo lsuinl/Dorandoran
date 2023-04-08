@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
 
+import '../quest/home_postLike.dart';
 import '../screen/post_detail.dart'; //??
 
 class Message_Card extends StatefulWidget {
@@ -149,6 +150,4 @@ class _Message_CardState extends State<Message_Card> {
       ),
     );
   }
-
-  void postLike(int postId, String s) {}
 }
