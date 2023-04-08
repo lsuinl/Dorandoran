@@ -117,8 +117,7 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 }
-
-                return Container(
+                return  item!=null ? Container(
                   decoration: gradient,
                   child: SafeArea(
                     child: Padding(
@@ -264,7 +263,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                );
+                ):Container();
               } else {
                 return Container(
                     decoration: gradient,

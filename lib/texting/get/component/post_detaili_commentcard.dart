@@ -1,5 +1,6 @@
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/get/component/post_detail_reply_card.dart';
+import 'package:dorandoran/texting/get/quest/post_detail_deletecomment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -90,9 +91,43 @@ class _CommentCardState extends State<CommentCard> {
                                               GoogleFonts.jua(fontSize: 17.sp),
                                         ),
                                       ),
-                                      "nickname7" == widget.commentNickname
+                                      widget.commentCheckDelete==false? ("nickname7" == widget.commentNickname
                                           ? TextButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        backgroundColor: Colors.white,
+                                                        content: const Text("작성한 댓글을 삭제하시겠습니까?"),
+                                                        actions: [
+                                                          TextButton(
+                                                            child: const Text('확인',
+                                                                style: TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontSize: 16,
+                                                                    fontWeight: FontWeight.w700)),
+                                                            onPressed: () async {
+                                                              await deletecomment(widget.commentId,useremail);
+                                                              widget.deletedreply();
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: const Text('취소',
+                                                                style: TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontSize: 16,
+                                                                    fontWeight: FontWeight.w700)),
+                                                            onPressed: ()  {
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    });
+                                              },
                                               style: TextButton.styleFrom(
                                                 minimumSize:
                                                     Size.fromRadius(10.r),
@@ -104,7 +139,7 @@ class _CommentCardState extends State<CommentCard> {
                                                     color: Colors.black),
                                               ),
                                             )
-                                          : Container(),
+                                          : Container() ):Container()
                                     ],
                                   ),
                                   Text(
