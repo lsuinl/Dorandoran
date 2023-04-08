@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/storage.dart';
 import '../../../common/util.dart';
-import '../quest/like.dart';
 
 
 class Detail_Card extends StatefulWidget {
@@ -22,6 +21,7 @@ class Detail_Card extends StatefulWidget {
   final String fontColor;
   final int fontSize;
   final int fontBold;
+  final bool postAnonymity;
 
   const Detail_Card({
     required this.postNickname,
@@ -38,6 +38,7 @@ class Detail_Card extends StatefulWidget {
     required this.fontColor,
     required this.fontSize,
     required this.fontBold,
+    required this.postAnonymity,
     Key? key}) : super(key: key);
 
   @override
@@ -91,7 +92,7 @@ class _Detail_CardState extends State<Detail_Card> {
                               overflow: TextOverflow.ellipsis,
                               style:  selectfont(widget.font,widget.fontColor,widget.fontSize,widget.fontBold)),
                             SizedBox(height:20.h),
-                            Text("by ${widget.postNickname?? "익명"}",
+                            Text("by ${widget.postAnonymity==false ?widget.postNickname: "익명"}",
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: selectfont(widget.font,widget.fontColor,widget.fontSize,widget.fontBold).copyWith(fontSize: 12.sp)),
@@ -153,4 +154,6 @@ class _Detail_CardState extends State<Detail_Card> {
         ]
     );
   }
+
+  void postLike(int postId, String s) {}
 }

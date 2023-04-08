@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
-import 'package:dorandoran/texting/get/quest/like.dart';
 
 import '../screen/post_detail.dart'; //??
 
@@ -58,7 +57,8 @@ class _Message_CardState extends State<Message_Card> {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      elevation: 2, //그림자
+      elevation: 5, //그림자
+
       child: InkWell(
         onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail(postId:widget.postId))),
       //  widget.movetocard
@@ -149,4 +149,6 @@ class _Message_CardState extends State<Message_Card> {
       ),
     );
   }
+
+  void postLike(int postId, String s) {}
 }
