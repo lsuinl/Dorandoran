@@ -16,12 +16,12 @@ final TextStyle buttontextstyle=GoogleFonts.jua(
       fontWeight: FontWeight.w300,
 );
 //배경색상
-Color backgroundcolor = Color(0xFF000054);
+Color backgroundcolor = Color(0xFFF6F6F6);
 
 //배경색상2(그라데이션)
 Decoration gradient = BoxDecoration(
     gradient: LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  colors: [Color(0xffFFFFFF), Color(0xffFFFFFF) ],
+  colors: [Color(0xFFFF6F6F6), Color(0xFFFF6F6F6) ],
 ));

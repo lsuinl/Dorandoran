@@ -4,14 +4,15 @@ import 'package:dorandoran/common/uri.dart';
 
 //좋아요
 void postLike(int postId, String email) async {
-  await http.post(
+  http.Response respon= await http.post(
     Uri.parse('$url/api/post-like'),
     headers: <String, String>{
       'Content-Type': 'application/json',
     },
     body: jsonEncode({
+      "postId":postId,
       "email": email,
-      "postId": postId,
     }),
   );
+  print(respon.statusCode);
 }
