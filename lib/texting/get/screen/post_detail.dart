@@ -21,8 +21,8 @@ class PostDetail extends StatefulWidget {
 }
 int select=0;
 class _PostDetailState extends State<PostDetail> {
-  int number=1;
   int selectcommentid=0;
+  Map<int, String> anony={};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +37,8 @@ class _PostDetailState extends State<PostDetail> {
             builder:(context, snapshot) {
               if(snapshot.hasData){
                 dynamic e = snapshot.data!;
+                if(e.postAnonymity) anony[0]=e.postNickname;
+
                 late List<Widget> commentlist=[
                 Center(
                     child: Card(
@@ -54,10 +56,7 @@ class _PostDetailState extends State<PostDetail> {
                   commentlist=  //await해야될듯
                   e.commentDetailDto.map<CommentCard>((a) =>
                       CommentCard(
-                        commentAnonymity: a['commentAnonymity'],
-                          commentCheckDelete:a['commentCheckDelete'],
                           commentId: a['commentId'],
-                        commentAnonymityNickname: a['commentAnonymityNickname'],
                           comment: a['comment'],
                           commentLike: a['commentLike'],
                           commentLikeResult: a['commentLikeResult'],
@@ -66,7 +65,6 @@ class _PostDetailState extends State<PostDetail> {
                           commentTime:a['commentTime'],
                         postId: widget.postId,
                         changeinputtarget: changeinputtarget,
-                        deletedreply: deletereply,
                       )).toList();
                 }
                 returncommentlist();
@@ -81,7 +79,7 @@ class _PostDetailState extends State<PostDetail> {
                       children: [
                               Detail_Card(
                                 postNickname: e.postNickname,
-                                postAnonymity: e.postAnonymity,
+                                postAnonymity:e.postAnonymity,
                                 postId: widget.postId,
                                 content: e.content,
                                 postTime: e.postTime,
@@ -123,19 +121,11 @@ class _PostDetailState extends State<PostDetail> {
     else{ //대댓글
       await postreply(selectcommentid,useremail,controller.text,anonymity);
     }
-    setState(() {
-      controller.clear();
-      number=number;
-    });
   }
 
   changeinputtarget(){
     setState(() {
       selectcommentid=select;
-    });
-  }
-  deletereply()  {
-    setState(() {
     });
   }
 }

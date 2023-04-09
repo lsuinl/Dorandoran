@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Tag extends StatelessWidget {
-  final VoidCallback postlistchange;
-
-  const Tag({
-    required this.postlistchange,
-    Key? key}) : super(key: key);
+  const Tag({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Widget tagname(String name) {
       return TextButton(
-        onPressed: postlistchange,
+        onPressed: () {},
         child: Text(
           name,
           style: TextStyle(fontSize: 18, color: Colors.black),

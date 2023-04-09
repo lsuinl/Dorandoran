@@ -38,14 +38,15 @@ String timecount(String time) {
         .difference(DateTime(year, month, day, hour, min, second))
         .inSeconds;
     if (daycheck > (60 * 60)) {
-      return (daycheck / (60 * 60))<10 ? "${(daycheck / (60 * 60)).toInt()}시간 전 ":"${(daycheck / (60 * 60)).toInt()}시간 전";
+      return "${(daycheck / (60 * 60)).toInt()}시간 전";
     } else if (daycheck > 60) {
-      return (daycheck / 60)<10? "${(daycheck / 60).toInt()}분 전 ㅤ":"${(daycheck / 60).toInt()}분 전ㅤ";
+      return "${(daycheck / 60).toInt()}분 전ㅤ";
     } else {
-      return daycheck<10 ? "${daycheck.toInt()}초 전ㅤ":"${daycheck.toInt()}초 전 ㅤ";
+      return "${daycheck.toInt()}초 전ㅤ";
     }
   }
 }
+
 
 //권한요청
 void permissionquest() async {
