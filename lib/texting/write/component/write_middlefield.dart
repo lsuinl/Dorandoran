@@ -8,8 +8,11 @@ import '../screen/write.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 class MiddleTextField extends StatefulWidget {
   final Image backimg;
+  final Widget widgets;
 
-  const MiddleTextField({required this.backimg, Key? key}) : super(key: key);
+  const MiddleTextField({required this.backimg,
+    required this.widgets,
+    Key? key}) : super(key: key);
 
   @override
   State<MiddleTextField> createState() => _MiddleTextFieldState();
@@ -35,7 +38,8 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
       Container(
         height: 300.h,
         decoration: BoxDecoration(
-          border: Border.all(),
+          border: Border.all(color: Colors.black26),
+          borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
               image: widget.backimg.image,
               fit: BoxFit.cover,
@@ -60,10 +64,12 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
           ),
         ),
       ),
-      Row(
+    widget.widgets,
+     Padding(padding:EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+      child: Row(
         children: [
           CustomPopupMenu(
-            child: Icon(Icons.font_download),
+            child: Icon(Icons.format_color_text),
             menuBuilder:()=>
                 ClipRRect(
                   borderRadius: BorderRadius.circular(5),
@@ -110,6 +116,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
             pressType: PressType.singleClick,
             controller: _controllerr,
           ),
+          SizedBox(width: 10),
           IconButton(
               onPressed: () {
                 setState(() {
@@ -122,9 +129,10 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                 }
                 });
               },
-              icon:Icon(Icons.format_color_text,color: colors? Colors.white:Colors.black)), //색상
+              icon:Icon(Icons.border_color_sharp,color: Colors.black)), //색상
+          SizedBox(width: 10),
         CustomPopupMenu(
-            child: Icon(Icons.format_size),
+            child: Icon(Icons.font_download),
             menuBuilder:()=>
                 ClipRRect(
                   borderRadius: BorderRadius.circular(5),
@@ -155,6 +163,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
             pressType: PressType.singleClick,
           controller: _controller,
         ),
+          SizedBox(width: 10),
           IconButton(
               onPressed: () {
                 setState(() {
@@ -167,8 +176,8 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                   }
                 });
               },
-              icon: Icon(Icons.title, size: weight?25.r:20.r,)), //굵기굵게얇게
-        ],
+              icon: Icon(Icons.format_bold, size: weight?25.r:20.r,)), //굵기굵게얇게
+        ],)
       ),
     ]);
   }
