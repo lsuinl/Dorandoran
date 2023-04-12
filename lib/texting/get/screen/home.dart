@@ -117,7 +117,7 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 }
-                return  item!=null ? Container(
+                return Container(
                   decoration: gradient,
                   child: SafeArea(
                     child: Padding(
@@ -138,6 +138,7 @@ class _HomeState extends State<Home> {
                                   tagname("관심있는"),
                                 ],
                               ),
+                              item!=null ?
                               Expanded(
                                 child: SmartRefresher(
                                   enablePullDown: true,
@@ -202,7 +203,7 @@ class _HomeState extends State<Home> {
                                         item!.map<Widget>((e) => e).toList(),
                                   ),
                                 ),
-                              )
+                              ):Center(child: Text("조회된 게시글이 없습니다."))
                             ],
                           ),
                           Container(
@@ -263,7 +264,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                ):Container();
+                );
               } else {
                 return Container(
                     decoration: gradient,
