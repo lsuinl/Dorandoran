@@ -9,6 +9,7 @@ import '../../../common/css.dart';
 import 'package:dorandoran/common/uri.dart';
 import 'package:dorandoran/texting/write/component/write_top.dart';
 import '../component/write_middlefield.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Write extends StatefulWidget {
   const Write({Key? key}) : super(key: key);
@@ -52,7 +53,7 @@ class _WriteState extends State<Write> {
   }
 
   Image backimg = Image.network('$url/api/background/' + '1');
-  TextStyle buttontext = TextStyle(fontSize: 12.sp);
+  TextStyle buttontext = GoogleFonts.gowunBatang(fontSize: 12.sp);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,8 @@ class _WriteState extends State<Write> {
                         children: [
                           Text(
                             "글 작성하기",
-                            style: TextStyle(fontSize: 35.sp),
+                            style: GoogleFonts.gowunBatang
+                              (fontSize: 35.sp),
                           ),
                           Top(),
                         ]),
@@ -292,7 +294,7 @@ class _WriteState extends State<Write> {
                                                                   print(
                                                                       hashtag);
                                                                 },
-                                                                style: TextStyle(
+                                                                style: GoogleFonts.gowunBatang(
                                                                     fontSize:
                                                                         20.sp),
                                                                 decoration:
@@ -349,7 +351,7 @@ class _WriteState extends State<Write> {
                                     },
                                   ),
                                   Text(
-                                    "태그",
+                                    "해시태그",
                                     style: buttontext,
                                   )
                                 ])

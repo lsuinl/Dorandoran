@@ -5,12 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 //폰트스타일
 final TextStyle whitestyle = TextStyle(
-  color: Colors.white,
+  color: Colors.black87,
   fontSize: 17.sp,
   fontWeight: FontWeight.w500,
 );
 
-final TextStyle buttontextstyle=GoogleFonts.jua(
+final TextStyle buttontextstyle=GoogleFonts.gowunBatang(
       color: Colors.white,
       fontSize: 14.sp,
       fontWeight: FontWeight.w300,
@@ -23,5 +23,5 @@ Decoration gradient = BoxDecoration(
     gradient: LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  colors: [Color(0xFFFF6F6F6), Color(0xFFFF6F6F6) ],
+  colors: [Color(0xFFF6F6F6), Color(0xFFF6F6F6) ],
 ));

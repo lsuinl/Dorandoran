@@ -31,7 +31,7 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
               child: Column(
                 children: [
                   SizedBox(height: 70.h),
-                  MainLogo(text: "도란도란", style: whitestyle),
+                  MainLogo(text: "도란도란", style: whitestyle.copyWith(color:Color(0xFF79AAFF))),
                   SizedBox(height: 180.h),
                   Center(
                     child: TextButton(
