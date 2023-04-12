@@ -16,7 +16,14 @@ class Top extends StatelessWidget {
     return Container(
         alignment: Alignment.topRight,
         child: ElevatedButton(
-            style: ElevatedButton.styleFrom(primary: Colors.black),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(	//모서리를 둥글게
+                  borderRadius: BorderRadius.circular(10),
+                side:BorderSide(color: Colors.white,width:1)
+              ),
+                primary: Colors.lightBlueAccent,
+              minimumSize: Size(70, 40)
+            ),
             onPressed: () async {
               String? locations;
               MultipartFile? userimage;
@@ -59,6 +66,8 @@ class Top extends StatelessWidget {
                 );
               }
             },
-            child: Text("완료")));
+            child: Text("완료"),
+
+        ));
   }
 }

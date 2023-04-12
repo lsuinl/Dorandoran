@@ -36,13 +36,13 @@ class _Login_checkState extends State<Login_check> {
                   Column(
                     children: [
                       SizedBox(height: 70.h),
-                      MainLogo(text: "도란도란", style: whitestyle),
+                      MainLogo(text: "도란도란", style: whitestyle.copyWith(color:Color(0xFF79AAFF))),
                       SizedBox(height: 160.h),
                       SizedBox(height: 20.h,),
-                      CircularProgressIndicator(),
+                      CircularProgressIndicator(color: Color(0xFF79AAFF)),
                       SizedBox(height: 20.h,),
                       Text("데이터를 로딩 중입니다. 잠시만 기다려주세요.", style: TextStyle(
-                          fontSize: 12.sp, color: Colors.white54)),
+                          fontSize: 12.sp, color: Colors.black26)),
                     ],
                   )),)
         ),
@@ -50,7 +50,7 @@ class _Login_checkState extends State<Login_check> {
     );
   }
 
-   logincheck() async {
+  logincheck() async {
     final prefs = await SharedPreferences.getInstance();
     if(prefs.getString('email')!.isNotEmpty) {
       useremail!=prefs.getString('email');
@@ -61,11 +61,11 @@ class _Login_checkState extends State<Login_check> {
           MaterialPageRoute(
               builder: (context) => Home()));
     }
-      else{
+    else{
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => KaKaoLogin()));
-      }
     }
-    }
+  }
+}
