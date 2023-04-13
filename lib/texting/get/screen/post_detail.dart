@@ -19,123 +19,150 @@ class PostDetail extends StatefulWidget {
   @override
   State<PostDetail> createState() => _PostDetailState();
 }
-int select=0;
+
+int select = 0;
+
 class _PostDetailState extends State<PostDetail> {
-  int number=1;
-  int selectcommentid=0;
+  int number = 1;
+  int selectcommentid = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body:
-            Container(
-              decoration: gradient,
-            child:SafeArea(
-          top: false,
-          bottom: true,
-            child: FutureBuilder(
-            future: getpostDetail(widget.postId,useremail, ""),
-            builder:(context, snapshot) {
-              if(snapshot.hasData){
-                dynamic e = snapshot.data!;
-                late List<Widget> commentlist=[
-                Center(
-                    child: Card(
-                        child: SizedBox(
-                            height: 300.h,
-                            width: 350.w,
-                            child:  Center(
-                              child:Text("작성된 댓글이 없습니다"),
+        Container(
+            decoration: gradient,
+            child: SafeArea(
+                top: false,
+                bottom: true,
+                child: FutureBuilder(
+                    future: getpostDetail(widget.postId, useremail, ""),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        dynamic e = snapshot.data!;
+                        late bool? postcommentstate;
+                        late List<Widget> commentlist = [
+                          Center(
+                              child: Card(
+                                  child: SizedBox(
+                                      height: 300.h,
+                                      width: 350.w,
+                                      child: Center(
+                                        child: Text("작성된 댓글이 없습니다"),
+                                      )
+                                  )
+                              )
+                          )
+                        ];
+                        returncommentlist() async {
+                          if (e.commentDetailDto != null)
+                            commentlist = //await해야될듯
+                            e.commentDetailDto.map<CommentCard>((a) =>
+                                CommentCard(
+                                  commentAnonymity: a['commentAnonymity'],
+                                  commentCheckDelete: a['commentCheckDelete'],
+                                  commentId: a['commentId'],
+                                  commentAnonymityNickname: a['commentAnonymityNickname'],
+                                  comment: a['comment'],
+                                  commentLike: a['commentLike'],
+                                  commentLikeResult: a['commentLikeResult'],
+                                  replies: a['replies'],
+                                  commentNickname: a['commentNickname'],
+                                  commentTime: a['commentTime'],
+                                  postId: widget.postId,
+                                  changeinputtarget: changeinputtarget,
+                                  deletedreply: deletereply,
+                                )).toList();
+                          //댓글 검사
+
+                          e.commentDetailDte.map((a){
+                              if(a['commentNickname']==useremail && a['commentCheckDelete']==true)
+                          postcommentstate = a['commentAnonymityNickname'] != null ? true : false;
+                          if (a['replies'] != null)
+                            a['replies'].map((b) {
+                              if (a['commentNickname'] == useremail &&
+                                  a['commentCheckDelete'] == true)
+                                postcommentstate =
+                                a['commentAnonymityNickname'] != null
+                                    ? true
+                                    : false;
+                            }
+                          );
+                          }
+                          );
+                        }
+                        returncommentlist();
+                        return Container(
+                            alignment: Alignment.topCenter,
+                            decoration: gradient,
+                            child: Column(
+                                children: [
+                                  Expanded(child:
+                                  ListView(
+                                    padding: EdgeInsets.zero,
+                                    children: [
+                                      Detail_Card(
+                                        postNickname: e.postNickname,
+                                        postAnonymity: e.postAnonymity,
+                                        postId: widget.postId,
+                                        content: e.content,
+                                        postTime: e.postTime,
+                                        location: e.location,
+                                        postLikeCnt: e.postLikeCnt,
+                                        postLikeResult: e.postLikeResult,
+                                        commentCnt: e.commentCnt,
+                                        backgroundPicUri: e.backgroundPicUri,
+                                        postHashes: e.postHashes,
+                                        font: e.font,
+                                        fontBold: e.fontBold,
+                                        fontColor: e.fontColor,
+                                        fontSize: e.fontSize,
+                                      ),
+                                      SizedBox(height: 10.h),
+                                      ListBody(
+                                          children: commentlist
+                                      ),
+                                    ],
+                                  )),
+                                  InputComment(postId: widget.postId,
+                                    postcommentstate: postcommentstate,
+                                    commentId: selectcommentid,
+                                    sendmessage: sendmessage,
+                                    reset: changeinputtarget,)
+                                ]
                             )
-                        )
-                    )
-                )];
-                returncommentlist() async {
-                  if(e.commentDetailDto!=null)
-                  commentlist=  //await해야될듯
-                  e.commentDetailDto.map<CommentCard>((a) =>
-                      CommentCard(
-                        commentAnonymity: a['commentAnonymity'],
-                          commentCheckDelete:a['commentCheckDelete'],
-                          commentId: a['commentId'],
-                        commentAnonymityNickname: a['commentAnonymityNickname'],
-                          comment: a['comment'],
-                          commentLike: a['commentLike'],
-                          commentLikeResult: a['commentLikeResult'],
-                          replies: a['replies'],
-                          commentNickname:a['commentNickname'],
-                          commentTime:a['commentTime'],
-                        postId: widget.postId,
-                        changeinputtarget: changeinputtarget,
-                        deletedreply: deletereply,
-                      )).toList();
-                }
-                returncommentlist();
-                return Container(
-                    alignment: Alignment.topCenter,
-                    decoration: gradient,
-                    child:Column(
-                  children:[
-                    Expanded(child:
-                    ListView(
-                      padding: EdgeInsets.zero,
-                      children: [
-                              Detail_Card(
-                                postNickname: e.postNickname,
-                                postAnonymity: e.postAnonymity,
-                                postId: widget.postId,
-                                content: e.content,
-                                postTime: e.postTime,
-                                location: e.location,
-                                postLikeCnt: e.postLikeCnt,
-                                postLikeResult: e.postLikeResult,
-                                commentCnt: e.commentCnt,
-                                backgroundPicUri: e.backgroundPicUri,
-                                postHashes: e.postHashes,
-                                font: e.font,
-                                fontBold: e.fontBold,
-                                fontColor: e.fontColor,
-                                fontSize: e.fontSize,
-                              ),
-                        SizedBox(height: 10.h),
-                        ListBody(
-                          children: commentlist
-                        ),
-                      ],
-                    )),
-                    InputComment(postId: widget.postId,commentId: selectcommentid, sendmessage: sendmessage,reset:changeinputtarget ,)
-                    ]
-                    )
-                );
-              }
-              else{
-                return Container(
-                    decoration: gradient,
-                    child: Center(child: CircularProgressIndicator()));
-              }
-            }
-        )
-    )));
+                        );
+                      }
+                      else {
+                        return Container(
+                            decoration: gradient,
+                            child: Center(child: CircularProgressIndicator()));
+                      }
+                    }
+                )
+            )));
   }
+
   sendmessage() async {
-    if(selectcommentid==0){ //댓글
+    if (selectcommentid == 0) { //댓글
       await postcomment(widget.postId, useremail, controller.text, anonymity);
     }
-    else{ //대댓글
-      await postreply(selectcommentid,useremail,controller.text,anonymity);
+    else { //대댓글
+      await postreply(selectcommentid, useremail, controller.text, anonymity);
     }
     setState(() {
       controller.clear();
-      number=number;
+      number = number;
     });
   }
 
-  changeinputtarget(){
+  changeinputtarget() {
     setState(() {
-      selectcommentid=select;
+      selectcommentid = select;
     });
   }
-  deletereply()  {
-    setState(() {
-    });
+
+  deletereply() {
+    setState(() {});
   }
 }
