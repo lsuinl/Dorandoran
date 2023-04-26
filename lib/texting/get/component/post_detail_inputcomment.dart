@@ -83,8 +83,9 @@ Container(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700)),
                                     onPressed: () async {
-                                      await deletereply(replyId,useremail);
-                                      deletedreply();
+                                      //안된다,
+                                      //await deletereply(replyId,useremail);
+                                     // deletedreply();
                                       Navigator.of(context).pop();
                                     },
                                   ),

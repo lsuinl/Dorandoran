@@ -48,9 +48,9 @@ class _HomeState extends State<Home> {
             future: myfuture,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                int lastnumber = snapshot.data!.last.postId;
+                int lastnumber = snapshot.data.length>0 ? snapshot.data!.last.postId :0;
                 if (snapshot.connectionState == ConnectionState.done) {
-                  if (item?.length == 0 || item == null) {
+                  if ((item?.length == 0 || item == null) && snapshot.data!.length>0) {
                     item = snapshot.data!
                         .map<Message_Card>((e) => Message_Card(
                               time: e.postTime,
@@ -138,7 +138,11 @@ class _HomeState extends State<Home> {
                                   tagname("관심있는"),
                                 ],
                               ),
-                              item!=null ?
+                              snapshot.data.length<1 ?
+                                  Center(child:
+                                  Padding(padding: EdgeInsets.only(top:200.w),
+                                      child:
+                                  Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp),))):
                               Expanded(
                                 child: SmartRefresher(
                                   enablePullDown: true,
@@ -203,7 +207,7 @@ class _HomeState extends State<Home> {
                                         item!.map<Widget>((e) => e).toList(),
                                   ),
                                 ),
-                              ):Center(child: Text("조회된 게시글이 없습니다."))
+                              )
                             ],
                           ),
                           Container(

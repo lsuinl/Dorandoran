@@ -17,6 +17,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'common/storage.dart';
+import 'user/sign_up/screen/using_agree.dart';
 
 void main() async {
   KakaoSdk.init(nativeAppKey: kakaonativekey);
