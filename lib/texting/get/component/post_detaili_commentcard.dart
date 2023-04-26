@@ -20,7 +20,6 @@ class CommentCard extends StatefulWidget {
   final int postId;
   final String? commentAnonymityNickname;
   final bool commentCheckDelete;
-  final bool commentAnonymity;
   final VoidCallback deletedreply;
 
   const CommentCard(
@@ -34,7 +33,6 @@ class CommentCard extends StatefulWidget {
       required this.postId,
       required this.changeinputtarget,
         required this.commentAnonymityNickname,
-        required this.commentAnonymity,
         required this.commentCheckDelete,
         required this.deletedreply,
       Key? key})
@@ -50,11 +48,11 @@ Map<int, int> commentlikecnt = {0: 0};
 class _CommentCardState extends State<CommentCard> {
   @override
   void initState() {
+    super.initState();
     setState(() {
       commentlike.addAll({widget.commentId: widget.commentLikeResult});
       commentlikecnt.addAll({widget.commentId: widget.commentLike});
     });
-    super.initState();
   }
 
   @override
@@ -158,45 +156,49 @@ class _CommentCardState extends State<CommentCard> {
                                       children: [
                                         IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              commentlike[widget.commentId] =
-                                                  !commentlike[
-                                                      widget.commentId]!;
-                                              if (widget.commentLikeResult ==
-                                                      true &&
-                                                  commentlike[
-                                                          widget.commentId] ==
-                                                      false) {
-                                                //눌린상태에서 취소
-                                                commentlikecnt[
-                                                        widget.commentId] =
-                                                    commentlikecnt[
-                                                            widget.commentId]! -
-                                                        1;
-                                              } else if (widget
-                                                          .commentLikeResult ==
-                                                      false &&
-                                                  commentlike[
-                                                          widget.commentId] ==
-                                                      true) {
-                                                //누르기
-                                                commentlikecnt[
-                                                        widget.commentId] =
-                                                    commentlikecnt[
-                                                            widget.commentId]! +
-                                                        1;
-                                              } else {
-                                                //해당화면에서 상태변경취소
-                                                commentlikecnt[
-                                                        widget.commentId] =
-                                                    widget.commentLike;
-                                              }
-                                            });
+                                            if(commentlikecnt[widget.commentId]!=null) { //있던 댓글
+                                              setState(() {
+                                                commentlike[widget.commentId] =
+                                                !commentlike[widget.commentId]!;
+                                                if (widget.commentLikeResult ==
+                                                    true &&
+                                                    commentlike[widget
+                                                        .commentId] ==
+                                                        false) {
+                                                  //눌린상태에서 취소
+                                                  commentlikecnt[widget
+                                                      .commentId] =
+                                                      commentlikecnt[widget
+                                                          .commentId]! - 1;
+                                                } else
+                                                if (widget.commentLikeResult ==
+                                                    false &&
+                                                    commentlike[widget
+                                                        .commentId] == true) {
+                                                  //누르기
+                                                  commentlikecnt[widget
+                                                      .commentId] =
+                                                      commentlikecnt[widget
+                                                          .commentId]! + 1;
+                                                } else {
+                                                  //해당화면에서 상태변경취소
+                                                  commentlikecnt[widget
+                                                      .commentId] =
+                                                      widget.commentLike;
+                                                }
+                                              });
+                                            }
+                                            else{
+                                              setState(() {
+                                                commentlike[widget.commentId]=true;
+                                                commentlikecnt[widget.commentId]= 1;
+                                              });
+                                            }
                                             // 댓글좋아요
                                             commentLike(widget.postId,
                                                 widget.commentId, useremail);
                                           },
-                                          icon: commentlike[widget.commentId]!
+                                          icon: commentlike[widget.commentId]==true
                                               ? Icon(Icons.favorite)
                                               : Icon(Icons.favorite_border),
                                           constraints: BoxConstraints(),
@@ -204,7 +206,7 @@ class _CommentCardState extends State<CommentCard> {
                                         ),
                                         SizedBox(width: 2.w),
                                         Text(
-                                            '${commentlikecnt[widget.commentId]}'),
+                                            '${commentlikecnt[widget.commentId] ??0}'),
                                         SizedBox(width: 5.w),
                                         IconButton(
                                             padding: EdgeInsets.zero,
@@ -239,7 +241,6 @@ class _CommentCardState extends State<CommentCard> {
                     replyNickname: a['replyNickname'],
                     reply: a['reply'],
               replyAnonymityNickname: a['replyAnonymityNickname'],
-              replyAnonymity: a['replyAnonymity'],
               replyCheckDelete:a['replyCheckDelete'],
                     replyTime: a['replyTime'],
               deletedreply: widget.deletedreply,

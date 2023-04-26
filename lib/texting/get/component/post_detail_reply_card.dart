@@ -11,7 +11,6 @@ class ReplyCard extends StatelessWidget {
   final String replyNickname;
   final String reply;
   final String? replyAnonymityNickname;
-  final bool replyAnonymity;
   final bool replyCheckDelete;
   final String replyTime;
   final VoidCallback deletedreply;
@@ -21,7 +20,6 @@ class ReplyCard extends StatelessWidget {
     required this.replyNickname,
     required this.reply,
     required this.replyAnonymityNickname,
-    required this.replyAnonymity,
     required this.replyCheckDelete,
     required this.replyTime,
     required this.deletedreply,

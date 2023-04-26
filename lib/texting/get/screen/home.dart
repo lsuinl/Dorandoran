@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
     });
-    getlocation(); //임시
+   // getlocation(); //임시
     myfuture = getPostContent(
         url, useremail, 0, latitude == '' ? '' : '$latitude,$longtitude');
   }
@@ -281,7 +281,7 @@ class _HomeState extends State<Home> {
     setState(() {
       switch (name) {
         case "근처에":
-          url = '';
+          url = '/close';
           break;
         case "인기있는":
           url = '/popular';

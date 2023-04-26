@@ -29,8 +29,7 @@ class _PostDetailState extends State<PostDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:
-        Container(
+        body: Container(
             decoration: gradient,
             child: SafeArea(
                 top: false,
@@ -40,7 +39,7 @@ class _PostDetailState extends State<PostDetail> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         dynamic e = snapshot.data!;
-                        late bool? postcommentstate;
+                        bool? postcommentstate;
                         late List<Widget> commentlist = [
                           Center(
                               child: Card(
@@ -54,12 +53,13 @@ class _PostDetailState extends State<PostDetail> {
                               )
                           )
                         ];
+                        if(e.postNickname=='nickname7') //익명/닉네임중복방지
+                          postcommentstate=e.postAnonymity;
                         returncommentlist() async {
                           if (e.commentDetailDto != null)
                             commentlist = //await해야될듯
                             e.commentDetailDto.map<CommentCard>((a) =>
                                 CommentCard(
-                                  commentAnonymity: a['commentAnonymity'],
                                   commentCheckDelete: a['commentCheckDelete'],
                                   commentId: a['commentId'],
                                   commentAnonymityNickname: a['commentAnonymityNickname'],
@@ -74,23 +74,63 @@ class _PostDetailState extends State<PostDetail> {
                                   deletedreply: deletereply,
                                 )).toList();
                           //댓글 검사
-
-                          e.commentDetailDte.map((a){
-                              if(a['commentNickname']==useremail && a['commentCheckDelete']==true)
-                          postcommentstate = a['commentAnonymityNickname'] != null ? true : false;
-                          if (a['replies'] != null)
-                            a['replies'].map((b) {
-                              if (a['commentNickname'] == useremail &&
-                                  a['commentCheckDelete'] == true)
+                          // e.commentDetailDto.map((a){
+                          //   print("dddd");
+                          //   if(a['commentNickname']==useremail && a['commentCheckDelete']==true)
+                          //     postcommentstate = a['commentAnonymityNickname'] != null ? true : false;
+                          //   if (a['replies'] != null)
+                          //     a['replies'].map((b) {
+                          //       if (a['commentNickname'] == useremail &&
+                          //           a['commentCheckDelete'] == true)
+                          //         postcommentstate =
+                          //         a['commentAnonymityNickname'] != null
+                          //             ? true
+                          //             : false;
+                          //     }
+                          //     );
+                          // }
+                          // );
+                            //이미 쓴 댓글 익명여부 검사
+                          for(final a in e.commentDetailDto) {
+                              //댓글 작성자
+                              if (a["commentNickname"] == "nickname7" &&
+                                  a["commentCheckDelete"] == false)
                                 postcommentstate =
-                                a['commentAnonymityNickname'] != null
-                                    ? true
-                                    : false;
-                            }
-                          );
-                          }
-                          );
+                                a["commentAnonymityNickname"] == null
+                                    ? false
+                                    : true;
+                              for(final b in a["replies"]) {
+                                if (b["replyNickname"] == "nickname7" &&
+                                    b["replyCheckDelete"] == false)
+                                  postcommentstate =
+                                  b["replyAnonymityNickname"] == null
+                                      ? false
+                                      : true;
+                              };
+                            };
                         }
+
+                        // checkanaoyed(){
+                        //   //이미 쓴 댓글 익명여부 검사
+                        //   e.commentDetailDto.map((a) {
+                        //     //댓글 작성자
+                        //     if (a["commentNickname"] == "nickname7" &&
+                        //         a["commentCheckDelete"] == false)
+                        //       postcommentstate =
+                        //       a["commentAnonymityNickname"] == null
+                        //           ? false
+                        //           : true;
+                        //     print("실행되고는있니");
+                        //     a.replies.map((b) {
+                        //       if (b["replyNickname"] == "nickname7" &&
+                        //           b["replyCheckDelete"] == false)
+                        //         postcommentstate =
+                        //         b["replyAnonymityNickname"] == null
+                        //             ? false
+                        //             : true;
+                        //     });
+                        //   });
+                        // }
                         returncommentlist();
                         return Container(
                             alignment: Alignment.topCenter,
@@ -150,6 +190,7 @@ class _PostDetailState extends State<PostDetail> {
     else { //대댓글
       await postreply(selectcommentid, useremail, controller.text, anonymity);
     }
+    print(anonymity);
     setState(() {
       controller.clear();
       number = number;
