@@ -36,7 +36,7 @@ class _AgreeButtonState extends State<AgreeButton> {
               Text(
                 text,
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Colors.white,
                   fontSize: 14.sp,
                 ),
               ),
@@ -46,7 +46,7 @@ class _AgreeButtonState extends State<AgreeButton> {
             alignment: Alignment.centerRight,
             icon: Icon(
               Icons.chevron_right,
-              color: Colors.black87,
+              color: Colors.white,
             ),
             onPressed: () {
               showDialog(
@@ -92,7 +92,7 @@ class _AgreeButtonState extends State<AgreeButton> {
                 });
               }),
           Text("전체동의",
-            style: TextStyle(color: Colors.black87, fontSize: 18),
+            style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         ],
       );
@@ -108,7 +108,7 @@ class _AgreeButtonState extends State<AgreeButton> {
         Container(
           height: 1.0.h,
           width: 450.0.w,
-          color: Colors.black,
+          color: Colors.white,
         ),
         SizedBox(height: 8.h),
         checkbutton("이용약관에 동의합니다.", 1),

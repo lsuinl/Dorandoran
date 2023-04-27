@@ -6,7 +6,7 @@ import 'package:dorandoran/common/css.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UsingAgree extends StatelessWidget {
-  final TextStyle textStyle = whitestyle.copyWith(color: Colors.black87);
+  final TextStyle textStyle = whitestyle;
 
   UsingAgree({Key? key}) : super(key: key);
 

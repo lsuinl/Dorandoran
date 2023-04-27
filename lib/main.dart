@@ -17,7 +17,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'common/storage.dart';
-import 'user/sign_up/screen/using_agree.dart';
 
 void main() async {
   KakaoSdk.init(nativeAppKey: kakaonativekey);
@@ -46,7 +45,7 @@ void main() async {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!);
         },
-        home: Login_check(),
+        home: Write(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

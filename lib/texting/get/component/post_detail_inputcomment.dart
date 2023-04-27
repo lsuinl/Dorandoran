@@ -10,9 +10,8 @@ class InputComment extends StatefulWidget {
   final int commentId;
   final sendmessage;
   final reset;
-  final bool? postcommentstate;
 
-  const InputComment({required this.postId,required this.commentId,required this.sendmessage, required this.reset,required this.postcommentstate, Key? key})
+  const InputComment({required this.postId,required this.commentId,required this.sendmessage, required this.reset, Key? key})
       : super(key: key);
 
   @override
@@ -20,14 +19,9 @@ class InputComment extends StatefulWidget {
 }
 
 TextEditingController controller = TextEditingController();
-bool anonymity =true;
+bool anonymity = true;
 
 class _InputCommentState extends State<InputComment> {
-  @override
-  void initState() {
-      anonymity=widget.postcommentstate ?? true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return
@@ -66,37 +60,7 @@ Container(
                     height: 50.h,
                     child: Row(children: [
                     IconButton(
-                    onPressed: (){
-                      if(widget.postcommentstate!=null){
-                        showDialog(
-                            context: context,
-                            barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: Colors.white,
-                                content: const Text("이미 작성한 댓글과 다른 상태로 댓글을 작성할 수 없습니다."),
-                                actions: [
-                                  TextButton(
-                                    child: const Text('닫기',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700)),
-                                    onPressed: () async {
-                                      //안된다,
-                                      //await deletereply(replyId,useremail);
-                                     // deletedreply();
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
-                      }
-                      else {
-                        checkanonymity();
-                      }
-                    },
+                    onPressed: checkanonymity,
                     icon: anonymity
                     ? Icon(Icons.
                   check_box_outlined, size: 24.r)

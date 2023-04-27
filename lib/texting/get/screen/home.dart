@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
     });
-   // getlocation(); //임시
+    getlocation(); //임시
     myfuture = getPostContent(
         url, useremail, 0, latitude == '' ? '' : '$latitude,$longtitude');
   }
@@ -48,9 +48,9 @@ class _HomeState extends State<Home> {
             future: myfuture,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                int lastnumber = snapshot.data.length>0 ? snapshot.data!.last.postId :0;
+                int lastnumber = snapshot.data!.last.postId;
                 if (snapshot.connectionState == ConnectionState.done) {
-                  if ((item?.length == 0 || item == null) && snapshot.data!.length>0) {
+                  if (item?.length == 0 || item == null) {
                     item = snapshot.data!
                         .map<Message_Card>((e) => Message_Card(
                               time: e.postTime,
@@ -117,7 +117,7 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 }
-                return Container(
+                return  item!=null ? Container(
                   decoration: gradient,
                   child: SafeArea(
                     child: Padding(
@@ -138,11 +138,6 @@ class _HomeState extends State<Home> {
                                   tagname("관심있는"),
                                 ],
                               ),
-                              snapshot.data.length<1 ?
-                                  Center(child:
-                                  Padding(padding: EdgeInsets.only(top:200.w),
-                                      child:
-                                  Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp),))):
                               Expanded(
                                 child: SmartRefresher(
                                   enablePullDown: true,
@@ -268,7 +263,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                );
+                ):Container();
               } else {
                 return Container(
                     decoration: gradient,
@@ -281,7 +276,7 @@ class _HomeState extends State<Home> {
     setState(() {
       switch (name) {
         case "근처에":
-          url = '/close';
+          url = '';
           break;
         case "인기있는":
           url = '/popular';
