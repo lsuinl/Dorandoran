@@ -73,23 +73,6 @@ class _PostDetailState extends State<PostDetail> {
                                   changeinputtarget: changeinputtarget,
                                   deletedreply: deletereply,
                                 )).toList();
-                          //댓글 검사
-                          // e.commentDetailDto.map((a){
-                          //   print("dddd");
-                          //   if(a['commentNickname']==useremail && a['commentCheckDelete']==true)
-                          //     postcommentstate = a['commentAnonymityNickname'] != null ? true : false;
-                          //   if (a['replies'] != null)
-                          //     a['replies'].map((b) {
-                          //       if (a['commentNickname'] == useremail &&
-                          //           a['commentCheckDelete'] == true)
-                          //         postcommentstate =
-                          //         a['commentAnonymityNickname'] != null
-                          //             ? true
-                          //             : false;
-                          //     }
-                          //     );
-                          // }
-                          // );
                             //이미 쓴 댓글 익명여부 검사
                           for(final a in e.commentDetailDto) {
                               //댓글 작성자
@@ -110,27 +93,6 @@ class _PostDetailState extends State<PostDetail> {
                             };
                         }
 
-                        // checkanaoyed(){
-                        //   //이미 쓴 댓글 익명여부 검사
-                        //   e.commentDetailDto.map((a) {
-                        //     //댓글 작성자
-                        //     if (a["commentNickname"] == "nickname7" &&
-                        //         a["commentCheckDelete"] == false)
-                        //       postcommentstate =
-                        //       a["commentAnonymityNickname"] == null
-                        //           ? false
-                        //           : true;
-                        //     print("실행되고는있니");
-                        //     a.replies.map((b) {
-                        //       if (b["replyNickname"] == "nickname7" &&
-                        //           b["replyCheckDelete"] == false)
-                        //         postcommentstate =
-                        //         b["replyAnonymityNickname"] == null
-                        //             ? false
-                        //             : true;
-                        //     });
-                        //   });
-                        // }
                         returncommentlist();
                         return Container(
                             alignment: Alignment.topCenter,

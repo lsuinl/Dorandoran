@@ -69,11 +69,7 @@ class _WriteState extends State<Write> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "글 작성하기",
-                            style: GoogleFonts.gowunBatang
-                              (fontSize: 35.sp),
-                          ),
+                          Text("글 작성하기", style: GoogleFonts.gowunBatang(fontSize: 35.sp),),
                           Top(),
                         ]),
                     SizedBox(height: 70.h),
@@ -85,11 +81,7 @@ class _WriteState extends State<Write> {
                               MiddleTextField(
                                   backimg: backimg,
                                   widgets: Wrap(
-                                      children: hashtag != []
-                                          ? hashtag
-                                              .map((e) => Chip(label: Text(e)))
-                                              .toList()
-                                          : [Text("")])),
+                                      children: hashtag != [] ? hashtag.map((e) => Chip(label: Text(e))).toList() : [Text("")])),
                             ]),
                             Row(
                               //하단메뉴
@@ -102,12 +94,7 @@ class _WriteState extends State<Write> {
                                           forme = !forme;
                                         });
                                       },
-                                      icon: forme
-                                          ? Icon(
-                                              Icons.lock,
-                                              size: 25.r,
-                                            )
-                                          : Icon(Icons.lock_open, size: 25.r)),
+                                      icon: forme ? Icon(Icons.lock, size: 25.r,) : Icon(Icons.lock_open, size: 25.r)),
                                   Text("나만보기", style: buttontext)
                                 ]),
                                 Column(children: [
@@ -120,23 +107,14 @@ class _WriteState extends State<Write> {
                                       },
                                       icon: usinglocation
                                           ? Icon(Icons.location_on, size: 25.r)
-                                          : Icon(Icons.location_off_outlined,
-                                              size: 25.r)),
-                                  Text(
-                                    "위치정보",
-                                    style: buttontext,
-                                  )
+                                          : Icon(Icons.location_off_outlined, size: 25.r)),
+                                  Text("위치정보", style: buttontext,)
                                 ]),
                                 Column(children: [
                                   IconButton(
-                                      onPressed: () {
-                                        GetImageFile();
-                                      },
+                                      onPressed: () => GetImageFile(),
                                       icon: Icon(Icons.image, size: 25.r)),
-                                  Text(
-                                    "갤러리",
-                                    style: buttontext,
-                                  )
+                                  Text("갤러리", style: buttontext,)
                                 ]),
                                 Column(children: [
                                   IconButton(
@@ -146,14 +124,10 @@ class _WriteState extends State<Write> {
                                         context: context,
                                         builder: (BuildContext context) {
                                           imagenumber.clear();
-                                          if (backgroundimgname != null) {
-                                            imagenumber.add(
-                                                int.parse(backgroundimgname!));
-                                          }
-                                          while (imagenumber.length < 10) {
-                                            imagenumber
-                                                .add(Random().nextInt(99) + 1);
-                                          }
+                                          if (backgroundimgname != null)
+                                            imagenumber.add(int.parse(backgroundimgname!));
+                                          while (imagenumber.length < 10)
+                                            imagenumber.add(Random().nextInt(99) + 1);
                                           return StatefulBuilder(builder:
                                               (context, StateSetter setState) {
                                             return Container(
@@ -166,55 +140,31 @@ class _WriteState extends State<Write> {
                                                       IconButton(
                                                           onPressed: () {
                                                             setState(() {
-                                                              imagenumber
-                                                                  .clear();
-                                                              if (backgroundimgname !=
-                                                                  null) {
+                                                              imagenumber.clear();
+                                                              if (backgroundimgname != null) {
                                                                 imagenumber.add(
-                                                                    int.parse(
-                                                                        backgroundimgname!));
+                                                                    int.parse(backgroundimgname!));
                                                               }
-                                                              while (imagenumber
-                                                                      .length <
-                                                                  10) {
-                                                                imagenumber.add(
-                                                                    Random().nextInt(
-                                                                            99) +
-                                                                        1);
-                                                              }
+                                                              while (imagenumber.length < 10)
+                                                                imagenumber.add(Random().nextInt(99) + 1);
                                                             });
                                                           },
                                                           icon: Icon(
                                                               Icons.restart_alt,
                                                               size: 25.r)),
                                                       Wrap(
-                                                        children: imagenumber
-                                                            .map(
-                                                              (e) => TextButton(
-                                                                child: Image
-                                                                    .network(
-                                                                  '$url/api/background/' +
-                                                                      e.toString(),
+                                                        children: imagenumber.map((e) => TextButton(
+                                                                child: Image.network(
+                                                                  '$url/api/background/' + e.toString(),
                                                                   width: 72.w,
                                                                   height: 72.h,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  opacity: e.toString() ==
-                                                                          backgroundimgname
-                                                                      ? AlwaysStoppedAnimation<
-                                                                              double>(
-                                                                          0.3)
-                                                                      : AlwaysStoppedAnimation<
-                                                                          double>(1),
+                                                                  fit: BoxFit.cover,
+                                                                  opacity: e.toString() == backgroundimgname
+                                                                      ? AlwaysStoppedAnimation<double>(0.3) : AlwaysStoppedAnimation<double>(1),
                                                                 ),
-                                                                onPressed: () =>
-                                                                    pickdefaultimg(
-                                                                        e),
-                                                                style:
-                                                                    ButtonStyle(
-                                                                  padding: MaterialStateProperty.all(
-                                                                      EdgeInsets
-                                                                          .zero),
+                                                                onPressed: () => pickdefaultimg(e),
+                                                                style: ButtonStyle(
+                                                                  padding: MaterialStateProperty.all(EdgeInsets.zero),
                                                                 ),
                                                               ),
                                                             )
@@ -230,10 +180,7 @@ class _WriteState extends State<Write> {
                                       );
                                     },
                                   ),
-                                  Text(
-                                    "감성배경",
-                                    style: buttontext,
-                                  )
+                                  Text("감성배경", style: buttontext,)
                                 ]),
                                 Column(children: [
                                   IconButton(
@@ -244,91 +191,56 @@ class _WriteState extends State<Write> {
                                           isDismissible: false,
                                           context: context,
                                           builder: (BuildContext context) {
-                                            TextEditingController
-                                                tagcontroller =
-                                                TextEditingController();
-                                            return StatefulBuilder(builder:
-                                                (BuildContext context,
-                                                    StateSetter setState) {
+                                            TextEditingController tagcontroller = TextEditingController();
+                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                                               return Container(
                                                   height: 200.h,
                                                   color: Colors.transparent,
                                                   child: Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color:
-                                                            Color(0xBBFFFFFF),
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  30),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  30),
+                                                      decoration: const BoxDecoration(
+                                                        color: Color(0xBBFFFFFF),
+                                                        borderRadius: BorderRadius.only(
+                                                          topLeft: Radius.circular(30),
+                                                          topRight: Radius.circular(30),
                                                         ),
                                                       ),
                                                       child: Center(
                                                         child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          mainAxisSize: MainAxisSize.min,
                                                           children: <Widget>[
                                                             Container(
                                                               width: 300.w,
-                                                              child:
-                                                                  TextFormField(
-                                                                textInputAction:
-                                                                    TextInputAction
-                                                                        .go,
-                                                                onFieldSubmitted:
-                                                                    (value) {
+                                                              child: TextFormField(
+                                                                textInputAction: TextInputAction.go,
+                                                                onFieldSubmitted: (value) {
                                                                   setState(() {
-                                                                    tagcontroller
-                                                                        .clear();
-                                                                    hashtag.add(
-                                                                        value);
+                                                                    tagcontroller.clear();
+                                                                    hashtag.add(value);
                                                                   });
-                                                                  print(
-                                                                      hashtag);
+                                                                  print(hashtag);
                                                                 },
-                                                                style: GoogleFonts.gowunBatang(
-                                                                    fontSize:
-                                                                        20.sp),
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  hintText:
-                                                                      "태그명을 입력해주세요",
+                                                                style: GoogleFonts.gowunBatang(fontSize: 20.sp),
+                                                                decoration: InputDecoration(
+                                                                  hintText: "태그명을 입력해주세요",
                                                                   hintStyle: whitestyle.copyWith(
-                                                                      fontSize:
-                                                                          15.sp,
-                                                                      color: Colors
-                                                                          .black12),
+                                                                      fontSize: 15.sp,
+                                                                      color: Colors.black12),
                                                                 ),
-                                                                controller:
-                                                                    tagcontroller,
+                                                                controller: tagcontroller,
                                                               ),
                                                             ),
                                                             Wrap(
-                                                              children: hashtag ==
-                                                                      null
-                                                                  ? [Text('')]
-                                                                  : hashtag
-                                                                      .map((e) =>
-                                                                          Chip(
-                                                                            label:
-                                                                                Text(e),
-                                                                            onDeleted:
-                                                                                () {
+                                                              children: hashtag == null ? [Text('')] :
+                                                              hashtag.map((e) => Chip(
+                                                                            label: Text(e),
+                                                                            onDeleted: () {
                                                                               setState(() {
                                                                                 hashtag.removeAt(hashtag.indexOf(e));
                                                                               });
                                                                               hashtag.remove(e);
                                                                             },
-                                                                          ))
-                                                                      .toList(),
+                                                              )).toList(),
                                                             ),
                                                             ElevatedButton(
                                                               style: ElevatedButton.styleFrom(
@@ -338,10 +250,8 @@ class _WriteState extends State<Write> {
                                                                       side: BorderSide(color: Colors.white, width: 1)),
                                                                   primary: Colors.lightBlueAccent,
                                                                   minimumSize: Size(70, 40)),
-                                                              child: const Text(
-                                                                  '완료'),
-                                                              onPressed:
-                                                                  resetting,
+                                                              child: const Text('완료'),
+                                                              onPressed: resetting,
                                                             )
                                                           ],
                                                         ),
@@ -350,10 +260,7 @@ class _WriteState extends State<Write> {
                                           });
                                     },
                                   ),
-                                  Text(
-                                    "해시태그",
-                                    style: buttontext,
-                                  )
+                                  Text("해시태그", style: buttontext,)
                                 ])
                               ],
                             ),
@@ -378,18 +285,16 @@ class _WriteState extends State<Write> {
     Navigator.pop(context);
     setState(() {
       backgroundimgname = e.toString();
-      if (backgroundimgname != null) {
+      if (backgroundimgname != null)
         backimg = Image.network('$url/api/background/' + backgroundimgname!);
-      }
     });
   }
 
   GetImageFile() async {
     //사용자이미지
     XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (f != null) {
+    if (f != null)
       dummyFille = File(f.path);
-    }
     print(dummyFille);
     setState(() {
       backgroundimgname = null;
