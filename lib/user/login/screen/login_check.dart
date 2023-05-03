@@ -52,7 +52,8 @@ class _Login_checkState extends State<Login_check> {
 
   logincheck() async {
     final prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('email')!=null) {
+    if(prefs.getString('email')!=""||prefs) {
+      print(prefs.getString('email'));
       useremail!=prefs.getString('email');
       kakaotoken!=prefs.getString('kakaotoken');
       firebasetoken!=prefs.getString('firebasetoken');

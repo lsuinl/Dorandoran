@@ -23,6 +23,7 @@ class PostDetail extends StatefulWidget {
 int select = 0;
 
 class _PostDetailState extends State<PostDetail> {
+  DateTime commenttime =new DateTime.now().copyWith(year: 2022);
   int number = 1;
   int selectcommentid = 0;
 
@@ -53,8 +54,8 @@ class _PostDetailState extends State<PostDetail> {
                               )
                           )
                         ];
-                        if(e.postNickname=='nickname7') //익명/닉네임중복방지
-                          postcommentstate=e.postAnonymity;
+                        if (e.postNickname == 'nickname7') //익명/닉네임중복방지
+                          postcommentstate = e.postAnonymity;
                         returncommentlist() async {
                           if (e.commentDetailDto != null)
                             commentlist = //await해야될듯
@@ -73,24 +74,24 @@ class _PostDetailState extends State<PostDetail> {
                                   changeinputtarget: changeinputtarget,
                                   deletedreply: deletereply,
                                 )).toList();
-                            //이미 쓴 댓글 익명여부 검사
-                          for(final a in e.commentDetailDto) {
-                              //댓글 작성자
-                              if (a["commentNickname"] == "nickname7" &&
-                                  a["commentCheckDelete"] == false)
+                          //이미 쓴 댓글 익명여부 검사
+                          for (final a in e.commentDetailDto) {
+                            //댓글 작성자
+                            if (a["commentNickname"] == "nickname7" &&
+                                a["commentCheckDelete"] == false)
+                              postcommentstate =
+                              a["commentAnonymityNickname"] == null
+                                  ? false
+                                  : true;
+                            for (final b in a["replies"]) {
+                              if (b["replyNickname"] == "nickname7" &&
+                                  b["replyCheckDelete"] == false)
                                 postcommentstate =
-                                a["commentAnonymityNickname"] == null
+                                b["replyAnonymityNickname"] == null
                                     ? false
                                     : true;
-                              for(final b in a["replies"]) {
-                                if (b["replyNickname"] == "nickname7" &&
-                                    b["replyCheckDelete"] == false)
-                                  postcommentstate =
-                                  b["replyAnonymityNickname"] == null
-                                      ? false
-                                      : true;
-                              };
                             };
+                          };
                         }
 
                         returncommentlist();
@@ -126,7 +127,8 @@ class _PostDetailState extends State<PostDetail> {
                                       ),
                                     ],
                                   )),
-                                  InputComment(postId: widget.postId,
+                                  InputComment(
+                                    postId: widget.postId,
                                     postcommentstate: postcommentstate,
                                     commentId: selectcommentid,
                                     sendmessage: sendmessage,
@@ -146,17 +148,47 @@ class _PostDetailState extends State<PostDetail> {
   }
 
   sendmessage() async {
-    if (selectcommentid == 0) { //댓글
-      await postcomment(widget.postId, useremail, controller.text, anonymity);
-    }
-    else { //대댓글
-      await postreply(selectcommentid, useremail, controller.text, anonymity);
-    }
-    print(anonymity);
+    if (DateTime.now()
+        .difference(commenttime)
+        .inSeconds > 5) {
+        if (selectcommentid == 0) { //댓글
+          commenttime = await postcomment(
+              widget.postId, useremail, controller.text, anonymity);
+        }
+        else { //대댓글
+          commenttime = await postreply(
+              selectcommentid, useremail, controller.text, anonymity);
+        }
+        print(anonymity);
     setState(() {
       controller.clear();
       number = number;
+      commenttime=DateTime.now();
+    });}
+    else{
+    print("도배하지마쇼");
+    showDialog(
+    context: context,
+    barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
+    builder: (BuildContext context) {
+    return AlertDialog(
+    backgroundColor: Colors.white,
+    content: const Text("천천히 댓글을 작성하시오,,"),
+    actions: [
+    TextButton(
+    child: const Text('확인',
+    style: TextStyle(
+    color: Colors.black,
+    fontSize: 16,
+    fontWeight: FontWeight.w700)),
+    onPressed: () {},
+    ),
+    ],
+    );
     });
+    //5초미만의 간격으로 댓글 작성시
+    // 경고 문구와함께 댓글이 쳐지지 않음
+    }
   }
 
   changeinputtarget() {

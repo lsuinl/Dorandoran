@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
 //대댓글달기만드는중
-Future<int> postcomment(int postId, String email, String comment, bool anonymity) async {
+Future<DateTime> postcomment(int postId, String email, String comment, bool anonymity) async {
   http.Response response= await http.post(
     Uri.parse('$url/api/comment'),
     headers: <String, String>{
@@ -16,5 +16,5 @@ Future<int> postcomment(int postId, String email, String comment, bool anonymity
       "anonymity":anonymity
     }),
   );
-  return response.statusCode;
+  return DateTime.now();
 }
