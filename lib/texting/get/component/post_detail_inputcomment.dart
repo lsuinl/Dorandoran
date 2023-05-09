@@ -21,6 +21,7 @@ class InputComment extends StatefulWidget {
 
 TextEditingController controller = TextEditingController();
 bool anonymity =true;
+bool lockcheck=true;
 
 class _InputCommentState extends State<InputComment> {
   @override
@@ -101,8 +102,15 @@ Container(
                     ? Icon(Icons.
                   check_box_outlined, size: 24.r)
                     : Icon(Icons.check_box_outline_blank, size: 24.r)),
+                      IconButton( //비밀댓글
+                          onPressed: (){
+                            setState(() {
+                              lockcheck=!lockcheck;
+                            });
+                          },
+                          icon:lockcheck? Icon(Icons.lock, size: 24.r):Icon(Icons.lock_open, size: 24.r)),
             Container(
-                width: 264.w,
+                width: 220.w,
                 child: TextFormField(
                   controller: controller,
                   cursorColor: Colors.black,
