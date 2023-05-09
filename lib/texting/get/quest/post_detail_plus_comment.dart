@@ -4,14 +4,12 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
 //글 가져오기
-Future<List<CommentCard>> PlusComment(
+Future<List<commentcard>> PlusComment(
     int postid,int commentid,String userEmail) async {
-  var resonse = await http.get(
-    Uri.parse(
-        '${posturl}/api/comment?postId=${postid}&commentId=${commentid}&userEmail=${userEmail}'),
+  var response = await http.get(
+    Uri.parse('${url}/api/comment?postId=${postid}&commentId=${commentid}&userEmail=${userEmail}'),
   );
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  List<CommentCard> card = body.map((dynamic e) => CommentCard.fromJson(e)).toList();
-  print(card);
+  List<commentcard> card = body.map((dynamic e) => commentcard.fromJson(e)).toList();
   return card;
 }

@@ -34,10 +34,7 @@ class _PostDetailState extends State<PostDetail> {
   @override
   void initState() {
     super.initState();
-    PlusComment(50, 54, '7@gmail.com');
-    setState(() {
       commentlist=[];
-    });
   }
 
 
@@ -93,10 +90,9 @@ class _PostDetailState extends State<PostDetail> {
                                        deletedreply: deletereply,
                                      )).toList());
                            }
-                            if(commentlist.length<e.commentCnt) //불러올 댓글갯수가 더 남아있다면
-                                plusreply= commentlist[commentlist.length-10].commentId;
-                            else
-                                plusreply=-1;
+                            //불러올 댓글갯수가 더 남아있다면
+                                plusreply=commentlist.length<e.commentCnt? commentlist[commentlist.length-10].commentId: -1;
+
                           //이미 쓴 댓글 익명여부 검사
                           for (final a in e.commentDetailDto) {
                             //댓글 작성자
@@ -147,7 +143,28 @@ class _PostDetailState extends State<PostDetail> {
                                       ),
                                       SizedBox(height: 10.h),
                                       plusreply==-1 ? Container()
-                                          :ElevatedButton(onPressed: (){
+                                          :ElevatedButton(onPressed: () async {
+                                        List<dynamic> pluscomments= await PlusComment(50, plusreply, '7@gmail.com');
+                                          commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
+                                              CommentCard(
+                                                commentCheckDelete: a.commentCheckDelete,
+                                                commentId: a.commentId,
+                                                commentAnonymityNickname: a.commentAnonymityNickname,
+                                                comment: a.comment,
+                                                commentLike: a.commentLike,
+                                                commentLikeResult: a.commentLikeResult,
+                                                replies: a.replies,
+                                                commentNickname: a.commentNickname,
+                                                commentTime: a.commentTime,
+                                                postId: widget.postId,
+                                                changeinputtarget: changeinputtarget,
+                                                deletedreply: deletereply,
+                                              )).toList());
+                                        //중복체크해서 삽입
+                                      //불러올 댓글갯수가 더 남아있다면
+                                          setState(() {
+                                            plusreply=commentlist.length<e.commentCnt? commentlist[0].commentId: -1;
+                                          });
 
                                       },
                                           child: Text("댓글 더보기")),

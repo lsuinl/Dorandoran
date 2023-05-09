@@ -1,13 +1,13 @@
 class commentcard {
   final int commentId;
   final String comment;
-  final String commentLike;
-  final int? commentLikeResult;
-  final int commentNickname;
+  final int commentLike;
+  final bool commentLikeResult;
+  final String commentNickname;
   final bool commentCheckDelete;
   final String commentTime;
-  final int? replies;
-  final String commentAnonymityNickname;
+  final List<dynamic> replies;
+  final String? commentAnonymityNickname;
 
   commentcard({
     required this.commentId,
@@ -21,16 +21,16 @@ class commentcard {
     required this.commentAnonymityNickname,
   });
   factory commentcard.fromJson(Map<String, dynamic> json) {
-    return postcard(
-        commentId: json["postId"],
-        comment: json["contents"],
-        commentLike: json["postTime"],
-        commentLikeResult: json["location"],
-        commentNickname: json["likeCnt"],
-        commentCheckDelete: json["likeResult"],
-        commentTime: json["backgroundPicUri"],
-        replies: json["font"],
-        commentAnonymityNickname: json["fontColor"],
+    return commentcard(
+        commentId: json["commentId"],
+        comment: json["comment"],
+        commentLike: json["commentLike"],
+        commentLikeResult: json["commentLikeResult"],
+        commentNickname: json["commentNickname"],
+        commentCheckDelete: json["commentCheckDelete"],
+        commentTime: json["commentTime"],
+        replies: json["replies"],
+        commentAnonymityNickname: json["commentAnonymityNickname"],
     );
   }
 }
