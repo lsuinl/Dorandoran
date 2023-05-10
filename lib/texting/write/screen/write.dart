@@ -21,6 +21,7 @@ class Write extends StatefulWidget {
 TextEditingController contextcontroller = TextEditingController();
 bool forme = false;
 bool usinglocation = false;
+bool anony=false;
 File? dummyFille;
 List<String> hashtag = [];
 String? backgroundimgname = (Random().nextInt(99) + 1).toString();
@@ -261,7 +262,17 @@ class _WriteState extends State<Write> {
                                     },
                                   ),
                                   Text("해시태그", style: buttontext,)
-                                ])
+                                ]),
+                                Column(children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          anony=!anony;
+                                        });
+                                      },
+                                      icon: anony ? Icon(Icons.person, size: 25.r,) : Icon(Icons.person_off, size: 25.r)),
+                                  Text("익명", style: buttontext)
+                                ]),
                               ],
                             ),
                           ]),
