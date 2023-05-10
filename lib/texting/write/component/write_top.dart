@@ -52,7 +52,7 @@ class Top extends StatelessWidget {
                   style.color==Colors.white?"white":"black",
                   style.fontSize!.toInt(),
                  int.parse(style.fontWeight.toString().substring(12)),
-                  true
+                  anony
                 );
                 print(
                     "useremail:${useremail}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${locations}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
