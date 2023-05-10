@@ -26,14 +26,13 @@ List<String> menufontitem = [
   'Jua',
 ];
 
-TextStyle style = TextStyle(color: Colors.black);
+TextStyle style = TextStyle(color: Colors.black,fontSize: 15.sp, fontWeight: FontWeight.w800, fontFamily: 'Nanum Gothic');
 bool colors=false, weight=false;
 CustomPopupMenuController _controller = CustomPopupMenuController();
 CustomPopupMenuController _controllerr = CustomPopupMenuController();
 class _MiddleTextFieldState extends State<MiddleTextField> {
   @override
   Widget build(BuildContext context) {
-
     return Column(children: [
       Container(
         height: 300.h,
