@@ -23,6 +23,7 @@ class PostDetail extends StatefulWidget {
 int select = 0;
 List<CommentCard> commentlist=[];
 int plusreply=-1;
+int replycnt=0;
 
 class _PostDetailState extends State<PostDetail> {
   DateTime commenttime =new DateTime.now().copyWith(year: 2022);
@@ -89,9 +90,13 @@ class _PostDetailState extends State<PostDetail> {
                                        changeinputtarget: changeinputtarget,
                                        deletedreply: deletereply,
                                      )).toList());
+                             List<dynamic> list=[];
+                             list.addAll(e.commentDetailDto.map((a) =>
+                             a['replies'].tolist() ) );
+                             replycnt=list.length;
                            }
                             //불러올 댓글갯수가 더 남아있다면
-                                plusreply=commentlist.length<e.commentCnt? commentlist[commentlist.length-10].commentId: -1;
+                          plusreply=(commentlist.length)<(e.commentDetailDto.length)? commentlist[commentlist.length-10].commentId: -1;
 
                           //이미 쓴 댓글 익명여부 검사
                           for (final a in e.commentDetailDto) {
@@ -163,7 +168,10 @@ class _PostDetailState extends State<PostDetail> {
                                         //중복체크해서 삽입
                                       //불러올 댓글갯수가 더 남아있다면
                                           setState(() {
-                                            plusreply=commentlist.length<e.commentCnt? commentlist[0].commentId: -1;
+                                            print("개수비교");
+                                            print(commentlist.length);
+                                            print(e.commentCnt);
+                                            plusreply=commentlist.length<e.commentDetailDto.length? commentlist[0].commentId: -1;
                                           });
 
                                       },
