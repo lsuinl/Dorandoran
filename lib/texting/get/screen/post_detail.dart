@@ -90,14 +90,11 @@ class _PostDetailState extends State<PostDetail> {
                                        changeinputtarget: changeinputtarget,
                                        deletedreply: deletereply,
                                      )).toList());
-                             List<dynamic> list=[];
-                             list.addAll(e.commentDetailDto.map((a) =>
-                             a['replies'].tolist() ) );
-                             replycnt=list.length;
                            }
                             //불러올 댓글갯수가 더 남아있다면
-                          plusreply=(commentlist.length)<(e.commentDetailDto.length)? commentlist[commentlist.length-10].commentId: -1;
-
+                          int count=0;
+                          commentlist.forEach((CommentCard reply) =>count+=reply.replies!.length);
+                          plusreply=(commentlist.length+count)<e.commentCnt? commentlist[commentlist.length-10].commentId: -1;
                           //이미 쓴 댓글 익명여부 검사
                           for (final a in e.commentDetailDto) {
                             //댓글 작성자
@@ -119,6 +116,7 @@ class _PostDetailState extends State<PostDetail> {
                         }
 
                         returncommentlist();
+                        print(plusreply);
                         return Container(
                             alignment: Alignment.topCenter,
                             decoration: gradient,
@@ -148,7 +146,19 @@ class _PostDetailState extends State<PostDetail> {
                                       ),
                                       SizedBox(height: 10.h),
                                       plusreply==-1 ? Container()
-                                          :ElevatedButton(onPressed: () async {
+                                          :OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                              elevation: 2 ,
+                                      //        minimumSize: Size(100.w, 30.h),
+                                              shape: const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.all(Radius.circular(20))),
+                                              backgroundColor: Color(0xFFBDBDBD),
+                                              side: BorderSide(
+                                                color: Color(0xFFFFFFFF),
+                                                width: 1.0,
+                                              )),
+                                          onPressed: () async {
                                         List<dynamic> pluscomments= await PlusComment(50, plusreply, '7@gmail.com');
                                           commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
                                               CommentCard(
@@ -168,14 +178,13 @@ class _PostDetailState extends State<PostDetail> {
                                         //중복체크해서 삽입
                                       //불러올 댓글갯수가 더 남아있다면
                                           setState(() {
-                                            print("개수비교");
-                                            print(commentlist.length);
-                                            print(e.commentCnt);
-                                            plusreply=commentlist.length<e.commentDetailDto.length? commentlist[0].commentId: -1;
+                                            int count=0;
+                                            commentlist.forEach((CommentCard reply) =>count+=reply.replies!.length);
+                                            plusreply=(commentlist.length+count)<e.commentCnt? commentlist[commentlist.length-10].commentId: -1;
                                           });
 
                                       },
-                                          child: Text("댓글 더보기")),
+                                          child: Text("댓글 더보기",style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700))),
                                       ListBody(
                                           children: commentlist ??
                                               [Center(child: Card(child: SizedBox(
