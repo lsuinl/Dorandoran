@@ -2,7 +2,8 @@ import '../model/commentcard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
-import 'package:dorandoran/texting/get/model/replycard.dart';
+
+import '../model/replycard.dart';
 //글 가져오기
 Future<List<replycard>> PlusReply(
     int postid,int commentid,int replyid, String userEmail) async {

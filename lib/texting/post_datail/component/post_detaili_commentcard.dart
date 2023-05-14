@@ -1,12 +1,12 @@
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/component/post_detail_reply_card.dart';
-import 'package:dorandoran/texting/get/quest/post_detail_deletecomment.dart';
+import 'package:dorandoran/texting/post_datail/component/post_detail_reply_card.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_detail_deletecomment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../common/util.dart';
 import '../quest/post_detail_commentlike.dart';
-import '../screen/post_detail.dart';
+import '../post_detail.dart';
 
 class CommentCard extends StatefulWidget {
   final int commentId;

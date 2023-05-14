@@ -1,9 +1,8 @@
-import 'package:dorandoran/texting/get/quest/post_detail_postcomment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/css.dart';
 import '../../../common/storage.dart';
-import '../screen/post_detail.dart';
+import '../post_detail.dart';
 
 class InputComment extends StatefulWidget {
   final int postId;

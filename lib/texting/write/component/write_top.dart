@@ -1,4 +1,4 @@
-import 'package:dorandoran/texting/get/screen/loding.dart';
+import 'package:dorandoran/texting/loding.dart';
 import 'package:dorandoran/texting/write/quest/post.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:flutter/cupertino.dart';

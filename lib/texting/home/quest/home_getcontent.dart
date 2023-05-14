@@ -1,4 +1,4 @@
-import '../../get/model/postcard.dart';
+import '../model/postcard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
