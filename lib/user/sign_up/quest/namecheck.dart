@@ -15,11 +15,6 @@ Future<int> postNameCheckRequest(
       "nickname": nickName,
     }),
   );
-  if (response.statusCode == 200) {
-    return 200;
-  } else if (response.statusCode == 500) {
-    return 400;
-  } else {
-    return 0;
-  }
+  print(response.statusCode);
+    return response.statusCode;
 }

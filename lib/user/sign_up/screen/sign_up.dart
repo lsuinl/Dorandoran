@@ -54,7 +54,14 @@ class _SignUpState extends State<SignUp> {
                             ),
                             SizedBox(width: 15.w),
                             TextButton(
-                                onPressed: ()=> textchange(checkname(name.text.toString()),name.text.toString()),
+                                onPressed: (){
+                               //   textchange(checkname(name.text.toString()),name.text.toString())
+                                  setState(() {
+                                    text=checkname(name.text.toString());
+                                  });
+                                  if(text=="")
+                                    textchange(name.text.toString());
+                                },
                                 child: Text("확인"),
                                 style: TextButton.styleFrom(
                                     primary: Colors.white,
@@ -108,21 +115,20 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  void textchange(String context, String name) {
-    if(context=='') {
+  void textchange(String name) {
       postNameCheckRequest(name).then((value) {
         if (value == 200) {
-          context = '사용가능한 이름입니다.';
-          namecheck[name] = true;
+          setState(() {
+            text = '사용가능한 이름입니다.';
+            namecheck[name] = true;
+          });
         } else {
-          context = '이미 사용중인 이름입니다.';
-          namecheck[name] = false;
+          setState(() {
+            text = '이미 사용중인 이름입니다.';
+            namecheck[name] = false;
+          });
         }
       });
-    }
-    setState(() {
-      text = context;
-    });
   }
 
   void dialog(){
