@@ -1,10 +1,10 @@
-import 'package:dorandoran/texting/get/quest/home_postLike.dart';
-import 'package:dorandoran/texting/get/screen/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common/storage.dart';
 import '../../../common/util.dart';
+import '../../home/home.dart';
+import '../../home/quest/home_postLike.dart';
 
 
 class Detail_Card extends StatefulWidget {

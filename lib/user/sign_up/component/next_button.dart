@@ -1,10 +1,11 @@
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/screen/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/user/sign_up/quest/user.dart';
 import 'package:dorandoran/common/util.dart';
+
+import '../../../texting/home/home.dart';
 
 
 class NextButton extends StatelessWidget {

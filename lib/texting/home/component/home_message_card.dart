@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
 
+import '../../get/screen/post_detail.dart';
 import '../quest/home_postLike.dart';
-import '../screen/post_detail.dart'; //??
 
 class Message_Card extends StatefulWidget {
   final String time;

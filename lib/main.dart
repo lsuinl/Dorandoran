@@ -6,7 +6,6 @@ import 'package:dorandoran/user/login/screen/login_check.dart';
 import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'texting/get/screen/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

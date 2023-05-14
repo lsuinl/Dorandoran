@@ -9,7 +9,7 @@ import 'package:dio/dio.dart';
 Future<int> writing(String email,String content, bool forme, String? locations, String? backgroundImgName, List<String>? hashTag, MultipartFile? file, String font, String fontColor, int fontSize, int fontBold, bool anaoymity) async {
   var dio=Dio();
   var response = await dio.post(
-    posturl.toString(),
+    '${url}/api/post',
     data: FormData.fromMap({
         'email': email,
         'content':content,
