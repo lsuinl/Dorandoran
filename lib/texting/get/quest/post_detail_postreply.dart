@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
 //대댓글달기만드는중
-Future<int>  postreply(int commentId, String userEmail, String reply, bool anonymity) async {
+Future<DateTime>  postreply(int commentId, String userEmail, String reply, bool anonymity) async {
   http.Response response=  await http.post(
     Uri.parse('$url/api/reply'),
     headers: <String, String>{
@@ -16,5 +16,5 @@ Future<int>  postreply(int commentId, String userEmail, String reply, bool anony
       "anonymity":anonymity
     }),
   );
-  return response.statusCode;
+  return DateTime.now();
 }

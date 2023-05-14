@@ -1,6 +1,6 @@
-import 'package:dorandoran/texting/get/screen/home.dart';
 import 'package:flutter/material.dart';
 import '../../../common/css.dart';
+import '../../home/home.dart';
 
 class loding extends StatefulWidget {
   const loding({Key? key}) : super(key: key);

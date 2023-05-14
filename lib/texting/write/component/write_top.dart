@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../screen/write.dart';
+import 'write_middlefield.dart';
 
 
 class Top extends StatelessWidget {
@@ -47,9 +48,15 @@ class Top extends StatelessWidget {
                   backgroundimgname,
                   hashtag == [] ? null : hashtag,
                   userimage,
+                  style.fontFamily.toString(),
+                  style.color==Colors.white?"white":"black",
+                  style.fontSize!.toInt(),
+                 int.parse(style.fontWeight.toString().substring(12)),
+                  anony
                 );
                 print(
                     "useremail:${useremail}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${locations}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
+                print("fontfamily ${style.fontFamily}\n color ${style.color.toString()}\n fontSize ${style.fontSize!.toInt()}\n fontWeight ${int.parse(style.fontWeight.toString().substring(12))}");
                 Navigator.push(
                   context,
                   PageRouteBuilder(

@@ -1,10 +1,10 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
-import 'package:dorandoran/texting/get/screen/home.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../texting/home/home.dart';
 import '../component/mainlogo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -52,7 +52,8 @@ class _Login_checkState extends State<Login_check> {
 
   logincheck() async {
     final prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('email')!=null) {
+    if(prefs.getString('email')!=""&&prefs.getString('email')!=null) {
+      print(prefs.getString('email'));
       useremail!=prefs.getString('email');
       kakaotoken!=prefs.getString('kakaotoken');
       firebasetoken!=prefs.getString('firebasetoken');

@@ -1,7 +1,6 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/component/home_message_card.dart';
-import 'package:dorandoran/texting/get/quest/home_getcontent.dart';
+import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../component/home_tag.dart';
-import '../component/home_top.dart';
+import '../write/component/write_top.dart';
+import 'component/home_message_card.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
