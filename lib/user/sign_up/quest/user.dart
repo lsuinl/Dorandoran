@@ -2,6 +2,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+class userinformation {
+  final String email;
+  final String nickName;
+
+  userinformation({
+    required this.email,
+    required this.nickName,
+  });
+  factory userinformation.fromJson(Map<String, dynamic> json) {
+    return userinformation(
+        email: json["email"],
+        nickName: json["nickName"]
+    );
+  }
+}
 //회원가입: 데이터 전송 500
 Future<String> postUserRequest(String dateOfBirth, String nickName, String firebasetoken,
     String kakaoAccessToken) async {
@@ -17,10 +33,11 @@ Future<String> postUserRequest(String dateOfBirth, String nickName, String fireb
       "kakaoAccessToken": kakaoAccessToken
     }),
   );
-  print(response.headers);
-  print(response.body);
 
-  final prefs = await SharedPreferences.getInstance();
-  prefs.setString('email', response.body);
+  userinformation body = userinformation.fromJson(
+      jsonDecode(utf8.decode(response.bodyBytes)));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  //prefs.setString("email", body.email);
+  prefs.setString("nickname", body.nickName);
   return response.body;
 }

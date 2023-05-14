@@ -15,6 +15,5 @@ Future<int> postNameCheckRequest(
       "nickname": nickName,
     }),
   );
-  print(response.statusCode);
     return response.statusCode;
 }
