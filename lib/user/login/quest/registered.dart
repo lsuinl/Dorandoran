@@ -2,7 +2,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 class userinformation {
   final String email;
   final String nickName;
@@ -18,26 +17,24 @@ class userinformation {
     );
   }
 }
-//회원가입: 데이터 전송 500
-Future<String> postUserRequest(String dateOfBirth, String nickName, String firebasetoken,
-    String kakaoAccessToken) async {
+
+
+Future<int> registered(String email) async {
   var response = await http.post(
-    Uri.parse('$url/api/signup'),
+    Uri.parse('$url/api/check/registered'),
     headers: <String, String>{
       'Content-Type': 'application/json',
     },
     body: jsonEncode({
-      "dateOfBirth": dateOfBirth,
-      "nickName": nickName,
-      "firebaseToken": firebasetoken,
-      "kakaoAccessToken": kakaoAccessToken
+      "email":email
     }),
   );
-
-  userinformation body = userinformation.fromJson(
-      jsonDecode(utf8.decode(response.bodyBytes)));
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  //prefs.setString("email", body.email);
-  prefs.setString("nickname", body.nickName);
-  return response.body;
+  if(response.statusCode==200) {
+    userinformation body = userinformation.fromJson(
+        jsonDecode(utf8.decode(response.bodyBytes)));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //prefs.setString("email", body.email);
+    prefs.setString("nickname", body.nickName);
+  }
+  return response.statusCode;
 }

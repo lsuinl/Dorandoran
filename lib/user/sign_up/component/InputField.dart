@@ -13,6 +13,6 @@ Widget inputfield(TextEditingController name){
       whitestyle.copyWith(color: Colors.indigo),
     ),
     controller: name,
-    maxLength: 8,
+    maxLength: 9,
   );
 }

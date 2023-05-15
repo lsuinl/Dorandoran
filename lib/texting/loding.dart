@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../common/css.dart';
-import '../../home/home.dart';
+import '../common/css.dart';
+import 'home/home.dart';
 
 class loding extends StatefulWidget {
   const loding({Key? key}) : super(key: key);

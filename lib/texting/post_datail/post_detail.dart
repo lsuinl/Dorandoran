@@ -1,14 +1,14 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/component/post_detail_inputcomment.dart';
-import 'package:dorandoran/texting/get/quest/post_detail_get_detailcard.dart';
-import 'package:dorandoran/texting/get/quest/post_detail_postcomment.dart';
-import 'package:dorandoran/texting/get/quest/post_detail_postreply.dart';
+import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_detail_get_detailcard.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_detail_postcomment.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_detail_postreply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../component/post_detail_card.dart';
-import '../component/post_detaili_commentcard.dart';
-import 'package:dorandoran/texting/get/quest/post_detail_plus_comment.dart';
+import 'component/post_detail_card.dart';
+import 'component/post_detaili_commentcard.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_detail_plus_comment.dart';
 import 'package:dorandoran/common/basic.dart';
 
 class PostDetail extends StatefulWidget {

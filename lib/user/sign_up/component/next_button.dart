@@ -35,17 +35,21 @@ class NextButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
           onPressed: () async {
-            // if(namecheck[name]==true) {
-            //포스트
-            useremail  = await postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString(),firebasetoken!,kakaotoken!);
-            print('${selectedDate.year}-${getTimeFormat(
-                selectedDate.month)}-${getTimeFormat(selectedDate.day)}');
-            print('${name.text.toString()}');
-            print(firebasetoken!);
-            print(kakaotoken!);
+            if(namecheck[name]==true) { //닉네임체크넘어가야
+              //포스트
+              useremail = await postUserRequest(
+                  '${selectedDate.year}-${getTimeFormat(
+                      selectedDate.month)}-${getTimeFormat(selectedDate.day)}',
+                  name.text.toString(), firebasetoken!, kakaotoken!);
+              print('${selectedDate.year}-${getTimeFormat(
+                  selectedDate.month)}-${getTimeFormat(selectedDate.day)}');
+              print('${name.text.toString()}');
+              print(firebasetoken!);
+              print(kakaotoken!);
 
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Home()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Home()));
+            }
           },
           child: Text('다음', style: whitestyle),
         ),
