@@ -187,12 +187,13 @@ class _PostDetailState extends State<PostDetail> {
       if (selectcommentid == 0) {
         //댓글
         commenttime = await postcomment(
-            widget.postId, useremail, controller.text, anonymity);
+            widget.postId, useremail, controller.text, anonymity,lockcheck);
       } else {
         //대댓글
         commenttime = await postreply(
-            selectcommentid, useremail, controller.text, anonymity);
+            selectcommentid, useremail, controller.text, anonymity,lockcheck);
       }
+      print(lockcheck);
       setState(() {
         controller.clear();
         number = number;
