@@ -40,16 +40,16 @@ class _CommentCardState extends State<CommentCard> {
       commentlikecnt.addAll({widget.card.commentId: widget.card.commentLike});
     });
   }
-
+  Widget replycardd = Container();
   @override
   Widget build(BuildContext context) {
-    Widget replycardd = Container();
     return FutureBuilder(
         future: getreply(widget.card.replies),
         builder: (context, snapshot) {
           if (snapshot.hasData) replycardd = snapshot.data!;
           {
-            return Column(children: [
+            return Column(
+                children: [
               Container(
                   child: Card(
                       shape: RoundedRectangleBorder(
@@ -204,7 +204,7 @@ class _CommentCardState extends State<CommentCard> {
                                             icon: Icon(
                                                 Icons.chat_bubble_outline)),
                                         SizedBox(width: 2.w),
-                                        Text('${widget.card.replies!.length}'),
+                                        Text('${widget.card.countReply}'),
                                       ],
                                     ),
                                   ])
@@ -212,6 +212,23 @@ class _CommentCardState extends State<CommentCard> {
                               ),
                             )
                           ])))),
+                  widget.card.countReply!= widget.card.replies.length ? OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          elevation: 2,
+                          minimumSize: Size(302.w, 30.h),
+                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+                          backgroundColor: Color(0xFFBDBDBD),
+                          side: BorderSide(
+                            color: Color(0xFFFFFFFF),
+                            width: 1.0,
+                          )),
+                      onPressed: () async {
+
+                      },
+                      child: Text("댓글 더보기",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700))) :Container(),
               replycardd
             ]);
           }
@@ -223,13 +240,12 @@ class _CommentCardState extends State<CommentCard> {
         ? ListBody(
             children: await replies!
                 .map<ReplyCard>((a) => ReplyCard(
-              card: replycard(
                     replyId: a['replyId'],
                     replyNickname: a['replyNickname'],
                     reply: a['reply'],
               replyAnonymityNickname: a['replyAnonymityNickname'],
               replyCheckDelete:a['replyCheckDelete'],
-                    replyTime: a['replyTime']),
+                    replyTime: a['replyTime'],
               deletedreply: widget.deletedreply,
                 ))
                 .toList())

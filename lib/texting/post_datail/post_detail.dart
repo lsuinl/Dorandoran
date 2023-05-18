@@ -1,6 +1,7 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
+import 'package:dorandoran/texting/post_datail/component/post_detail_reply_card.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_get_detailcard.dart';
@@ -68,6 +69,7 @@ class _PostDetailState extends State<PostDetail> {
                     changeinputtarget: changeinputtarget,
                     deletedreply: deletereply,
                   )).toList());
+                }
 
                   List<CommentCard> newlist= e.commentDetailDto.map<CommentCard>((a) => CommentCard(
                       card: commentcard(
@@ -88,7 +90,7 @@ class _PostDetailState extends State<PostDetail> {
                   )).toList();
 
                   //중복체크 후
-                  newlist.forEach((element) {
+                  newlist.forEach((element) { //새로운리스트와 기존리스트비교
                       for(int i=0;i<commentlist.length;i++){
                         if(commentlist[i].card.commentId==element.card.commentId) { //같은거발견
                           break;
@@ -101,10 +103,9 @@ class _PostDetailState extends State<PostDetail> {
 
                   //불러올 댓글갯수가 더 남아있다면
                   int count = 0;
-                  commentlist.forEach((CommentCard reply) => count += reply.card.replies!.length);
+                  commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
                   plusreply = (commentlist.length + count) < e.commentCnt ?
                   commentlist[0].card.commentId : -1;
-                }
                   //이미 쓴 댓글 익명여부 검사
                   for (final a in e.commentDetailDto) {
                     //댓글 작성자
@@ -181,7 +182,7 @@ class _PostDetailState extends State<PostDetail> {
                                     //불러올 댓글갯수가 더 남아있다면
                                     setState(() {
                                       int count = 0;
-                                      commentlist.forEach((CommentCard reply) => count += reply.card.replies!.length);
+                                      commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
                                       plusreply = (commentlist.length + count) < e.commentCnt ?
                                       commentlist[0].card.commentId : -1;
                                     });
