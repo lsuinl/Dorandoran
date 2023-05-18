@@ -6,6 +6,7 @@ class commentcard {
   final String commentNickname;
   final bool commentCheckDelete;
   final String commentTime;
+  final int countReply;
   final List<dynamic> replies;
   final String? commentAnonymityNickname;
 
@@ -17,6 +18,7 @@ class commentcard {
     required this.commentNickname,
     required this.commentCheckDelete,
     required this.commentTime,
+    required this.countReply,
     required this.replies,
     required this.commentAnonymityNickname,
   });
@@ -29,6 +31,7 @@ class commentcard {
         commentNickname: json["commentNickname"],
         commentCheckDelete: json["commentCheckDelete"],
         commentTime: json["commentTime"],
+        countReply: json["countReply"],
         replies: json["replies"],
         commentAnonymityNickname: json["commentAnonymityNickname"],
     );

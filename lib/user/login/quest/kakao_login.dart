@@ -13,6 +13,7 @@ questkakaologin() async {
       prefs.setString('kakaotoken', kakaotoken!);
       User user = await UserApi.instance.me();
       prefs.setString('email', user.kakaoAccount!.email.toString());
+      print(kakaotoken);
       int ok = await postNameCheckRequest(user.kakaoAccount!.email.toString());
       if (ok == 200)
         return 200;
@@ -34,6 +35,7 @@ questkakaologin() async {
       kakaotoken = token.accessToken.toString();
       prefs.setString('kakaotoken', kakaotoken!);
       User user = await UserApi.instance.me();
+      print(kakaotoken);
       prefs.setString('email', user.kakaoAccount!.email.toString());
       int ok = await postNameCheckRequest(user.kakaoAccount!.email.toString());
       if (ok == 200)
