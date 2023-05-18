@@ -38,7 +38,7 @@ class postcard {
         font: json["font"],
         fontColor: json["fontColor"],
         fontSize: json["fontSize"],
-        fontBold: json["fondBold"],
+        fontBold: json["fontBold"],
         replyCnt: json["replyCnt"]);
   }
 }

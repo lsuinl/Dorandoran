@@ -1,4 +1,5 @@
 import 'package:dorandoran/common/storage.dart';
+import 'package:dorandoran/texting/post_datail/model/replycard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,23 +8,11 @@ import '../../../common/util.dart';
 import '../quest/post_detail_deletereply.dart';
 
 class ReplyCard extends StatelessWidget {
-  final int replyId;
-  final String replyNickname;
-  final String reply;
-  final String? replyAnonymityNickname;
-  final bool replyAnonymity;
-  final bool replyCheckDelete;
-  final String replyTime;
+  final replycard card;
   final VoidCallback deletedreply;
 
   const ReplyCard({
-    required this.replyId,
-    required this.replyNickname,
-    required this.reply,
-    required this.replyAnonymityNickname,
-    required this.replyAnonymity,
-    required this.replyCheckDelete,
-    required this.replyTime,
+    required this.card,
     required this.deletedreply,
     Key? key}) : super(key: key);
 
@@ -48,13 +37,13 @@ class ReplyCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        replyCheckDelete ?
+                          card.replyCheckDelete ?
                         Text("삭제",
                           style: GoogleFonts.jua(),) :
                           Row(
                             children: [
-                              Expanded(child:Text( replyAnonymityNickname ?? replyNickname ,style: GoogleFonts.jua(fontSize: 17.sp),), ),
-                              "nickname7" == replyNickname
+                              Expanded(child:Text(  card.replyAnonymityNickname ?? card.replyNickname ,style: GoogleFonts.jua(fontSize: 17.sp),), ),
+                              "nickname7" ==  card.replyNickname
                                   ? TextButton(
                                 onPressed:() {
                                   showDialog(
@@ -72,7 +61,7 @@ class ReplyCard extends StatelessWidget {
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w700)),
                                               onPressed: () async {
-                                                await deletereply(replyId,useremail);
+                                                await deletereply( card.replyId,useremail);
                                                 deletedreply();
                                                 Navigator.of(context).pop();
                                               },
@@ -105,10 +94,10 @@ class ReplyCard extends StatelessWidget {
                                   : Container(),
                             ],
                           ),
-                          Text(replyCheckDelete?"!삭제된 댓글입니다!" :reply!, style: GoogleFonts.jua(),),
+                          Text( card.replyCheckDelete?"!삭제된 댓글입니다!" : card.reply!, style: GoogleFonts.jua(),),
                           Row(
                               children: [
-                                Text(timecount(replyTime),style: TextStyle(fontSize: 12.sp),),
+                                Text(timecount( card.replyTime),style: TextStyle(fontSize: 12.sp),),
                                 SizedBox(width: 160.w,),
                               ]
                           )

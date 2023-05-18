@@ -1,10 +1,10 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
-import 'package:dorandoran/texting/get/screen/home.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../texting/home/home.dart';
 import '../component/mainlogo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,13 +36,13 @@ class _Login_checkState extends State<Login_check> {
                   Column(
                     children: [
                       SizedBox(height: 70.h),
-                      MainLogo(text: "도란도란", style: whitestyle),
+                      MainLogo(text: "도란도란", style: whitestyle.copyWith(color:Color(0xFF79AAFF))),
                       SizedBox(height: 160.h),
                       SizedBox(height: 20.h,),
-                      CircularProgressIndicator(),
+                      CircularProgressIndicator(color: Color(0xFF79AAFF)),
                       SizedBox(height: 20.h,),
                       Text("데이터를 로딩 중입니다. 잠시만 기다려주세요.", style: TextStyle(
-                          fontSize: 12.sp, color: Colors.white54)),
+                          fontSize: 12.sp, color: Colors.black26)),
                     ],
                   )),)
         ),
@@ -50,9 +50,11 @@ class _Login_checkState extends State<Login_check> {
     );
   }
 
-   logincheck() async {
+  logincheck() async {
     final prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('email')!.isNotEmpty) {
+    //이미 저장된 이메일이 있는 경우==앱에 로그인 데이터가 남아있는 경우
+    if(prefs.getString('email')!=""&&prefs.getString('email')!=null) {
+      print(prefs.getString('email'));
       useremail!=prefs.getString('email');
       kakaotoken!=prefs.getString('kakaotoken');
       firebasetoken!=prefs.getString('firebasetoken');
@@ -61,11 +63,11 @@ class _Login_checkState extends State<Login_check> {
           MaterialPageRoute(
               builder: (context) => Home()));
     }
-      else{
+    else{
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => KaKaoLogin()));
-      }
     }
-    }
+  }
+}

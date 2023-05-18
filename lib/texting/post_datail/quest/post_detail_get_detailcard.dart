@@ -1,4 +1,4 @@
-import 'package:dorandoran/texting/get/model/postcard_detaril.dart';
+import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';

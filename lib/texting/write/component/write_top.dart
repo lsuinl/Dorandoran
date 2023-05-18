@@ -1,10 +1,11 @@
-import 'package:dorandoran/texting/get/screen/loding.dart';
+import 'package:dorandoran/texting/loding.dart';
 import 'package:dorandoran/texting/write/quest/post.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../screen/write.dart';
+import 'write_middlefield.dart';
 
 
 class Top extends StatelessWidget {
@@ -16,7 +17,14 @@ class Top extends StatelessWidget {
     return Container(
         alignment: Alignment.topRight,
         child: ElevatedButton(
-            style: ElevatedButton.styleFrom(primary: Colors.black),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(	//모서리를 둥글게
+                  borderRadius: BorderRadius.circular(10),
+                side:BorderSide(color: Colors.white,width:1)
+              ),
+                primary: Colors.lightBlueAccent,
+              minimumSize: Size(70, 40)
+            ),
             onPressed: () async {
               String? locations;
               MultipartFile? userimage;
@@ -33,17 +41,22 @@ class Top extends StatelessWidget {
               }
               if (contextcontroller.text != '') {
                 writing(
-                  //useremail!,
-                  '4@gmail.com',
+                  useremail!,
                   contextcontroller.text,
                   forme,
                   locations,
                   backgroundimgname,
                   hashtag == [] ? null : hashtag,
                   userimage,
+                  style.fontFamily.toString(),
+                  style.color==Colors.white?"white":"black",
+                  style.fontSize!.toInt(),
+                 int.parse(style.fontWeight.toString().substring(12)),
+                  anony
                 );
                 print(
                     "useremail:${useremail}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${locations}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
+                print("fontfamily ${style.fontFamily}\n color ${style.color.toString()}\n fontSize ${style.fontSize!.toInt()}\n fontWeight ${int.parse(style.fontWeight.toString().substring(12))}");
                 Navigator.push(
                   context,
                   PageRouteBuilder(
@@ -59,6 +72,8 @@ class Top extends StatelessWidget {
                 );
               }
             },
-            child: Text("완료")));
+            child: Text("완료"),
+
+        ));
   }
 }

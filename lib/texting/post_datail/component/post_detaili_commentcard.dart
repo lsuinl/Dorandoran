@@ -1,42 +1,26 @@
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/component/post_detail_reply_card.dart';
-import 'package:dorandoran/texting/get/quest/post_detail_deletecomment.dart';
+import 'package:dorandoran/texting/post_datail/component/post_detail_reply_card.dart';
+import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
+import 'package:dorandoran/texting/post_datail/model/replycard.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_detail_deletecomment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../common/util.dart';
 import '../quest/post_detail_commentlike.dart';
-import '../screen/post_detail.dart';
+import '../post_detail.dart';
 
 class CommentCard extends StatefulWidget {
-  final int commentId;
-  final String comment;
-  final int commentLike;
-  final bool commentLikeResult;
-  final List<dynamic>? replies;
-  final String commentNickname;
-  final String commentTime;
+  final commentcard card;
+  final VoidCallback deletedreply;
   final VoidCallback changeinputtarget;
   final int postId;
-  final String? commentAnonymityNickname;
-  final bool commentCheckDelete;
-  final bool commentAnonymity;
-  final VoidCallback deletedreply;
 
   const CommentCard(
-      {required this.commentId,
-      required this.comment,
-      required this.commentLike,
-      required this.commentLikeResult,
-      required this.replies,
-      required this.commentNickname,
-      required this.commentTime,
-      required this.postId,
-      required this.changeinputtarget,
-        required this.commentAnonymityNickname,
-        required this.commentAnonymity,
-        required this.commentCheckDelete,
+      {required this.card,
         required this.deletedreply,
+        required this.changeinputtarget,
+        required this.postId,
       Key? key})
       : super(key: key);
 
@@ -50,18 +34,18 @@ Map<int, int> commentlikecnt = {0: 0};
 class _CommentCardState extends State<CommentCard> {
   @override
   void initState() {
-    setState(() {
-      commentlike.addAll({widget.commentId: widget.commentLikeResult});
-      commentlikecnt.addAll({widget.commentId: widget.commentLike});
-    });
     super.initState();
+    setState(() {
+      commentlike.addAll({widget.card.commentId: widget.card.commentLikeResult});
+      commentlikecnt.addAll({widget.card.commentId: widget.card.commentLike});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Widget replycardd = Container();
     return FutureBuilder(
-        future: getreply(widget.replies),
+        future: getreply(widget.card.replies),
         builder: (context, snapshot) {
           if (snapshot.hasData) replycardd = snapshot.data!;
           {
@@ -85,13 +69,13 @@ class _CommentCardState extends State<CommentCard> {
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: Text(widget.commentCheckDelete ?"삭제":
-                                        ( widget.commentAnonymityNickname ?? widget.commentNickname),
+                                        child: Text(widget.card.commentCheckDelete ?"삭제":
+                                        ( widget.card.commentAnonymityNickname ?? widget.card.commentNickname),
                                           style:
                                               GoogleFonts.jua(fontSize: 17.sp),
                                         ),
                                       ),
-                                      widget.commentCheckDelete==false? ("nickname7" == widget.commentNickname
+                                      widget.card.commentCheckDelete==false? ("nickname7" == widget.card.commentNickname
                                           ? TextButton(
                                               onPressed: () {
                                                 showDialog(
@@ -109,7 +93,7 @@ class _CommentCardState extends State<CommentCard> {
                                                                     fontSize: 16,
                                                                     fontWeight: FontWeight.w700)),
                                                             onPressed: () async {
-                                                              await deletecomment(widget.commentId,useremail);
+                                                              await deletecomment(widget.card.commentId,useremail);
                                                               widget.deletedreply();
                                                               Navigator.of(context).pop();
                                                             },
@@ -143,13 +127,13 @@ class _CommentCardState extends State<CommentCard> {
                                     ],
                                   ),
                                   Text(
-                                    widget.commentCheckDelete ? "!삭제된 댓글입니다.!": widget.comment,
+                                    widget.card.commentCheckDelete ? "!삭제된 댓글입니다.!": widget.card.comment,
                                     style: GoogleFonts.jua(),
                                   ),
                                   Row(children: [
                                     Expanded(
                                       child: Text(
-                                        timecount(widget.commentTime),
+                                        timecount(widget.card.commentTime),
                                         style: TextStyle(fontSize: 12.sp),
                                       ),
                                     ),
@@ -158,45 +142,49 @@ class _CommentCardState extends State<CommentCard> {
                                       children: [
                                         IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              commentlike[widget.commentId] =
-                                                  !commentlike[
-                                                      widget.commentId]!;
-                                              if (widget.commentLikeResult ==
-                                                      true &&
-                                                  commentlike[
-                                                          widget.commentId] ==
-                                                      false) {
-                                                //눌린상태에서 취소
-                                                commentlikecnt[
-                                                        widget.commentId] =
-                                                    commentlikecnt[
-                                                            widget.commentId]! -
-                                                        1;
-                                              } else if (widget
-                                                          .commentLikeResult ==
-                                                      false &&
-                                                  commentlike[
-                                                          widget.commentId] ==
-                                                      true) {
-                                                //누르기
-                                                commentlikecnt[
-                                                        widget.commentId] =
-                                                    commentlikecnt[
-                                                            widget.commentId]! +
-                                                        1;
-                                              } else {
-                                                //해당화면에서 상태변경취소
-                                                commentlikecnt[
-                                                        widget.commentId] =
-                                                    widget.commentLike;
-                                              }
-                                            });
+                                            if(commentlikecnt[widget.card.commentId]!=null) { //있던 댓글
+                                              setState(() {
+                                                commentlike[widget.card.commentId] =
+                                                !commentlike[widget.card.commentId]!;
+                                                if (widget.card.commentLikeResult ==
+                                                    true &&
+                                                    commentlike[widget
+                                                        .card.commentId] ==
+                                                        false) {
+                                                  //눌린상태에서 취소
+                                                  commentlikecnt[widget
+                                                      .card.commentId] =
+                                                      commentlikecnt[widget
+                                                          .card.commentId]! - 1;
+                                                } else
+                                                if (widget.card.commentLikeResult ==
+                                                    false &&
+                                                    commentlike[widget
+                                                        .card.commentId] == true) {
+                                                  //누르기
+                                                  commentlikecnt[widget
+                                                      .card.commentId] =
+                                                      commentlikecnt[widget
+                                                          .card.commentId]! + 1;
+                                                } else {
+                                                  //해당화면에서 상태변경취소
+                                                  commentlikecnt[widget
+                                                      .card.commentId] =
+                                                      widget.card.commentLike;
+                                                }
+                                              });
+                                            }
+                                            else{
+                                              setState(() {
+                                                commentlike[widget.card.commentId]=true;
+                                                commentlikecnt[widget.card.commentId]= 1;
+                                              });
+                                            }
                                             // 댓글좋아요
                                             commentLike(widget.postId,
-                                                widget.commentId, useremail);
+                                                widget.card.commentId, useremail);
                                           },
-                                          icon: commentlike[widget.commentId]!
+                                          icon: commentlike[widget.card.commentId]==true
                                               ? Icon(Icons.favorite)
                                               : Icon(Icons.favorite_border),
                                           constraints: BoxConstraints(),
@@ -204,19 +192,19 @@ class _CommentCardState extends State<CommentCard> {
                                         ),
                                         SizedBox(width: 2.w),
                                         Text(
-                                            '${commentlikecnt[widget.commentId]}'),
+                                            '${commentlikecnt[widget.card.commentId] ??0}'),
                                         SizedBox(width: 5.w),
                                         IconButton(
                                             padding: EdgeInsets.zero,
                                             constraints: BoxConstraints(),
                                             onPressed: () {
-                                              select = widget.commentId;
+                                              select = widget.card.commentId;
                                               widget.changeinputtarget();
                                             },
                                             icon: Icon(
                                                 Icons.chat_bubble_outline)),
                                         SizedBox(width: 2.w),
-                                        Text('${widget.replies!.length}'),
+                                        Text('${widget.card.replies!.length}'),
                                       ],
                                     ),
                                   ])
@@ -235,13 +223,13 @@ class _CommentCardState extends State<CommentCard> {
         ? ListBody(
             children: await replies!
                 .map<ReplyCard>((a) => ReplyCard(
+              card: replycard(
                     replyId: a['replyId'],
                     replyNickname: a['replyNickname'],
                     reply: a['reply'],
               replyAnonymityNickname: a['replyAnonymityNickname'],
-              replyAnonymity: a['replyAnonymity'],
               replyCheckDelete:a['replyCheckDelete'],
-                    replyTime: a['replyTime'],
+                    replyTime: a['replyTime']),
               deletedreply: widget.deletedreply,
                 ))
                 .toList())

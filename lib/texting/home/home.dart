@@ -1,16 +1,15 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
-import 'package:dorandoran/texting/get/component/home_message_card.dart';
-import 'package:dorandoran/texting/get/quest/home_getcontent.dart';
-import 'package:dorandoran/texting/write/screen/write.dart';
+import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../component/home_tag.dart';
-import '../component/home_top.dart';
+import '../write/screen/write.dart';
+import 'component/home_message_card.dart';
+import 'component/home_top.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -35,7 +34,7 @@ class _HomeState extends State<Home> {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
     });
-    getlocation(); //임시
+   // getlocation(); //임시
     myfuture = getPostContent(
         url, useremail, 0, latitude == '' ? '' : '$latitude,$longtitude');
   }
@@ -48,9 +47,9 @@ class _HomeState extends State<Home> {
             future: myfuture,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                int lastnumber = snapshot.data!.last.postId;
+                int lastnumber = snapshot.data.length>0 ? snapshot.data!.last.postId :0;
                 if (snapshot.connectionState == ConnectionState.done) {
-                  if (item?.length == 0 || item == null) {
+                  if ((item?.length == 0 || item == null) && snapshot.data!.length>0) {
                     item = snapshot.data!
                         .map<Message_Card>((e) => Message_Card(
                               time: e.postTime,
@@ -117,7 +116,7 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 }
-                return  item!=null ? Container(
+                return Container(
                   decoration: gradient,
                   child: SafeArea(
                     child: Padding(
@@ -138,6 +137,11 @@ class _HomeState extends State<Home> {
                                   tagname("관심있는"),
                                 ],
                               ),
+                              snapshot.data.length<1 ?
+                                  Center(child:
+                                  Padding(padding: EdgeInsets.only(top:200.w),
+                                      child:
+                                  Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp),))):
                               Expanded(
                                 child: SmartRefresher(
                                   enablePullDown: true,
@@ -263,7 +267,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                ):Container();
+                );
               } else {
                 return Container(
                     decoration: gradient,
@@ -276,7 +280,7 @@ class _HomeState extends State<Home> {
     setState(() {
       switch (name) {
         case "근처에":
-          url = '';
+          url = '/close';
           break;
         case "인기있는":
           url = '/popular';
