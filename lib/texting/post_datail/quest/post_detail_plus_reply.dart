@@ -12,6 +12,5 @@ Future<List<replycard>> PlusReply(
   );
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<replycard> card = body.map((dynamic e) => replycard.fromJson(e)).toList();
-  print(card);
   return card;
 }

@@ -89,6 +89,7 @@ class _PostDetailState extends State<PostDetail> {
                     deletedreply: deletereply,
                   )).toList();
 
+                //***** 대댓글 중복체크하기
                   //중복체크 후
                   newlist.forEach((element) { //새로운리스트와 기존리스트비교
                       for(int i=0;i<commentlist.length;i++){
@@ -234,7 +235,6 @@ class _PostDetailState extends State<PostDetail> {
         commenttime = await postreply(
             selectcommentid, useremail, controller.text, anonymity,lockcheck);
       }
-      print(lockcheck);
       setState(() {
         controller.clear();
         number = number;

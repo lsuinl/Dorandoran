@@ -3,6 +3,7 @@ import 'package:dorandoran/texting/post_datail/component/post_detail_reply_card.
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/replycard.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_deletecomment.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_detail_plus_reply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,13 +41,14 @@ class _CommentCardState extends State<CommentCard> {
       commentlikecnt.addAll({widget.card.commentId: widget.card.commentLike});
     });
   }
-  Widget replycardd = Container();
+  List<ReplyCard> replycardd=[];
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: getreply(widget.card.replies),
         builder: (context, snapshot) {
-          if (snapshot.hasData) replycardd = snapshot.data!;
+          if (snapshot.hasData)
+            replycardd = replycardd.length <10 ? snapshot.data!: replycardd;
           {
             return Column(
                 children: [
@@ -79,6 +81,7 @@ class _CommentCardState extends State<CommentCard> {
                                           ? TextButton(
                                               onPressed: () {
                                                 showDialog(
+
                                                     context: context,
                                                     barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
                                                     builder: (BuildContext context) {
@@ -212,7 +215,7 @@ class _CommentCardState extends State<CommentCard> {
                               ),
                             )
                           ])))),
-                  widget.card.countReply!= widget.card.replies.length ? OutlinedButton(
+                  widget.card.countReply> replycardd.length ? OutlinedButton(
                       style: OutlinedButton.styleFrom(
                           elevation: 2,
                           minimumSize: Size(302.w, 30.h),
@@ -223,22 +226,35 @@ class _CommentCardState extends State<CommentCard> {
                             width: 1.0,
                           )),
                       onPressed: () async {
-
+                        List<replycard> cards= await PlusReply(widget.postId, widget.card.commentId, widget.card.replies[0]['replyId'], useremail);
+                        setState(() {
+                          replycardd.insertAll(0,
+                              cards.map<ReplyCard>((a) => ReplyCard(
+                                replyId: a.replyId,
+                                replyNickname: a.replyNickname,
+                                reply: a.reply,
+                                replyAnonymityNickname: a.replyAnonymityNickname,
+                                replyCheckDelete:a.replyCheckDelete,
+                                replyTime: a.replyTime,
+                                deletedreply: widget.deletedreply,
+                              ))
+                                  .toList());
+                        });
                       },
-                      child: Text("댓글 더보기",
+                      child: Text("대댓글 더보기",
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w700))) :Container(),
-              replycardd
+                  ListBody(children: replycardd)
             ]);
           }
         });
   }
 
-  Future<Widget> getreply(dynamic replies) async {
+  Future<List<ReplyCard>> getreply(dynamic replies) async {
     return replies != null
-        ? ListBody(
-            children: await replies!
+        ?
+          await replies!
                 .map<ReplyCard>((a) => ReplyCard(
                     replyId: a['replyId'],
                     replyNickname: a['replyNickname'],
@@ -248,7 +264,7 @@ class _CommentCardState extends State<CommentCard> {
                     replyTime: a['replyTime'],
               deletedreply: widget.deletedreply,
                 ))
-                .toList())
-        : Center();
+                .toList()
+        : [];
   }
 }
