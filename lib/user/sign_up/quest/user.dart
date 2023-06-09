@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../common/storage.dart';
+
 class userinformation {
   final String email;
   final String nickName;
@@ -25,6 +27,7 @@ Future<String> postUserRequest(String dateOfBirth, String nickName, String fireb
     Uri.parse('$url/api/signup'),
     headers: <String, String>{
       'Content-Type': 'application/json',
+      'authorization':'Bearer $refreshToken',
     },
     body: jsonEncode({
       "dateOfBirth": dateOfBirth,

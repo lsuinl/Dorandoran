@@ -1,3 +1,4 @@
+import '../../../common/storage.dart';
 import '../model/commentcard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -8,6 +9,9 @@ Future<List<commentcard>> PlusComment(
     int postid,int commentid,String userEmail) async {
   var response = await http.get(
     Uri.parse('${url}/api/comment?postId=${postid}&commentId=${commentid}&userEmail=${userEmail}'),
+    headers: <String, String>{
+      'authorization':'Bearer $refreshToken',
+    },
   );
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<commentcard> card = body.map((dynamic e) => commentcard.fromJson(e)).toList();

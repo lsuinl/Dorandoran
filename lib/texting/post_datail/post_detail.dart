@@ -93,7 +93,17 @@ class _PostDetailState extends State<PostDetail> {
                   //중복체크 후
                   newlist.forEach((element) { //새로운리스트와 기존리스트비교
                       for(int i=0;i<commentlist.length;i++){
-                        if(commentlist[i].card.commentId==element.card.commentId) { //같은거발견
+                        if(commentlist[i].card.commentId==element.card.commentId
+                        &&   commentlist[i].card.commentCheckDelete==element.card.commentCheckDelete
+                        &&   commentlist[i].card.commentLikeResult==element.card.commentLikeResult
+                        &&   commentlist[i].card.commentLike==element.card.commentLike
+                        &&   commentlist[i].card.replies==element.card.replies
+                        )
+                        { //같은거발견
+                          break;
+                        }
+                        else if(commentlist[i].card.commentId==element.card.commentId) { //같은데 내용 바뀐거.
+                          commentlist[i]=element;
                           break;
                         }
                         else if(i+1==commentlist.length){ //끝까지 같은거없었으면

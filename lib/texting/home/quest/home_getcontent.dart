@@ -1,3 +1,5 @@
+import 'package:dorandoran/common/storage.dart';
+
 import '../model/postcard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -9,7 +11,10 @@ Future<List<postcard>> getPostContent(
   var response = await http.get(
     Uri.parse(
         '${url}/api/post${urls ?? ""}?userEmail=${userEmail}&postCnt=${number}&location=${location}'),
-  );
+      headers: <String, String>{
+        'authorization':'Bearer $refreshToken',
+      },
+    );
   if (response.statusCode != 201 && response.statusCode != 200) {
     getPostContent(urls, userEmail, number - 1, location);
   }

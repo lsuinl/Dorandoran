@@ -41,9 +41,9 @@ class _CommentCardState extends State<CommentCard> {
       commentlikecnt.addAll({widget.card.commentId: widget.card.commentLike});
     });
   }
-  List<ReplyCard> replycardd=[];
   @override
   Widget build(BuildContext context) {
+    List<ReplyCard> replycardd=[];
     return FutureBuilder(
         future: getreply(widget.card.replies),
         builder: (context, snapshot) {
