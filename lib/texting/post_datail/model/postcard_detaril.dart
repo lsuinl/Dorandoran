@@ -1,26 +1,3 @@
-// class commentdetail{
-//   String commentAnonymity;
-//   bool commentCheckDelete;
-//   int commentId;
-//   String? commentAnonymityNickname;
-//   String comment;
-//   int commentLike;
-//   bool commentLikeResult;
-//   List<replyId>? replies;
-//   String commentNickname;
-//   String commentTime;
-// }
-//
-// class replydetail{
-//    int replyId;
-//    String replyNickname;
-//    String reply;
-//    String? replyAnonymityNickname;
-//    bool replyAnonymity;
-//    bool replyCheckDelete;
-//    String replyTime;
-// }
-
 class postcardDetail {
   final String content;
   final String postTime;

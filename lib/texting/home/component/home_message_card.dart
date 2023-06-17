@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
-
 import '../../post_datail/post_detail.dart';
 import '../quest/home_postLike.dart';
 
@@ -43,7 +42,6 @@ class Message_Card extends StatefulWidget {
 //bool like=false;
 Map<int, bool> like = {0: false};
 Map<int, int> click = {0: 0};
-
 class _Message_CardState extends State<Message_Card> {
   @override
   void initState() {
@@ -72,7 +70,7 @@ class _Message_CardState extends State<Message_Card> {
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.7), BlendMode.dstATop),
               )),
-          //BoxDecoration(image: DecorationImage(image:NetworkImage('http://'+backimg))),
+          //BoxDecoration(image: DecorationImage(image:Network1Image('http://'+backimg))),
           child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(

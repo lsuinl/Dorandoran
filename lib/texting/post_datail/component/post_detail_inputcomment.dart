@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/css.dart';
-import '../../../common/storage.dart';
 import '../post_detail.dart';
 
 class InputComment extends StatefulWidget {

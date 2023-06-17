@@ -54,10 +54,6 @@ class _Login_checkState extends State<Login_check> {
     final prefs = await SharedPreferences.getInstance();
     //이미 저장된 이메일이 있는 경우==앱에 로그인 데이터가 남아있는 경우
     if(prefs.getString('email')!=""&&prefs.getString('email')!=null) {
-      print(prefs.getString('email'));
-      useremail!=prefs.getString('email');
-      kakaotoken!=prefs.getString('kakaotoken');
-      firebasetoken!=prefs.getString('firebasetoken');
       Navigator.push(
           context,
           MaterialPageRoute(

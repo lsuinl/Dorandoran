@@ -1,4 +1,3 @@
-import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/user/sign_up/quest/namecheck.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,11 +8,10 @@ questkakaologin() async {
   if (await isKakaoTalkInstalled()) {
     try {
       token = await UserApi.instance.loginWithKakaoTalk();
-      kakaotoken = token.accessToken.toString();
+      String kakaotoken = token.accessToken.toString();
       prefs.setString('kakaotoken', kakaotoken!);
       User user = await UserApi.instance.me();
       prefs.setString('email', user.kakaoAccount!.email.toString());
-      print(kakaotoken);
       int ok = await postNameCheckRequest(user.kakaoAccount!.email.toString());
       if (ok == 200)
         return 200;
@@ -22,7 +20,7 @@ questkakaologin() async {
     } catch (error) {
       try {
         token = await UserApi.instance.loginWithKakaoAccount();
-        kakaotoken = token.accessToken.toString();
+        String kakaotoken = token.accessToken.toString();
         prefs.setString('kakaotoken', kakaotoken!);
         return 100;
       } catch (error) {
@@ -32,7 +30,7 @@ questkakaologin() async {
   } else {
     try {
       token = await UserApi.instance.loginWithKakaoAccount();
-      kakaotoken = token.accessToken.toString();
+      String kakaotoken = token.accessToken.toString();
       prefs.setString('kakaotoken', kakaotoken!);
       User user = await UserApi.instance.me();
       print(kakaotoken);

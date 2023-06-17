@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:dorandoran/common/storage.dart';
 import 'package:flutter/src/painting/text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

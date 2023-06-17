@@ -1,9 +1,8 @@
-//글써서 보내기
 import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:dio/dio.dart';
-
-import '../../../common/storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../common/quest_token.dart';
 
 //formdata형식
 Future<int> writing(
@@ -19,9 +18,11 @@ Future<int> writing(
     int fontSize,
     int fontBold,
     bool anaoymity) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String accessToken = prefs.getString("accessToken")!;
   var response = await http.post(Uri.parse('${url}/api/post'),
       headers: <String, String>{
-        'authorization': 'Bearer $refreshToken',
+        'authorization': 'Bearer $accessToken',
       },
       body: FormData.fromMap({
         'email': email,
@@ -40,8 +41,23 @@ Future<int> writing(
   if (response.statusCode == 200) {
     print(200);
     return 200;
-  } else {
-    print(400);
+  } else if(response.statusCode==401) {
+    quest_token();
+    writing(
+        email,
+        content,
+        forme,
+        locations,
+        backgroundImgName,
+        hashTag,
+        file,
+        font,
+        fontColor,
+        fontSize,
+        fontBold,
+        anaoymity);
+    return 401;
+  } else{
     return 400;
   }
-}
+  }

@@ -4,9 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/user/sign_up/quest/user.dart';
 import 'package:dorandoran/common/util.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../texting/home/home.dart';
-
 
 class NextButton extends StatelessWidget {
   final DateTime selectedDate;
@@ -35,21 +34,21 @@ class NextButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
           onPressed: () async {
-            if(namecheck[name]==true) { //닉네임체크넘어가야
+          //  if(namecheck[name]==true) { //닉네임체크넘어가야
               //포스트
+
+            SharedPreferences prefs= await SharedPreferences.getInstance();
               useremail = await postUserRequest(
                   '${selectedDate.year}-${getTimeFormat(
                       selectedDate.month)}-${getTimeFormat(selectedDate.day)}',
-                  name.text.toString(), firebasetoken!, kakaotoken!);
+                  name.text.toString(), prefs.getString("firebasetoken")!, prefs.getString("kakaotoken")!);
               print('${selectedDate.year}-${getTimeFormat(
                   selectedDate.month)}-${getTimeFormat(selectedDate.day)}');
               print('${name.text.toString()}');
-              print(firebasetoken!);
-              print(kakaotoken!);
 
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Home()));
-            }
+          //  }
           },
           child: Text('다음', style: whitestyle),
         ),

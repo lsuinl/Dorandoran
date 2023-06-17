@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 import '../screen/write.dart';
 import 'write_middlefield.dart';
 
-
 class Top extends StatelessWidget {
   //완료(글보내기)
   const Top({Key? key}) : super(key: key);
