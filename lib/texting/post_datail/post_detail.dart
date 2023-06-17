@@ -1,7 +1,6 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
-import 'package:dorandoran/texting/post_datail/component/post_detail_reply_card.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_get_detailcard.dart';

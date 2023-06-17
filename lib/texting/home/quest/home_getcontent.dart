@@ -18,15 +18,14 @@ Future<List<postcard>> getPostContent(
         'authorization':'Bearer $accessToken',
       },
     );
-  if (response.statusCode != 201 && response.statusCode != 200) {
+  print(response.statusCode);
+  if (response.body==[]) {
     getPostContent(urls, userEmail, number - 1, location);
   }
   else if(response.statusCode==401){
-    print("실행됨");
     quest_token();
     getPostContent(urls, userEmail, number, location);
   }
-  print(refreshToken);
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
   return card;

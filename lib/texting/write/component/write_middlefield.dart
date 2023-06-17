@@ -5,6 +5,7 @@ import '../../../common/css.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../screen/write.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
+
 class MiddleTextField extends StatefulWidget {
   final Image backimg;
   final Widget widgets;

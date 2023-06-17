@@ -75,9 +75,7 @@ void getlocation() async {
   Position position = await Geolocator.getCurrentPosition();
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('latitude', position.latitude.toString());
-    latitude = position.latitude.toString();
   prefs.setString('longitude', position.longitude.toString());
-    longtitude = position.longitude.toString();
 }
 
 //스타일가져오기
