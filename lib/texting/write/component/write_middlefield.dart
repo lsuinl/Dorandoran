@@ -1,4 +1,3 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +5,7 @@ import '../../../common/css.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../screen/write.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
+
 class MiddleTextField extends StatefulWidget {
   final Image backimg;
   final Widget widgets;

@@ -25,7 +25,7 @@ void main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
-  firebasetoken = (await FirebaseMessaging.instance.getToken())!;
+  String firebasetoken = (await FirebaseMessaging.instance.getToken())!;
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('firebasetoken', firebasetoken!);
   runApp(ScreenUtilInit(
@@ -44,7 +44,7 @@ void main() async {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!);
         },
-        home: Write(),
+        home: Login_check(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

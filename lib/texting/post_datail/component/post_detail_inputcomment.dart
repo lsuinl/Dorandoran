@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/css.dart';
-import '../../../common/storage.dart';
 import '../post_detail.dart';
 
 class InputComment extends StatefulWidget {
@@ -100,16 +99,16 @@ Container(
                     icon: anonymity
                     ? Icon(Icons.
                   check_box_outlined, size: 24.r)
-                    : Icon(Icons.check_box_outline_blank, size: 24.r)),
+                    : Icon(Icons.check_box_outline_blank, size: 20.r)),
                       IconButton( //비밀댓글
                           onPressed: (){
                             setState(() {
                               lockcheck=!lockcheck;
                             });
                           },
-                          icon:lockcheck? Icon(Icons.lock, size: 24.r):Icon(Icons.lock_open, size: 24.r)),
+                          icon:lockcheck? Icon(Icons.lock, size: 20.r):Icon(Icons.lock_open, size: 24.r)),
             Container(
-                width: 220.w,
+                width: 210.w,
                 child: TextFormField(
                   controller: controller,
                   cursorColor: Colors.black,

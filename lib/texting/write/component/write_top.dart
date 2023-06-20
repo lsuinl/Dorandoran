@@ -73,7 +73,6 @@ class Top extends StatelessWidget {
               }
             },
             child: Text("완료"),
-
         ));
   }
 }

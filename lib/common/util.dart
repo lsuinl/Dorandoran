@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:dorandoran/common/storage.dart';
 import 'package:flutter/src/painting/text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,9 +75,7 @@ void getlocation() async {
   Position position = await Geolocator.getCurrentPosition();
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('latitude', position.latitude.toString());
-    latitude = position.latitude.toString();
   prefs.setString('longitude', position.longitude.toString());
-    longtitude = position.longitude.toString();
 }
 
 //스타일가져오기

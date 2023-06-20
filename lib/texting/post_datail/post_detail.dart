@@ -1,6 +1,8 @@
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
+import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
+import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_get_detailcard.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_postcomment.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_postreply.dart';
@@ -48,9 +50,9 @@ class _PostDetailState extends State<PostDetail> {
                 bool? postcommentstate;
                 if (e.postNickname == 'nickname7') //익명/닉네임중복방지
                   postcommentstate = e.postAnonymity;
-                //초반이면,,
-                  if(commentlist.length<1){
+                if(commentlist.length<1){
                   commentlist.addAll(e.commentDetailDto.map<CommentCard>((a) => CommentCard(
+                    card: commentcard(
                     commentCheckDelete: a['commentCheckDelete'],
                     commentId: a['commentId'],
                     commentAnonymityNickname: a['commentAnonymityNickname'],
@@ -60,17 +62,60 @@ class _PostDetailState extends State<PostDetail> {
                     replies: a['replies'],
                     commentNickname: a['commentNickname'],
                     commentTime: a['commentTime'],
+                      countReply: a['countReply'],
+                    ),
                     postId: widget.postId,
                     changeinputtarget: changeinputtarget,
                     deletedreply: deletereply,
                   )).toList());
+                }
+
+                  List<CommentCard> newlist= e.commentDetailDto.map<CommentCard>((a) => CommentCard(
+                      card: commentcard(
+                    commentCheckDelete: a['commentCheckDelete'],
+                    commentId: a['commentId'],
+                    commentAnonymityNickname: a['commentAnonymityNickname'],
+                    comment: a['comment'],
+                    commentLike: a['commentLike'],
+                    commentLikeResult: a['commentLikeResult'],
+                    replies: a['replies'],
+                    commentNickname: a['commentNickname'],
+                    commentTime: a['commentTime'],
+                        countReply: a['countReply'],
+                      ),
+                    postId: widget.postId,
+                    changeinputtarget: changeinputtarget,
+                    deletedreply: deletereply,
+                  )).toList();
+
+                //***** 대댓글 중복체크하기
+                  //중복체크 후
+                  newlist.forEach((element) { //새로운리스트와 기존리스트비교
+                      for(int i=0;i<commentlist.length;i++){
+                        if(commentlist[i].card.commentId==element.card.commentId
+                        &&   commentlist[i].card.commentCheckDelete==element.card.commentCheckDelete
+                        &&   commentlist[i].card.commentLikeResult==element.card.commentLikeResult
+                        &&   commentlist[i].card.commentLike==element.card.commentLike
+                        &&   commentlist[i].card.replies==element.card.replies
+                        )
+                        { //같은거발견
+                          break;
+                        }
+                        else if(commentlist[i].card.commentId==element.card.commentId) { //같은데 내용 바뀐거.
+                          commentlist[i]=element;
+                          break;
+                        }
+                        else if(i+1==commentlist.length){ //끝까지 같은거없었으면
+                          commentlist.add(element);
+                        }
+                    }
+                  });
 
                   //불러올 댓글갯수가 더 남아있다면
                   int count = 0;
-                  commentlist.forEach((CommentCard reply) => count += reply.replies!.length);
+                  commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
                   plusreply = (commentlist.length + count) < e.commentCnt ?
-                  commentlist[0].commentId : -1;
-                }
+                  commentlist[0].card.commentId : -1;
                   //이미 쓴 댓글 익명여부 검사
                   for (final a in e.commentDetailDto) {
                     //댓글 작성자
@@ -91,9 +136,10 @@ class _PostDetailState extends State<PostDetail> {
                         padding: EdgeInsets.zero,
                         children: [
                           Detail_Card(
+                            postId: widget.postId,
+                            card: postcardDetail(
                             postNickname: e.postNickname,
                             postAnonymity: e.postAnonymity,
-                            postId: widget.postId,
                             content: e.content,
                             postTime: e.postTime,
                             location: e.location,
@@ -106,6 +152,8 @@ class _PostDetailState extends State<PostDetail> {
                             fontBold: e.fontBold,
                             fontColor: e.fontColor,
                             fontSize: e.fontSize,
+                              commentDetailDto: e.commentDetailDto,
+                            )
                           ),
                           SizedBox(height: 10.h),
                           plusreply == -1
@@ -124,6 +172,7 @@ class _PostDetailState extends State<PostDetail> {
                                     List<dynamic> pluscomments = await PlusComment(50, plusreply, '7@gmail.com');
                                     commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
                                                 CommentCard(
+                                                  card: commentcard(
                                                   commentCheckDelete: a.commentCheckDelete,
                                                   commentId: a.commentId,
                                                   commentAnonymityNickname: a.commentAnonymityNickname,
@@ -133,6 +182,8 @@ class _PostDetailState extends State<PostDetail> {
                                                   replies: a.replies,
                                                   commentNickname: a.commentNickname,
                                                   commentTime: a.commentTime,
+                                                    countReply: a.countReply,
+                                                  ),
                                                   postId: widget.postId,
                                                   changeinputtarget: changeinputtarget,
                                                   deletedreply: deletereply,
@@ -141,9 +192,9 @@ class _PostDetailState extends State<PostDetail> {
                                     //불러올 댓글갯수가 더 남아있다면
                                     setState(() {
                                       int count = 0;
-                                      commentlist.forEach((CommentCard reply) => count += reply.replies!.length);
+                                      commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
                                       plusreply = (commentlist.length + count) < e.commentCnt ?
-                                      commentlist[0].commentId : -1;
+                                      commentlist[0].card.commentId : -1;
                                     });
                                   },
                                   child: Text("댓글 더보기",
@@ -187,15 +238,16 @@ class _PostDetailState extends State<PostDetail> {
       if (selectcommentid == 0) {
         //댓글
         commenttime = await postcomment(
-            widget.postId, useremail, controller.text, anonymity);
+            widget.postId, useremail, controller.text, anonymity,lockcheck);
       } else {
         //대댓글
         commenttime = await postreply(
-            selectcommentid, useremail, controller.text, anonymity);
+            selectcommentid, useremail, controller.text, anonymity,lockcheck);
       }
       setState(() {
         controller.clear();
         number = number;
+        selectcommentid=0;
         commenttime = DateTime.now();
       });
       //  final position = scrollController.position.maxScrollExtent;

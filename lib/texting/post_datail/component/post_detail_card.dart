@@ -1,6 +1,6 @@
+import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../common/storage.dart';
 import '../../../common/util.dart';
 import '../../home/home.dart';
@@ -9,37 +9,11 @@ import '../../home/quest/home_postLike.dart';
 
 class Detail_Card extends StatefulWidget {
   final int postId;
-  final String content;
-  final String postTime;
-  final String? location;
-  final int postLikeCnt;
-  final bool? postLikeResult;
-  final int commentCnt;
-  final String backgroundPicUri;
-  final List<dynamic>? postHashes;
-  final String? postNickname;
-  final String font;
-  final String fontColor;
-  final int fontSize;
-  final int fontBold;
-  final bool postAnonymity;
+  final postcardDetail card;
 
   const Detail_Card({
-    required this.postNickname,
     required this.postId,
-    required this.content,
-    required this.postTime,
-    required this.location,
-    required this.postLikeCnt,
-    required this.postLikeResult,
-    required this.commentCnt,
-    required this.backgroundPicUri,
-    required this.postHashes,
-    required this.font,
-    required this.fontColor,
-    required this.fontSize,
-    required this.fontBold,
-    required this.postAnonymity,
+    required this.card,
     Key? key}) : super(key: key);
 
   @override
@@ -52,8 +26,8 @@ class _Detail_CardState extends State<Detail_Card> {
   @override
   void initState() {
     setState(() {
-      like=widget.postLikeResult!;
-      likecnt=widget.postLikeCnt;
+      like=widget.card.postLikeResult!;
+      likecnt=widget.card.postLikeCnt;
     });
     super.initState();
   }
@@ -65,7 +39,7 @@ class _Detail_CardState extends State<Detail_Card> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.r),
                 image: DecorationImage(
-                  image: NetworkImage('http://' + widget.backgroundPicUri),
+                  image: NetworkImage('http://' + widget.card.backgroundPicUri),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
                       Colors.black.withOpacity(0.7), BlendMode.dstATop),
@@ -88,15 +62,15 @@ class _Detail_CardState extends State<Detail_Card> {
                       height: 450.h,
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children:[ Text(widget.content,
+                          children:[ Text(widget.card.content,
                               maxLines: 4,
                               overflow: TextOverflow.ellipsis,
-                              style:  selectfont(widget.font,widget.fontColor,widget.fontSize,widget.fontBold)),
+                              style:  selectfont(widget.card.font,widget.card.fontColor,widget.card.fontSize,widget.card.fontBold)),
                             SizedBox(height:20.h),
-                            Text("by ${widget.postAnonymity==false ?widget.postNickname: "익명"}",
+                            Text("by ${widget.card.postAnonymity==false ?widget.card.postNickname: "익명"}",
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
-                                style: selectfont(widget.font,widget.fontColor,widget.fontSize,widget.fontBold).copyWith(fontSize: 12.sp)),
+                                style: selectfont(widget.card.font,widget.card.fontColor,widget.card.fontSize,widget.card.fontBold).copyWith(fontSize: 12.sp)),
                           ]
                       ),
                     ),
@@ -107,10 +81,10 @@ class _Detail_CardState extends State<Detail_Card> {
                           children: [
                             Icon(Icons.access_time_filled_rounded),
                             SizedBox(width: 3.w),
-                            Text(timecount(widget.postTime)),
+                            Text(timecount(widget.card.postTime)),
                             SizedBox(width: 7.w),
-                            if (widget.location != null) Icon(Icons.place),
-                            Text(widget.location == null ? '' : '${widget.location}km'),
+                            if (widget.card.location != null) Icon(Icons.place),
+                            Text(widget.card.location == null ? '' : '${widget.card.location}km'),
                           ],
                         ),
                         Row( //하트버튼
@@ -119,14 +93,14 @@ class _Detail_CardState extends State<Detail_Card> {
                               onPressed: () {
                                 setState(() {
                                   like= !like;
-                                  if(likecnt!=widget.postLikeResult && like==false) { //화면에서 취소누르면,,
+                                  if(likecnt!=widget.card.postLikeResult && like==false) { //화면에서 취소누르면,,
                                     likecnt=likecnt-1;
                                   }
-                                  else if(likecnt!=widget.postLikeResult && like==true){ //화면에서 좋아요
-                                    likecnt=widget.postLikeCnt+1;
+                                  else if(likecnt!=widget.card.postLikeResult && like==true){ //화면에서 좋아요
+                                    likecnt=widget.card.postLikeCnt+1;
                                   }
                                   else{
-                                    likecnt=widget.postLikeCnt;
+                                    likecnt=widget.card.postLikeCnt;
                                   }
                                 });
                                 postLike(widget.postId, useremail!);
@@ -142,7 +116,7 @@ class _Detail_CardState extends State<Detail_Card> {
                             SizedBox(width: 7.w),
                             Icon(Icons.forum),
                             SizedBox(width: 3.w),
-                            Text('${widget.commentCnt}'),
+                            Text('${widget.card.commentCnt}'),
                           ],
                         ),
                       ],

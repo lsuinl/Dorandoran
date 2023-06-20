@@ -4,10 +4,9 @@ import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:dorandoran/common/util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../write/screen/write.dart';
+import 'component/home_interested.dart';
 import 'component/home_message_card.dart';
 import 'component/home_top.dart';
 
@@ -26,6 +25,7 @@ class _HomeState extends State<Home> {
   List<Message_Card>? item;
   int? checknumber;
   String? url;
+  String tagtitle="새로운";
 
   @override
   void initState() {
@@ -137,11 +137,6 @@ class _HomeState extends State<Home> {
                                   tagname("관심있는"),
                                 ],
                               ),
-                              snapshot.data.length<1 ?
-                                  Center(child:
-                                  Padding(padding: EdgeInsets.only(top:200.w),
-                                      child:
-                                  Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp),))):
                               Expanded(
                                 child: SmartRefresher(
                                   enablePullDown: true,
@@ -200,11 +195,37 @@ class _HomeState extends State<Home> {
                                     }
                                   },
                                   controller: _refreshController,
-                                  child: ListView(
+                                  child: tagtitle == "관심있는" ? Column(
+                                    children: [
+                                      TextFormField(
+                                          decoration: InputDecoration(
+                                            hintText: "관심 태그를 추가해보세요"
+                                          ),
+                                      ),
+                                      SizedBox(height:10.h),
+                                      Row(
+                                        children: [
+                                          Container(color: Colors.blueAccent, height: 100.h,width: 100.w,),
+                                          SizedBox(width: 10.w,),
+                                          Container(color: Colors.blueAccent, height: 100.h,width: 100.w,),
+                                          SizedBox(width: 10.w,),
+                                          Container(color: Colors.blueAccent, height: 100.h,width: 100.w,),
+                                        ],
+                                      ),
+                                      Text("#태그1"),
+                                      Container(color:Colors.yellow,height: 100.h,),
+                                      Text("#태그2"),
+                                      Container(color:Colors.yellow,height: 100.h,),
+                                      Text("#태그3"),
+                                      Container(color:Colors.yellow,height: 100.h,)
+                                    ],
+                                  ) : (snapshot.data.length<1 ?
+                                  Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
+                                      :ListView(
                                     controller: scrollController,
                                     children:
                                         item!.map<Widget>((e) => e).toList(),
-                                  ),
+                                  )),
                                 ),
                               )
                             ],
@@ -280,15 +301,19 @@ class _HomeState extends State<Home> {
     setState(() {
       switch (name) {
         case "근처에":
+          tagtitle="근처에";
           url = '/close';
           break;
         case "인기있는":
+          tagtitle="인기있는";
           url = '/popular';
           break;
         case "새로운":
+          tagtitle="새로운";
           url = '';
           break;
         case "관심있는":
+          tagtitle="관심있는";
           url = '';
           break;
       }
