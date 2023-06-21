@@ -9,7 +9,6 @@ import 'package:dorandoran/common/uri.dart';
 Future<List<postcard>> getPostContent(
     String? urls, String? userEmail, int number, String? location) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
   String? accessToken = prefs.getString("accessToken");
   var response = await http.get(
     Uri.parse(

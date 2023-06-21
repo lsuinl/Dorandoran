@@ -22,4 +22,3 @@ class Basic extends StatelessWidget {
     );
   }
 }
-
