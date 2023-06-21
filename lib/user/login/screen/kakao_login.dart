@@ -19,7 +19,7 @@ class KaKaoLogin extends StatefulWidget {
 class _KaKaoLoginState extends State<KaKaoLogin> {
   @override
   void initState() {
-    getlocation();
+
   }
 
   @override

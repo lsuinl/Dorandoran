@@ -8,6 +8,7 @@ import 'package:dorandoran/texting/post_datail/quest/post_detail_postcomment.dar
 import 'package:dorandoran/texting/post_datail/quest/post_detail_postreply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'component/post_detail_card.dart';
 import 'component/post_detaili_commentcard.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_plus_comment.dart';
@@ -32,18 +33,21 @@ class _PostDetailState extends State<PostDetail> {
   int number = 1;
   int selectcommentid = 0;
   ScrollController scrollController = ScrollController();
+  late String email;
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     commentlist = [];
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    email= prefs.getString("email")!;
   }
 
   @override
   Widget build(BuildContext context) {
     return Basic(
         widgets: FutureBuilder(
-            future: getpostDetail(widget.postId, useremail, ""),
+            future: getpostDetail(widget.postId, email, ""),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 dynamic e = snapshot.data!;
@@ -238,11 +242,11 @@ class _PostDetailState extends State<PostDetail> {
       if (selectcommentid == 0) {
         //댓글
         commenttime = await postcomment(
-            widget.postId, useremail, controller.text, anonymity,lockcheck);
+            widget.postId, email, controller.text, anonymity,lockcheck);
       } else {
         //대댓글
         commenttime = await postreply(
-            selectcommentid, useremail, controller.text, anonymity,lockcheck);
+            selectcommentid, email, controller.text, anonymity,lockcheck);
       }
       setState(() {
         controller.clear();

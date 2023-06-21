@@ -38,7 +38,7 @@ class NextButton extends StatelessWidget {
               //포스트
 
             SharedPreferences prefs= await SharedPreferences.getInstance();
-              useremail = await postUserRequest(
+              await postUserRequest(
                   '${selectedDate.year}-${getTimeFormat(
                       selectedDate.month)}-${getTimeFormat(selectedDate.day)}',
                   name.text.toString(), prefs.getString("firebasetoken")!, prefs.getString("kakaotoken")!);

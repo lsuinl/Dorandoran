@@ -7,6 +7,7 @@ import 'package:dorandoran/texting/post_datail/quest/post_detail_plus_reply.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/util.dart';
 import '../quest/post_detail_commentlike.dart';
 import '../post_detail.dart';
@@ -31,15 +32,17 @@ class CommentCard extends StatefulWidget {
 
 Map<int, bool> commentlike = {0: false};
 Map<int, int> commentlikecnt = {0: 0};
-
+late String email;
 class _CommentCardState extends State<CommentCard> {
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     setState(() {
       commentlike.addAll({widget.card.commentId: widget.card.commentLikeResult});
       commentlikecnt.addAll({widget.card.commentId: widget.card.commentLike});
     });
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    email=prefs.getString("email")!;
   }
   @override
   Widget build(BuildContext context) {
@@ -96,7 +99,7 @@ class _CommentCardState extends State<CommentCard> {
                                                                     fontSize: 16,
                                                                     fontWeight: FontWeight.w700)),
                                                             onPressed: () async {
-                                                              await deletecomment(widget.card.commentId,useremail);
+                                                              await deletecomment(widget.card.commentId,email);
                                                               widget.deletedreply();
                                                               Navigator.of(context).pop();
                                                             },
@@ -185,7 +188,7 @@ class _CommentCardState extends State<CommentCard> {
                                             }
                                             // 댓글좋아요
                                             commentLike(widget.postId,
-                                                widget.card.commentId, useremail);
+                                                widget.card.commentId, email);
                                           },
                                           icon: commentlike[widget.card.commentId]==true
                                               ? Icon(Icons.favorite)
@@ -226,10 +229,11 @@ class _CommentCardState extends State<CommentCard> {
                             width: 1.0,
                           )),
                       onPressed: () async {
-                        List<replycard> cards= await PlusReply(widget.postId, widget.card.commentId, widget.card.replies[0]['replyId'], useremail);
+                        List<replycard> cards= await PlusReply(widget.postId, widget.card.commentId, widget.card.replies[0]['replyId'], email);
                         setState(() {
                           replycardd.insertAll(0,
                               cards.map<ReplyCard>((a) => ReplyCard(
+                                email: email,
                                 replyId: a.replyId,
                                 replyNickname: a.replyNickname,
                                 reply: a.reply,
@@ -256,6 +260,7 @@ class _CommentCardState extends State<CommentCard> {
         ?
           await replies!
                 .map<ReplyCard>((a) => ReplyCard(
+            email:email,
                     replyId: a['replyId'],
                     replyNickname: a['replyNickname'],
                     reply: a['reply'],

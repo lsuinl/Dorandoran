@@ -24,24 +24,24 @@ questkakaologin() async {
         prefs.setString('kakaotoken', kakaotoken!);
         return 100;
       } catch (error) {
-        print('카카오계정으로 로그인 실패 $error');
+        print('카카오계정으로 로그인 실패1 $error');
       }
     }
   } else {
     try {
       token = await UserApi.instance.loginWithKakaoAccount();
       String kakaotoken = token.accessToken.toString();
-      prefs.setString('kakaotoken', kakaotoken!);
+      prefs.setString('kakaotoken', kakaotoken);
       User user = await UserApi.instance.me();
-      print(kakaotoken);
-      prefs.setString('email', user.kakaoAccount!.email.toString());
-      int ok = await postNameCheckRequest(user.kakaoAccount!.email.toString());
-      if (ok == 200)
-        return 200;
-      else
-        return 100;
+      if(user.kakaoAccount != null) {
+        String kakaoemail = user.kakaoAccount!.email.toString();
+        prefs.setString('email', kakaoemail);
+        int ok = await postNameCheckRequest(kakaoemail);
+        if (ok == 200) return 200;
+        else return 100;
+      }
     } catch (error) {
-      print('카카오계정으로 로그인 실패 $error');
+      print('카카오계정으로 로그인 실패2 $error');
     }
   }
 }

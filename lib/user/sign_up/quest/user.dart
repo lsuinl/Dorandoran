@@ -8,12 +8,10 @@ import 'package:dorandoran/user/model/userinformation.dart';
 Future<String> postUserRequest(String dateOfBirth, String nickName, String firebasetoken,
     String kakaoAccessToken) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String accessToken = prefs.getString("accessToken")!;
   var response = await http.post(
     Uri.parse('$url/api/signup'),
     headers: <String, String>{
       'Content-Type': 'application/json',
-      'authorization':'Bearer $accessToken',
     },
     body: jsonEncode({
       "dateOfBirth": dateOfBirth,
@@ -26,6 +24,7 @@ Future<String> postUserRequest(String dateOfBirth, String nickName, String fireb
   userinformation body = userinformation.fromJson(
       jsonDecode(utf8.decode(response.bodyBytes)));
   //prefs.setString("email", body.email);
+  print(body);
   prefs.setString("nickname", body.nickName);
   prefs.setString("accessToken", body.tokenDto![0]); //액세스토큰:첫번쨰에있음
   prefs.setString("refreshToken", body.tokenDto![1]);

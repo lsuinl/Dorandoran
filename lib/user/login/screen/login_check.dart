@@ -4,6 +4,8 @@ import 'package:dorandoran/common/util.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../texting/home/home.dart';
 import '../component/mainlogo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +20,8 @@ class Login_check extends StatefulWidget {
 class _Login_checkState extends State<Login_check> {
   @override
   void initState() {
-    getlocation();
+    permissionquest();
+    if(Permission.locationWhenInUse.isPermanentlyDenied==false && Permission.locationWhenInUse.isDenied==false) getlocation();
   }
 
   @override

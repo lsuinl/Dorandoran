@@ -1,4 +1,3 @@
-import 'package:dorandoran/common/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +5,7 @@ import '../../../common/util.dart';
 import '../quest/post_detail_deletereply.dart';
 
 class ReplyCard extends StatelessWidget {
+  final String email;
   final int replyId;
   final String replyNickname;
   final String reply;
@@ -15,6 +15,7 @@ class ReplyCard extends StatelessWidget {
   final VoidCallback deletedreply;
 
   const ReplyCard({
+    required this.email,
     required this.replyId,
     required this.replyNickname,
     required this.reply,
@@ -69,7 +70,7 @@ class ReplyCard extends StatelessWidget {
                                                                 fontSize: 16,
                                                                 fontWeight: FontWeight.w700)),
                                                         onPressed: () async {
-                                                          await deletereply(replyId,useremail);
+                                                          await deletereply(replyId,email);
                                                           deletedreply();
                                                           Navigator.of(context).pop();
                                                         },

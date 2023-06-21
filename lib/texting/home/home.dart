@@ -1,12 +1,12 @@
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../write/screen/write.dart';
-import 'component/home_interested.dart';
 import 'component/home_message_card.dart';
 import 'component/home_top.dart';
 
@@ -19,24 +19,30 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
   late Future myfuture;
   List<Message_Card>? item;
   int? checknumber;
   String? url;
   String tagtitle="새로운";
-
+  late String email;
+  late String latitude;
+  late String longtitude;
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     setState(() {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
     });
-   // getlocation(); //임시
+    // getlocation(); //임시
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    email=prefs.getString("email")!;
+    latitude=prefs.getString('latitude')??"";
+    longtitude=prefs.getString("longtitude")??"";
     myfuture = getPostContent(
-        url, useremail, 0, latitude == '' ? '' : '$latitude,$longtitude');
+        url, email, 0, latitude == '' ? '' : '$latitude,$longtitude');
   }
 
   @override
@@ -52,37 +58,37 @@ class _HomeState extends State<Home> {
                   if ((item?.length == 0 || item == null) && snapshot.data!.length>0) {
                     item = snapshot.data!
                         .map<Message_Card>((e) => Message_Card(
-                              time: e.postTime,
-                              heart: e.likeCnt,
-                              chat: e.replyCnt,
-                              map: e.location,
-                              message: e.contents,
-                              backimg: e.backgroundPicUri,
-                              postId: e.postId,
-                              likeresult: e.likeResult,
-                              font: e.font,
-                              fontColor: e.fontColor,
-                              fontSize: e.fontSize,
-                              fontBold: e.fontBold,
-                            ))
+                      time: e.postTime,
+                      heart: e.likeCnt,
+                      chat: e.replyCnt,
+                      map: e.location,
+                      message: e.contents,
+                      backimg: e.backgroundPicUri,
+                      postId: e.postId,
+                      likeresult: e.likeResult,
+                      font: e.font,
+                      fontColor: e.fontColor,
+                      fontSize: e.fontSize,
+                      fontBold: e.fontBold,
+                    ))
                         .toList();
                   } else {
                     if (checknumber != lastnumber) {
                       item!.addAll(snapshot.data!
                           .map<Message_Card>((e) => Message_Card(
-                                time: e.postTime,
-                                heart: e.likeCnt,
-                                chat: e.replyCnt,
-                                map: e.location,
-                                message: e.contents,
-                                backimg: e.backgroundPicUri,
-                                postId: e.postId,
-                                likeresult: e.likeResult,
-                                font: e.font,
-                                fontColor: e.fontColor,
-                                fontSize: e.fontSize,
-                                fontBold: e.fontBold,
-                              ))
+                        time: e.postTime,
+                        heart: e.likeCnt,
+                        chat: e.replyCnt,
+                        map: e.location,
+                        message: e.contents,
+                        backimg: e.backgroundPicUri,
+                        postId: e.postId,
+                        likeresult: e.likeResult,
+                        font: e.font,
+                        fontColor: e.fontColor,
+                        fontSize: e.fontSize,
+                        fontBold: e.fontBold,
+                      ))
                           .toList());
                     }
                   }
@@ -102,7 +108,7 @@ class _HomeState extends State<Home> {
                         item!.clear();
                         myfuture = getPostContent(
                             url,
-                            useremail,
+                            email,
                             0,
                             latitude == null
                                 ? ''
@@ -129,7 +135,7 @@ class _HomeState extends State<Home> {
                               SizedBox(height: 10.h),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   tagname("근처에"),
                                   tagname("인기있는"),
@@ -170,7 +176,7 @@ class _HomeState extends State<Home> {
                                       item!.clear();
                                       myfuture = getPostContent(
                                           url,
-                                          useremail,
+                                          email,
                                           0,
                                           latitude == null
                                               ? ''
@@ -184,7 +190,7 @@ class _HomeState extends State<Home> {
                                       setState(() {
                                         myfuture = getPostContent(
                                             url,
-                                            useremail,
+                                            email,
                                             lastnumber - 1,
                                             latitude == null
                                                 ? ''
@@ -195,36 +201,91 @@ class _HomeState extends State<Home> {
                                     }
                                   },
                                   controller: _refreshController,
-                                  child: tagtitle == "관심있는" ? Column(
-                                    children: [
-                                      TextFormField(
-                                          decoration: InputDecoration(
-                                            hintText: "관심 태그를 추가해보세요"
-                                          ),
-                                      ),
-                                      SizedBox(height:10.h),
-                                      Row(
+                                  child: tagtitle == "관심있는" ?ListView(children: [
+                                    Column(
                                         children: [
-                                          Container(color: Colors.blueAccent, height: 100.h,width: 100.w,),
-                                          SizedBox(width: 10.w,),
-                                          Container(color: Colors.blueAccent, height: 100.h,width: 100.w,),
-                                          SizedBox(width: 10.w,),
-                                          Container(color: Colors.blueAccent, height: 100.h,width: 100.w,),
-                                        ],
-                                      ),
-                                      Text("#태그1"),
-                                      Container(color:Colors.yellow,height: 100.h,),
-                                      Text("#태그2"),
-                                      Container(color:Colors.yellow,height: 100.h,),
-                                      Text("#태그3"),
-                                      Container(color:Colors.yellow,height: 100.h,)
-                                    ],
-                                  ) : (snapshot.data.length<1 ?
+                                          TextFormField(
+                                            decoration: InputDecoration(
+                                                border: UnderlineInputBorder(),
+                                                icon: (Icon(Icons.search)),
+                                                suffixIcon: Icon(Icons.cancel),
+                                                hintText: "관심 태그를 추가해보세요"
+                                            ),
+                                          ),
+                                          SizedBox(height:10.h),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text("인기 태그",style: GoogleFonts.abel(fontSize: 15.sp,fontWeight: FontWeight.w500))
+                                            ],
+                                          ),
+                                          SizedBox(height: 10.h,) ,
+                                          Row(
+                                            children: [
+                                              Container(color: Colors.blueAccent.shade100, height: 100.h,width: 100.w,),
+                                              SizedBox(width: 10.w,),
+                                              Container(color: Colors.blueAccent.shade100, height: 100.h,width: 100.w,),
+                                              SizedBox(width: 10.w,),
+                                              Container(color: Colors.blueAccent.shade100, height: 100.h,width: 100.w,),
+                                            ],
+                                          ),
+                                          Padding(padding: EdgeInsets.symmetric(vertical: 10),
+                                            child:  Container(height: 1.h,color: Colors.grey,),),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text("나의 태그",style: GoogleFonts.abel(fontSize: 15.sp,fontWeight: FontWeight.w500))
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Chip(label: Text("태그1"),),
+                                              SizedBox(width: 5.w,),
+                                              Chip(label: Text("태그2"),),
+                                              SizedBox(width: 5.w,),
+                                              Chip(label: Text("태그3"),),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10.h),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text("#태그1",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
+                                              SizedBox(width: 20.w,),
+                                              Text(">",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10.h),
+                                          Container(color:Colors.green.shade100,height: 200.h,),  Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text("#태그2",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
+                                              SizedBox(width: 20.w,),
+                                              Text(">",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10.h),
+                                          Container(color:Colors.green.shade100,height: 200.h,),
+                                          SizedBox(height: 10.h),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text("#태그3",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
+                                              SizedBox(width: 20.w,),
+                                              Text(">",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10.h),
+                                          Container(color:Colors.green.shade100,height: 200.h,) ,
+                                          SizedBox(height: 10.h),
+                                        ]
+                                    )]) : (snapshot.data.length<1 ?
                                   Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
                                       :ListView(
                                     controller: scrollController,
                                     children:
-                                        item!.map<Widget>((e) => e).toList(),
+                                    item!.map<Widget>((e) => e).toList(),
                                   )),
                                 ),
                               )
@@ -240,14 +301,14 @@ class _HomeState extends State<Home> {
                                     _refreshController.position!.animateTo(
                                       0.0,
                                       duration:
-                                          const Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                       curve: Curves.linear,
                                     );
                                     setState(() {
                                       item!.clear();
                                       myfuture = getPostContent(
                                           url,
-                                          useremail,
+                                          email,
                                           0,
                                           latitude == null
                                               ? ''

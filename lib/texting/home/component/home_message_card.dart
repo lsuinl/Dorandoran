@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../post_datail/post_detail.dart';
 import '../quest/home_postLike.dart';
 
@@ -42,14 +43,17 @@ class Message_Card extends StatefulWidget {
 //bool like=false;
 Map<int, bool> like = {0: false};
 Map<int, int> click = {0: 0};
+late String email;
 class _Message_CardState extends State<Message_Card> {
   @override
-  void initState() {
+  void initState() async {
     setState(() {
       //  like=widget.likeresult;
       like.addAll({widget.postId: widget.likeresult});
       click.addAll({widget.postId: widget.heart});
     });
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    email=prefs.getString('email')!;
   }
 
   @override
@@ -123,7 +127,7 @@ class _Message_CardState extends State<Message_Card> {
                                   click[widget.postId] = widget.heart;
                                 }
                               });
-                              postLike(widget.postId, useremail!);
+                              postLike(widget.postId, email);
                             },
                             icon: like[widget.postId]!
                                 ? Icon(Icons.favorite)

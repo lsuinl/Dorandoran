@@ -1,6 +1,7 @@
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/storage.dart';
 import '../../../common/util.dart';
 import '../../home/home.dart';
@@ -22,14 +23,17 @@ class Detail_Card extends StatefulWidget {
 
 bool like=false;
 int likecnt=0;
+late String email;
 class _Detail_CardState extends State<Detail_Card> {
   @override
-  void initState() {
+  void initState()async {
     setState(() {
       like=widget.card.postLikeResult!;
       likecnt=widget.card.postLikeCnt;
     });
     super.initState();
+    SharedPreferences prefs=await SharedPreferences.getInstance();
+    email=prefs.getString("email")!;
   }
   @override
   Widget build(BuildContext context) {
@@ -103,7 +107,7 @@ class _Detail_CardState extends State<Detail_Card> {
                                     likecnt=widget.card.postLikeCnt;
                                   }
                                 });
-                                postLike(widget.postId, useremail!);
+                                postLike(widget.postId, email!);
                               },
                               icon: like!
                                   ? Icon(Icons.favorite)

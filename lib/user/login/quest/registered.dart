@@ -7,7 +7,8 @@ import 'package:dorandoran/user/model/userinformation.dart';
 
 Future<int> registered(String email) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String accessToken = prefs.getString("accessToken")!;
+  String accessToken = prefs.getString("accessToken")??""; //아마이럴일은없지만
+
   var response = await http.post(
     Uri.parse('$url/api/check/registered'),
     headers: <String, String>{

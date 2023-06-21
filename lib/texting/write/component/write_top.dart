@@ -4,6 +4,7 @@ import 'package:dorandoran/common/storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../screen/write.dart';
 import 'write_middlefield.dart';
 
@@ -28,6 +29,10 @@ class Top extends StatelessWidget {
             onPressed: () async {
               String? locations;
               MultipartFile? userimage;
+              SharedPreferences prefs=await SharedPreferences.getInstance();
+              String email = prefs.getString("email")!;
+              String latitude = prefs.getString("latitude")??"";
+              String longtitude = prefs.getString("longtitude")??"";
               if (usinglocation) {
                 locations = '${latitude},${longtitude}';
               } else {
@@ -41,7 +46,7 @@ class Top extends StatelessWidget {
               }
               if (contextcontroller.text != '') {
                 writing(
-                  useremail!,
+                  email!,
                   contextcontroller.text,
                   forme,
                   locations,
@@ -55,7 +60,7 @@ class Top extends StatelessWidget {
                   anony
                 );
                 print(
-                    "useremail:${useremail}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${locations}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
+                    "useremail:${email}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${locations}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
                 print("fontfamily ${style.fontFamily}\n color ${style.color.toString()}\n fontSize ${style.fontSize!.toInt()}\n fontWeight ${int.parse(style.fontWeight.toString().substring(12))}");
                 Navigator.push(
                   context,
