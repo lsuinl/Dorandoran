@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../login/quest/registered.dart';
+
 class UsingAgree extends StatelessWidget {
   final TextStyle textStyle = whitestyle.copyWith(color: Colors.black87);
 
@@ -12,6 +14,7 @@ class UsingAgree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    registered();
     return Scaffold(
         body: Container(
       decoration: gradient,

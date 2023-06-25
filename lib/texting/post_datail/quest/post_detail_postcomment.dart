@@ -5,11 +5,12 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //대댓글달기만드는중
-Future<DateTime> postcomment(int postId, String email, String comment, bool anonymity, bool secretMode) async {
+Future<DateTime> postcomment(int postId, String comment, bool anonymity, bool secretMode) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
+  String email = prefs.getString("email")!;
   http.Response response= await http.post(
-    Uri.parse('$url/api/comment'),
+    Uri.parse('$urls/api/comment'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
@@ -24,7 +25,7 @@ Future<DateTime> postcomment(int postId, String email, String comment, bool anon
   );
   if(response.statusCode==401){
     quest_token();
-    postcomment(postId, email, comment, anonymity, secretMode);
+    postcomment(postId, comment, anonymity, secretMode);
   }
   return DateTime.now();
 }

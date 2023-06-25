@@ -1,11 +1,9 @@
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/common/util.dart';
 import 'package:dorandoran/user/login/quest/kakao_login.dart';
 import 'package:dorandoran/user/login/quest/registered.dart';
 import 'package:dorandoran/user/sign_up/screen/using_agree.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../texting/home/home.dart';
 import '../component/mainlogo.dart';
 
@@ -17,10 +15,6 @@ class KaKaoLogin extends StatefulWidget {
 }
 
 class _KaKaoLoginState extends State<KaKaoLogin> {
-  @override
-  void initState() {
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +37,11 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
                         ),
                         onPressed: () async {
                           if (await questkakaologin() == 200){
-                            SharedPreferences prefs=await SharedPreferences.getInstance();
-                            if(await registered(await prefs.getString('email')!)==200) { //가입된 회원
+                            if(await registered()==200) { //가입된 회원
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (context) => Home()));
                             }
-                          else{
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => UsingAgree()));
-                            }
+                          else Navigator.push(context, MaterialPageRoute(builder: (context) => UsingAgree()));
                         }
                         }),
                   ),

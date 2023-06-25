@@ -7,7 +7,7 @@ Future<int> postNameCheckRequest(
     // not-null해야됨 / 글자초과x(8자) / 이미 요청하고 안된다고 요청받은 닉네임은 따로 저장해서 막음 / 특수문자제한 / 이모티콘사용불가처리.
     String nickName) async {
   var response = await http.post(
-    Uri.parse('$url/api/check-nickname'),
+    Uri.parse('$urls/api/check-nickname'),
     headers: <String, String>{
       'Content-Type': 'application/json',
     },

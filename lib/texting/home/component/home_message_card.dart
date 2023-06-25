@@ -43,17 +43,14 @@ class Message_Card extends StatefulWidget {
 //bool like=false;
 Map<int, bool> like = {0: false};
 Map<int, int> click = {0: 0};
-late String email;
 class _Message_CardState extends State<Message_Card> {
   @override
-  void initState() async {
+  void initState() {
     setState(() {
       //  like=widget.likeresult;
       like.addAll({widget.postId: widget.likeresult});
       click.addAll({widget.postId: widget.heart});
     });
-    SharedPreferences prefs=await SharedPreferences.getInstance();
-    email=prefs.getString('email')!;
   }
 
   @override
@@ -127,7 +124,7 @@ class _Message_CardState extends State<Message_Card> {
                                   click[widget.postId] = widget.heart;
                                 }
                               });
-                              postLike(widget.postId, email);
+                              postLike(widget.postId);
                             },
                             icon: like[widget.postId]!
                                 ? Icon(Icons.favorite)

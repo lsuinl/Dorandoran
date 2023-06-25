@@ -5,7 +5,6 @@ import '../../../common/util.dart';
 import '../quest/post_detail_deletereply.dart';
 
 class ReplyCard extends StatelessWidget {
-  final String email;
   final int replyId;
   final String replyNickname;
   final String reply;
@@ -15,7 +14,6 @@ class ReplyCard extends StatelessWidget {
   final VoidCallback deletedreply;
 
   const ReplyCard({
-    required this.email,
     required this.replyId,
     required this.replyNickname,
     required this.reply,
@@ -70,7 +68,7 @@ class ReplyCard extends StatelessWidget {
                                                                 fontSize: 16,
                                                                 fontWeight: FontWeight.w700)),
                                                         onPressed: () async {
-                                                          await deletereply(replyId,email);
+                                                          await deletereply(replyId);
                                                           deletedreply();
                                                           Navigator.of(context).pop();
                                                         },

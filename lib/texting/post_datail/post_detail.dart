@@ -33,21 +33,18 @@ class _PostDetailState extends State<PostDetail> {
   int number = 1;
   int selectcommentid = 0;
   ScrollController scrollController = ScrollController();
-  late String email;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     commentlist = [];
-    SharedPreferences prefs=await SharedPreferences.getInstance();
-    email= prefs.getString("email")!;
   }
 
   @override
   Widget build(BuildContext context) {
     return Basic(
         widgets: FutureBuilder(
-            future: getpostDetail(widget.postId, email, ""),
+            future: getpostDetail(widget.postId, ""),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 dynamic e = snapshot.data!;
@@ -173,7 +170,7 @@ class _PostDetailState extends State<PostDetail> {
                                         width: 1.0,
                                       )),
                                   onPressed: () async {
-                                    List<dynamic> pluscomments = await PlusComment(50, plusreply, '7@gmail.com');
+                                    List<dynamic> pluscomments = await PlusComment(50, plusreply);
                                     commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
                                                 CommentCard(
                                                   card: commentcard(
@@ -242,11 +239,11 @@ class _PostDetailState extends State<PostDetail> {
       if (selectcommentid == 0) {
         //댓글
         commenttime = await postcomment(
-            widget.postId, email, controller.text, anonymity,lockcheck);
+            widget.postId, controller.text, anonymity,lockcheck);
       } else {
         //대댓글
         commenttime = await postreply(
-            selectcommentid, email, controller.text, anonymity,lockcheck);
+            selectcommentid, controller.text, anonymity,lockcheck);
       }
       setState(() {
         controller.clear();

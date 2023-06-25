@@ -9,7 +9,7 @@ Future<String> postUserRequest(String dateOfBirth, String nickName, String fireb
     String kakaoAccessToken) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var response = await http.post(
-    Uri.parse('$url/api/signup'),
+    Uri.parse('$urls/api/signup'),
     headers: <String, String>{
       'Content-Type': 'application/json',
     },
@@ -21,13 +21,17 @@ Future<String> postUserRequest(String dateOfBirth, String nickName, String fireb
     }),
   );
   print(response.statusCode);
-  userinformation body = userinformation.fromJson(
-      jsonDecode(utf8.decode(response.bodyBytes)));
-  //prefs.setString("email", body.email);
-  print(body);
-  prefs.setString("nickname", body.nickName);
-  prefs.setString("accessToken", body.tokenDto![0]); //액세스토큰:첫번쨰에있음
-  prefs.setString("refreshToken", body.tokenDto![1]);
+  Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+  prefs.setString("nickname", body["nickName"].toString());
+  prefs.setString("accessToken", body["tokenDto"]![0].toString()); //액세스토큰:첫번쨰에있음
+  prefs.setString("refreshToken", body["tokenDto"]![1].toString());
+  // userinformation body = userinformation.fromJson(
+  //     jsonDecode(utf8.decode(response.bodyBytes)));
+  // //prefs.setString("email", body.email);
+  // print(body);
+  // prefs.setString("nickname", body.nickName);
+  // prefs.setString("accessToken", body.tokenDto![0]); //액세스토큰:첫번쨰에있음
+  // prefs.setString("refreshToken", body.tokenDto![1]);
 
   return response.body;
 }

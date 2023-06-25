@@ -107,7 +107,7 @@ class _Detail_CardState extends State<Detail_Card> {
                                     likecnt=widget.card.postLikeCnt;
                                   }
                                 });
-                                postLike(widget.postId, email!);
+                                postLike(widget.postId);
                               },
                               icon: like!
                                   ? Icon(Icons.favorite)
