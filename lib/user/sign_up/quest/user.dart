@@ -22,9 +22,12 @@ Future<String> postUserRequest(String dateOfBirth, String nickName, String fireb
   );
   print(response.statusCode);
   Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  prefs.setString("nickname", body["nickName"].toString());
-  prefs.setString("accessToken", body["tokenDto"]![0].toString()); //액세스토큰:첫번쨰에있음
-  prefs.setString("refreshToken", body["tokenDto"]![1].toString());
+  prefs.setString("nickName", body["nickName"].toString());
+  prefs.setString("email", body["email"].toString());
+  prefs.setString("accessToken", body["tokenDto"]!["accessToken"].toString()); //액세스토큰:첫번쨰에있음
+  prefs.setString("refreshToken", body["tokenDto"]!["refreshToken"].toString());
+  // prefs.setString("accessToken", body["tokenDto"]![0].toString()); //액세스토큰:첫번쨰에있음
+  // prefs.setString("refreshToken", body["tokenDto"]![1].toString());
   // userinformation body = userinformation.fromJson(
   //     jsonDecode(utf8.decode(response.bodyBytes)));
   // //prefs.setString("email", body.email);

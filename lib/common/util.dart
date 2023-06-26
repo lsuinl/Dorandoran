@@ -83,5 +83,9 @@ TextStyle selectfont(String font, String fontColor, int fontSize, int fontBold){
   Color color=fontColor=="black" ? Color(0xFF000000):Color(0xFFFFFFFF);
   TextStyle style = GoogleFonts.getFont(font, textStyle: TextStyle(fontSize: fontSize.sp, color:color, fontWeight: FontWeight.bold));
   return style;
+}
 
+Future<String> getnickname() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString("nickName")??""; //버그방지. 추후수정
 }

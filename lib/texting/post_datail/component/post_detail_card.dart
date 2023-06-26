@@ -23,7 +23,7 @@ class Detail_Card extends StatefulWidget {
 
 bool like=false;
 int likecnt=0;
-late String email;
+
 class _Detail_CardState extends State<Detail_Card> {
   @override
   void initState() {
