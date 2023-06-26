@@ -1,4 +1,3 @@
-import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_reply_card.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/replycard.dart';

@@ -1,5 +1,4 @@
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
@@ -8,7 +7,6 @@ import 'package:dorandoran/texting/post_datail/quest/post_detail_postcomment.dar
 import 'package:dorandoran/texting/post_datail/quest/post_detail_postreply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'component/post_detail_card.dart';
 import 'component/post_detaili_commentcard.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_plus_comment.dart';
@@ -203,7 +201,7 @@ class _PostDetailState extends State<PostDetail> {
                                           color: Colors.black,
                                           fontWeight: FontWeight.w700))),
                           ListBody(
-                              children: commentlist ??
+                              children: commentlist.length >0 ? commentlist:
                                   [
                                     Center(
                                         child: Card(
@@ -230,8 +228,6 @@ class _PostDetailState extends State<PostDetail> {
                     child: Center(child: CircularProgressIndicator()));
               }
             }));
-
-
   }
 
   sendmessage() async {

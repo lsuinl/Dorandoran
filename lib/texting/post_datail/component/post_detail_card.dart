@@ -26,14 +26,12 @@ int likecnt=0;
 late String email;
 class _Detail_CardState extends State<Detail_Card> {
   @override
-  void initState()async {
+  void initState() {
     setState(() {
       like=widget.card.postLikeResult!;
       likecnt=widget.card.postLikeCnt;
     });
     super.initState();
-    SharedPreferences prefs=await SharedPreferences.getInstance();
-    email=prefs.getString("email")!;
   }
   @override
   Widget build(BuildContext context) {
