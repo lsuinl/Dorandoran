@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
-//글 가져오기
+//댓글 더보기
 Future<List<commentcard>> PlusComment(
     int postid,int commentid) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

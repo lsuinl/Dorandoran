@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../post_datail/post_detail.dart';
 import '../quest/home_postLike.dart';
 

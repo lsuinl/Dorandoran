@@ -197,9 +197,9 @@ class _PostDetailState extends State<PostDetail> {
                                     });
                                   },
                                   child: Text("댓글 더보기",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700))),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium!)),
                           ListBody(
                               children: commentlist.length >0 ? commentlist:
                                   [

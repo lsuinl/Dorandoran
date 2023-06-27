@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../common/css.dart';
 import 'package:dorandoran/common/uri.dart';
 import 'package:dorandoran/texting/write/component/write_top.dart';
 import '../component/write_middlefield.dart';
@@ -58,12 +58,7 @@ class _WriteState extends State<Write> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          alignment: Alignment.center,
-          decoration: gradient,
-          child: SafeArea(
-            child: Padding(
+   return Basic(widgets: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
                   children: [
@@ -224,7 +219,7 @@ class _WriteState extends State<Write> {
                                                                 style: GoogleFonts.gowunBatang(fontSize: 20.sp),
                                                                 decoration: InputDecoration(
                                                                   hintText: "태그명을 입력해주세요",
-                                                                  hintStyle: whitestyle.copyWith(
+                                                                  hintStyle:  Theme.of(context).textTheme.headlineLarge!.copyWith(
                                                                       fontSize: 15.sp,
                                                                       color: Colors.black12),
                                                                 ),
@@ -279,8 +274,7 @@ class _WriteState extends State<Write> {
                     ),
                   ],
                 )),
-          )),
-    );
+          );
   }
 
   resetting() {

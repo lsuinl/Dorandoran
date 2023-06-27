@@ -4,7 +4,7 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/quest_token.dart';
 
-//대댓글삭제하기
+//댓글삭제하기
 Future<int>  deletecomment(int commentId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;

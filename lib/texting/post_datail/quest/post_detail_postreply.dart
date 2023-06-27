@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//대댓글달기만드는중
+//대댓글달기
 Future<DateTime>  postreply(int commentId, String reply, bool anonymity, bool secretMode) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;

@@ -1,4 +1,4 @@
-import 'package:dorandoran/common/css.dart';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/user/login/quest/kakao_login.dart';
 import 'package:dorandoran/user/login/quest/registered.dart';
 import 'package:dorandoran/user/sign_up/screen/using_agree.dart';
@@ -18,16 +18,12 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: gradient,
-        child: SafeArea(
-          child: Padding(
+    return Basic(widgets: Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: Column(
                 children: [
                   SizedBox(height: 70.h),
-                  MainLogo(text: "도란도란", style: whitestyle.copyWith(color:Color(0xFF79AAFF))),
+                  MainLogo(text: "도란도란", style:  Theme.of(context).textTheme.headlineLarge!),
                   SizedBox(height: 180.h),
                   Center(
                     child: TextButton(
@@ -47,8 +43,6 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
                   ),
                 ],
               )),
-        ),
-      ),
-    );
+        );
   }
 }

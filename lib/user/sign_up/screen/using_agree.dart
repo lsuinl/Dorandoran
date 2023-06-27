@@ -1,36 +1,30 @@
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/user/sign_up/component/agree_button.dart';
 import 'package:dorandoran/user/sign_up/component/logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dorandoran/common/css.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../login/quest/registered.dart';
 
 class UsingAgree extends StatelessWidget {
-  final TextStyle textStyle = whitestyle.copyWith(color: Colors.black87);
 
   UsingAgree({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     registered();
-    return Scaffold(
-        body: Container(
-      decoration: gradient,
-      child: SafeArea(
-        child: Padding(
+    return Basic(widgets: Padding(
           padding: const EdgeInsets.only(left: 30.0, right: 30),
           child: Column(
             children: [
-              Logo(text: '회원님,\n안녕하세요!', style: textStyle),
+              Logo(text: '회원님,\n안녕하세요!', style: Theme.of(context).textTheme.headlineLarge!),
               SizedBox(height: 100.h),
-              AgreeButton(style: textStyle),
+              AgreeButton(style:  Theme.of(context).textTheme.labelLarge!),
               SizedBox(height: 20.h),
             ],
           ),
         ),
-      ),
-    ));
+      );
   }
 }

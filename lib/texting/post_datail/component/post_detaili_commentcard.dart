@@ -6,7 +6,6 @@ import 'package:dorandoran/texting/post_datail/quest/post_detail_plus_reply.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/util.dart';
 import '../quest/post_detail_commentlike.dart';
 import '../post_detail.dart';
@@ -157,8 +156,9 @@ class _CommentCardState extends State<CommentCard> {
                                                   ),
                                                   child: Text(
                                                     "삭제",
-                                                    style: TextStyle(
-                                                        color: Colors.black),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headlineMedium!,
                                                   ),
                                                 )
                                               : Container())
@@ -301,9 +301,9 @@ class _CommentCardState extends State<CommentCard> {
                         });
                       },
                       child: Text("대댓글 더보기",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700)))
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!))
                   : Container(),
               ListBody(children: replycardd)
             ]);

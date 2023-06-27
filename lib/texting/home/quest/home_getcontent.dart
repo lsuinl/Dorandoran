@@ -23,7 +23,7 @@ print(response.statusCode);
   if (response.body==[]) {
     getPostContent(url, number - 1);
   }
-  if(response.statusCode==401){
+  else if(response.statusCode==401){
     quest_token();
     getPostContent(url, number);
   }

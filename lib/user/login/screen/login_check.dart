@@ -1,4 +1,4 @@
-import 'package:dorandoran/common/css.dart';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +25,7 @@ class _Login_checkState extends State<Login_check> {
   @override
   Widget build(BuildContext context) {
     logincheck();
-    return Scaffold(
-      body: Container(
-        decoration: gradient,
-        child: SafeArea(
-            child: Padding(
+    return Basic(widgets: Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child:
               Center(
@@ -37,18 +33,14 @@ class _Login_checkState extends State<Login_check> {
                   Column(
                     children: [
                       SizedBox(height: 70.h),
-                      MainLogo(text: "도란도란", style: whitestyle.copyWith(color:Color(0xFF79AAFF))),
-                      SizedBox(height: 160.h),
-                      SizedBox(height: 20.h,),
+                      MainLogo(text: "도란도란", style:  Theme.of(context).textTheme.headlineLarge!),
+                      SizedBox(height: 180.h),
                       CircularProgressIndicator(color: Color(0xFF79AAFF)),
                       SizedBox(height: 20.h,),
-                      Text("데이터를 로딩 중입니다. 잠시만 기다려주세요.", style: TextStyle(
-                          fontSize: 12.sp, color: Colors.black26)),
+                      Text("데이터를 로딩 중입니다. 잠시만 기다려주세요.", style: Theme.of(context).textTheme.bodySmall),
                     ],
                   )),)
-        ),
-      ),
-    );
+        );
   }
 
   logincheck() async {

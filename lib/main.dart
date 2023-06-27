@@ -4,7 +4,7 @@ import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
 import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
-import 'package:http/http.dart';
+import 'package:dorandoran/user/sign_up/screen/using_agree.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +16,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'common/storage.dart';
-import 'user/sign_up/screen/using_agree.dart';
 
 void main() async {
   KakaoSdk.init(nativeAppKey: kakaonativekey);
@@ -36,6 +35,39 @@ void main() async {
       return MaterialApp(
         theme: ThemeData(
           fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily,
+          textTheme: TextTheme(
+            headlineLarge: TextStyle( //큰 제목
+              color: Colors.black87,
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w500,
+            ),
+            headlineMedium: TextStyle( //중간크기 안내문구
+            color: Colors.black87,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w500,
+          ),
+            bodyMedium: TextStyle( //기본 텍스트
+                color: Colors.black87,
+                fontSize: 13.sp
+            ),
+            bodySmall: TextStyle( //데이터 로딩중..
+                color: Colors.black26,
+                fontSize: 10.sp
+            ),
+            labelLarge: TextStyle( //버튼 텍스트 큰거
+                color: Colors.black87,
+                fontSize: 18.sp
+            ),
+            labelMedium:  GoogleFonts.gowunBatang( //버튼 텍스트 내부 글쓰기관련 버튼같ㅇ느거
+              color: Colors.white,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w300,
+            ),
+            labelSmall: TextStyle( //버튼 작은 텍스트(확인 등)
+                color: Colors.black87,
+                fontSize: 14.sp
+            ),
+          ),
           primarySwatch: Colors.blue,
           canvasColor: Colors.transparent,
         ),

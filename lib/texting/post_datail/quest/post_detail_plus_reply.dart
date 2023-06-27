@@ -3,9 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
-
 import '../model/replycard.dart';
-//글 가져오기
+
+//대댓글 더보기
 Future<List<replycard>> PlusReply(
     int postid,int commentid,int replyid) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

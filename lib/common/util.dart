@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:dorandoran/common/storage.dart';
 import 'package:flutter/src/painting/text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -81,6 +80,7 @@ void getlocation() async {
 //스타일가져오기
 TextStyle selectfont(String font, String fontColor, int fontSize, int fontBold){
   Color color=fontColor=="black" ? Color(0xFF000000):Color(0xFFFFFFFF);
+  GoogleFonts.getFont(j)
   TextStyle style = GoogleFonts.getFont(font, textStyle: TextStyle(fontSize: fontSize.sp, color:color, fontWeight: FontWeight.bold));
   return style;
 }
