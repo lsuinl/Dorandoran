@@ -1,10 +1,9 @@
 import 'dart:math';
-
+import 'package:dorandoran/texting/home/quest/get_my_hash.dart';
 import 'package:dorandoran/texting/home/quest/get_popular_hash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../common/uri.dart';
 import 'component/home_tag_search.dart';
 
@@ -14,17 +13,20 @@ class TagScreen extends StatefulWidget {
   @override
   State<TagScreen> createState() => _TagScreenState();
 }
+List<String> populartagname = [];
+List<String> mytag = [];
 
 class _TagScreenState extends State<TagScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getdata();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: GetPopularHash(),
-        builder: (context, snapshot) {
-          List<String> populartagname = [];
-          if (snapshot.hasData) {
-            populartagname.addAll(snapshot.data!);
-          }
           return ListView(children: [
             Column(children: [
               TagSearch(),
@@ -85,23 +87,10 @@ class _TagScreenState extends State<TagScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Chip(
-                    label: Text("태그1"),
-                  ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Chip(
-                    label: Text("태그2"),
-                  ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Chip(
-                    label: Text("태그3"),
-                  ),
-                ],
+                children:
+                mytag.map((e) =>
+                Padding(padding: EdgeInsets.symmetric(vertical: 5.h),
+                child: Chip(label: Text(e)))).toList(),
               ),
               SizedBox(height: 10.h),
               Row(
@@ -165,6 +154,13 @@ class _TagScreenState extends State<TagScreen> {
               SizedBox(height: 10.h),
             ])
           ]);
-        });
+        }
+  void getdata() async {
+    List<String> populartagnames= await GetPopularHash();
+    List<String> mytags= await GetMyHash();
+    setState(() {
+      populartagname = populartagnames;
+      mytag=mytags;
+    });
   }
-}
+  }
