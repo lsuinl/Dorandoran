@@ -80,7 +80,6 @@ void getlocation() async {
 //스타일가져오기
 TextStyle selectfont(String font, String fontColor, int fontSize, int fontBold){
   Color color=fontColor=="black" ? Color(0xFF000000):Color(0xFFFFFFFF);
-  GoogleFonts.getFont(j)
   TextStyle style = GoogleFonts.getFont(font, textStyle: TextStyle(fontSize: fontSize.sp, color:color, fontWeight: FontWeight.bold));
   return style;
 }

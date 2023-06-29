@@ -5,7 +5,7 @@ import 'uri.dart';
 
 
 //refresh 토큰으로 accesstoken=토큰재발급
-Future<String> quest_token() async {
+void quest_token() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String refreshToken = prefs.getString("refreshToken")!;
@@ -20,7 +20,8 @@ Future<String> quest_token() async {
     }),
   );
   print(response.body);
-  Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  prefs.setString("accessToken", body["accessToken"].toString());
-  return response.body;
+  if(response.body.isNotEmpty) {
+    Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+    prefs.setString("accessToken", body["accessToken"].toString());
+  }
 }

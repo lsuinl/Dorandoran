@@ -35,8 +35,8 @@ class Top extends StatelessWidget {
               String? fontfamily;
 
               if(style.fontFamily.toString().contains("Jua")) fontfamily="Jua";
-              else if(style.fontFamily.toString().contains("nanumGothic")) fontfamily="nanumGothic";
-              else fontfamily = "cuteFont";
+              else if(style.fontFamily.toString().contains("NanumGothic")) fontfamily="Nanum Gothic";
+              else fontfamily = "Cute Font";
 
               locations = usinglocation==true ?'${latitude},${longtitude}':"";
 
@@ -65,7 +65,7 @@ class Top extends StatelessWidget {
                 );
 
                 print("useremail:${email}\ncontext:${contextcontroller.text}\nforme:${forme}\nLocation: ${locations}\nbackimg:${backgroundimgname}\nhashtag${hashtag}\n filename:${dummyFille}");
-                print("fontfamily ${style.fontFamily}\n color ${style.color.toString()}\n fontSize ${style.fontSize!.toInt()}\n fontWeight ${int.parse(style.fontWeight.toString().substring(12))}");
+                print("fontfamily ${style.fontFamily}\n$fontfamily \n color ${style.color.toString()}\n fontSize ${style.fontSize!.toInt()}\n fontWeight ${int.parse(style.fontWeight.toString().substring(12))}");
 
                 Navigator.push(context, PageRouteBuilder(
                     pageBuilder: (BuildContext context,
