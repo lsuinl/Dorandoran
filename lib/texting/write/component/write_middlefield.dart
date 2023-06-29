@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../common/css.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../screen/write.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
@@ -57,7 +56,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
               border: InputBorder.none,
               enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
               hintText: "내용을 작성해주세요",
-              hintStyle: whitestyle.copyWith(color: Colors.black12),
+              hintStyle: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.black12),
             ),
             controller: contextcontroller,
           ),
@@ -153,7 +152,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                         _controller.hideMenu();
                       });
                     },
-                     child: item==15 ? Text("작게", style: buttontextstyle,): item==32 ? Text("중간",style: buttontextstyle):Text("크게",style: buttontextstyle),
+                     child: item==15 ? Text("작게", style: Theme.of(context).textTheme.labelLarge!,): item==32 ? Text("중간",style:Theme.of(context).textTheme.labelLarge!):Text("크게",style: Theme.of(context).textTheme.labelLarge!),
                       ))
                           .toList(),
                     ),

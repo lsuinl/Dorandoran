@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../common/css.dart';
 import '../post_detail.dart';
 
 class InputComment extends StatefulWidget {
@@ -117,7 +116,7 @@ Container(
                     enabledBorder:
                         UnderlineInputBorder(borderSide: BorderSide.none),
                     hintText: "댓글을 입력하세요.",
-                    hintStyle: whitestyle.copyWith(
+                    hintStyle: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         color: Colors.black26, fontSize: 15.sp),
                   ),
                 )),

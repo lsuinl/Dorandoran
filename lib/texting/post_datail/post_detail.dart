@@ -1,5 +1,4 @@
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
@@ -43,7 +42,7 @@ class _PostDetailState extends State<PostDetail> {
   Widget build(BuildContext context) {
     return Basic(
         widgets: FutureBuilder(
-            future: getpostDetail(widget.postId, useremail, ""),
+            future: getpostDetail(widget.postId, ""),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 dynamic e = snapshot.data!;
@@ -169,7 +168,7 @@ class _PostDetailState extends State<PostDetail> {
                                         width: 1.0,
                                       )),
                                   onPressed: () async {
-                                    List<dynamic> pluscomments = await PlusComment(50, plusreply, '7@gmail.com');
+                                    List<dynamic> pluscomments = await PlusComment(50, plusreply);
                                     commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
                                                 CommentCard(
                                                   card: commentcard(
@@ -198,11 +197,11 @@ class _PostDetailState extends State<PostDetail> {
                                     });
                                   },
                                   child: Text("댓글 더보기",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700))),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium!)),
                           ListBody(
-                              children: commentlist ??
+                              children: commentlist.length >0 ? commentlist:
                                   [
                                     Center(
                                         child: Card(
@@ -229,8 +228,6 @@ class _PostDetailState extends State<PostDetail> {
                     child: Center(child: CircularProgressIndicator()));
               }
             }));
-
-
   }
 
   sendmessage() async {
@@ -238,11 +235,11 @@ class _PostDetailState extends State<PostDetail> {
       if (selectcommentid == 0) {
         //댓글
         commenttime = await postcomment(
-            widget.postId, useremail, controller.text, anonymity,lockcheck);
+            widget.postId, controller.text, anonymity,lockcheck);
       } else {
         //대댓글
         commenttime = await postreply(
-            selectcommentid, useremail, controller.text, anonymity,lockcheck);
+            selectcommentid, controller.text, anonymity,lockcheck);
       }
       setState(() {
         controller.clear();

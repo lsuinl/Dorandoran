@@ -1,9 +1,8 @@
-import 'package:dorandoran/user/sign_up/component/InputField.dart';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/user/sign_up/component/logo.dart';
 import 'package:dorandoran/user/sign_up/component/next_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dorandoran/common/css.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
 import '../quest/namecheck.dart';
@@ -28,110 +27,128 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundcolor,
-      body: Container(
-        decoration: gradient,
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30),
-            child: Column(children: [
-              Logo(text: '첫 방문을\n환영합니다!', style: whitestyle),
-              SizedBox(height: 50.h),
-              Column(
-                children: [
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text('닉네임을 설정해주세요',
-                            style: whitestyle.copyWith(fontSize: 20.sp)),
-                        SizedBox(height: 5.h),
-                        Row(
-                          children: [
-                            Container(
-                              child: inputfield(name),
-                              width: 220.w,
-                            ),
-                            SizedBox(width: 15.w),
-                            TextButton(
-                                onPressed: (){
-                               //   textchange(checkname(name.text.toString()),name.text.toString())
-                                  setState(() {
-                                    text=checkname(name.text.toString());
-                                  });
-                                  if(text=="")
-                                    textchange(name.text.toString());
-                                },
-                                child: Text("확인"),
-                                style: TextButton.styleFrom(
-                                    primary: Colors.white,
-                                    side: BorderSide(
-                                      color: Colors.white,
-                                    ))),
-                          ],
+    return Basic(
+      widgets: Padding(
+        padding: const EdgeInsets.only(left: 30, right: 30),
+        child: Column(children: [
+          Logo(
+              text: '첫 방문을\n환영합니다!',
+              style: Theme.of(context).textTheme.headlineLarge!),
+          SizedBox(height: 50.h),
+          Column(
+            children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                Text('닉네임을 설정해주세요', style:  Theme.of(context).textTheme.headlineMedium!),
+                SizedBox(height: 5.h),
+                Row(
+                  children: [
+                    Container(
+                      child: TextField(
+                        style: Theme.of(context).textTheme.bodyMedium!,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black54)),
+                          hintText: "닉네임을 입력해주세요",
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: Colors.indigo),
                         ),
-                        Text(
-                          text,
-                          style: text == '사용가능한 이름입니다.' ? whitestyle.copyWith(color: Colors.blue, fontSize: 14.sp) : whitestyle.copyWith(color: Colors.red, fontSize: 14.sp),
-                        ),
-                      ]),
-                  SizedBox(height: 12.h),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text('생년월일을 선택해주세요',
-                          style: whitestyle.copyWith(fontSize: 20.sp)),
-                      SizedBox(height: 10.h),
-                      Container(
-                        width: 240.w,
-                        height: 40.h,
-                        child: TextButton(
-                          child: Text(
-                            '${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}',
-                            style: whitestyle.copyWith(fontSize: 15.sp),
-                          ),
-                          style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              side: BorderSide(
-                                color: Colors.white,
-                              )),
-                          onPressed: dialog,
-                        ),
+                        controller: name,
+                        maxLength: 9,
                       ),
-                    ],
+                      width: 220.w,
+                    ),
+                    SizedBox(width: 15.w),
+                    TextButton(
+                        onPressed: () {
+                          //   textchange(checkname(name.text.toString()),name.text.toString())
+                          setState(() {
+                            text = checkname(name.text.toString());
+                          });
+                          if (text == "") textchange(name.text.toString());
+                        },
+                        child: Text("확인", style: Theme.of(context)
+                            .textTheme
+                            .labelSmall!,),
+                        style: TextButton.styleFrom(
+                            primary: Colors.black54,
+                            side: BorderSide(
+                              color: Colors.black54,
+                            ))),
+                  ],
+                ),
+                Text(
+                  text,
+                  style: text == '사용가능한 이름입니다.'
+                      ? Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Colors.blue)
+                      : Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Colors.red),
+                ),
+              ]),
+              SizedBox(height: 12.h),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text('생년월일을 선택해주세요',
+                      style:  Theme.of(context).textTheme.headlineMedium!),
+                  SizedBox(height: 10.h),
+                  Container(
+                    width: 240.w,
+                    height: 40.h,
+                    child: TextButton(
+                      child: Text(
+                        '${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(fontSize: 15.sp),
+                      ),
+                      style: TextButton.styleFrom(
+                          primary: Colors.black54,
+                          side: BorderSide(
+                            color: Colors.black54,
+                          )),
+                      onPressed: dialog,
+                    ),
                   ),
-                  SizedBox(height: 30.h),
-                  NextButton(
-                    selectedDate: selectedDate,
-                    name: name,
-                    namecheck: namecheck,
-                  )
                 ],
               ),
-            ]),
+              SizedBox(height: 30.h),
+              NextButton(
+                selectedDate: selectedDate,
+                name: name,
+                namecheck: namecheck,
+              )
+            ],
           ),
-        ),
+        ]),
       ),
     );
   }
 
   void textchange(String name) {
-      postNameCheckRequest(name).then((value) {
-        if (value == 200) {
-          setState(() {
-            text = '사용가능한 이름입니다.';
-            namecheck[name] = true;
-          });
-        } else {
-          setState(() {
-            text = '이미 사용중인 이름입니다.';
-            namecheck[name] = false;
-          });
-        }
-      });
+    postNameCheckRequest(name).then((value) {
+      if (value == 200) {
+        setState(() {
+          text = '사용가능한 이름입니다.';
+          namecheck[name] = true;
+        });
+      } else {
+        setState(() {
+          text = '이미 사용중인 이름입니다.';
+          namecheck[name] = false;
+        });
+      }
+    });
   }
 
-  void dialog(){
+  void dialog() {
     showCupertinoDialog(
       context: context,
       barrierDismissible: true,

@@ -92,7 +92,7 @@ class _AgreeButtonState extends State<AgreeButton> {
                 });
               }),
           Text("전체동의",
-            style: TextStyle(color: Colors.black87, fontSize: 18),
+            style: Theme.of(context).textTheme.bodyMedium!,
           ),
         ],
       );

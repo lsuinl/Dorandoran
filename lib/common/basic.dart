@@ -12,9 +12,9 @@ class Basic extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-        decoration: gradient,
+      color: backgroundcolor,
         child: SafeArea(
-        top: false,
+        top: true,
         bottom: true,
           child: widgets
     )
@@ -22,4 +22,3 @@ class Basic extends StatelessWidget {
     );
   }
 }
-

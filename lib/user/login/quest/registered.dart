@@ -1,36 +1,35 @@
-import 'package:dorandoran/common/quest_token.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dorandoran/user/model/userinformation.dart';
 
-Future<int> registered(String email) async {
+Future<int> registered() async {
+try {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String accessToken = prefs.getString("accessToken")!;
+  String email = prefs.getString("email")!;
   var response = await http.post(
-    Uri.parse('$url/api/check/registered'),
+    Uri.parse('$urls/api/check/registered'),
     headers: <String, String>{
       'Content-Type': 'application/json',
-      'authorization':'Bearer $accessToken',
     },
     body: jsonEncode({
-      "email":email
+      "email": email
     }),
   );
-  if(response.statusCode==200) { //이미가입된 회원이면 회원정보저장하기
-    userinformation body = userinformation.fromJson(
-        jsonDecode(utf8.decode(response.bodyBytes)));
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //prefs.setString("email", body.email);
-    prefs.setString("nickname", body.nickName);
+  //이미가입된 회원이면 회원정보저장하기
+
+  Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+  prefs.setString("nickName", body["nickName"].toString());
+  prefs.setString("email", body["email"].toString());
+  prefs.setString("accessToken", body["tokenDto"]!["accessToken"].toString()); //액세스토큰:첫번쨰에있음
+  prefs.setString("refreshToken", body["tokenDto"]!["refreshToken"].toString());
+  print(prefs.getString("accessToken"));
+  print(prefs.getString("refreshToken"));
     return 200;
-  }
-  else if(response.statusCode==401){
-    quest_token();
-    registered(email);
-    return 401;
-  }
-  else return 400;
+}
+catch(e){
+  print(e);
+  return 400;
+}
 
 }

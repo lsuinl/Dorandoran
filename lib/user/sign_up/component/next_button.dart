@@ -1,7 +1,5 @@
-import 'package:dorandoran/common/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/user/sign_up/quest/user.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,7 +27,8 @@ class NextButton extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               primary: Colors.blueAccent,
-              elevation: 3,
+              //side: BorderSide(width:3, color:Colors.brown),
+              elevation: 30,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
@@ -38,7 +37,7 @@ class NextButton extends StatelessWidget {
               //포스트
 
             SharedPreferences prefs= await SharedPreferences.getInstance();
-              useremail = await postUserRequest(
+              await postUserRequest(
                   '${selectedDate.year}-${getTimeFormat(
                       selectedDate.month)}-${getTimeFormat(selectedDate.day)}',
                   name.text.toString(), prefs.getString("firebasetoken")!, prefs.getString("kakaotoken")!);
@@ -50,7 +49,7 @@ class NextButton extends StatelessWidget {
                   context, MaterialPageRoute(builder: (context) => Home()));
           //  }
           },
-          child: Text('다음', style: whitestyle),
+          child: Text('다음', style:  Theme.of(context).textTheme.labelLarge!),
         ),
       ),
     );

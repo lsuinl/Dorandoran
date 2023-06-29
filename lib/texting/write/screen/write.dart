@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../common/css.dart';
 import 'package:dorandoran/common/uri.dart';
 import 'package:dorandoran/texting/write/component/write_top.dart';
 import '../component/write_middlefield.dart';
@@ -44,7 +44,7 @@ class _WriteState extends State<Write> {
       dummyFille = null;
       backgroundimgname = (Random().nextInt(99) + 1).toString();
       if (backgroundimgname != null) {
-        backimg = Image.network('$url/api/background/' + backgroundimgname!);
+        backimg = Image.network('$urls/api/background/' + backgroundimgname!);
         imagenumber = {int.parse(backgroundimgname!)};
       }
     });
@@ -53,17 +53,12 @@ class _WriteState extends State<Write> {
     setimagenumber();
   }
 
-  Image backimg = Image.network('$url/api/background/' + '1');
+  Image backimg = Image.network('$urls/api/background/' + '1');
   TextStyle buttontext = GoogleFonts.gowunBatang(fontSize: 12.sp);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          alignment: Alignment.center,
-          decoration: gradient,
-          child: SafeArea(
-            child: Padding(
+   return Basic(widgets: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
                   children: [
@@ -156,7 +151,7 @@ class _WriteState extends State<Write> {
                                                       Wrap(
                                                         children: imagenumber.map((e) => TextButton(
                                                                 child: Image.network(
-                                                                  '$url/api/background/' + e.toString(),
+                                                                  '$urls/api/background/' + e.toString(),
                                                                   width: 72.w,
                                                                   height: 72.h,
                                                                   fit: BoxFit.cover,
@@ -224,7 +219,7 @@ class _WriteState extends State<Write> {
                                                                 style: GoogleFonts.gowunBatang(fontSize: 20.sp),
                                                                 decoration: InputDecoration(
                                                                   hintText: "태그명을 입력해주세요",
-                                                                  hintStyle: whitestyle.copyWith(
+                                                                  hintStyle:  Theme.of(context).textTheme.headlineLarge!.copyWith(
                                                                       fontSize: 15.sp,
                                                                       color: Colors.black12),
                                                                 ),
@@ -279,8 +274,7 @@ class _WriteState extends State<Write> {
                     ),
                   ],
                 )),
-          )),
-    );
+          );
   }
 
   resetting() {
@@ -297,7 +291,7 @@ class _WriteState extends State<Write> {
     setState(() {
       backgroundimgname = e.toString();
       if (backgroundimgname != null)
-        backimg = Image.network('$url/api/background/' + backgroundimgname!);
+        backimg = Image.network('$urls/api/background/' + backgroundimgname!);
     });
   }
 

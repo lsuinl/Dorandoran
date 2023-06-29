@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:dorandoran/common/storage.dart';
 import 'package:dorandoran/common/util.dart';
 import '../../post_datail/post_detail.dart';
 import '../quest/home_postLike.dart';
@@ -123,7 +122,7 @@ class _Message_CardState extends State<Message_Card> {
                                   click[widget.postId] = widget.heart;
                                 }
                               });
-                              postLike(widget.postId, useremail!);
+                              postLike(widget.postId);
                             },
                             icon: like[widget.postId]!
                                 ? Icon(Icons.favorite)

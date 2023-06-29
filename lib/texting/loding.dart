@@ -1,5 +1,5 @@
+import 'package:dorandoran/common/basic.dart';
 import 'package:flutter/material.dart';
-import '../common/css.dart';
 import 'home/home.dart';
 
 class loding extends StatefulWidget {
@@ -13,15 +13,10 @@ class _lodingState extends State<loding> {
   @override
   Widget build(BuildContext context) {
     loading();
-    return Scaffold(
-        backgroundColor: backgroundcolor,
-        body: Container(
-            decoration: gradient,
-            child: Center(
+    return Basic(widgets:Center(
               child: CircularProgressIndicator(),
             ),
-        ),
-    );
+        );
   }
 
   void loading() async {

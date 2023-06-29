@@ -7,22 +7,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 //세부 글 가져오기
 Future<postcardDetail> getpostDetail(
-    int postId, String useremail, String location) async {
+    int postId, String location) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
+  String email = prefs.getString("email")!;
   print("실행됨");
   var response = await http.post(
-    Uri.parse('$url/api/post/detail'),
+    Uri.parse('$urls/api/post/detail'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
     },
-    body: jsonEncode(
-        {"postId": postId, "userEmail": useremail, "location": location}),
+    body: jsonEncode({
+      "postId": postId,
+      "userEmail": email,
+      "location": location
+    }),
   );
   if(response.statusCode==401){
     quest_token();
-    getpostDetail(postId, useremail, location);
+    getpostDetail(postId, location);
   }
   Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   postcardDetail card = postcardDetail.fromJson(body);

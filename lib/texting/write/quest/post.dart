@@ -8,7 +8,7 @@ Future<int> writing(String email,String content, bool forme, String? locations, 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   var response = await dio.post(
-      '${url}/api/post',
+      '${urls}/api/post',
       options: Options(headers: { 'authorization':'Bearer $accessToken',}),
       data: FormData.fromMap({
         'email': email,
