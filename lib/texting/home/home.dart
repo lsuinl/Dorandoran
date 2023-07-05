@@ -1,15 +1,11 @@
-import 'dart:math';
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/texting/home/component/home_tag_search.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:dorandoran/texting/home/tag_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../common/basic.dart';
-import '../../common/uri.dart';
 import '../write/screen/write.dart';
 import 'component/home_message_card.dart';
 import 'component/home_top.dart';

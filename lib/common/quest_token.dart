@@ -20,6 +20,7 @@ void quest_token() async {
     }),
   );
   print(response.body);
+  print("토큰");
   if(response.body.isNotEmpty) {
     Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     prefs.setString("accessToken", body["accessToken"].toString());

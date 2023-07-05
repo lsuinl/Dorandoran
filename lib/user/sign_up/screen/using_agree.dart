@@ -19,7 +19,7 @@ class UsingAgree extends StatelessWidget {
           child: Column(
             children: [
               Logo(text: '회원님,\n안녕하세요!', style: Theme.of(context).textTheme.headlineLarge!),
-              SizedBox(height: 100.h),
+              SizedBox(height: 80.h),
               AgreeButton(style:  Theme.of(context).textTheme.labelLarge!),
               SizedBox(height: 20.h),
             ],

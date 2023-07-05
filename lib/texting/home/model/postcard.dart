@@ -4,12 +4,12 @@ class postcard {
   final String postTime;
   final int? location;
   final int likeCnt;
-  final bool likeResult;
+  final bool? likeResult;
   final String backgroundPicUri;
   final int? replyCnt;
   final String font;
   final String fontColor;
-  final int fontSize;
+  final int? fontSize;
   final int fontBold;
 
   postcard({

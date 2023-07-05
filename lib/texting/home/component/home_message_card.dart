@@ -12,10 +12,10 @@ class Message_Card extends StatefulWidget {
   final String message;
   final String backimg;
   final int postId;
-  final bool likeresult;
+  final bool? likeresult;
   final String font;
   final String fontColor;
-  final int fontSize;
+  final int? fontSize;
   final int fontBold;
 
   const Message_Card(
@@ -46,7 +46,7 @@ class _Message_CardState extends State<Message_Card> {
   void initState() {
     setState(() {
       //  like=widget.likeresult;
-      like.addAll({widget.postId: widget.likeresult});
+      like.addAll({widget.postId: widget.likeresult?? false});
       click.addAll({widget.postId: widget.heart});
     });
   }
@@ -84,7 +84,7 @@ class _Message_CardState extends State<Message_Card> {
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             style: selectfont(widget.font, widget.fontColor,
-                                widget.fontSize, widget.fontBold)),
+                                widget.fontSize??14, widget.fontBold)),
                       ),
                     ),
                   ),

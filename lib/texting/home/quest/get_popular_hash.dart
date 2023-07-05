@@ -14,7 +14,13 @@ Future<List<String>> GetPopularHash() async {
       'authorization':'Bearer $accessToken',
     },
   );
-  Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  List<String> names = List<String>.from(body["hashTagList"]);
+
+  List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+  List<String> names = body.map((e) => e["hashTagName"].toString()).toList();
+  // List<int> count = body.map((e) => int.parse(e["hashTagCount"].toString())).toList();
+  // Map<String, int> lists={};
+  // for(int i=0;i<names.length;i++){
+  //   lists[names[i]]=count[i];
+  // }
   return names;
 }

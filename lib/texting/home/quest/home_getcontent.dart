@@ -8,10 +8,12 @@ import 'package:dorandoran/common/uri.dart';
 //글 가져오기
 Future<List<postcard>> getPostContent(
     String? url, int number) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String userEmail=prefs.getString("email")!;
-  String location="${prefs.getString("latitude")!},${prefs.getString("longtitude")!}";
+  //위치정보를 받아오지 못한경우. 0으로 전송?
+  String location="${prefs.getString("latitude")??"123"},${prefs.getString("longtitude")??"123"}";
   var response = await http.get(
     Uri.parse(
         '${urls}/api/post${url ?? ""}?userEmail=${userEmail}&postCnt=${number}&location=${location}'),
@@ -19,7 +21,7 @@ Future<List<postcard>> getPostContent(
       'authorization':'Bearer $accessToken',
     },
   );
-print(response.statusCode);
+  print(response.statusCode);
   if (response.body==[]) {
     getPostContent(url, number - 1);
   }
