@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:dorandoran/texting/hash_detail/hash_detail.dart';
+import 'package:dorandoran/texting/home/model/popular_hash.dart';
 import 'package:dorandoran/texting/home/model/postcard.dart';
 import 'package:dorandoran/texting/home/quest/get_my_hash.dart';
 import 'package:dorandoran/texting/home/quest/get_my_hash_content.dart';
@@ -18,7 +19,7 @@ class TagScreen extends StatefulWidget {
   State<TagScreen> createState() => _TagScreenState();
 }
 
-List<String> populartagname = [];
+List<popularHash> populartagname = [];
 List<String> mytag = [];
 List<Widget> mycontent = [];
 
@@ -50,30 +51,38 @@ class _TagScreenState extends State<TagScreen> {
         Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: populartagname
-                .map((e) =>
-                Padding(padding: EdgeInsets.symmetric(vertical: 5.h),
-                    child:
-                    Container(
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: Image.network('$urls/api/background/' +
-                                (Random().nextInt(99) + 1).toString())
-                                .image,
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(
-                                Colors.white.withOpacity(0.6), BlendMode.dstATop)),
-
-                      ),
-                      child: Padding(
-                          padding: EdgeInsets.all(13),
-                          child: Text(
-                            e,
-                            style: TextStyle(
-                                fontSize: 20.sp, color: Colors.black),
-                          )),
-                    )))
+                .map((e) => Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5.h),
+                    child: Container(
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: Image.network('$urls/api/background/' +
+                                      (Random().nextInt(99) + 1).toString())
+                                  .image,
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Colors.white.withOpacity(0.6),
+                                  BlendMode.dstATop)),
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 13.h,horizontal: 20.w),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    e.hashTagName,
+                                    style: TextStyle(
+                                        fontSize: 20.sp, color: Colors.black),
+                                  ),
+                                  Text(
+                                    e.hashTagCount.toString(),
+                                    style: TextStyle(
+                                        fontSize: 20.sp, color: Colors.black),
+                                  )
+                                ])))))
                 .toList()),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 10),
@@ -100,22 +109,22 @@ class _TagScreenState extends State<TagScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HashDetail(tagnames: e.toString())));
+                              builder: (context) =>
+                                  HashDetail(tagnames: e.toString())));
                     },
                     label: Text(e),
-
                   )))
               .toList(),
         ),
         SizedBox(height: 10.h),
-       mycontent!=null? Column(children: mycontent):Container(),
+        mycontent != null ? Column(children: mycontent) : Container(),
         SizedBox(height: 10.h),
       ])
     ]);
   }
 
   void getdata() async {
-    List<String> populartagnames = await GetPopularHash();
+    List<popularHash> populartagnames = await GetPopularHash();
     List<String> mytags = await GetMyHash();
     List<postcard> mycontents = await GetMyHashContent();
     List<Widget> mytagswidget = mytag
@@ -124,13 +133,15 @@ class _TagScreenState extends State<TagScreen> {
               Text("# $e",
                   style:
                       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500)),
-              IconButton(onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HashDetail(tagnames: e.toString())));
-                
-              }, icon: Icon(Icons.add))
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                HashDetail(tagnames: e.toString())));
+                  },
+                  icon: Icon(Icons.add))
             ]))
         .toList();
     List<Widget> mycontentwidget = mycontents
