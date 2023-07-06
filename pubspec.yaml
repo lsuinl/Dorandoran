@@ -62,6 +62,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   flutter_tagging: ^3.0.0
   custom_pop_up_menu: ^1.2.4
+  flutter_searchbox: ^3.0.0
 
 dev_dependencies:
   flutter_test:
