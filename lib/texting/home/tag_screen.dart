@@ -95,7 +95,16 @@ class _TagScreenState extends State<TagScreen> {
           children: mytag
               .map((e) => Padding(
                   padding: EdgeInsets.symmetric(vertical: 5.h),
-                  child: Chip(label: Text(e))))
+                  child: InputChip(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HashDetail(tagnames: e.toString())));
+                    },
+                    label: Text(e),
+
+                  )))
               .toList(),
         ),
         SizedBox(height: 10.h),

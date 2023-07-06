@@ -2,6 +2,7 @@ import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/util.dart';
+import '../../hash_detail/hash_detail.dart';
 import '../../home/home.dart';
 import '../../home/quest/home_postLike.dart';
 
@@ -74,6 +75,21 @@ class _Detail_CardState extends State<Detail_Card> {
                           ]
                       ),
                     ),
+                    widget.card.postHashes!=null? Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children:
+                        widget.card.postHashes!.map((e) =>
+                            InputChip(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HashDetail(tagnames: e.toString())));
+                              },
+                              label: Text(e),
+
+                            )).toList()
+                    ):Container(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
