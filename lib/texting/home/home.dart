@@ -34,7 +34,6 @@ class _HomeState extends State<Home> {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
     });
-    // getlocation(); //임시
     myfuture = getPostContent(url,0);
   }
   @override

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:dorandoran/texting/hash_detail/hash_detail.dart';
 import 'package:dorandoran/texting/home/model/postcard.dart';
 import 'package:dorandoran/texting/home/quest/get_my_hash.dart';
 import 'package:dorandoran/texting/home/quest/get_my_hash_content.dart';
@@ -114,7 +115,13 @@ class _TagScreenState extends State<TagScreen> {
               Text("# $e",
                   style:
                       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.add))
+              IconButton(onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HashDetail(tagnames: e.toString())));
+                
+              }, icon: Icon(Icons.add))
             ]))
         .toList();
     List<Widget> mycontentwidget = mycontents
@@ -143,7 +150,6 @@ class _TagScreenState extends State<TagScreen> {
       populartagname = populartagnames;
       mytag = mytags;
       mycontent = widgets;
-      print(mycontent.length);
     });
   }
 }
