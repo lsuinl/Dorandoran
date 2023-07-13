@@ -12,7 +12,6 @@ Future<List<postcard>> getPostContent(
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String userEmail=prefs.getString("email")!;
-  //위치정보를 받아오지 못한경우. 0으로 전송?
   String location="${prefs.getString("latitude")??"123"},${prefs.getString("longtitude")??"123"}";
   var response = await http.get(
     Uri.parse(
@@ -28,6 +27,7 @@ Future<List<postcard>> getPostContent(
   else if(response.statusCode==401){
     quest_token();
     getPostContent(url, number);
+    return [postcard(postId: 0, contents: "데이터를 불러오지 못했는데요", postTime: "2023-07-08T23:16:48.740877", location: null, likeCnt: 0, likeResult: false, backgroundPicUri: "124.60.219.83:8080/api/background/20", replyCnt: 0, font: "Nanum Gothic", fontColor: "1", fontSize: 20, fontBold: 800)];
   }
 
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));

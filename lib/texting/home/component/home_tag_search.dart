@@ -1,5 +1,6 @@
 import 'package:dorandoran/texting/home/model/search_hash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../quest/get_search_hash.dart';
 
 // 검색을 위해 앱의 상태를 변경해야하므로 StatefulWidget 상속
@@ -34,11 +35,9 @@ class TagSearchState extends State<TagSearch> {
                   showlist=true;
                 });
               },
-              onEditingComplete: (){
-                setState(() {
-                  showlist=false;
-                });
-              },
+              // onTapOutside:(){
+              //
+              // }
               onChanged: (text) async {
                 //검색결과창의 데이터 계속해서 변경하기
                 List<searchHash> list = await GetSearchHash(text);
@@ -55,6 +54,7 @@ class TagSearchState extends State<TagSearch> {
 
               },
             ),
+            showlist==true ? Text("우오"):Text("에이")
           ],
         );
   }

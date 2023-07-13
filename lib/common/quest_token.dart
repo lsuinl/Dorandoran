@@ -19,9 +19,9 @@ void quest_token() async {
       'accessToken':accessToken
     }),
   );
-  print(response.body);
+  print(response.statusCode);
   print("토큰");
-  if(response.body.isNotEmpty) {
+  if(response.statusCode==200) {//재대로 받은 경우에만 변경
     Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     prefs.setString("accessToken", body["accessToken"].toString());
   }

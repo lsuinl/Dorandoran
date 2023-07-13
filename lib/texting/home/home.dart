@@ -1,4 +1,6 @@
 import 'package:dorandoran/common/css.dart';
+import 'package:dorandoran/texting/hash_detail/quest/hash_detail_getcontent.dart';
+import 'package:dorandoran/texting/home/quest/get_search_hash.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:dorandoran/texting/home/tag_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +37,7 @@ class _HomeState extends State<Home> {
       scrollController = ScrollController();
     });
     myfuture = getPostContent(url,0);
-  }
+    }
   @override
   Widget build(BuildContext context) {
     return Basic(
@@ -200,6 +202,7 @@ class _HomeState extends State<Home> {
                               children: [
                                 RawMaterialButton(
                                   onPressed: () async {
+                                    getHashContent("", 0);
                                     _refreshController.position!.animateTo(
                                       0.0,
                                       duration:

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//내가 추가한 해시태그 가져오기
+//내가 추가한 해시태그 목록 가져오기
 Future<List<String>> GetMyHash() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;

@@ -5,12 +5,14 @@ import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//해시태그 검색하기
+//해시태그 검색창
+//인코딩
 Future<List<searchHash>> GetSearchHash(String text) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
+  String encodeurl = Uri.encodeFull('$urls/api/hashTag?hashTag=$text');
   http.Response response= await http.get(
-    Uri.parse('$urls/api/hashTag?hashTag=$text'),
+    Uri.parse(encodeurl),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',

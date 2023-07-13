@@ -6,17 +6,17 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
 //글 가져오기
+//인코딩
 Future<List<postcard>> getHashContent(
     String tagname, int number) async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  String userEmail=prefs.getString("email")!;
   //위치정보를 받아오지 못한경우. 0으로 전송?
   String location="${prefs.getString("latitude")??"123"},${prefs.getString("longtitude")??"123"}";
+  String encodeurl=Uri.encodeFull('${urls}/api/hashtag/${tagname}/${number}/${location}');
   var response = await http.get(
-    Uri.parse(
-        '${urls}/api/hashtag/${tagname}/${number}/${location}'),
+    Uri.parse(encodeurl),
     headers: <String, String>{
       'authorization':'Bearer $accessToken',
     },
@@ -29,7 +29,7 @@ Future<List<postcard>> getHashContent(
     quest_token();
     getHashContent(tagname, number);
   }
-
+  print(response.body);
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
   return card;

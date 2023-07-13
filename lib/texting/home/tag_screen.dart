@@ -26,13 +26,14 @@ List<Widget> mycontent = [];
 class _TagScreenState extends State<TagScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     getdata();
+    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+//로딩 futurebuilder 변경필요
     return ListView(children: [
       Column(children: [
         TagSearch(),
@@ -103,7 +104,7 @@ class _TagScreenState extends State<TagScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: mytag
               .map((e) => Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5.h),
+                  padding: EdgeInsets.only(top: 5.h,bottom: 5.h, right: 10.w),
                   child: InputChip(
                     onPressed: () {
                       Navigator.push(
