@@ -22,7 +22,7 @@ class TagScreen extends StatefulWidget {
 List<popularHash> populartagname = [];
 List<String> mytag = [];
 List<Widget> mycontent = [];
-
+bool focus=true;
 class _TagScreenState extends State<TagScreen> {
   @override
   void initState() {
@@ -34,57 +34,64 @@ class _TagScreenState extends State<TagScreen> {
   @override
   Widget build(BuildContext context) {
 //로딩 futurebuilder 변경필요
-    return ListView(children: [
+    return
+      ListView(children: [
       Column(children: [
-        TagSearch(),
-        SizedBox(height: 10.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+        Stack(
           children: [
-            Text("인기 태그",
-                style: GoogleFonts.abel(
-                    fontSize: 15.sp, fontWeight: FontWeight.w500))
+            Column(
+              children: [    SizedBox(height: 50.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("인기 태그",
+                        style: GoogleFonts.abel(
+                            fontSize: 15.sp, fontWeight: FontWeight.w500))
+                  ],
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: populartagname
+                        .map((e) => Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.h),
+                        child: Container(
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                  image: Image.network('$urls/api/background/' +
+                                      (Random().nextInt(99) + 1).toString())
+                                      .image,
+                                  fit: BoxFit.cover,
+                                  colorFilter: ColorFilter.mode(
+                                      Colors.white.withOpacity(0.6),
+                                      BlendMode.dstATop)),
+                            ),
+                            child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 13.h,horizontal: 20.w),
+                                child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        e.hashTagName,
+                                        style: TextStyle(
+                                            fontSize: 20.sp, color: Colors.black),
+                                      ),
+                                      Text(
+                                        e.hashTagCount.toString(),
+                                        style: TextStyle(
+                                            fontSize: 20.sp, color: Colors.black),
+                                      )
+                                    ])))))
+                        .toList()),
           ],
         ),
-        SizedBox(
-          height: 10.h,
-        ),
-        Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: populartagname
-                .map((e) => Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5.h),
-                    child: Container(
-                        height: 50.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: Image.network('$urls/api/background/' +
-                                      (Random().nextInt(99) + 1).toString())
-                                  .image,
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  Colors.white.withOpacity(0.6),
-                                  BlendMode.dstATop)),
-                        ),
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 13.h,horizontal: 20.w),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    e.hashTagName,
-                                    style: TextStyle(
-                                        fontSize: 20.sp, color: Colors.black),
-                                  ),
-                                  Text(
-                                    e.hashTagCount.toString(),
-                                    style: TextStyle(
-                                        fontSize: 20.sp, color: Colors.black),
-                                  )
-                                ])))))
-                .toList()),
+   TagSearch()
+    ]),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 10),
           child: Container(
@@ -173,4 +180,5 @@ class _TagScreenState extends State<TagScreen> {
       mycontent = widgets;
     });
   }
+
 }
