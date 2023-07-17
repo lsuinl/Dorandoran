@@ -1,7 +1,9 @@
 import 'package:dorandoran/texting/home/model/search_hash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../quest/delete_del_my_hash.dart';
 import '../quest/get_search_hash.dart';
+import '../quest/post_add_my_hash.dart';
 
 // 검색을 위해 앱의 상태를 변경해야하므로 StatefulWidget 상속
 class TagSearch extends StatefulWidget {
@@ -17,6 +19,7 @@ class TagSearchState extends State<TagSearch> {
   FocusNode focusnode = FocusNode();
   List<Widget> searchresult=[];
   bool showlist = false;
+  Map<String,int>? mytagcheck;
   @override
   void initState() {
     // TODO: implement initState
@@ -53,13 +56,15 @@ class TagSearchState extends State<TagSearch> {
                           Row(
                             children: [
                               Text("게시글 수: ${e.hashTagCount} "),
-                              e.hashTagCheck == false
+                             e.hashTagCheck == false
                                   ? IconButton(
                                   onPressed: () {
-                                    print("눌림");
-                                  }, icon: Icon(Icons.add))
+                                      addMyHash(e.hashTagName);
+                                  }, icon: Icon(Icons.add_circle_outline))
                                   : IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.cancel))
+                                  onPressed: () {
+                                    delMyHash(e.hashTagName);
+                                  }, icon: Icon(Icons.cancel_outlined))
                             ],
                           )
                         ],)

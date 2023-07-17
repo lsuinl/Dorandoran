@@ -145,5 +145,4 @@ class _Detail_CardState extends State<Detail_Card> {
         ]
     );
   }
-
 }

@@ -14,7 +14,9 @@ Future<List<postcard>> getHashContent(
   String accessToken = prefs.getString("accessToken")!;
   //위치정보를 받아오지 못한경우. 0으로 전송?
   String location="${prefs.getString("latitude")??"123"},${prefs.getString("longtitude")??"123"}";
-  String encodeurl=Uri.encodeFull('${urls}/api/hashtag/${tagname}/${number}/${location}');
+  tagname=Uri.encodeQueryComponent(tagname);
+  String encodeurl='${urls}/api/hashtag/${tagname}/${number}/${location}';
+  print(encodeurl);
   var response = await http.get(
     Uri.parse(encodeurl),
     headers: <String, String>{

@@ -20,7 +20,9 @@ void quest_token() async {
     }),
   );
   print(response.statusCode);
-  print("토큰");
+  print("반영되긴함?");
+  print(accessToken);
+  print(refreshToken);
   if(response.statusCode==200) {//재대로 받은 경우에만 변경
     Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     prefs.setString("accessToken", body["accessToken"].toString());
