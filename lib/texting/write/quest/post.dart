@@ -7,23 +7,35 @@ Future<int> writing(String email,String content, bool forme, String? locations, 
   var dio=Dio();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
+  FormData formData = file=="" ? FormData.fromMap({
+    'email': email,
+    'content':content,
+    'forMe':forme,
+    'location':locations,
+    'hashTagName':hashTag,
+    'file':file,
+    'font':font,
+    'fontColor':fontColor,
+    'fontSize':fontSize,
+    'fontBold':fontBold,
+    'anonymity':anaoymity
+  }): FormData.fromMap({
+    'email': email,
+    'content':content,
+    'forMe':forme,
+    'location':locations,
+    'hashTagName':hashTag,
+    "backgroundImgName":backgroundImgName,
+    'font':font,
+    'fontColor':fontColor,
+    'fontSize':fontSize,
+    'fontBold':fontBold,
+    'anonymity':anaoymity
+  });
   var response = await dio.post(
       '${urls}/api/post',
       options: Options(headers: { 'authorization':'Bearer $accessToken',}),
-      data: FormData.fromMap({
-        'email': email,
-        'content':content,
-        'forMe':forme,
-        'location':locations,
-        'backgroundImgName':backgroundImgName,
-        'hashTagName':hashTag,
-        'file':file,
-        'font':font,
-        'fontColor':fontColor,
-        'fontSize':fontSize,
-        'fontBold':fontBold,
-        'anonymity':anaoymity
-      })
+      data: formData
   );
   if (response.statusCode == 200) {
     print(200);

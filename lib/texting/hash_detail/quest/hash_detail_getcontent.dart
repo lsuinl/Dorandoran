@@ -14,16 +14,19 @@ Future<List<postcard>> getHashContent(
   String accessToken = prefs.getString("accessToken")!;
   //위치정보를 받아오지 못한경우. 0으로 전송?
   String location="${prefs.getString("latitude")??"123"},${prefs.getString("longtitude")??"123"}";
-  tagname=Uri.encodeQueryComponent(tagname);
-  String encodeurl='${urls}/api/hashtag/${tagname}/${number}/${location}';
-  print(encodeurl);
-  var response = await http.get(
-    Uri.parse(encodeurl),
+ var response= await http.post(
+    Uri.parse('${urls}/api/hashtag'),
     headers: <String, String>{
+      'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
     },
+    body: jsonEncode({
+      "hashtagName":tagname,
+      "postCnt": number,
+      "location":location
+    }),
   );
-  print(response.statusCode);
+
   if (response.body==[]) {
     getHashContent(tagname, number - 1);
   }
@@ -31,7 +34,6 @@ Future<List<postcard>> getHashContent(
     quest_token();
     getHashContent(tagname, number);
   }
-  print(response.body);
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
   return card;
