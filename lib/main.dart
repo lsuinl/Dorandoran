@@ -1,10 +1,7 @@
+import 'package:dorandoran/firebase.dart';
 import 'package:dorandoran/texting/home/home.dart';
-import 'package:dorandoran/texting/post_datail/post_detail.dart';
-import 'package:dorandoran/texting/write/screen/write.dart';
-import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
-import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
-import 'package:dorandoran/user/sign_up/screen/using_agree.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,13 +23,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
   String firebasetoken = (await FirebaseMessaging.instance.getToken())!;
+  print(firebasetoken);
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('firebasetoken', firebasetoken!);
   runApp(ScreenUtilInit(
     designSize: Size(360, 690),
     builder: (context, child) {
       //실행(with 폰트)
-      return MaterialApp(
+      return GetMaterialApp(
+        initialBinding: BindingsBuilder.put(()=> NotificationController(),permanent: true),
         theme: ThemeData(
           fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily,
           textTheme: TextTheme(

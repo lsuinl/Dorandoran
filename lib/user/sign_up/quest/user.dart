@@ -16,7 +16,8 @@ Future<String> postUserRequest(String dateOfBirth, String nickName, String fireb
       "dateOfBirth": dateOfBirth,
       "nickName": nickName,
       "firebaseToken": firebasetoken,
-      "kakaoAccessToken": kakaoAccessToken
+      "kakaoAccessToken": kakaoAccessToken,
+      "osType": "Ios"//타입 보내주기,,
     }),
   );
   print(response.statusCode);

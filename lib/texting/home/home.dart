@@ -1,14 +1,13 @@
-import 'dart:math';
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/texting/home/component/home_tag_search.dart';
+import 'package:dorandoran/texting/hash_detail/quest/hash_detail_getcontent.dart';
+import 'package:dorandoran/texting/home/quest/get_search_hash.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
+import 'package:dorandoran/texting/home/tag_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../common/basic.dart';
-import '../../common/uri.dart';
 import '../write/screen/write.dart';
 import 'component/home_message_card.dart';
 import 'component/home_top.dart';
@@ -37,9 +36,8 @@ class _HomeState extends State<Home> {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
     });
-    // getlocation(); //임시
     myfuture = getPostContent(url,0);
-  }
+    }
   @override
   Widget build(BuildContext context) {
     return Basic(
@@ -185,116 +183,7 @@ class _HomeState extends State<Home> {
                                   controller: _refreshController,
                                   child:
                                   tagtitle == "관심있는" ?
-                                  ListView(children: [
-                                    Column(
-                                        children: [
-                                          TagSearch(),
-                                          SizedBox(height:10.h),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text("인기 태그",style: GoogleFonts.abel(fontSize: 15.sp,fontWeight: FontWeight.w500))
-                                            ],
-                                          ),
-                                          SizedBox(height: 10.h,) ,
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                                            children: [
-                                              Padding(padding: EdgeInsets.symmetric(vertical: 5),
-                                                child:
-                                              Container(
-                                                height: 50.h,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(5),
-                                                  image: DecorationImage(
-                                                      image: Image.network('$urls/api/background/'+ (Random().nextInt(99) + 1).toString()).image,
-                                                      fit: BoxFit.cover,
-                                                      colorFilter: ColorFilter.mode(
-                                                          Colors.white.withOpacity(0.8), BlendMode.dstATop)),
-                                                ),
-                                                child:Padding(padding: EdgeInsets.all(13),child: Text(" #태그 1",style: TextStyle(fontSize: 20.sp,color: Colors.black),)),
-                      )),
-                                              Padding(padding: EdgeInsets.symmetric(vertical: 10),
-                                                  child:
-                                                  Container(
-                                                    height: 50.h,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5),
-                                                      image: DecorationImage(
-                                                          image: Image.network('$urls/api/background/'+ (Random().nextInt(99) + 1).toString()).image,
-                                                          fit: BoxFit.cover,
-                                                          colorFilter: ColorFilter.mode(
-                                                              Colors.black.withOpacity(0.5), BlendMode.dstATop)),
-                                                    ),
-                                                    child:Padding(padding: EdgeInsets.all(13),child: Text(" #태그 1",style: TextStyle(fontSize: 20.sp,color: Colors.black),)),
-                                                  )),
-                                              Padding(padding: EdgeInsets.symmetric(vertical: 10),
-                                                  child:
-                                                  Container(
-                                                    height: 50.h,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      image: DecorationImage(
-                                                          image: Image.network('$urls/api/background/'+ (Random().nextInt(99) + 1).toString()).image,
-                                                          fit: BoxFit.cover),
-                                                    ),
-                                                    child:Padding(padding: EdgeInsets.all(13),child: Text(" #태그 1",style: TextStyle(fontSize: 20.sp,color: Colors.black),)),
-                                                  )),
-                                            ],
-                                          ),
-                                          Padding(padding: EdgeInsets.symmetric(vertical: 10),
-                                            child:  Container(height: 1.h,color: Colors.grey,),),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text("나의 태그",style: GoogleFonts.abel(fontSize: 15.sp,fontWeight: FontWeight.w500))
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Chip(label: Text("태그1"),),
-                                              SizedBox(width: 5.w,),
-                                              Chip(label: Text("태그2"),),
-                                              SizedBox(width: 5.w,),
-                                              Chip(label: Text("태그3"),),
-                                            ],
-                                          ),
-                                          SizedBox(height: 10.h),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text("#태그1",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
-                                              SizedBox(width: 20.w,),
-                                              Text(">",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
-                                            ],
-                                          ),
-                                          SizedBox(height: 10.h),
-                                          Container(color:Colors.green.shade100,height: 200.h,),  Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text("#태그2",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
-                                              SizedBox(width: 20.w,),
-                                              Text(">",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
-                                            ],
-                                          ),
-                                          SizedBox(height: 10.h),
-                                          Container(color:Colors.green.shade100,height: 200.h,),
-                                          SizedBox(height: 10.h),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text("#태그3",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
-                                              SizedBox(width: 20.w,),
-                                              Text(">",style: GoogleFonts.abel(fontSize: 20.sp,fontWeight: FontWeight.w700)),
-                                            ],
-                                          ),
-                                          SizedBox(height: 10.h),
-                                          Container(color:Colors.green.shade100,height: 200.h,) ,
-                                          SizedBox(height: 10.h),
-                                        ]
-                                  )])
-                                  //여기인가봐
+                                      TagScreen()
                                         : (snapshot.data.length<1 ?
                                   Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
                                       :ListView(
@@ -313,6 +202,7 @@ class _HomeState extends State<Home> {
                               children: [
                                 RawMaterialButton(
                                   onPressed: () async {
+                                    getHashContent("", 0);
                                     _refreshController.position!.animateTo(
                                       0.0,
                                       duration:
