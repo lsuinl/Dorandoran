@@ -39,11 +39,11 @@ class _TagScreenState extends State<TagScreen> {
       Column(children: [
         Stack(
           children: [
-            Column(
-              children: [    SizedBox(height: 50.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                    Column(
+                      children: [    SizedBox(height: 50.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
                     Text("인기 태그",
                         style: GoogleFonts.abel(
                             fontSize: 15.sp, fontWeight: FontWeight.w500))
@@ -107,10 +107,13 @@ class _TagScreenState extends State<TagScreen> {
                     fontSize: 15.sp, fontWeight: FontWeight.w500))
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: mytag
-              .map((e) => Padding(
+        SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child:Row(
+    children: [Row(
+              mainAxisSize: MainAxisSize.max,
+              children: mytag
+                  .map((e) => Padding(
                   padding: EdgeInsets.only(top: 5.h,bottom: 5.h, right: 10.w),
                   child: InputChip(
                     onPressed: () {
@@ -122,7 +125,11 @@ class _TagScreenState extends State<TagScreen> {
                     },
                     label: Text(e),
                   )))
-              .toList(),
+                  .toList(),
+    ),
+    SizedBox(width: 360.w,)
+    ]
+            )
         ),
         SizedBox(height: 10.h),
         mycontent != null ? Column(children: mycontent) : Container(),
@@ -180,5 +187,4 @@ class _TagScreenState extends State<TagScreen> {
       mycontent = widgets;
     });
   }
-
 }

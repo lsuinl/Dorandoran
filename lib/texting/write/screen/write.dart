@@ -21,7 +21,7 @@ class Write extends StatefulWidget {
 TextEditingController contextcontroller = TextEditingController();
 bool forme = false;
 bool usinglocation = false;
-bool anony=false;
+bool anony = false;
 File? dummyFille;
 List<String> hashtag = [];
 String? backgroundimgname = (Random().nextInt(99) + 1).toString();
@@ -58,223 +58,325 @@ class _WriteState extends State<Write> {
 
   @override
   Widget build(BuildContext context) {
-   return Basic(widgets: Padding(
-                padding: const EdgeInsets.all(30.0),
+    return Basic(
+      widgets: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text(
+                  "글 작성하기",
+                  style: GoogleFonts.gowunBatang(fontSize: 35.sp),
+                ),
+                Top(),
+              ]),
+              SizedBox(height: 70.h),
+              Expanded(
                 child: Column(
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(children: [
+                        MiddleTextField(
+                            backimg: backimg,
+                            widgets: Wrap(
+                                children: hashtag != []
+                                    ? [
+                                        SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(children: [
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: hashtag
+                                                      .map((e) =>
+                                                          Chip(label: Text(e)))
+                                                      .toList()),
+                                              SizedBox(width: 360.w)
+                                            ]))
+                                      ]
+                                    : [Text("")])),
+                      ]),
+                      Row(
+                        //하단메뉴
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text("글 작성하기", style: GoogleFonts.gowunBatang(fontSize: 35.sp),),
-                          Top(),
-                        ]),
-                    SizedBox(height: 70.h),
-                    Expanded(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(children: [
-                              MiddleTextField(
-                                  backimg: backimg,
-                                  widgets: Wrap(
-                                      children: hashtag != [] ? hashtag.map((e) => Chip(label: Text(e))).toList() : [Text("")])),
-                            ]),
-                            Row(
-                              //하단메뉴
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          forme = !forme;
-                                        });
-                                      },
-                                      icon: forme ? Icon(Icons.lock, size: 25.r,) : Icon(Icons.lock_open, size: 25.r)),
-                                  Text("나만보기", style: buttontext)
-                                ]),
-                                Column(children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          usinglocation = !usinglocation;
-                                        });
-                                        print(usinglocation);
-                                      },
-                                      icon: usinglocation
-                                          ? Icon(Icons.location_on, size: 25.r)
-                                          : Icon(Icons.location_off_outlined, size: 25.r)),
-                                  Text("위치정보", style: buttontext,)
-                                ]),
-                                Column(children: [
-                                  IconButton(
-                                      onPressed: () => GetImageFile(),
-                                      icon: Icon(Icons.image, size: 25.r)),
-                                  Text("갤러리", style: buttontext,)
-                                ]),
-                                Column(children: [
-                                  IconButton(
-                                    icon: Icon(Icons.grid_view, size: 25.r),
-                                    onPressed: () {
-                                      showModalBottomSheet<void>(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          imagenumber.clear();
-                                          if (backgroundimgname != null)
-                                            imagenumber.add(int.parse(backgroundimgname!));
-                                          while (imagenumber.length < 10)
-                                            imagenumber.add(Random().nextInt(99) + 1);
-                                          return StatefulBuilder(builder:
-                                              (context, StateSetter setState) {
-                                            return Container(
-                                              height: 200.h,
-                                              color: Colors.white70,
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Column(
-                                                    children: [
-                                                      IconButton(
-                                                          onPressed: () {
+                          Column(children: [
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    forme = !forme;
+                                  });
+                                },
+                                icon: forme
+                                    ? Icon(
+                                        Icons.lock,
+                                        size: 25.r,
+                                      )
+                                    : Icon(Icons.lock_open, size: 25.r)),
+                            Text("나만보기", style: buttontext)
+                          ]),
+                          Column(children: [
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    usinglocation = !usinglocation;
+                                  });
+                                  print(usinglocation);
+                                },
+                                icon: usinglocation
+                                    ? Icon(Icons.location_on, size: 25.r)
+                                    : Icon(Icons.location_off_outlined,
+                                        size: 25.r)),
+                            Text(
+                              "위치정보",
+                              style: buttontext,
+                            )
+                          ]),
+                          Column(children: [
+                            IconButton(
+                                onPressed: () => GetImageFile(),
+                                icon: Icon(Icons.image, size: 25.r)),
+                            Text(
+                              "갤러리",
+                              style: buttontext,
+                            )
+                          ]),
+                          Column(children: [
+                            IconButton(
+                              icon: Icon(Icons.grid_view, size: 25.r),
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    imagenumber.clear();
+                                    if (backgroundimgname != null)
+                                      imagenumber
+                                          .add(int.parse(backgroundimgname!));
+                                    while (imagenumber.length < 10)
+                                      imagenumber.add(Random().nextInt(99) + 1);
+                                    return StatefulBuilder(builder:
+                                        (context, StateSetter setState) {
+                                      return Container(
+                                        height: 200.h,
+                                        color: Colors.white70,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Column(
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        imagenumber.clear();
+                                                        if (backgroundimgname !=
+                                                            null) {
+                                                          imagenumber.add(int.parse(
+                                                              backgroundimgname!));
+                                                        }
+                                                        while (
+                                                            imagenumber.length <
+                                                                10)
+                                                          imagenumber.add(
+                                                              Random().nextInt(
+                                                                      99) +
+                                                                  1);
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                        Icons.restart_alt,
+                                                        size: 25.r)),
+                                                Wrap(
+                                                  children: imagenumber
+                                                      .map(
+                                                        (e) => TextButton(
+                                                          child: Image.network(
+                                                            '$urls/api/background/' +
+                                                                e.toString(),
+                                                            width: 72.w,
+                                                            height: 72.h,
+                                                            fit: BoxFit.cover,
+                                                            opacity: e.toString() ==
+                                                                    backgroundimgname
+                                                                ? AlwaysStoppedAnimation<
+                                                                    double>(0.3)
+                                                                : AlwaysStoppedAnimation<
+                                                                    double>(1),
+                                                          ),
+                                                          onPressed: () =>
+                                                              pickdefaultimg(e),
+                                                          style: ButtonStyle(
+                                                            padding:
+                                                                MaterialStateProperty
+                                                                    .all(EdgeInsets
+                                                                        .zero),
+                                                          ),
+                                                        ),
+                                                      )
+                                                      .toList(),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    });
+                                  },
+                                );
+                              },
+                            ),
+                            Text(
+                              "감성배경",
+                              style: buttontext,
+                            )
+                          ]),
+                          Column(children: [
+                            IconButton(
+                              //태그
+                              icon: Icon(Icons.tag, size: 25.r),
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                    isDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      TextEditingController tagcontroller =
+                                          TextEditingController();
+                                      return StatefulBuilder(builder:
+                                          (BuildContext context,
+                                              StateSetter setState) {
+                                        return Container(
+                                            height: 200.h,
+                                            color: Colors.transparent,
+                                            child: Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xBBFFFFFF),
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(30),
+                                                    topRight:
+                                                        Radius.circular(30),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Container(
+                                                        width: 300.w,
+                                                        child: TextFormField(
+                                                          textInputAction:
+                                                              TextInputAction
+                                                                  .go,
+                                                          onFieldSubmitted:
+                                                              (value) {
                                                             setState(() {
-                                                              imagenumber.clear();
-                                                              if (backgroundimgname != null) {
-                                                                imagenumber.add(
-                                                                    int.parse(backgroundimgname!));
-                                                              }
-                                                              while (imagenumber.length < 10)
-                                                                imagenumber.add(Random().nextInt(99) + 1);
+                                                              tagcontroller
+                                                                  .clear();
+                                                              hashtag
+                                                                  .add(value);
                                                             });
+                                                            print(hashtag);
                                                           },
-                                                          icon: Icon(
-                                                              Icons.restart_alt,
-                                                              size: 25.r)),
-                                                      Wrap(
-                                                        children: imagenumber.map((e) => TextButton(
-                                                                child: Image.network(
-                                                                  '$urls/api/background/' + e.toString(),
-                                                                  width: 72.w,
-                                                                  height: 72.h,
-                                                                  fit: BoxFit.cover,
-                                                                  opacity: e.toString() == backgroundimgname
-                                                                      ? AlwaysStoppedAnimation<double>(0.3) : AlwaysStoppedAnimation<double>(1),
-                                                                ),
-                                                                onPressed: () => pickdefaultimg(e),
-                                                                style: ButtonStyle(
-                                                                  padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                                                ),
-                                                              ),
-                                                            )
-                                                            .toList(),
+                                                          style: GoogleFonts
+                                                              .gowunBatang(
+                                                                  fontSize:
+                                                                      20.sp),
+                                                          decoration:
+                                                              InputDecoration(
+                                                            hintText:
+                                                                "태그명을 입력해주세요",
+                                                            hintStyle: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .headlineLarge!
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        15.sp,
+                                                                    color: Colors
+                                                                        .black12),
+                                                          ),
+                                                          controller:
+                                                              tagcontroller,
+                                                        ),
                                                       ),
+                                                      Wrap(
+                                                        children:
+                                                            hashtag == null
+                                                                ? [Text('')]
+                                                                : hashtag
+                                                                    .map((e) =>
+                                                                        Chip(
+                                                                          label:
+                                                                              Text(e),
+                                                                          onDeleted:
+                                                                              () {
+                                                                            setState(() {
+                                                                              hashtag.removeAt(hashtag.indexOf(e));
+                                                                            });
+                                                                            hashtag.remove(e);
+                                                                          },
+                                                                        ))
+                                                                    .toList(),
+                                                      ),
+                                                      ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                        //모서리를 둥글게
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                10),
+                                                                        side: BorderSide(
+                                                                            color: Colors
+                                                                                .white,
+                                                                            width:
+                                                                                1)),
+                                                                primary: Colors
+                                                                    .lightBlueAccent,
+                                                                minimumSize:
+                                                                    Size(70,
+                                                                        40)),
+                                                        child: const Text('완료'),
+                                                        onPressed: resetting,
+                                                      )
                                                     ],
                                                   ),
-                                                ],
-                                              ),
-                                            );
-                                          });
-                                        },
-                                      );
-                                    },
-                                  ),
-                                  Text("감성배경", style: buttontext,)
-                                ]),
-                                Column(children: [
-                                  IconButton(
-                                    //태그
-                                    icon: Icon(Icons.tag, size: 25.r),
-                                    onPressed: () {
-                                      showModalBottomSheet<void>(
-                                          isDismissible: false,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            TextEditingController tagcontroller = TextEditingController();
-                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-                                              return Container(
-                                                  height: 200.h,
-                                                  color: Colors.transparent,
-                                                  child: Container(
-                                                      decoration: const BoxDecoration(
-                                                        color: Color(0xBBFFFFFF),
-                                                        borderRadius: BorderRadius.only(
-                                                          topLeft: Radius.circular(30),
-                                                          topRight: Radius.circular(30),
-                                                        ),
-                                                      ),
-                                                      child: Center(
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          children: <Widget>[
-                                                            Container(
-                                                              width: 300.w,
-                                                              child: TextFormField(
-                                                                textInputAction: TextInputAction.go,
-                                                                onFieldSubmitted: (value) {
-                                                                  setState(() {
-                                                                    tagcontroller.clear();
-                                                                    hashtag.add(value);
-                                                                  });
-                                                                  print(hashtag);
-                                                                },
-                                                                style: GoogleFonts.gowunBatang(fontSize: 20.sp),
-                                                                decoration: InputDecoration(
-                                                                  hintText: "태그명을 입력해주세요",
-                                                                  hintStyle:  Theme.of(context).textTheme.headlineLarge!.copyWith(
-                                                                      fontSize: 15.sp,
-                                                                      color: Colors.black12),
-                                                                ),
-                                                                controller: tagcontroller,
-                                                              ),
-                                                            ),
-                                                            Wrap(
-                                                              children: hashtag == null ? [Text('')] :
-                                                              hashtag.map((e) => Chip(
-                                                                            label: Text(e),
-                                                                            onDeleted: () {
-                                                                              setState(() {
-                                                                                hashtag.removeAt(hashtag.indexOf(e));
-                                                                              });
-                                                                              hashtag.remove(e);
-                                                                            },
-                                                              )).toList(),
-                                                            ),
-                                                            ElevatedButton(
-                                                              style: ElevatedButton.styleFrom(
-                                                                  shape: RoundedRectangleBorder(
-                                                                      //모서리를 둥글게
-                                                                      borderRadius: BorderRadius.circular(10),
-                                                                      side: BorderSide(color: Colors.white, width: 1)),
-                                                                  primary: Colors.lightBlueAccent,
-                                                                  minimumSize: Size(70, 40)),
-                                                              child: const Text('완료'),
-                                                              onPressed: resetting,
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )));
-                                            });
-                                          });
-                                    },
-                                  ),
-                                  Text("해시태그", style: buttontext,)
-                                ]),
-                                Column(children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          anony=!anony;
-                                        });
-                                      },
-                                      icon: anony ? Icon(Icons.person, size: 25.r,) : Icon(Icons.person_off, size: 25.r)),
-                                  Text("익명", style: buttontext)
-                                ]),
-                              ],
+                                                )));
+                                      });
+                                    });
+                              },
                             ),
+                            Text(
+                              "해시태그",
+                              style: buttontext,
+                            )
                           ]),
-                    ),
-                  ],
-                )),
-          );
+                          Column(children: [
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    anony = !anony;
+                                  });
+                                },
+                                icon: anony
+                                    ? Icon(
+                                        Icons.person,
+                                        size: 25.r,
+                                      )
+                                    : Icon(Icons.person_off, size: 25.r)),
+                            Text("익명", style: buttontext)
+                          ]),
+                        ],
+                      ),
+                    ]),
+              ),
+            ],
+          )),
+    );
   }
 
   resetting() {
@@ -298,8 +400,7 @@ class _WriteState extends State<Write> {
   GetImageFile() async {
     //사용자이미지
     XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (f != null)
-      dummyFille = File(f.path);
+    if (f != null) dummyFille = File(f.path);
     print(dummyFille);
     setState(() {
       backgroundimgname = null;
