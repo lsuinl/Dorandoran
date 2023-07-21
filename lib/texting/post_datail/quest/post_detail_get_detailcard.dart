@@ -11,7 +11,7 @@ Future<postcardDetail> getpostDetail(
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String email = prefs.getString("email")!;
-  print("실행됨");
+  print(accessToken);
   var response = await http.post(
     Uri.parse('$urls/api/post/detail'),
     headers: <String, String>{

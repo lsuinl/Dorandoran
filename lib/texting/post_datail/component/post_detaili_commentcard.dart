@@ -3,6 +3,7 @@ import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/replycard.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_deletecomment.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_detail_plus_reply.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,6 +32,7 @@ class CommentCard extends StatefulWidget {
 Map<int, bool> commentlike = {0: false};
 Map<int, int> commentlikecnt = {0: 0};
 
+
 class _CommentCardState extends State<CommentCard> {
   @override
   void initState() {
@@ -44,6 +46,9 @@ class _CommentCardState extends State<CommentCard> {
 
   @override
   Widget build(BuildContext context) {
+
+    List<String> _menulist = ['신고하기','차단하기'];
+    if(widget.card.isWrittenByMember==true) _menulist = ['삭제하기'];
     List<ReplyCard> replycardd = [];
     return FutureBuilder(
         future: getreply(widget.card.replies),
@@ -54,10 +59,6 @@ class _CommentCardState extends State<CommentCard> {
             return FutureBuilder(
                 future: getnickname(),
                 builder:(context,snapshot){
-                  String nickname="";
-                  if(snapshot.hasData){
-                    nickname=snapshot.data!;
-                  }
               return Column(children: [
               Container(
                   child: Card(
@@ -89,79 +90,72 @@ class _CommentCardState extends State<CommentCard> {
                                         ),
                                       ),
                                       widget.card.commentCheckDelete == false
-                                          ? ( nickname ==
-                                                  widget.card.commentNickname
-                                              ? TextButton(
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        barrierDismissible:
-                                                            false,
-                                                        // 바깥 영역 터치시 닫을지 여부
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            content: const Text(
-                                                                "작성한 댓글을 삭제하시겠습니까?"),
-                                                            actions: [
-                                                              TextButton(
-                                                                child: const Text(
-                                                                    '확인',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.w700)),
-                                                                onPressed:
-                                                                    () async {
-                                                                  await deletecomment(
-                                                                      widget
-                                                                          .card
-                                                                          .commentId);
-                                                                  widget
-                                                                      .deletedreply();
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                              TextButton(
-                                                                child: const Text(
-                                                                    '취소',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.w700)),
-                                                                onPressed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                            ],
-                                                          );
-                                                        });
-                                                  },
-                                                  style: TextButton.styleFrom(
-                                                    minimumSize:
-                                                        Size.fromRadius(10.r),
-                                                    padding: EdgeInsets.zero,
-                                                  ),
-                                                  child: Text(
-                                                    "삭제",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headlineMedium!,
-                                                  ),
-                                                )
-                                              : Container())
+                                          ?  DropdownButton2(
+                                        customButton: Icon(Icons.more_vert),
+                                        dropdownWidth: 150,
+                                        dropdownDecoration: BoxDecoration(color: Colors.white),
+                                        dropdownDirection: DropdownDirection.left,
+                                        items: [
+                                          ..._menulist.map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(item),
+                                          ),
+                                          ),
+                                        ],
+                                        onChanged: (value) {
+                                          if(value=="삭제하기"){
+                                            showDialog(
+                                                context: context,
+                                                barrierDismissible:
+                                                false,
+                                                // 바깥 영역 터치시 닫을지 여부
+                                                builder: (BuildContext
+                                                context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                    Colors.white,
+                                                    content: const Text(
+                                                        "작성한 댓글을 삭제하시겠습니까?"),
+                                                    actions: [
+                                                      TextButton(
+                                                        child: const Text(
+                                                            '확인',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize:
+                                                                16,
+                                                                fontWeight:
+                                                                FontWeight.w700)),
+                                                        onPressed:
+                                                            () async {
+                                                          await deletecomment(widget.card.commentId);
+                                                          Navigator.push(context,
+                                                              MaterialPageRoute(builder: (context) => PostDetail(postId: widget.postId)))
+                                                              .then((value) => setState(() {}));
+                                                        },
+                                                      ),
+                                                      TextButton(
+                                                        child: const Text(
+                                                            '취소',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize:
+                                                                16,
+                                                                fontWeight:
+                                                                FontWeight.w700)),
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                              context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );});
+                                          }
+                                        },
+                                      )
                                           : Container()
                                     ],
                                   ),
@@ -293,8 +287,10 @@ class _CommentCardState extends State<CommentCard> {
                                         reply: a.reply,
                                         replyAnonymityNickname:
                                             a.replyAnonymityNickname,
+                                        isWrittenByMember: a.isWrittenByMember,
                                         replyCheckDelete: a.replyCheckDelete,
                                         replyTime: a.replyTime,
+                                        postId: widget.postId,
                                         deletedreply: widget.deletedreply,
                                       ))
                                   .toList());
@@ -321,6 +317,8 @@ class _CommentCardState extends State<CommentCard> {
                   replyAnonymityNickname: a['replyAnonymityNickname'],
                   replyCheckDelete: a['replyCheckDelete'],
                   replyTime: a['replyTime'],
+                  isWrittenByMember: a['isWrittenByMember'],
+                  postId: widget.postId,
                   deletedreply: widget.deletedreply,
                 ))
             .toList()

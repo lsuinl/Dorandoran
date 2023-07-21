@@ -54,6 +54,7 @@ class _PostDetailState extends State<PostDetail> {
                     card: commentcard(
                     commentCheckDelete: a['commentCheckDelete'],
                     commentId: a['commentId'],
+                    isWrittenByMember: a['isWrittenByMember'],
                     commentAnonymityNickname: a['commentAnonymityNickname'],
                     comment: a['comment'],
                     commentLike: a['commentLike'],
@@ -78,6 +79,7 @@ class _PostDetailState extends State<PostDetail> {
                     commentLike: a['commentLike'],
                     commentLikeResult: a['commentLikeResult'],
                     replies: a['replies'],
+                    isWrittenByMember: a['isWrittenByMember'],
                     commentNickname: a['commentNickname'],
                     commentTime: a['commentTime'],
                         countReply: a['countReply'],
@@ -141,6 +143,8 @@ class _PostDetailState extends State<PostDetail> {
                             postAnonymity: e.postAnonymity,
                             content: e.content,
                             postTime: e.postTime,
+                            isWrittenByMember: e.isWrittenByMember,
+                            checkWrite: e.checkWrite,
                             location: e.location,
                             postLikeCnt: e.postLikeCnt,
                             postLikeResult: e.postLikeResult,
@@ -173,6 +177,7 @@ class _PostDetailState extends State<PostDetail> {
                                                 CommentCard(
                                                   card: commentcard(
                                                   commentCheckDelete: a.commentCheckDelete,
+                                                  isWrittenByMember: a.isWrittenByMember,
                                                   commentId: a.commentId,
                                                   commentAnonymityNickname: a.commentAnonymityNickname,
                                                   comment: a.comment,

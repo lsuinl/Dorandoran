@@ -4,6 +4,7 @@ class replycard {
   final String reply;
   final String replyAnonymityNickname;
   final bool replyCheckDelete;
+  final bool isWrittenByMember;
   final String replyTime;
 
   replycard({
@@ -13,6 +14,7 @@ class replycard {
     required this.replyAnonymityNickname,
     required this.replyCheckDelete,
     required this.replyTime,
+    required this.isWrittenByMember
   });
   factory replycard.fromJson(Map<String, dynamic> json) {
     return replycard(
@@ -22,6 +24,7 @@ class replycard {
       replyAnonymityNickname: json["replyAnonymityNickname"],
       replyCheckDelete: json["replyCheckDelete"],
       replyTime: json["replyTime"],
+      isWrittenByMember: json["isWrittenByMember"]
     );
   }
 }

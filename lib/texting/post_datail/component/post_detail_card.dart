@@ -1,4 +1,6 @@
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_detail_delete_post.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/util.dart';
@@ -19,6 +21,7 @@ class Detail_Card extends StatefulWidget {
 
 bool like = false;
 int likecnt = 0;
+List<String> _menulist = ['신고하기','차단하기'];
 
 class _Detail_CardState extends State<Detail_Card> {
   @override
@@ -26,6 +29,8 @@ class _Detail_CardState extends State<Detail_Card> {
     setState(() {
       like = widget.card.postLikeResult!;
       likecnt = widget.card.postLikeCnt;
+      if (widget.card.isWrittenByMember==true)
+        _menulist = ['삭제하기'];
     });
     super.initState();
   }
@@ -49,13 +54,79 @@ class _Detail_CardState extends State<Detail_Card> {
               child: Column(
                 children: [
                   SizedBox(height: 20.h),
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    child: BackButton(
-                      onPressed: () => Navigator.push(context,
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:[
+                        BackButton(
+                          onPressed: () => Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Home()))
-                          .then((value) => setState(() {})),
-                    ),
+                              .then((value) => setState(() {})),
+                        ),
+                        DropdownButton2(
+                          customButton: Icon(Icons.more_vert),
+                          dropdownWidth: 150,
+                          dropdownDecoration: BoxDecoration(color: Colors.white),
+                          dropdownDirection: DropdownDirection.left,
+                          items: [
+                            ..._menulist.map((item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(item),
+                            ),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            if(value=="삭제하기")
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible:
+                                      false,
+                                      // 바깥 영역 터치시 닫을지 여부
+                                      builder: (BuildContext
+                                      context) {
+                                        return AlertDialog(
+                                          backgroundColor:
+                                          Colors.white,
+                                          content: const Text(
+                                              "작성한 글을 삭제하시겠습니까?"),
+                                          actions: [
+                                            TextButton(
+                                              child: const Text(
+                                                  '확인',
+                                                  style: TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize:
+                                                      16,
+                                                      fontWeight:
+                                                      FontWeight.w700)),
+                                              onPressed:
+                                                  () async {
+                                                await deletepost(widget.postId);
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(builder: (context) => Home()))
+                                                    .then((value) => setState(() {}));
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: const Text(
+                                                  '취소',
+                                                  style: TextStyle(
+                                                      color: Colors
+                                                          .black,
+                                                      fontSize:
+                                                      16,
+                                                      fontWeight:
+                                                      FontWeight.w700)),
+                                              onPressed: () {
+                                                Navigator.of(
+                                                    context)
+                                                    .pop();
+                                              },
+                                            ),
+                                          ],
+                                        );});
+                          })
+                      ]
                   ),
                   SizedBox(
                     height: 450.h,

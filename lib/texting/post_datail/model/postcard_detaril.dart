@@ -7,13 +7,15 @@ class postcardDetail {
   final int commentCnt;
   final String backgroundPicUri;
   final String? postNickname;
-  final List<dynamic>? commentDetailDto;
-  final List<dynamic>? postHashes;
+  final bool postAnonymity;
   final String font;
   final String fontColor;
   final int fontSize;
   final int fontBold;
-  final bool postAnonymity;
+  final bool checkWrite;
+  final bool isWrittenByMember;
+  final List<dynamic>? commentDetailDto;
+  final List<dynamic>? postHashes;
 
   postcardDetail({
     required this.content,
@@ -31,6 +33,8 @@ class postcardDetail {
     required this.fontColor,
     required this.fontSize,
     required this.fontBold,
+    required this.checkWrite,
+    required this.isWrittenByMember
   });
 
   factory postcardDetail.fromJson(Map<String, dynamic> json) {
@@ -45,11 +49,14 @@ class postcardDetail {
         postNickname: json["postNickname"],
         postAnonymity: json["postAnonymity"],
         postHashes: json["postHashes"],
+        checkWrite: json["checkWrite"],
+        isWrittenByMember: json["isWrittenByMember"],
         font: json["font"],
         fontColor: json["fontColor"],
         fontSize: json["fontSize"],
         fontBold: json["fontBold"],
-        commentDetailDto: json["commentDetailDto"]);
+        commentDetailDto: json["commentDetailDto"],
+    );
   }
 }
 
