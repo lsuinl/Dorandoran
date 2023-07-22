@@ -1,3 +1,4 @@
+import 'package:dorandoran/texting/hash_detail/hash_detail.dart';
 import 'package:dorandoran/texting/home/model/search_hash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,34 +6,29 @@ import '../quest/delete_del_my_hash.dart';
 import '../quest/get_search_hash.dart';
 import '../quest/post_add_my_hash.dart';
 
-// 검색을 위해 앱의 상태를 변경해야하므로 StatefulWidget 상속
 class TagSearch extends StatefulWidget {
 
-  const TagSearch({Key? key}) : super(key: key);
+  const TagSearch({
+    Key? key}) : super(key: key);
 
   @override
   TagSearchState createState() => TagSearchState();
 }
+bool showlist = false;
 
 class TagSearchState extends State<TagSearch> {
   TextEditingController searchTextController = TextEditingController();
-  FocusNode focusnode = FocusNode();
   List<Widget> searchresult=[];
-  bool showlist = false;
   Map<String,int>? mytagcheck;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return GestureDetector(
+    child:
+      Column(
           children: [
             TextFormField(
               controller: searchTextController,
-                focusNode: focusnode,
                 decoration: InputDecoration(
                     border: UnderlineInputBorder(),
                     icon: (Icon(Icons.search)),
@@ -52,11 +48,14 @@ class TagSearchState extends State<TagSearch> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("#${e.hashTagName}"),
+                          TextButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => HashDetail(tagnames: e.hashTagName)));
+                            },
+                                  child: Text("#${e.hashTagName}",style: TextStyle(fontSize: 16.sp,color: Colors.black),)),
                           Row(
                             children: [
                               Text("게시글 수: ${e.hashTagCount} "),
-                             e.hashTagCheck == false
+                              e.hashTagCheck == false
                                   ? IconButton(
                                   onPressed: () {
                                       addMyHash(e.hashTagName);
@@ -100,7 +99,7 @@ class TagSearchState extends State<TagSearch> {
               )
             ) :Container()
           ],
-        );
+        ));
   }
   }
 
