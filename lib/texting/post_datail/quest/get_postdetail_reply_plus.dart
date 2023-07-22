@@ -6,7 +6,7 @@ import 'package:dorandoran/common/uri.dart';
 import '../model/replycard.dart';
 
 //대댓글 더보기
-Future<List<replycard>> PlusReply(
+Future<List<replycard>> GetReplyPlus(
     int postid,int commentid,int replyid) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
@@ -19,7 +19,7 @@ Future<List<replycard>> PlusReply(
     );
   if(response.statusCode==401){
     quest_token();
-    PlusReply(postid, commentid, replyid);
+    GetReplyPlus(postid, commentid, replyid);
   }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<replycard> card = body.map((dynamic e) => replycard.fromJson(e)).toList();

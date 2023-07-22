@@ -1,5 +1,5 @@
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_detail_delete_post.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_postdetail_post_delete.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,56 +76,32 @@ class _Detail_CardState extends State<Detail_Card> {
                           ],
                           onChanged: (value) {
                             if(value=="삭제하기")
-                                  showDialog(
-                                      context: context,
-                                      barrierDismissible:
-                                      false,
-                                      // 바깥 영역 터치시 닫을지 여부
-                                      builder: (BuildContext
-                                      context) {
-                                        return AlertDialog(
-                                          backgroundColor:
-                                          Colors.white,
-                                          content: const Text(
-                                              "작성한 글을 삭제하시겠습니까?"),
-                                          actions: [
-                                            TextButton(
-                                              child: const Text(
-                                                  '확인',
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .black,
-                                                      fontSize:
-                                                      16,
-                                                      fontWeight:
-                                                      FontWeight.w700)),
-                                              onPressed:
-                                                  () async {
-                                                await deletepost(widget.postId);
-                                                Navigator.push(context,
-                                                    MaterialPageRoute(builder: (context) => Home()))
-                                                    .then((value) => setState(() {}));
-                                              },
-                                            ),
-                                            TextButton(
-                                              child: const Text(
-                                                  '취소',
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .black,
-                                                      fontSize:
-                                                      16,
-                                                      fontWeight:
-                                                      FontWeight.w700)),
-                                              onPressed: () {
-                                                Navigator.of(
-                                                    context)
-                                                    .pop();
-                                              },
-                                            ),
-                                          ],
-                                        );});
-                          })
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    // 바깥 영역 터치시 닫을지 여부
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        content: const Text("작성한 글을 삭제하시겠습니까?"),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text('확인', style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
+                                            onPressed: () async {
+                                              await PostPostDelete(widget.postId);
+                                              Navigator.push(context, MaterialPageRoute(
+                                                      builder: (context) => Home())).then((value) => setState(() {}));
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: const Text('취소',
+                                                style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
+                                            onPressed: () => Navigator.of(context).pop()
+                                          ),
+                                        ],
+                                      );
+                                    });
+                            })
                       ]
                   ),
                   SizedBox(
@@ -163,13 +139,8 @@ class _Detail_CardState extends State<Detail_Card> {
                                 children: widget.card.postHashes!
                                     .map((e) => InputChip(
                                           onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HashDetail(
-                                                            tagnames:
-                                                                e.toString())));
+                                            Navigator.push(context, MaterialPageRoute(
+                                                builder: (context) => HashDetail(tagnames: e.toString())));
                                           },
                                           label: Text(e),
                                         ))
@@ -201,13 +172,10 @@ class _Detail_CardState extends State<Detail_Card> {
                             onPressed: () {
                               setState(() {
                                 like = !like;
-                                if (likecnt != widget.card.postLikeResult &&
-                                    like == false) {
+                                if (likecnt != widget.card.postLikeResult && like == false) {
                                   //화면에서 취소누르면,,
                                   likecnt = likecnt - 1;
-                                } else if (likecnt !=
-                                        widget.card.postLikeResult &&
-                                    like == true) {
+                                } else if (likecnt != widget.card.postLikeResult && like == true) {
                                   //화면에서 좋아요
                                   likecnt = widget.card.postLikeCnt + 1;
                                 } else {

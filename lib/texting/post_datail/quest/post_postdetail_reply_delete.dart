@@ -5,7 +5,7 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //대댓글삭제하기
-Future<int>  deletereply(int replyId) async {
+Future<int>  PostReplyDelete(int replyId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String email = prefs.getString("email")!;
@@ -28,7 +28,7 @@ Future<int>  deletereply(int replyId) async {
   }
   catch(e){
     quest_token();
-    deletereply(replyId);
+    PostReplyDelete(replyId);
     return 400;
   }
 }

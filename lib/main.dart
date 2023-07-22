@@ -1,5 +1,6 @@
 import 'package:dorandoran/firebase.dart';
 import 'package:dorandoran/texting/home/home.dart';
+import 'package:dorandoran/texting/home/tag_screen.dart';
 import 'package:dorandoran/texting/post_datail/post_detail.dart';
 import 'package:dorandoran/texting/write/screen/write.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
@@ -78,7 +79,7 @@ void main() async {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!);
         },
-        home: PostDetail(postId: 50,),
+        home: Home(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//대댓글삭제하기
-Future<int>  deletepost(int postId) async {
+//글 삭제하기
+Future<int>  PostPostDelete(int postId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String email = prefs.getString("email")!;
@@ -21,12 +21,11 @@ Future<int>  deletepost(int postId) async {
         "userEmail": email,
       }),
     );
-    print(response.statusCode);
     return response.statusCode;
   }
   catch(e){
     quest_token();
-    deletepost(postId);
+    PostPostDelete(postId);
     return 400;
   }
 }

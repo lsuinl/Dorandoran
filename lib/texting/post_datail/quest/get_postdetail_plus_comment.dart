@@ -6,8 +6,7 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
 //댓글 더보기
-Future<List<commentcard>> PlusComment(
-    int postid,int commentid) async {
+Future<List<commentcard>> GetCommentPlus(int postid,int commentid) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String email = prefs.getString("email")!;
@@ -19,7 +18,7 @@ Future<List<commentcard>> PlusComment(
   );
   if(response.statusCode==401){
     quest_token();
-    PlusComment(postid, commentid);
+    GetCommentPlus(postid, commentid);
   }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<commentcard> card = body.map((dynamic e) => commentcard.fromJson(e)).toList();
