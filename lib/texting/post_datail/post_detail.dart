@@ -2,14 +2,14 @@ import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_detail_get_detailcard.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_detail_postcomment.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_detail_postreply.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_postdetail_post_detail.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_postdetail_comment.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_postdetail_reply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'component/post_detail_card.dart';
 import 'component/post_detaili_commentcard.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_detail_plus_comment.dart';
+import 'package:dorandoran/texting/post_datail/quest/get_postdetail_plus_comment.dart';
 import 'package:dorandoran/common/basic.dart';
 
 class PostDetail extends StatefulWidget {
@@ -42,7 +42,7 @@ class _PostDetailState extends State<PostDetail> {
   Widget build(BuildContext context) {
     return Basic(
         widgets: FutureBuilder(
-            future: getpostDetail(widget.postId, ""),
+            future: PostPostDetail(widget.postId, ""),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 dynamic e = snapshot.data!;
@@ -54,6 +54,7 @@ class _PostDetailState extends State<PostDetail> {
                     card: commentcard(
                     commentCheckDelete: a['commentCheckDelete'],
                     commentId: a['commentId'],
+                    isWrittenByMember: a['isWrittenByMember'],
                     commentAnonymityNickname: a['commentAnonymityNickname'],
                     comment: a['comment'],
                     commentLike: a['commentLike'],
@@ -78,6 +79,7 @@ class _PostDetailState extends State<PostDetail> {
                     commentLike: a['commentLike'],
                     commentLikeResult: a['commentLikeResult'],
                     replies: a['replies'],
+                    isWrittenByMember: a['isWrittenByMember'],
                     commentNickname: a['commentNickname'],
                     commentTime: a['commentTime'],
                         countReply: a['countReply'],
@@ -123,7 +125,7 @@ class _PostDetailState extends State<PostDetail> {
                     for (final b in a["replies"])
                       if (b["replyNickname"] == "nickname7" && b["replyCheckDelete"] == false)
                         postcommentstate = b["replyAnonymityNickname"] == null ? false : true;
-                  };
+                  }
 
                 return Container(
                     alignment: Alignment.topCenter,
@@ -141,6 +143,8 @@ class _PostDetailState extends State<PostDetail> {
                             postAnonymity: e.postAnonymity,
                             content: e.content,
                             postTime: e.postTime,
+                            isWrittenByMember: e.isWrittenByMember,
+                            checkWrite: e.checkWrite,
                             location: e.location,
                             postLikeCnt: e.postLikeCnt,
                             postLikeResult: e.postLikeResult,
@@ -160,19 +164,17 @@ class _PostDetailState extends State<PostDetail> {
                               : OutlinedButton(
                                   style: OutlinedButton.styleFrom(
                                       elevation: 2,
-                                      //minimumSize: Size(100.w, 30.h),
                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
                                       backgroundColor: Color(0xFFBDBDBD),
-                                      side: BorderSide(
-                                        color: Color(0xFFFFFFFF),
-                                        width: 1.0,
-                                      )),
+                                      side: BorderSide(color: Color(0xFFFFFFFF), width: 1.0,)
+                                  ),
                                   onPressed: () async {
-                                    List<dynamic> pluscomments = await PlusComment(50, plusreply);
+                                    List<dynamic> pluscomments = await GetCommentPlus(50, plusreply);
                                     commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
                                                 CommentCard(
                                                   card: commentcard(
                                                   commentCheckDelete: a.commentCheckDelete,
+                                                  isWrittenByMember: a.isWrittenByMember,
                                                   commentId: a.commentId,
                                                   commentAnonymityNickname: a.commentAnonymityNickname,
                                                   comment: a.comment,
@@ -196,10 +198,7 @@ class _PostDetailState extends State<PostDetail> {
                                       commentlist[0].card.commentId : -1;
                                     });
                                   },
-                                  child: Text("댓글 더보기",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium!)),
+                                  child: Text("댓글 더보기", style: Theme.of(context).textTheme.headlineMedium!)),
                           ListBody(
                               children: commentlist.length >0 ? commentlist:
                                   [
@@ -234,12 +233,10 @@ class _PostDetailState extends State<PostDetail> {
     if (DateTime.now().difference(commenttime).inSeconds > 5) {
       if (selectcommentid == 0) {
         //댓글
-        commenttime = await postcomment(
-            widget.postId, controller.text, anonymity,lockcheck);
+        commenttime = await PostComment(widget.postId, controller.text, anonymity,lockcheck);
       } else {
         //대댓글
-        commenttime = await postreply(
-            selectcommentid, controller.text, anonymity,lockcheck);
+        commenttime = await PostReply(selectcommentid, controller.text, anonymity,lockcheck);
       }
       setState(() {
         controller.clear();
@@ -247,8 +244,6 @@ class _PostDetailState extends State<PostDetail> {
         selectcommentid=0;
         commenttime = DateTime.now();
       });
-      //  final position = scrollController.position.maxScrollExtent;
-      //  scrollController.jumpTo(position);
     } else {
       showDialog(
           context: context,

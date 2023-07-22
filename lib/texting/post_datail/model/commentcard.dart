@@ -5,8 +5,9 @@ class commentcard {
   final bool commentLikeResult;
   final String commentNickname;
   final bool commentCheckDelete;
-  final String commentTime;
   final int countReply;
+  final bool isWrittenByMember;
+  final String commentTime;
   final List<dynamic> replies;
   final String? commentAnonymityNickname;
 
@@ -21,11 +22,13 @@ class commentcard {
     required this.countReply,
     required this.replies,
     required this.commentAnonymityNickname,
+    required this.isWrittenByMember
   });
   factory commentcard.fromJson(Map<String, dynamic> json) {
     return commentcard(
         commentId: json["commentId"],
         comment: json["comment"],
+        isWrittenByMember: json["isWrittenByMember"],
         commentLike: json["commentLike"],
         commentLikeResult: json["commentLikeResult"],
         commentNickname: json["commentNickname"],

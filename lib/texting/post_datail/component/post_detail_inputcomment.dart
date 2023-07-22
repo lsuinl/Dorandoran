@@ -113,8 +113,7 @@ Container(
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    enabledBorder:
-                        UnderlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                     hintText: "댓글을 입력하세요.",
                     hintStyle: Theme.of(context).textTheme.headlineLarge!.copyWith(
                         color: Colors.black26, fontSize: 15.sp),

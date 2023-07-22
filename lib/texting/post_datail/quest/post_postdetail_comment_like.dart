@@ -4,13 +4,13 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//좋아요
-void commentLike(int postId,int commentId) async {
+//댓글좋아요
+void PostCommentLike(int postId,int commentId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String email = prefs.getString("email")!;
   try {
-    var response = await http.post(
+     await http.post(
       Uri.parse('$urls/api/comment-like'),
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -25,6 +25,6 @@ void commentLike(int postId,int commentId) async {
   }
   catch(e){
     quest_token();
-    commentLike(postId, commentId);
+    PostCommentLike(postId, commentId);
   }
 }

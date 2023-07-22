@@ -1,17 +1,16 @@
+import 'package:dorandoran/common/quest_token.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../common/quest_token.dart';
 
-//댓글삭제하기
-Future<int>  deletecomment(int commentId) async {
+//대댓글달기
+Future<DateTime>  PostReply(int commentId, String reply, bool anonymity, bool secretMode) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String email = prefs.getString("email")!;
-  try {
   http.Response response=  await http.post(
-    Uri.parse('$urls/api/comment-delete'),
+    Uri.parse('$urls/api/reply'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
@@ -19,16 +18,14 @@ Future<int>  deletecomment(int commentId) async {
     body: jsonEncode({
       "commentId":commentId,
       "userEmail":email,
+      "reply": reply,
+      "anonymity":anonymity,
+      "secretMode": secretMode
     }),
   );
-  print(commentId);
-  print(email);
-  print(response.statusCode);
-  return response.statusCode;
-  }
-  catch(e) {
+  if(response.statusCode==401){
     quest_token();
-    deletecomment(commentId);
-    return 400;
+    PostReply(commentId, reply, anonymity, secretMode);
   }
+  return DateTime.now();
 }
