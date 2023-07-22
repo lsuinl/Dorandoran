@@ -7,15 +7,15 @@ import '../quest/get_search_hash.dart';
 import '../quest/post_add_my_hash.dart';
 
 class TagSearch extends StatefulWidget {
-
+  final VoidCallback statemanager;
   const TagSearch({
+    required this.statemanager,
     Key? key}) : super(key: key);
 
   @override
   TagSearchState createState() => TagSearchState();
 }
 bool showlist = false;
-
 class TagSearchState extends State<TagSearch> {
   TextEditingController searchTextController = TextEditingController();
   List<Widget> searchresult=[];
@@ -59,10 +59,18 @@ class TagSearchState extends State<TagSearch> {
                                   ? IconButton(
                                   onPressed: () {
                                       addMyHash(e.hashTagName);
+                                      setState(() {
+                                        showlist=false;
+                                      });
+                                      widget.statemanager();
                                   }, icon: Icon(Icons.add_circle_outline))
                                   : IconButton(
                                   onPressed: () {
                                     delMyHash(e.hashTagName);
+                                    setState(() {
+                                      showlist=false;
+                                    });
+                                    widget.statemanager();
                                   }, icon: Icon(Icons.cancel_outlined))
                             ],
                           )
@@ -101,5 +109,4 @@ class TagSearchState extends State<TagSearch> {
           ],
         ));
   }
-  }
-
+}
