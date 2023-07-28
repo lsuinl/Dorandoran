@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
-
-class Basic extends StatelessWidget {
+import 'package:fluttertoast/fluttertoast.dart';
+class Basic extends StatefulWidget {
   final Widget widgets;
 
   const Basic({
@@ -9,16 +9,21 @@ class Basic extends StatelessWidget {
     Key? key}) : super(key: key);
 
   @override
+  State<Basic> createState() => _BasicState();
+}
+DateTime? currentBackPressTime;
+class _BasicState extends State<Basic> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      color: backgroundcolor,
-        child: SafeArea(
-        top: true,
-        bottom: true,
-          child: widgets
-    )
-    )
-    );
+                color: backgroundcolor,
+                child: SafeArea(
+                    top: true,
+                    bottom: true,
+                    child: widget.widgets
+                )
+            )
+        );
   }
 }

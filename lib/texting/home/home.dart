@@ -6,6 +6,7 @@ import 'package:dorandoran/texting/home/tag_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../common/basic.dart';
 import '../write/screen/write.dart';
@@ -40,8 +41,14 @@ class _HomeState extends State<Home> {
     }
   @override
   Widget build(BuildContext context) {
-    return Basic(
-        widgets: FutureBuilder(
+    return Scaffold(
+        body: WillPopScope(onWillPop: onWillPop,
+          child: Container(
+            color: backgroundcolor,
+            child: SafeArea(
+                top: true,
+                bottom: true,
+                child: FutureBuilder(
             future: myfuture,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -256,7 +263,22 @@ class _HomeState extends State<Home> {
                     decoration: gradient,
                     child: Center(child: CircularProgressIndicator()));
               }
-            }));
+            }))
+    )));
+  }
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+
+    if (currentBackPressTime == null || now.difference(currentBackPressTime!)
+        > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      final msg = "'뒤로'버튼을 한 번 더 누르면 종료됩니다.";
+
+      Fluttertoast.showToast(msg: msg);
+      return Future.value(false);
+    }
+
+    return Future.value(true);
   }
 
   postlistchange(String name) {

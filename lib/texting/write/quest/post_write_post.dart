@@ -26,25 +26,25 @@ Future<int> PostWritePost(String content,
 
   FormData formData = file == ""
       ? FormData.fromMap({
+    'email': email,
+    'content': content,
+    'forMe': forme,
+    'location': location,
+    'hashTagName': hashTag,
+    'file': file,//
+    "backgroundImgName": backgroundImgName,//
+    'font': font,
+    'fontColor': fontColor,
+    'fontSize': fontSize,
+    'fontBold': fontBold,
+    'anonymity': anaoymity
+  }) : FormData.fromMap({
           'email': email,
           'content': content,
           'forMe': forme,
           'location': location,
           'hashTagName': hashTag,
-          'file': file,
-          'font': font,
-          'fontColor': fontColor,
-          'fontSize': fontSize,
-          'fontBold': fontBold,
-          'anonymity': anaoymity
-        })
-      : FormData.fromMap({
-          'email': email,
-          'content': content,
-          'forMe': forme,
-          'location': location,
-          'hashTagName': hashTag,
-          "backgroundImgName": backgroundImgName,
+          "backgroundImgName": backgroundImgName,//
           'font': font,
           'fontColor': fontColor,
           'fontSize': fontSize,
