@@ -2,6 +2,8 @@ import 'package:dorandoran/texting/write/quest/post_write_post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../home/home.dart';
 import '../../loding.dart';
 import '../screen/write.dart';
 import 'write_middlefield.dart';
@@ -41,8 +43,7 @@ class PostButton extends StatelessWidget {
               userimage = null;
 
             if (contextcontroller.text != '') {
-              //200체크
-              PostWritePost(
+              int postcheck = await PostWritePost(
                   contextcontroller.text,
                   forme,
                   usinglocation,
@@ -53,16 +54,20 @@ class PostButton extends StatelessWidget {
                   style.color == Colors.white ? "white" : "black",
                   style.fontSize!.toInt(),
                   int.parse(style.fontWeight.toString().substring(12)), anony);
+
+              if(postcheck==200)
               Navigator.push(
                 context,
                 PageRouteBuilder(
                   pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2) {
-                    return loding();
+                    return Home();
                   },
                   transitionDuration: Duration.zero,
                   reverseTransitionDuration: Duration.zero,
                 ),
               );
+              else
+                Fluttertoast.showToast(msg: "전송에 오류가 발생하였습니다 다시 시도해주세요.");
             }
           },
           child: Text("완료"),
