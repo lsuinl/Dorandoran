@@ -68,11 +68,11 @@ class _TagScreenState extends State<TagScreen> {
                                       .stretch,
                                   children: populartagname
                                       .map((e) =>
-                                      Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 5.h),
-                                          child: Container(
-                                              height: 50.h,
+                                      TextButton(
+                                            onPressed: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => HashDetail(tagnames: e.hashTagName)));
+                                            },
+                                            child: Container(
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius
                                                     .circular(
@@ -117,7 +117,8 @@ class _TagScreenState extends State<TagScreen> {
                                                               color: Colors
                                                                   .black),
                                                         )
-                                                      ])))))
+                                                      ])))
+                                          ))
                                       .toList()),
                             ],
                           ),
