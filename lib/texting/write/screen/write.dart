@@ -5,6 +5,7 @@ import 'package:dorandoran/texting/write/component/bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dorandoran/common/uri.dart';
 import 'package:dorandoran/texting/write/component/post_button.dart';
@@ -123,7 +124,9 @@ class _WriteState extends State<Write> {
     //사용자이미지
     XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (f != null) dummyFille = File(f.path);
-    print(dummyFille);
+    if(dummyFille!.lengthSync()/(1024*1024)>3)
+      Fluttertoast.showToast(msg: "이미지의 크기가 3MB 미만이어야 합니다.");
+    else
     setState(() {
       backgroundimgname = null;
       backimg = Image.file(dummyFille!);

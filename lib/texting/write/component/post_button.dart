@@ -2,6 +2,7 @@ import 'package:dorandoran/texting/write/quest/post_write_post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import '../../home/home.dart';
 import '../../loding.dart';
 import '../screen/write.dart';
 import 'write_middlefield.dart';
@@ -57,7 +58,7 @@ class PostButton extends StatelessWidget {
                 context,
                 PageRouteBuilder(
                   pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2) {
-                    return loding();
+                    return Home();
                   },
                   transitionDuration: Duration.zero,
                   reverseTransitionDuration: Duration.zero,
