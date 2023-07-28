@@ -24,15 +24,14 @@ Future<int> PostWritePost(String content,
   String location = "${prefs.getString("latitude") ?? ""},${prefs.getString("longtitude") ?? ""}";
   location = usinglocation == true ? location : "";
 
-  FormData formData = file == ""
+  FormData formData = file != null
       ? FormData.fromMap({
     'email': email,
     'content': content,
     'forMe': forme,
     'location': location,
     'hashTagName': hashTag,
-    'file': file,//
-    "backgroundImgName": backgroundImgName,//
+    'file': file,
     'font': font,
     'fontColor': fontColor,
     'fontSize': fontSize,
@@ -44,7 +43,7 @@ Future<int> PostWritePost(String content,
           'forMe': forme,
           'location': location,
           'hashTagName': hashTag,
-          "backgroundImgName": backgroundImgName,//
+          "backgroundImgName": backgroundImgName,
           'font': font,
           'fontColor': fontColor,
           'fontSize': fontSize,
