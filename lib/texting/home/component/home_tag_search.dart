@@ -48,10 +48,7 @@ class TagSearchState extends State<TagSearch> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextButton(onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => HashDetail(tagnames: e.hashTagName)));
-                            },
-                                  child: Text("#${e.hashTagName}",style: TextStyle(fontSize: 16.sp,color: Colors.black),)),
+                   Text("#${e.hashTagName}",style: TextStyle(fontSize: 16.sp,color: Colors.black),),
                           Row(
                             children: [
                               Text("게시글 수: ${e.hashTagCount} "),

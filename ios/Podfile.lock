@@ -60,6 +60,9 @@ PODS:
     - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
   - geolocator_apple (1.2.0):
     - Flutter
   - google_sign_in_ios (0.0.1):
@@ -117,6 +120,7 @@ PODS:
   - speech_to_text (0.0.1):
     - Flutter
     - Try
+  - Toast (4.0.0)
   - Try (2.1.1)
   - unique_identifier (0.0.1):
     - Flutter
@@ -132,6 +136,7 @@ DEPENDENCIES:
   - flutter_downloader (from `.symlinks/plugins/flutter_downloader/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -161,6 +166,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - nanopb
     - PromisesObjC
+    - Toast
     - Try
 
 EXTERNAL SOURCES:
@@ -180,6 +186,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   google_sign_in_ios:
@@ -220,6 +228,7 @@ SPEC CHECKSUMS:
   flutter_downloader: b7301ae057deadd4b1650dc7c05375f10ff12c39
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   google_sign_in_ios: 1256ff9d941db546373826966720b0c24804bcdd
   GoogleDataTransport: f0308f5905a745f94fb91fea9c6cbaf3831cb1bd
@@ -236,6 +245,7 @@ SPEC CHECKSUMS:
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
   speech_to_text: b43a7d99aef037bd758ed8e45d79bbac035d2dfe
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
   unique_identifier: 5b4b48cfe07a95df6aa11746944c0dce22ab5400
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
