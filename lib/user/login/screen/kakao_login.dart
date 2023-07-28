@@ -34,10 +34,13 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
                         onPressed: () async {
                           if (await questkakaologin() == 200){
                             if(await registered()==200) { //가입된 회원
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => Home()));
+                             // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context)=> Home()), (route) => false);
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                  new Home()));
                             }
-                          else Navigator.push(context, MaterialPageRoute(builder: (context) => UsingAgree()));
+                          else  Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => UsingAgree()));
                         }
                         }),
                   ),

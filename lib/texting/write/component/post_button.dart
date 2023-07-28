@@ -41,6 +41,7 @@ class PostButton extends StatelessWidget {
               userimage = null;
 
             if (contextcontroller.text != '') {
+              //200체크
               PostWritePost(
                   contextcontroller.text,
                   forme,

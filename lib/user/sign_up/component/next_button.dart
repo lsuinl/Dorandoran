@@ -33,9 +33,7 @@ class NextButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
           onPressed: () async {
-          //  if(namecheck[name]==true) { //닉네임체크넘어가야
-              //포스트
-
+           if(namecheck[name]==true) { //닉네임체크넘어가야
             SharedPreferences prefs= await SharedPreferences.getInstance();
               await postUserRequest(
                   '${selectedDate.year}-${getTimeFormat(
@@ -45,9 +43,10 @@ class NextButton extends StatelessWidget {
                   selectedDate.month)}-${getTimeFormat(selectedDate.day)}');
               print('${name.text.toString()}');
 
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
-          //  }
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                new Home()));
+           }
           },
           child: Text('다음', style:  Theme.of(context).textTheme.labelLarge!),
         ),
