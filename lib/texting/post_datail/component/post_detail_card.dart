@@ -3,6 +3,8 @@ import 'package:dorandoran/texting/post_datail/quest/post_postdetail_post_delete
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/util.dart';
 import '../../hash_detail/hash_detail.dart';
 import '../../home/home.dart';
@@ -169,20 +171,29 @@ class _Detail_CardState extends State<Detail_Card> {
                         //하트버튼
                         children: [
                           IconButton(
-                            onPressed: () {
-                              setState(() {
-                                like = !like;
-                                if (likecnt != widget.card.postLikeResult && like == false) {
-                                  //화면에서 취소누르면,,
-                                  likecnt = likecnt - 1;
-                                } else if (likecnt != widget.card.postLikeResult && like == true) {
-                                  //화면에서 좋아요
-                                  likecnt = widget.card.postLikeCnt + 1;
-                                } else {
-                                  likecnt = widget.card.postLikeCnt;
-                                }
-                              });
-                              postLike(widget.postId);
+                            onPressed: ()async {
+                              SharedPreferences prefs =await  SharedPreferences.getInstance();
+                              if(widget.card.postNickname== prefs.getString("nickName")){
+                                Fluttertoast.showToast(msg:"자신의 글은 좋아요를 누를 수 없습니다.");
+                              }
+                                else {
+                                setState(() {
+                                  like = !like;
+                                  if (likecnt != widget.card.postLikeResult &&
+                                      like == false) {
+                                    //화면에서 취소누르면,,
+                                    likecnt = likecnt - 1;
+                                  } else
+                                  if (likecnt != widget.card.postLikeResult &&
+                                      like == true) {
+                                    //화면에서 좋아요
+                                    likecnt = widget.card.postLikeCnt + 1;
+                                  } else {
+                                    likecnt = widget.card.postLikeCnt;
+                                  }
+                                });
+                                postLike(widget.postId);
+                              }
                             },
                             icon: like!
                                 ? Icon(Icons.favorite)
