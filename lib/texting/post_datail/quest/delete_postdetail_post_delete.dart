@@ -5,27 +5,25 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //글 삭제하기
-Future<int>  PostPostDelete(int postId) async {
+Future<int>  DeletePostDelete(int postId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  String email = prefs.getString("email")!;
   try {
-    http.Response response = await http.post(
-      Uri.parse('$urls/api/post-delete'),
+    http.Response response = await http.delete(
+      Uri.parse('$urls/api/post'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'authorization': 'Bearer $accessToken',
       },
       body: jsonEncode({
         "postId": postId,
-        "userEmail": email,
       }),
     );
     return response.statusCode;
   }
   catch(e){
     quest_token();
-    PostPostDelete(postId);
+    DeletePostDelete(postId);
     return 400;
   }
 }

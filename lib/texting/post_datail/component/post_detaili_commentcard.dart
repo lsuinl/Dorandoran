@@ -1,7 +1,7 @@
 import 'package:dorandoran/texting/post_datail/component/post_detail_reply_card.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/replycard.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_postdetail_comment_delete.dart';
+import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_comment_delete.dart';
 import 'package:dorandoran/texting/post_datail/quest/get_postdetail_reply_plus.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +110,7 @@ class _CommentCardState extends State<CommentCard> {
                                                       TextButton(
                                                         child: const Text('확인', style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
                                                         onPressed: () async {
-                                                          await PostCommentDelete(widget.card.commentId);
+                                                          await DeleteCommentDelete(widget.card.commentId);
                                                           Navigator.push(context, MaterialPageRoute(
                                                               builder: (context) => PostDetail(postId: widget.postId))).then((value) => setState(() {}));
                                                         },

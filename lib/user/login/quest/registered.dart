@@ -8,7 +8,7 @@ Future<int> registered() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String email = prefs.getString("email")!;
   var response = await http.post(
-    Uri.parse('$urls/api/check/registered'),
+    Uri.parse('$urls/api/registered'),
     headers: <String, String>{
       'Content-Type': 'application/json',
     },

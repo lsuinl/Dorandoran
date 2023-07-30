@@ -8,13 +8,13 @@ Future<String> postUserRequest(String dateOfBirth, String nickName, String fireb
     String kakaoAccessToken) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var response = await http.post(
-    Uri.parse('$urls/api/signup'),
+    Uri.parse('$urls/api/member'),
     headers: <String, String>{
       'Content-Type': 'application/json',
     },
     body: jsonEncode({
       "dateOfBirth": dateOfBirth,
-      "nickName": nickName,
+      "nickname": nickName,
       "firebaseToken": firebasetoken,
       "kakaoAccessToken": kakaoAccessToken,
       "osType": "Ios"//타입 보내주기,,

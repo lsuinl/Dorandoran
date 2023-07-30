@@ -1,5 +1,5 @@
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_postdetail_post_delete.dart';
+import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_post_delete.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -90,7 +90,7 @@ class _Detail_CardState extends State<Detail_Card> {
                                           TextButton(
                                             child: const Text('확인', style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
                                             onPressed: () async {
-                                              await PostPostDelete(widget.postId);
+                                              await DeletePostDelete(widget.postId);
                                               Navigator.push(context, MaterialPageRoute(
                                                       builder: (context) => Home())).then((value) => setState(() {}));
                                             },

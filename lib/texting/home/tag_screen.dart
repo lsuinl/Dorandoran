@@ -80,7 +80,7 @@ class _TagScreenState extends State<TagScreen> {
                                                 image: DecorationImage(
                                                     image: Image
                                                         .network(
-                                                        '$urls/api/background/' +
+                                                        '$urls/api/pic/default/' +
                                                             (e.hashTagName
                                                                 .codeUnits
                                                                 .first % 100)

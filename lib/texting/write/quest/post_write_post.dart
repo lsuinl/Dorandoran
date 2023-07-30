@@ -24,32 +24,20 @@ Future<int> PostWritePost(String content,
   String location = "${prefs.getString("latitude") ?? ""},${prefs.getString("longtitude") ?? ""}";
   location = usinglocation == true ? location : "";
 
-  FormData formData = file != null
-      ? FormData.fromMap({
+  FormData formData = FormData.fromMap({
     'email': email,
     'content': content,
     'forMe': forme,
     'location': location,
     'hashTagName': hashTag,
     'file': file,
+    "backgroundImgName": backgroundImgName,
     'font': font,
     'fontColor': fontColor,
     'fontSize': fontSize,
     'fontBold': fontBold,
     'anonymity': anaoymity
-  }) : FormData.fromMap({
-          'email': email,
-          'content': content,
-          'forMe': forme,
-          'location': location,
-          'hashTagName': hashTag,
-          "backgroundImgName": backgroundImgName,
-          'font': font,
-          'fontColor': fontColor,
-          'fontSize': fontSize,
-          'fontBold': fontBold,
-          'anonymity': anaoymity
-        });
+  });
 
   var response = await dio.post('${urls}/api/post',
       options: Options(headers: {

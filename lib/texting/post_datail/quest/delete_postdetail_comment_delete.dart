@@ -5,30 +5,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/quest_token.dart';
 
 //댓글삭제하기
-Future<int>  PostCommentDelete(int commentId) async {
+Future<int>  DeleteCommentDelete(int commentId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  String email = prefs.getString("email")!;
   try {
-  http.Response response=  await http.post(
-    Uri.parse('$urls/api/comment-delete'),
+  http.Response response=  await http.delete(
+    Uri.parse('$urls/api/comment'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
     },
     body: jsonEncode({
       "commentId":commentId,
-      "userEmail":email,
     }),
   );
   print(commentId);
-  print(email);
   print(response.statusCode);
   return response.statusCode;
   }
   catch(e) {
     quest_token();
-    PostCommentDelete(commentId);
+    DeleteCommentDelete(commentId);
     return 400;
   }
 }

@@ -7,15 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 void addMyHash(String hash) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  String email = prefs.getString("email")!;
   http.Response response= await http.post(
-    Uri.parse('$urls/api/hashTag'),
+    Uri.parse('$urls/api/hashTag/member'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
     },
     body: jsonEncode({
-      "hashTagList":[hash],
+      "hashTag":hash,
     }),
   );
   print(response.statusCode);

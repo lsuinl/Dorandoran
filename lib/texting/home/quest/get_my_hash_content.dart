@@ -9,9 +9,8 @@ Future<List<postcard>> GetMyHashContent() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  print("해시태그요청중");
   http.Response response= await http.get(
-    Uri.parse('$urls/api/interestedPost'),
+    Uri.parse('$urls/api/post/interested'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
