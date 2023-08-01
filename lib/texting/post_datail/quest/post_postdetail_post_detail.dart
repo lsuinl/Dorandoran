@@ -10,7 +10,6 @@ Future<postcardDetail> PostPostDetail(
     int postId, String location) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  String email = prefs.getString("email")!;
 
   var response = await http.post(
     Uri.parse('$urls/api/post/detail'),
@@ -20,7 +19,6 @@ Future<postcardDetail> PostPostDetail(
     },
     body: jsonEncode({
       "postId": postId,
-      "userEmail": email,
       "location": location
     }),
   );

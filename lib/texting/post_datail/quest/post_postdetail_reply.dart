@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<DateTime>  PostReply(int commentId, String reply, bool anonymity, bool secretMode) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  String email = prefs.getString("email")!;
   http.Response response=  await http.post(
     Uri.parse('$urls/api/reply'),
     headers: <String, String>{
@@ -17,7 +16,6 @@ Future<DateTime>  PostReply(int commentId, String reply, bool anonymity, bool se
     },
     body: jsonEncode({
       "commentId":commentId,
-      "userEmail":email,
       "reply": reply,
       "anonymity":anonymity,
       "secretMode": secretMode

@@ -45,7 +45,7 @@ class _WriteState extends State<Write> {
       dummyFille = null;
       backgroundimgname = (Random().nextInt(99) + 1).toString();
       if (backgroundimgname != null) {
-        backimg = Image.network('$urls/api/background/' + backgroundimgname!);
+        backimg = Image.network('$urls/api/pic/default/' + backgroundimgname!);
         imagenumber = {int.parse(backgroundimgname!)};
       }
     });
@@ -54,7 +54,7 @@ class _WriteState extends State<Write> {
     setimagenumber();
   }
 
-  Image backimg = Image.network('$urls/api/background/' + '1');
+  Image backimg = Image.network('$urls/api/pic/default/' + '1');
   TextStyle buttontext = GoogleFonts.gowunBatang(fontSize: 12.sp);
 
   @override
@@ -116,7 +116,7 @@ class _WriteState extends State<Write> {
     setState(() {
       backgroundimgname = e.toString();
       if (backgroundimgname != null)
-        backimg = Image.network('$urls/api/background/' + backgroundimgname!);
+        backimg = Image.network('$urls/api/pic/default/' + backgroundimgname!);
     });
   }
 
@@ -266,7 +266,7 @@ class _WriteState extends State<Write> {
                           icon: Icon(Icons.restart_alt, size: 25.r)),
             Wrap(
               children: imagenumber.map((e) => TextButton(
-                            child: Image.network('$urls/api/background/' + e.toString(),
+                            child: Image.network('$urls/api/pic/default/' + e.toString(),
                               width: 72.w,
                               height: 72.h,
                               fit: BoxFit.cover,

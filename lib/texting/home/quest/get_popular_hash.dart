@@ -9,7 +9,7 @@ Future<List<popularHash>> GetPopularHash() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response= await http.get(
-    Uri.parse('$urls/api/hashTag-popular'),
+    Uri.parse('$urls/api/hashTag/popular'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',

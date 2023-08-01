@@ -8,7 +8,7 @@ Future<List<String>> GetMyHash() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response= await http.get(
-    Uri.parse('$urls/api/hashTag-member'),
+    Uri.parse('$urls/api/hashTag/member'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',

@@ -81,9 +81,6 @@ Container(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700)),
                                     onPressed: () async {
-                                      //안된다,
-                                      //await deletereply(replyId,useremail);
-                                     // deletedreply();
                                       Navigator.of(context).pop();
                                     },
                                   ),
@@ -119,12 +116,16 @@ Container(
                         color: Colors.black26, fontSize: 15.sp),
                   ),
                 )),
-            IconButton( //메세지보내기;
-                onPressed: (){
-                  select=0;
-                  widget.sendmessage();
-    },
-                  icon: Icon(Icons.
+                IconButton(
+                    //메세지보내기;
+                    onPressed: () {
+                      if (controller.text != "") {
+                        select = 0;
+                        widget.sendmessage();
+                        controller.clear();
+                      }
+                    },
+                    icon: Icon(Icons.
                 send_and_archive_sharp, size: 24.r))
           ])),
     ]));

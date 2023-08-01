@@ -6,7 +6,6 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //해시태그 검색창
-//인코딩
 Future<List<searchHash>> GetSearchHash(String text) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;

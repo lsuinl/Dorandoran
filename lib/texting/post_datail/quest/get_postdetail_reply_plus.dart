@@ -10,9 +10,8 @@ Future<List<replycard>> GetReplyPlus(
     int postid,int commentid,int replyid) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  String email = prefs.getString("email")!;
   var response = await http.get(
-    Uri.parse('${urls}/api/reply?postId=${postid}&commentId=${commentid}&replyId=${replyid}&userEmail=${email}'),
+    Uri.parse('${urls}/api/reply?postId=${postid}&commentId=${commentid}&replyId=${replyid}'),
       headers: <String, String>{
         'authorization':'Bearer $accessToken',
       },

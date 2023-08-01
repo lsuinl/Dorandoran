@@ -11,11 +11,10 @@ Future<List<postcard>> getPostContent(
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  String userEmail=prefs.getString("email")!;
   String location="${prefs.getString("latitude")??"123"},${prefs.getString("longtitude")??"123"}";
   var response = await http.get(
     Uri.parse(
-        '${urls}/api/post${url ?? ""}?userEmail=${userEmail}&postCnt=${number}&location=${location}'),
+        '${urls}/api/post${url ?? ""}?postCnt=${number}&location=${location}'),
     headers: <String, String>{
       'authorization':'Bearer $accessToken',
     },

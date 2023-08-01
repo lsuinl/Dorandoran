@@ -47,7 +47,7 @@ class _PostDetailState extends State<PostDetail> {
               if (snapshot.hasData) {
                 dynamic e = snapshot.data!;
                 bool? postcommentstate;
-                if (e.postNickname == 'nickname7') //익명/닉네임중복방지
+                if (e.isWrittenByMember == true) //익명체크. 작성자용
                   postcommentstate = e.postAnonymity;
                 if(commentlist.length<1){
                   commentlist.addAll(e.commentDetailDto.map<CommentCard>((a) => CommentCard(
@@ -120,10 +120,10 @@ class _PostDetailState extends State<PostDetail> {
                   //이미 쓴 댓글 익명여부 검사
                   for (final a in e.commentDetailDto) {
                     //댓글 작성자
-                    if (a["commentNickname"] == "nickname7" && a["commentCheckDelete"] == false)
+                    if (a["isWrittenByMember"] == true && a["commentCheckDelete"] == false)
                       postcommentstate = a["commentAnonymityNickname"] == null ? false : true;
                     for (final b in a["replies"])
-                      if (b["replyNickname"] == "nickname7" && b["replyCheckDelete"] == false)
+                      if (b["isWrittenByMember"] == true && b["replyCheckDelete"] == false)
                         postcommentstate = b["replyAnonymityNickname"] == null ? false : true;
                   }
 
