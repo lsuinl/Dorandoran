@@ -33,7 +33,7 @@ class NextButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
           onPressed: () async {
-           if(namecheck[name]==true) { //닉네임체크넘어가야
+           if(namecheck[name.text]==true) { //닉네임체크넘어가야
             SharedPreferences prefs= await SharedPreferences.getInstance();
               await postUserRequest(
                   '${selectedDate.year}-${getTimeFormat(

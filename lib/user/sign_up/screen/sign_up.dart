@@ -136,6 +136,7 @@ class _SignUpState extends State<SignUp> {
     postNameCheckRequest(name).then((value) {
       if (value == 200) {
         setState(() {
+          print(name);
           text = '사용가능한 이름입니다.';
           namecheck[name] = true;
         });
