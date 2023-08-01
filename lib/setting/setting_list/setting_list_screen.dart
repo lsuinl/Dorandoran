@@ -1,8 +1,12 @@
 import 'package:dorandoran/common/basic.dart';
+import 'package:dorandoran/setting/like_from_me/quest/get_all_liked_posts.dart';
+import 'package:dorandoran/setting/register_quit/quest/delete_account_closure.dart';
+import 'package:dorandoran/setting/wite_from_me/quest/get_all_posts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../common/css.dart';
+import '../change_nickname/quest/patch_change_nickname.dart';
 
 class SettingListScreen extends StatelessWidget {
   const SettingListScreen({Key? key}) : super(key: key);
@@ -28,7 +32,7 @@ class SettingListScreen extends StatelessWidget {
                 fit: FlexFit.tight,
                   child:
               TextButton(
-                  onPressed: (){},
+                  onPressed: ()=>PatchChangeNickname("dd"),
                   child: Text("닉네임 변경",style: TextStyle(color: Colors.black),),
                   style: TextButton.styleFrom(
                 alignment: Alignment.centerLeft,
@@ -39,7 +43,7 @@ class SettingListScreen extends StatelessWidget {
             Flexible(
               fit: FlexFit.tight,
               child: TextButton(
-                  onPressed: (){},
+                  onPressed: ()=>GetAllPosts(0),
                   child: Text("내가 쓴 글",style: TextStyle(color: Colors.black),),
                   style: TextButton.styleFrom(
                       alignment: Alignment.centerLeft)
@@ -49,7 +53,7 @@ class SettingListScreen extends StatelessWidget {
               fit: FlexFit.tight,
               child:
               TextButton(
-                  onPressed: (){},
+                  onPressed: ()=>GetAllLikedPosts(0),
                   child: Text("내가 좋아요 한 글",style: TextStyle(color: Colors.black),),
                   style: TextButton.styleFrom(
                       alignment: Alignment.centerLeft)
@@ -94,7 +98,7 @@ class SettingListScreen extends StatelessWidget {
             Flexible(
               fit: FlexFit.tight,
               child: TextButton(
-                  onPressed: (){},
+                  onPressed: ()=>DeleteAccountClosure(),
                   child: Text("탈퇴하기",style: TextStyle(color: Colors.black),),
                   style: TextButton.styleFrom(
                       alignment: Alignment.centerLeft)
