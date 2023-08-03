@@ -1,12 +1,13 @@
 import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/setting/like_from_me/quest/get_all_liked_posts.dart';
 import 'package:dorandoran/setting/register_quit/quest/delete_account_closure.dart';
-import 'package:dorandoran/setting/wite_from_me/quest/get_all_posts.dart';
+import 'package:dorandoran/setting/write_from_me/write_from_me_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../common/css.dart';
 import '../change_nickname/quest/patch_change_nickname.dart';
+import '../write_from_me/quest/get_all_posts.dart';
 
 class SettingListScreen extends StatelessWidget {
   const SettingListScreen({Key? key}) : super(key: key);
@@ -43,7 +44,10 @@ class SettingListScreen extends StatelessWidget {
             Flexible(
               fit: FlexFit.tight,
               child: TextButton(
-                  onPressed: ()=>GetAllPosts(0),
+                  onPressed: ()=>   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WriteFromMeScreen())),
                   child: Text("내가 쓴 글",style: TextStyle(color: Colors.black),),
                   style: TextButton.styleFrom(
                       alignment: Alignment.centerLeft)

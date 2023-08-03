@@ -79,7 +79,8 @@ void main() async {
           //폰트크기고정
           return MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-              child: child!);
+              child: child!
+          );
         },
         home: Login_check(),
         //번영(영어.한국어)
