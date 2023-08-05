@@ -38,6 +38,7 @@ Future<int> PostWritePost(String content,
     'fontBold': fontBold,
     'anonymity': anaoymity
   });
+  print(formData.fields);
 
   var response = await dio.post('${urls}/api/post',
       options: Options(headers: {

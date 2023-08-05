@@ -1,5 +1,6 @@
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_post_delete.dart';
+import 'package:dorandoran/texting/post_datail/quest/post_block_member.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,6 +104,10 @@ class _Detail_CardState extends State<Detail_Card> {
                                         ],
                                       );
                                     });
+                            if(value=="차단하기"){
+                              PostBlockMember("post", widget.postId);
+                              Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
+                            }
                             })
                       ]
                   ),

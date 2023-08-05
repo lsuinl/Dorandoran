@@ -2,9 +2,11 @@ import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_reply_del
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../common/util.dart';
 import '../post_detail.dart';
+import '../quest/post_block_member.dart';
 
 class ReplyCard extends StatefulWidget {
   final int postId;
@@ -90,7 +92,7 @@ class _ReplyCardState extends State<ReplyCard> {
                                               ),
                                             ],
                                             onChanged: (value) {
-                                              if (value == "삭제하기") {
+                                              if (value == "삭제하기")
                                                 showDialog(
                                                     context: context,
                                                     barrierDismissible: false,
@@ -116,7 +118,11 @@ class _ReplyCardState extends State<ReplyCard> {
                                                         ],
                                                       );
                                                     });
-                                              }
+                                                if(value=="차단하기"){
+                                                  PostBlockMember("reply", widget.replyId);
+                                                  Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
+                                                }
+
                                             },
                                           ),
                                         ],
