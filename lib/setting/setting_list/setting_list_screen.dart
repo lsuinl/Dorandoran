@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../common/css.dart';
 import '../change_nickname/quest/patch_change_nickname.dart';
+import '../register_quit/register_quit_screen.dart';
 import '../write_from_me/quest/get_all_posts.dart';
 
 class SettingListScreen extends StatelessWidget {
@@ -110,7 +111,10 @@ class SettingListScreen extends StatelessWidget {
             Flexible(
               fit: FlexFit.tight,
               child: TextButton(
-                  onPressed: ()=>DeleteAccountClosure(),
+                  onPressed: ()=>   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RegisterQuitScreen())),
                   child: Text("탈퇴하기",style: TextStyle(color: Colors.black),),
                   style: TextButton.styleFrom(
                       alignment: Alignment.centerLeft)

@@ -13,6 +13,13 @@ Future<int> DeleteAccountClosure() async {
       'authorization':'Bearer $accessToken',
     },
   );
-  print(response.body);
-  return response.statusCode;
+  print(response.statusCode);
+  if(response.statusCode==200) {
+    print(response.statusCode);
+    prefs.remove("nickname");
+    prefs.remove("email");
+    prefs.remove("accessToken");
+    prefs.remove("refreshToken");
   }
+  return response.statusCode;
+}
