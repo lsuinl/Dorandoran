@@ -1,4 +1,5 @@
 import 'package:dorandoran/common/basic.dart';
+import 'package:dorandoran/setting/like_from_me/like_from_me_screen.dart';
 import 'package:dorandoran/setting/like_from_me/quest/get_all_liked_posts.dart';
 import 'package:dorandoran/setting/register_quit/quest/delete_account_closure.dart';
 import 'package:dorandoran/setting/write_from_me/write_from_me_screen.dart';
@@ -57,7 +58,10 @@ class SettingListScreen extends StatelessWidget {
               fit: FlexFit.tight,
               child:
               TextButton(
-                  onPressed: ()=>GetAllLikedPosts(0),
+                  onPressed: ()=>   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LikeFromMeScreen())),
                   child: Text("내가 좋아요 한 글",style: TextStyle(color: Colors.black),),
                   style: TextButton.styleFrom(
                       alignment: Alignment.centerLeft)

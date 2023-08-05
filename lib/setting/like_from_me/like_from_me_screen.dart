@@ -1,20 +1,22 @@
 import 'package:dorandoran/setting/write_from_me/component/my_list_card.dart';
-import 'package:dorandoran/setting/write_from_me/quest/get_all_posts.dart';
+import 'quest/get_all_liked_posts.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import '../../common/basic.dart';
 
-class WriteFromMeScreen extends StatefulWidget {
 
-  const WriteFromMeScreen({
+class LikeFromMeScreen extends StatefulWidget {
+
+  const LikeFromMeScreen({
     Key? key}) : super(key: key);
 
   @override
-  State<WriteFromMeScreen> createState() => _WriteFromMeScreenState();
+  State<LikeFromMeScreen> createState() => _LikeFromMeScreenState();
 }
-class _WriteFromMeScreenState extends State<WriteFromMeScreen> {
+class _LikeFromMeScreenState extends State<LikeFromMeScreen> {
   RefreshController _refreshController =
   RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
@@ -29,14 +31,14 @@ class _WriteFromMeScreenState extends State<WriteFromMeScreen> {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
     });
-    myfuture = GetAllPosts(0);
+    myfuture = GetAllLikedPosts(0);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: Text("작성한 글"),
+        title: Text("좋아요 한 글"),
     ),
     body: Container(
     color: backgroundcolor,
@@ -48,7 +50,7 @@ class _WriteFromMeScreenState extends State<WriteFromMeScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if(snapshot.data!.length==0){
-                  return Center(child:Text("작성한 글이 없습니다."));
+                  return Center(child:Text("좋아요 한 글이 없습니다."));
                 }
                 int lastnumber = snapshot.data.length>0 ? snapshot.data!.last.postId :0;
                 if (snapshot.connectionState == ConnectionState.done) {
@@ -92,7 +94,6 @@ class _WriteFromMeScreenState extends State<WriteFromMeScreen> {
                         child: Stack(children: [
                           Column(
                             children: [
-                              SizedBox(height: 10.h),
                               Expanded(
                                 child:  SmartRefresher(
                                     enablePullDown: true,
@@ -124,7 +125,7 @@ class _WriteFromMeScreenState extends State<WriteFromMeScreen> {
                                     onRefresh: () async {
                                       setState(() {
                                         item!.clear();
-                                        myfuture = GetAllPosts(
+                                        myfuture = GetAllLikedPosts(
                                             0);
                                       });
                                       _refreshController.refreshCompleted();
@@ -133,7 +134,7 @@ class _WriteFromMeScreenState extends State<WriteFromMeScreen> {
                                     onLoading: () async {
                                       if (lastnumber - 1 > 0) {
                                         setState(() {
-                                          myfuture = GetAllPosts(lastnumber - 1);
+                                          myfuture = GetAllLikedPosts(lastnumber - 1);
                                           checknumber = lastnumber;
                                         });
                                         _refreshController.loadComplete();
