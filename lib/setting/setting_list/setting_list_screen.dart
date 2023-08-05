@@ -1,4 +1,5 @@
 import 'package:dorandoran/common/basic.dart';
+import 'package:dorandoran/setting/change_nickname/change_nickname_screen.dart';
 import 'package:dorandoran/setting/like_from_me/like_from_me_screen.dart';
 import 'package:dorandoran/setting/like_from_me/quest/get_all_liked_posts.dart';
 import 'package:dorandoran/setting/register_quit/quest/delete_account_closure.dart';
@@ -34,7 +35,10 @@ class SettingListScreen extends StatelessWidget {
                 fit: FlexFit.tight,
                   child:
               TextButton(
-                  onPressed: ()=>PatchChangeNickname("dd"),
+                  onPressed:()=>   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChangeNicknameScreen())),
                   child: Text("닉네임 변경",style: TextStyle(color: Colors.black),),
                   style: TextButton.styleFrom(
                 alignment: Alignment.centerLeft,

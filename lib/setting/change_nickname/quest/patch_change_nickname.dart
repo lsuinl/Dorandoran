@@ -18,6 +18,6 @@ Future<int> PatchChangeNickname(String nickname) async {
     }),
   );
   prefs.setString("nickname", nickname);
-  print(response.body);
+  print(response.statusCode);
   return response.statusCode;
 }
