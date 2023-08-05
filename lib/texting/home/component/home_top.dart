@@ -1,3 +1,4 @@
+import 'package:dorandoran/setting/setting_list/setting_list_screen.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,6 @@ class Top extends StatefulWidget {
 
 bool notice = true;
 class _TopState extends State<Top> {
-  final List<String> _menulist = ['내 정보', '좋아요 한 글', '문의하기'];
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +31,11 @@ class _TopState extends State<Top> {
           padding: EdgeInsets.all(10.0),
         ),
         Text("도란도란", style: TextStyle(fontSize: 30.sp)),
-        DropdownButton2(
-          customButton: const Icon(Icons.person, size: 40,),
-          dropdownWidth: 150,
-          dropdownDecoration: BoxDecoration(color: Colors.white),
-          dropdownDirection: DropdownDirection.left,
-          items: [
-            ..._menulist.map((item) => DropdownMenuItem<String>(
-              value: item,
-              child: Text(item),
-            ),
-            ),
-          ],
-          onChanged: (value) {},
-        ),
+        IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: ()=>    Navigator.push(context, MaterialPageRoute(
+              builder: (context) => SettingListScreen()),),
+        )
       ],
     );
   }
