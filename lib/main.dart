@@ -1,3 +1,4 @@
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/firebase.dart';
 import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/texting/home/tag_screen.dart';
@@ -18,6 +19,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'common/storage.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   KakaoSdk.init(nativeAppKey: kakaonativekey);
@@ -25,7 +27,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
   String firebasetoken = (await FirebaseMessaging.instance.getToken())!;
   print(firebasetoken);
@@ -82,7 +84,7 @@ void main() async {
               child: child!
           );
         },
-        home: KaKaoLogin(),
+        home: Myapp(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
@@ -96,4 +98,31 @@ void main() async {
       );
     },
   ));
+}
+
+class Myapp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    TargetPlatform os = Theme.of(context).platform;
+
+    BannerAd banner = BannerAd(
+      listener: BannerAdListener(
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {},
+        onAdLoaded: (_) {},
+      ),
+      size: AdSize.banner,
+      adUnitId: 'ca-app-pub-2389438989674944/3069201914',
+      request: AdRequest(),
+    )..load();
+
+    return Basic(widgets: Center(
+        child: Container(
+          height: 50,
+          child: AdWidget(
+            ad: banner,
+          ),
+        ),
+      ),
+    );
+  }
 }
