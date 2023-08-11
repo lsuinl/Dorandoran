@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/firebase.dart';
 import 'package:dorandoran/texting/home/home.dart';
@@ -30,7 +31,6 @@ void main() async {
   MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
   String firebasetoken = (await FirebaseMessaging.instance.getToken())!;
-  print(firebasetoken);
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('firebasetoken', firebasetoken!);
   runApp(ScreenUtilInit(
@@ -84,7 +84,7 @@ void main() async {
               child: child!
           );
         },
-        home: Myapp(),
+        home: NativeExample(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
@@ -100,29 +100,68 @@ void main() async {
   ));
 }
 
-class Myapp extends StatelessWidget {
+/// A simple app that loads a native ad.
+class NativeExample extends StatefulWidget {
+  const NativeExample({super.key});
+
+  @override
+  NativeExampleState createState() => NativeExampleState();
+}
+
+class NativeExampleState extends State<NativeExample> {
+  NativeAd? _nativeAd;
+  bool _nativeAdIsLoaded = false;
+  // final double _adAspectRatioSmall = (91 / 355);
+  final double _adAspectRatioMedium = (91 / 355);
+
+  final String _adUnitId = 'ca-app-pub-2389438989674944/9821322845';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAd();
+  }
+
   @override
   Widget build(BuildContext context) {
-    TargetPlatform os = Theme.of(context).platform;
+    return MaterialApp(
+        home: Scaffold(
+          body: Column(
+                children: [
+                      if (_nativeAdIsLoaded && _nativeAd != null)
+                        SizedBox(
+                            height: MediaQuery.of(context).size.width *
+                                _adAspectRatioMedium,
+                            width: MediaQuery.of(context).size.width,
+                            child: AdWidget(ad: _nativeAd!)),
+                ],
+              ),
+            ));
+  }
 
-    BannerAd banner = BannerAd(
-      listener: BannerAdListener(
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {},
-        onAdLoaded: (_) {},
-      ),
-      size: AdSize.banner,
-      adUnitId: 'ca-app-pub-2389438989674944/3069201914',
-      request: AdRequest(),
-    )..load();
-
-    return Basic(widgets: Center(
-        child: Container(
-          height: 50,
-          child: AdWidget(
-            ad: banner,
-          ),
+  void _loadAd() {
+    setState(() {
+      _nativeAdIsLoaded = false;
+    });
+    _nativeAd = NativeAd(
+        adUnitId: _adUnitId,
+        listener: NativeAdListener(
+          onAdLoaded: (ad) {
+            setState(() {
+              _nativeAdIsLoaded = true;
+            });
+          },
         ),
-      ),
-    );
+        request: const AdRequest(),
+        nativeTemplateStyle: NativeTemplateStyle(
+            templateType: TemplateType.small,
+        ))
+      ..load();
+  }
+
+  @override
+  void dispose() {
+    _nativeAd?.dispose();
+    super.dispose();
   }
 }

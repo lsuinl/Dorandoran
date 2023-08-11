@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/src/painting/text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -51,6 +52,7 @@ void permissionquest() async {
     Permission.locationWhenInUse,
     Permission.photos,
   ].request();
+  await AppTrackingTransparency.requestTrackingAuthorization();
 }
 
 //이름체크
