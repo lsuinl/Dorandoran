@@ -9,7 +9,7 @@ void quest_token() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String refreshToken = prefs.getString("refreshToken")!;
-  var response = await http.post(
+  var response = await http.patch(
     Uri.parse('$urls/api/token'),
     headers: <String, String>{
       'Content-Type': 'application/json',
