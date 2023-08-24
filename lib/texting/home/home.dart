@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:solar_icons/solar_icons.dart';
 import '../write/screen/write.dart';
 import 'component/home_message_card.dart';
 import 'component/home_top.dart';
@@ -78,7 +79,6 @@ class _HomeState extends State<Home> {
                       message: e.contents,
                       backimg: e.backgroundPicUri,
                       postId: e.postId,
-                      likeresult: e.likeResult,
                       font: e.font,
                       fontColor: e.fontColor,
                       fontSize: e.fontSize,
@@ -96,7 +96,6 @@ class _HomeState extends State<Home> {
                         message: e.contents,
                         backimg: e.backgroundPicUri,
                         postId: e.postId,
-                        likeresult: e.likeResult,
                         font: e.font,
                         fontColor: e.fontColor,
                         fontSize: e.fontSize,
@@ -107,7 +106,17 @@ class _HomeState extends State<Home> {
                   }
                 }
                 Widget tagname(String name) {
-                  return TextButton(
+                  Icon icons=Icon(Icons.add);
+                  if(name=="근처에")
+                    icons=Icon(SolarIconsBold.peopleNearby,size: 30.r,color: Color(0xFF1C274C),);
+                  else if(name=="인기있는")
+                    icons=Icon(SolarIconsBold.fire,size: 30.r,color: Color(0xFF1C274C),);
+                  else if(name=="새로운")
+                    icons=Icon(SolarIconsBold.home,size: 30.r,color: Color(0xFF1C274C),);
+                  else if(name=="관심있는")
+                    icons=Icon(SolarIconsBold.starFall,size: 30.r,color: Color(0xFF1C274C),);
+
+                  return IconButton(
                     onPressed: () {
                       postlistchange(name);
                       _refreshController.position!.animateTo(
@@ -123,33 +132,20 @@ class _HomeState extends State<Home> {
                       });
                       _refreshController.refreshCompleted();
                     },
-                    child: Text(
-                      name,
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                    ),
+                    icon: icons,
+                      padding: EdgeInsets.zero,
                   );
                 }
                 return Container(
                   decoration: gradient,
                   child: SafeArea(
                     child: Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.only(bottom: 1),
                       child: SafeArea(
                         child: Stack(children: [
                           Column(
                             children: [
                               Top(),
-                              SizedBox(height: 10.h),
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  tagname("근처에"),
-                                  tagname("인기있는"),
-                                  tagname("새로운"),
-                                  tagname("관심있는"),
-                                ],
-                              ),
                               Expanded(
                                 child:  SmartRefresher(
                                   enablePullDown: true,
@@ -216,55 +212,38 @@ class _HomeState extends State<Home> {
                           ),
                           Container(
                             alignment: Alignment.bottomRight,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                RawMaterialButton(
-                                  onPressed: () async {
-                                    _refreshController.position!.animateTo(
-                                      0.0,
-                                      duration:
-                                      const Duration(milliseconds: 300),
-                                      curve: Curves.linear,
-                                    );
-                                    setState(() {
-                                      item!.clear();
-                                      myfuture = getPostContent(
-                                          url,
-                                          0);
-                                      _loadAd();
-                                    });
-                                    _refreshController.refreshCompleted();
-                                  },
-                                  elevation: 5.0,
-                                  fillColor: Colors.white,
-                                  child: Icon(
-                                    Icons.restart_alt,
-                                    size: 20.0.r,
+                            child:
+                                Container(
+                                  height: 50.h,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
                                   ),
-                                  padding: EdgeInsets.all(15.0),
-                                  shape: CircleBorder(),
+                                  child:
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 15),
+                                        child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    tagname("새로운"),
+                                    tagname("근처에"),
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Write()));
+                                      },
+                                      padding: EdgeInsets.zero,
+                                      icon: Icon(SolarIconsBold.penNewSquare,size: 30.r,color: Color(0xFF1C274C),),
+                                    ),
+                                    tagname("인기있는"),
+                                    tagname("관심있는"),
+                                    ]
                                 ),
-                                SizedBox(height: 5.h),
-                                RawMaterialButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Write()));
-                                  },
-                                  elevation: 5.0,
-                                  fillColor: Colors.white,
-                                  child: Icon(
-                                    Icons.edit,
-                                    size: 50.0,
-                                  ),
-                                  padding: EdgeInsets.all(15.0),
-                                  shape: CircleBorder(),
                                 )
-                              ],
+                                )
                             ),
-                          )
                         ]),
                       ),
                     ),

@@ -1,7 +1,8 @@
 import 'package:dorandoran/setting/setting_list/setting_list_screen.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:solar_icons/solar_icons.dart';
 
 class Top extends StatefulWidget {
   const Top({Key? key}) : super(key: key);
@@ -11,31 +12,49 @@ class Top extends StatefulWidget {
 }
 
 bool notice = true;
-class _TopState extends State<Top> {
 
+class _TopState extends State<Top> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          onPressed: () {
-            setState(() {
-              notice = !notice;
-            });
-          },
-          icon: Icon(
-            notice ? Icons.notifications : Icons.notifications_off,
-            size: 30.0.r,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            children: [
+              Image.asset(
+                'asset/image/mini_logo.png',
+                width: 35.w,
+                height: 40.h,
+                alignment: Alignment.centerLeft,
+              ),
+              Text(" doran",
+                  style: GoogleFonts.roboto(
+                      fontSize: 24.sp, fontWeight: FontWeight.w800)),
+            ],
           ),
-          padding: EdgeInsets.all(10.0),
         ),
-        Text("도란도란", style: TextStyle(fontSize: 30.sp)),
-        IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: ()=>    Navigator.push(context, MaterialPageRoute(
-              builder: (context) => SettingListScreen()),),
-        )
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              children: [
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: Icon(SolarIconsBold.settings,size: 30.r,color: Color(0xFF1C274C),),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SettingListScreen()),
+                  ),
+                ),
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: Icon(SolarIconsBold.bell,size: 30.r,color: Color(0xFF1C274C),),
+                  onPressed: () {}
+                  ),
+              ],
+            ))
       ],
     );
   }

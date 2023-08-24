@@ -11,21 +11,16 @@ class MainLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      SizedBox(height: 100),
+      SizedBox(height: 80),
       Image.asset(
         'asset/image/logo.png',
-        width: 135.w,
-        height: 135.h,
+        width: 200.w,
+        height: 200.h,
         alignment: Alignment.centerLeft,
       ),
-      SizedBox(height: 20),
-      Text(text,
-          style: style.copyWith(
-            fontSize: 30,
-            fontWeight: FontWeight.w800,
-          )),
       Text("익명 커뮤니티 서비스 어쩌고저쩌고.",
           style: style.copyWith(
+            color: Colors.black54,
             fontSize: 20,
           )),
     ]);

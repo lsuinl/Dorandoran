@@ -68,7 +68,7 @@ dependencies:
   fluttertoast: ^8.2.2
   google_mobile_ads: ^3.0.0
   app_tracking_transparency: ^2.0.4
-
+  solar_icons: ^0.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

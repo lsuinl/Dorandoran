@@ -243,7 +243,6 @@ class _TagScreenState extends State<TagScreen> {
               message: e.contents,
               backimg: e.backgroundPicUri,
               postId: e.postId,
-              likeresult: e.likeResult,
               font: e.font,
               fontColor: e.fontColor,
               fontSize: e.fontSize,
