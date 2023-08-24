@@ -7,8 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../common/basic.dart';
 import '../write/screen/write.dart';
 import 'component/home_message_card.dart';
 import 'component/home_top.dart';
@@ -25,14 +25,20 @@ class _HomeState extends State<Home> {
   RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
   late Future myfuture;
-  List<Message_Card>? item;
+  List<Widget>? item;
   int? checknumber;
   String? url;
   String tagtitle="새로운";
 
+  //광고
+  NativeAd? _nativeAd;
+  bool _nativeAdIsLoaded = false;
+  final String _adUnitId = 'ca-app-pub-2389438989674944/3518867863';
+
   @override
   void initState() {
     super.initState();
+    _loadAd();
     setState(() {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
@@ -41,6 +47,14 @@ class _HomeState extends State<Home> {
     }
   @override
   Widget build(BuildContext context) {
+    if(item!=null&&_nativeAdIsLoaded && _nativeAd != null)
+      item!.add(
+    SizedBox(
+          height: MediaQuery.of(context).size.height *0.45,
+          width: MediaQuery.of(context).size.width,
+          child: AdWidget(ad: _nativeAd!)
+    )
+    );
     return Scaffold(
         body: WillPopScope(onWillPop: onWillPop,
           child: Container(
@@ -56,7 +70,7 @@ class _HomeState extends State<Home> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if ((item?.length == 0 || item == null) && snapshot.data!.length>0) {
                     item = snapshot.data!
-                        .map<Message_Card>((e) => Message_Card(
+                        .map<Widget>((e) => Message_Card(
                       time: e.postTime,
                       heart: e.likeCnt,
                       chat: e.replyCnt,
@@ -74,7 +88,7 @@ class _HomeState extends State<Home> {
                   } else {
                     if (checknumber != lastnumber) {
                       item!.addAll(snapshot.data!
-                          .map<Message_Card>((e) => Message_Card(
+                          .map<Widget>((e) => Message_Card(
                         time: e.postTime,
                         heart: e.likeCnt,
                         chat: e.replyCnt,
@@ -104,10 +118,8 @@ class _HomeState extends State<Home> {
                       );
                       setState(() {
                         item!.clear();
-                        myfuture = getPostContent(
-                            url,
-                            0,
-                           );
+                        myfuture = getPostContent(url, 0,);
+                        _loadAd();
                       });
                       _refreshController.refreshCompleted();
                     },
@@ -169,9 +181,8 @@ class _HomeState extends State<Home> {
                                   onRefresh: () async {
                                     setState(() {
                                       item!.clear();
-                                      myfuture = getPostContent(
-                                          url,
-                                          0,);
+                                      myfuture = getPostContent(url, 0);
+                                      _loadAd();
                                     });
                                     _refreshController.refreshCompleted();
                                   },
@@ -182,6 +193,7 @@ class _HomeState extends State<Home> {
                                         myfuture = getPostContent(
                                             url,
                                             lastnumber - 1);
+                                        _loadAd();
                                         checknumber = lastnumber;
                                       });
                                       _refreshController.loadComplete();
@@ -209,7 +221,6 @@ class _HomeState extends State<Home> {
                               children: [
                                 RawMaterialButton(
                                   onPressed: () async {
-                                    getHashContent("", 0);
                                     _refreshController.position!.animateTo(
                                       0.0,
                                       duration:
@@ -221,6 +232,7 @@ class _HomeState extends State<Home> {
                                       myfuture = getPostContent(
                                           url,
                                           0);
+                                      _loadAd();
                                     });
                                     _refreshController.refreshCompleted();
                                   },
@@ -266,6 +278,56 @@ class _HomeState extends State<Home> {
             }))
     )));
   }
+  void _loadAd() {
+    setState(() {
+      _nativeAdIsLoaded = false;
+    });
+    _nativeAd = NativeAd(
+        adUnitId: _adUnitId,
+        listener: NativeAdListener(
+          onAdLoaded: (ad) {
+            setState(() {
+              _nativeAdIsLoaded = true;
+            });
+          },
+        ),
+        request: const AdRequest(),
+    //   factoryId: "listTile"
+    // )
+        nativeTemplateStyle: NativeTemplateStyle(templateType: TemplateType.small
+          // templateType: TemplateType.small,
+          //   mainBackgroundColor: Colors.white,
+          //   cornerRadius: 10.0,
+          //   callToActionTextStyle: NativeTemplateTextStyle(
+          //       textColor: Colors.cyan,
+          //       backgroundColor: Colors.red,
+          //       style: NativeTemplateFontStyle.monospace,
+          //       size: 10.0),
+          //   primaryTextStyle: NativeTemplateTextStyle(
+          //       textColor: Colors.red,
+          //       backgroundColor: Colors.cyan,
+          //       style: NativeTemplateFontStyle.italic,
+          //       size: 16.0),
+          //   secondaryTextStyle: NativeTemplateTextStyle(
+          //       textColor: Colors.green,
+          //       backgroundColor: Colors.black,
+          //       style: NativeTemplateFontStyle.bold,
+          //       size: 10.0),
+          //   tertiaryTextStyle: NativeTemplateTextStyle(
+          //       textColor: Colors.brown,
+          //       backgroundColor: Colors.amber,
+          //       style: NativeTemplateFontStyle.monospace,
+          //       size: 10.0)
+        ))
+      ..load();
+  }
+
+  @override
+  void dispose() {
+    _nativeAd?.dispose();
+    super.dispose();
+  }
+
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
 

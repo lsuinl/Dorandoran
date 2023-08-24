@@ -1,3 +1,5 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/firebase.dart';
 import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/texting/home/tag_screen.dart';
@@ -18,6 +20,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'common/storage.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   KakaoSdk.init(nativeAppKey: kakaonativekey);
@@ -25,10 +28,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
   String firebasetoken = (await FirebaseMessaging.instance.getToken())!;
-  print(firebasetoken);
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('firebasetoken', firebasetoken!);
   runApp(ScreenUtilInit(
@@ -82,7 +84,7 @@ void main() async {
               child: child!
           );
         },
-        home: KaKaoLogin(),
+        home: Login_check(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
