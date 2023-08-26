@@ -141,8 +141,7 @@ class _HomeState extends State<Home> {
                   child: SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 1),
-                      child: SafeArea(
-                        child: Stack(children: [
+                      child: Stack(children: [
                           Column(
                             children: [
                               Top(),
@@ -247,7 +246,6 @@ class _HomeState extends State<Home> {
                         ]),
                       ),
                     ),
-                  ),
                 );
               } else {
                 return Container(

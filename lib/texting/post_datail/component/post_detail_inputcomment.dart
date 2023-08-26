@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:solar_icons/solar_icons.dart';
 import '../post_detail.dart';
 
 class InputComment extends StatefulWidget {
@@ -9,7 +10,13 @@ class InputComment extends StatefulWidget {
   final reset;
   final bool? postcommentstate;
 
-  const InputComment({required this.postId,required this.commentId,required this.sendmessage, required this.reset,required this.postcommentstate, Key? key})
+  const InputComment(
+      {required this.postId,
+      required this.commentId,
+      required this.sendmessage,
+      required this.reset,
+      required this.postcommentstate,
+      Key? key})
       : super(key: key);
 
   @override
@@ -17,62 +24,65 @@ class InputComment extends StatefulWidget {
 }
 
 TextEditingController controller = TextEditingController();
-bool anonymity =true;
-bool lockcheck=true;
+bool anonymity = true;
+bool lockcheck = true;
 
 class _InputCommentState extends State<InputComment> {
   @override
   void initState() {
-      anonymity=widget.postcommentstate ?? true;
+    anonymity = widget.postcommentstate ?? true;
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-Container(
-  color: Colors.transparent,
-        child:
-      Column(
-        children: [
-      widget.commentId!=0
-          ? Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.black12, width: 3)), //테두리,
-          width: 370.w,
-          height: 40.h,
-              child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("대댓글 다는 중,,"),
-                  IconButton(onPressed:(){
-                    select=0;
-                    widget.reset();
-                  },
-                    icon: Icon(Icons.close))
-                    ],
-                    )))
-                        : SizedBox(height: 5.h),
-                    Container(
-                    decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20), //모서리를 둥글게
-                    border: Border.all(color: Colors.black12, width: 3)), //테두리,
-                    width: 350.w,
-                    height: 50.h,
-                    child: Row(children: [
-                    IconButton(
-                    onPressed: (){
-                      if(widget.postcommentstate!=null){
+    return Container(
+        color: Colors.transparent,
+        child: Column(children: [
+          widget.commentId != 0
+              ? Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black12, width: 3)),
+                  //테두리,
+                  width: 370.w,
+                  height: 40.h,
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("대댓글 다는 중,,"),
+                          IconButton(
+                              onPressed: () {
+                                select = 0;
+                                widget.reset();
+                              },
+                              icon: Icon(Icons.close))
+                        ],
+                      )))
+              : SizedBox(height: 5.h),
+          Container(
+              decoration: BoxDecoration(
+                color: Color(0xFFD9D9D9),
+                borderRadius: BorderRadius.circular(20), //모서리를 둥글게
+              ), //테두리,
+              width: 320.w,
+              height: 35.h,
+              child: Row(children: [
+                IconButton(
+                    padding: EdgeInsets.only(left: 15),
+                   // constraints: BoxConstraints(),
+                    onPressed: () {
+                      if (widget.postcommentstate != null) {
                         showDialog(
                             context: context,
-                            barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+                            barrierDismissible: true,
+                            // 바깥 영역 터치시 닫을지 여부
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 backgroundColor: Colors.white,
-                                content: const Text("이미 작성한 댓글과 다른 상태로 댓글을 작성할 수 없습니다."),
+                                content: const Text(
+                                    "이미 작성한 댓글과 다른 상태로 댓글을 작성할 수 없습니다."),
                                 actions: [
                                   TextButton(
                                     child: const Text('닫기',
@@ -87,33 +97,40 @@ Container(
                                 ],
                               );
                             });
-                      }
-                      else {
+                      } else {
                         checkanonymity();
                       }
                     },
                     icon: anonymity
-                    ? Icon(Icons.
-                  check_box_outlined, size: 24.r)
-                    : Icon(Icons.check_box_outline_blank, size: 20.r)),
-                      IconButton( //비밀댓글
-                          onPressed: (){
-                            setState(() {
-                              lockcheck=!lockcheck;
-                            });
-                          },
-                          icon:lockcheck? Icon(Icons.lock, size: 20.r):Icon(Icons.lock_open, size: 24.r)),
-            Container(
-                width: 210.w,
-                child: TextFormField(
+                        ? Icon(SolarIconsOutline.checkSquare, size: 24.r)
+                        : Icon(SolarIconsBroken.checkSquare, size: 24.r)),
+                SizedBox(width: 5),
+                IconButton(
+                    //비밀댓글
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    constraints: BoxConstraints(),
+                    onPressed: () {
+                      setState(() {
+                        lockcheck = !lockcheck;
+                      });
+                    },
+                    icon: lockcheck
+                        ? Icon(Icons.lock, size: 20.r)
+                        : Icon(Icons.lock_open, size: 24.r)),
+                SizedBox(width: 5),
+                Flexible(
+                    child: TextFormField(
                   controller: controller,
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                    enabledBorder:
+                        UnderlineInputBorder(borderSide: BorderSide.none),
                     hintText: "댓글을 입력하세요.",
-                    hintStyle: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                        color: Colors.black26, fontSize: 15.sp),
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(color: Colors.black26, fontSize: 15.sp),
                   ),
                 )),
                 IconButton(
@@ -125,10 +142,9 @@ Container(
                         controller.clear();
                       }
                     },
-                    icon: Icon(Icons.
-                send_and_archive_sharp, size: 24.r))
-          ])),
-    ]));
+                    icon: Icon(SolarIconsOutline.plain3, size: 24.r))
+              ])),
+        ]));
   }
 
   checkanonymity() {

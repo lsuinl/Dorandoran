@@ -51,14 +51,11 @@ class _ReplyCardState extends State<ReplyCard> {
             SizedBox(width: 10.w),
             Icon(Icons.subdirectory_arrow_right_outlined, size: 30,),
             Expanded(
-                child: Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-                    elevation: 4, //그림자
+                child: Container(
                     child: Padding(
                         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                         child: Row(children: [
                           SizedBox(width: 10.w),
-                          Icon(Icons.person, size: 50.r,),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,13 +64,15 @@ class _ReplyCardState extends State<ReplyCard> {
                                     ? Text("삭제", style: GoogleFonts.jua(),)
                                     : Row(
                                         children: [
-                                          Expanded(
-                                            child: Text(
+                                        Text(
                                               widget.replyAnonymityNickname ??
                                                   widget.replyNickname,
                                               style: GoogleFonts.jua(
                                                   fontSize: 17.sp),
                                             ),
+                                          SizedBox(width: 5.w),
+                                          Expanded(
+                                              child: Text(timecount(widget.replyTime), style: TextStyle(fontSize: 12.sp)),
                                           ),
                                           DropdownButton2(
                                             customButton: Icon(Icons.more_vert),
@@ -129,13 +128,8 @@ class _ReplyCardState extends State<ReplyCard> {
                                       ),
                                 Text(widget.replyCheckDelete
                                       ? "!삭제된 댓글입니다!"
-                                      : widget.reply!,
-                                  style: GoogleFonts.jua(),
+                                      : widget.reply!
                                 ),
-                                Row(children: [
-                                  Text(timecount(widget.replyTime), style: TextStyle(fontSize: 12.sp)),
-                                  SizedBox(width: 160.w),
-                                ])
                               ],
                             ),
                           )

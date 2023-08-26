@@ -84,7 +84,7 @@ void main() async {
               child: child!
           );
         },
-        home: Write(),
+        home: PostDetail(postId: 49),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
