@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dorandoran/common/uri.dart';
 import 'package:dorandoran/texting/write/component/post_button.dart';
+import 'package:solar_icons/solar_icons.dart';
 import '../../../common/basic.dart';
 import '../component/write_middlefield.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +25,6 @@ bool forme = false;
 bool usinglocation = false;
 bool anony = false;
 File? dummyFille;
-List<String> hashtag = [];
 String? backgroundimgname = (Random().nextInt(99) + 1).toString();
 Set<int> imagenumber = {int.parse(backgroundimgname!)};
 
@@ -41,7 +41,6 @@ class _WriteState extends State<Write> {
       contextcontroller = TextEditingController();
       forme = false;
       usinglocation = false;
-      hashtag = [];
       dummyFille = null;
       backgroundimgname = (Random().nextInt(99) + 1).toString();
       if (backgroundimgname != null) {
@@ -60,47 +59,36 @@ class _WriteState extends State<Write> {
   @override
   Widget build(BuildContext context) {
     return Basic(
-      widgets: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
+      widgets:  Column(
             children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      Padding(
+      padding: const EdgeInsets.all(10.0),
+      child:   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                Text("글 작성하기", style: GoogleFonts.gowunBatang(fontSize: 35.sp),),
+                    IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(SolarIconsOutline.doubleAltArrowLeft,size: 30.r,)),
+                Text("새로운 글", style: GoogleFonts.nanumGothic(fontSize: 25.sp,fontWeight: FontWeight.w600),),
                 PostButton()
                   ]
-              ),
-              SizedBox(height: 70.h),
+              ),),
+              SizedBox(height: 10.h),
           Expanded(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     MiddleTextField(
                         backimg: backimg,
-                        hashtag: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                                children: [
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: hashtag.map((e) => Chip(label: Text(e))).toList()),
-                              SizedBox(width: 360.w)
-                            ])
-                        )
                     ),
                     ])),
               BottomBar(
                   formefun: formefun,
                   usinglocationfun: usinglocationfun,
-                  dummyFillefun: dummyFillefun,
                   Showbackgroundimgnamefun: Showbackgroundimgnamefun,
-                  ShowHashTagfun: ShowHashTagfun,
                   annoyfun: annoyfun,
                   forme: forme,
                   usinglocation: usinglocation,
                   anony: anony)
             ],
-          )),
+          )
     );
   }
 
@@ -150,89 +138,6 @@ class _WriteState extends State<Write> {
       anony = !anony;
     });
   }
-  ShowHashTagfun() {
-    showModalBottomSheet<void>(
-        isDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          TextEditingController tagcontroller =
-          TextEditingController();
-          return StatefulBuilder(builder:
-              (BuildContext context,
-              StateSetter setState) {
-            return Container(
-                height: 200.h,
-                color: Colors.transparent,
-                child: Container(
-                    decoration: const BoxDecoration(
-                      color: Color(0xBBFFFFFF),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(
-                            width: 300.w,
-                            child: TextFormField(
-                              textInputAction: TextInputAction.go,
-                              onFieldSubmitted:
-                                  (value) {
-                                setState(() {
-                                  tagcontroller.clear();
-                                  hashtag.add(value);
-                                });
-                                print(hashtag);
-                              },
-                              style: GoogleFonts.gowunBatang(fontSize: 20.sp),
-                              decoration: InputDecoration(
-                                hintText: "태그명을 입력해주세요",
-                                hintStyle: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .headlineLarge!
-                                    .copyWith(
-                                    fontSize: 15.sp, color: Colors.black12),
-                              ),
-                              controller: tagcontroller,
-                            ),
-                          ),
-                          Wrap(
-                            children: hashtag == null
-                                ? [Text('')]
-                                : hashtag.map((e) =>
-                                Chip(
-                                  label: Text(e),
-                                  onDeleted: () {
-                                    setState(() {
-                                      hashtag.removeAt(hashtag.indexOf(e));
-                                    });
-                                    hashtag.remove(e);
-                                  },)).toList(),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  //모서리를 둥글게
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
-                                        color: Colors.white,
-                                        width: 1)),
-                                primary: Colors.lightBlueAccent,
-                                minimumSize: Size(70, 40)),
-                            child: const Text('완료'),
-                            onPressed: resetting,
-                          )
-                        ],
-                      ),
-                    )));
-          });
-        });
-  }
 
   Showbackgroundimgnamefun() {
     showModalBottomSheet<void>(
@@ -252,7 +157,10 @@ class _WriteState extends State<Write> {
             color: Colors.white70,
             child: Column(
           children:[
-                      IconButton(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                      TextButton(
                           onPressed: () {
                             setState(() {
                               imagenumber.clear();
@@ -263,7 +171,14 @@ class _WriteState extends State<Write> {
                                 imagenumber.add(Random().nextInt(99) + 1);
                             });
                           },
-                          icon: Icon(Icons.restart_alt, size: 25.r)),
+                          child: Text("도란배경",style: TextStyle(color: Colors.black),),),
+                Container(width: 1.w, height:20.h ,color: Colors.black,),
+                TextButton(onPressed: (){
+                  dummyFillefun();
+                  Navigator.pop(context);
+                }, child: Text("내 사진",style: TextStyle(color: Colors.black),))
+            ]
+            ),
             Wrap(
               children: imagenumber.map((e) => TextButton(
                             child: Image.network('$urls/api/pic/default/' + e.toString(),

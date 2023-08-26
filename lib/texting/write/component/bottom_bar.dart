@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:solar_icons/solar_icons.dart';
 
 
 class BottomBar extends StatefulWidget {
   final VoidCallback formefun;
   final VoidCallback usinglocationfun;
-  final VoidCallback dummyFillefun;
   final VoidCallback Showbackgroundimgnamefun;
-  final VoidCallback ShowHashTagfun;
   final VoidCallback annoyfun;
   final bool forme;
   final bool usinglocation;
@@ -17,9 +16,7 @@ class BottomBar extends StatefulWidget {
   const BottomBar({
     required this.formefun,
     required this.usinglocationfun,
-    required this.dummyFillefun,
     required this.Showbackgroundimgnamefun,
-    required this.ShowHashTagfun,
     required this.annoyfun,
     required this.forme,
     required this.usinglocation,
@@ -36,13 +33,13 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(children: [
                   IconButton(
                       icon: widget.forme
-                          ? Icon(Icons.lock, size: 25.r,)
-                          : Icon(Icons.lock_open, size: 25.r),
+                          ? Icon(SolarIconsBold.lockKeyhole, size: 25.r,)
+                          : Icon(SolarIconsBold.lockKeyholeUnlocked, size: 25.r),
                       onPressed: widget.formefun
                   ),
                   Text("나만보기", style: buttontext)
@@ -50,33 +47,18 @@ class _BottomBarState extends State<BottomBar> {
                 Column(children: [
                   IconButton(
                       icon: widget.usinglocation
-                          ? Icon(Icons.location_on, size: 25.r)
-                          : Icon(Icons.location_off_outlined, size: 25.r),
+                          ? Icon(SolarIconsBold.mapPoint, size: 25.r)
+                          : Icon(SolarIconsOutline.mapPoint, size: 25.r),
                       onPressed: widget.usinglocationfun
                   ),
                   Text("위치정보", style: buttontext)
                 ]),
                 Column(children: [
                   IconButton(
-                      icon: Icon(Icons.image, size: 25.r),
-                      onPressed: widget.dummyFillefun
-                  ),
-                  Text("갤러리", style: buttontext)
-                ]),
-
-                Column(children: [
-                  IconButton(
-                      icon: Icon(Icons.grid_view, size: 25.r),
+                      icon: Icon(SolarIconsBold.galleryEdit, size: 25.r),
                       onPressed: widget.Showbackgroundimgnamefun
                   ),
-                  Text("감성배경", style: buttontext)
-                ]),
-                Column(children: [
-                  IconButton(
-                      icon: Icon(Icons.tag, size: 25.r),
-                      onPressed: widget.ShowHashTagfun
-                  ),
-                  Text("해시태그", style: buttontext,)
+                  Text("배경", style: buttontext)
                 ]),
                 Column(children: [
                   IconButton(
