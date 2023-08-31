@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<String> postUserRequest(String dateOfBirth, String nickname, String firebasetoken,
     String kakaoAccessToken) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  String ostype = prefs.getString("ostype")!;
+
   var response = await http.post(
     Uri.parse('$urls/api/member'),
     headers: <String, String>{
@@ -17,7 +19,7 @@ Future<String> postUserRequest(String dateOfBirth, String nickname, String fireb
       "nickname": nickname,
       "firebaseToken": firebasetoken,
       "kakaoAccessToken": kakaoAccessToken,
-      "osType": "Ios"//타입 보내주기,,
+      "osType": ostype
     }),
   );
   print(response.statusCode);
@@ -26,11 +28,5 @@ Future<String> postUserRequest(String dateOfBirth, String nickname, String fireb
   prefs.setString("email", body["email"].toString());
   prefs.setString("accessToken", body["tokenDto"]!["accessToken"].toString()); //액세스토큰:첫번쨰에있음
   prefs.setString("refreshToken", body["tokenDto"]!["refreshToken"].toString());
-  // userinformation body = userinformation.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-  // prefs.setString("email", body.email);
-  // prefs.setString("nickname", body.nickName);
-  // prefs.setString("accessToken", body.tokenDto![0]); //액세스토큰:첫번쨰에있음
-  // prefs.setString("refreshToken", body.tokenDto![1]);
-
   return response.body;
 }

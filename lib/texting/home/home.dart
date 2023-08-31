@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:dorandoran/texting/home/tag_screen.dart';
@@ -35,7 +37,7 @@ class _HomeState extends State<Home> {
   //광고
   NativeAd? _nativeAd;
   bool _nativeAdIsLoaded = false;
-  final String _adUnitId = 'ca-app-pub-2389438989674944/3518867863';
+  final String _adUnitId = Platform.isIOS ? 'ca-app-pub-2389438989674944/3518867863' : 'ca-app-pub-2389438989674944/5510606382';
 
   @override
   void initState() {
@@ -69,11 +71,11 @@ class _HomeState extends State<Home> {
                                 item = [];
                               }
                               else{
-                                // if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null)
-                                //   item!.add(SizedBox(
-                                //       height: 80.h,
-                                //       width: MediaQuery.of(context).size.width,
-                                //       child: AdWidget(ad: _nativeAd!)));
+                                if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null)
+                                  item!.add(SizedBox(
+                                      height: 90.h,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: AdWidget(ad: _nativeAd!)));
                               }
                               if (checknumber != lastnumber) {
                                   item!.addAll(snapshot.data!

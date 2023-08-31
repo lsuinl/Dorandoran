@@ -80,7 +80,6 @@ class _PostDetailState extends State<PostDetail> {
                     deletedreply: deletereply,
                   )).toList());
                 }
-
                   List<CommentCard> newlist= e.commentDetailDto.map<CommentCard>((a) => CommentCard(
                       card: commentcard(
                     commentCheckDelete: a['commentCheckDelete'],

@@ -7,6 +7,7 @@ Future<int> registered() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String email = prefs.getString("email")!;
+  String ostype = prefs.getString("ostype")!;
   var response = await http.post(
     Uri.parse('$urls/api/registered'),
     headers: <String, String>{
@@ -14,7 +15,7 @@ Future<int> registered() async {
     },
     body: jsonEncode({
       "email": email,
-      "osType":"Ios"
+      "osType":ostype
     }),
   );
   //이미가입된 회원이면 회원정보저장하기

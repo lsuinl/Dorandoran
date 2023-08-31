@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/firebase.dart';
@@ -34,6 +36,10 @@ void main() async {
   String firebasetoken = (await FirebaseMessaging.instance.getToken())!;
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('firebasetoken', firebasetoken!);
+  if(Platform.isAndroid)
+    prefs.setString("ostype", "Aos");
+  else if(Platform.isIOS)
+    prefs.setString("ostype", "Ios");
   runApp(ScreenUtilInit(
     designSize: Size(360, 690),
     builder: (context, child) {
@@ -85,7 +91,7 @@ void main() async {
               child: child!
           );
         },
-        home: SettingListScreen(),
+        home: Home(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
