@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../common/quest_token.dart';
-import '../../../texting/home/model/postcard.dart';
+import '../../common/quest_token.dart';
+import '../../texting/home/model/postcard.dart';
 
 //내가 좋아요 한 글 가져오기
 Future<List<postcard>> GetAllLikedPosts(int number) async {

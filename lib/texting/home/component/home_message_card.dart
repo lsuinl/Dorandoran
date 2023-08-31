@@ -86,7 +86,7 @@ class _Message_CardState extends State<Message_Card> {
                     children: [
                       Row(
                         children: [
-                          Icon(SolarIconsBold.clockCircle),
+                          Icon(Icons.access_time_filled),
                           SizedBox(width: 3.w),
                           Text(timecount(widget.time)),
                           SizedBox(width: 7.w),

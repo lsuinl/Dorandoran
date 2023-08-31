@@ -1,6 +1,7 @@
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/firebase.dart';
+import 'package:dorandoran/setting/setting_list_screen.dart';
 import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/texting/home/tag_screen.dart';
 import 'package:dorandoran/texting/post_datail/post_detail.dart';
@@ -84,7 +85,7 @@ void main() async {
               child: child!
           );
         },
-        home: PostDetail(postId: 49),
+        home: SettingListScreen(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
-import '../../../texting/post_datail/post_detail.dart';
+import '../../texting/post_datail/post_detail.dart';
 
 class MyListCard extends StatefulWidget {
   final String time;

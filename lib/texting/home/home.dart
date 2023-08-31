@@ -1,6 +1,4 @@
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/texting/hash_detail/quest/hash_detail_getcontent.dart';
-import 'package:dorandoran/texting/home/quest/get_search_hash.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:dorandoran/texting/home/tag_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,16 +18,19 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
+
 DateTime? currentBackPressTime;
+
 class _HomeState extends State<Home> {
   RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
   late Future myfuture;
-  List<Widget>? item;
-  int? checknumber;
+  List<Widget> item=[];
+  int checknumber=0;
   String? url;
-  String tagtitle="새로운";
+  String tagtitle = "새로운";
+  int addcount=0;
 
   //광고
   NativeAd? _nativeAd;
@@ -38,223 +39,197 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    super.initState();
     _loadAd();
     setState(() {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
     });
-    myfuture = getPostContent(url,0);
-    }
+    myfuture = getPostContent(url, 0);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    if(item!=null&&_nativeAdIsLoaded && _nativeAd != null)
-      item!.add(
-    SizedBox(
-          height: MediaQuery.of(context).size.height *0.45,
-          width: MediaQuery.of(context).size.width,
-          child: AdWidget(ad: _nativeAd!)
-    )
-    );
     return Scaffold(
-        body: WillPopScope(onWillPop: onWillPop,
-          child: Container(
-            color: backgroundcolor,
-            child: SafeArea(
-                top: true,
-                bottom: true,
-                child: FutureBuilder(
-            future: myfuture,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                int lastnumber = snapshot.data.length>0 ? snapshot.data!.last.postId :0;
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if ((item?.length == 0 || item == null) && snapshot.data!.length>0) {
-                    item = snapshot.data!
-                        .map<Widget>((e) => Message_Card(
-                      time: e.postTime,
-                      heart: e.likeCnt,
-                      chat: e.replyCnt,
-                      map: e.location,
-                      message: e.contents,
-                      backimg: e.backgroundPicUri,
-                      postId: e.postId,
-                      font: e.font,
-                      fontColor: e.fontColor,
-                      fontSize: e.fontSize,
-                      fontBold: e.fontBold,
-                    ))
-                        .toList();
-                  } else {
-                    if (checknumber != lastnumber) {
-                      item!.addAll(snapshot.data!
-                          .map<Widget>((e) => Message_Card(
-                        time: e.postTime,
-                        heart: e.likeCnt,
-                        chat: e.replyCnt,
-                        map: e.location,
-                        message: e.contents,
-                        backimg: e.backgroundPicUri,
-                        postId: e.postId,
-                        font: e.font,
-                        fontColor: e.fontColor,
-                        fontSize: e.fontSize,
-                        fontBold: e.fontBold,
-                      ))
-                          .toList());
-                    }
-                  }
-                }
-                Widget tagname(String name) {
-                  Icon icons=Icon(Icons.add);
-                  if(name=="근처에")
-                    icons=Icon(SolarIconsBold.peopleNearby,size: 30.r,color: Color(0xFF1C274C),);
-                  else if(name=="인기있는")
-                    icons=Icon(SolarIconsBold.fire,size: 30.r,color: Color(0xFF1C274C),);
-                  else if(name=="새로운")
-                    icons=Icon(SolarIconsBold.home,size: 30.r,color: Color(0xFF1C274C),);
-                  else if(name=="관심있는")
-                    icons=Icon(SolarIconsBold.starFall,size: 30.r,color: Color(0xFF1C274C),);
+        body: WillPopScope(
+            onWillPop: onWillPop,
+            child: Container(
+                color: backgroundcolor,
+                child: SafeArea(
+                    top: true,
+                    bottom: true,
+                    child: FutureBuilder(
+                        future: myfuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            int lastnumber = snapshot.data.length > 0 ? snapshot.data!.last.postId : 0;
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if ((item?.length == 0 || item == null) && snapshot.data!.length > 0) {
+                                item = [];
+                              }
+                              else{
+                                // if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null)
+                                //   item!.add(SizedBox(
+                                //       height: 80.h,
+                                //       width: MediaQuery.of(context).size.width,
+                                //       child: AdWidget(ad: _nativeAd!)));
+                              }
+                              if (checknumber != lastnumber) {
+                                  item!.addAll(snapshot.data!
+                                      .map<Widget>((e) => Message_Card(
+                                            time: e.postTime,
+                                            heart: e.likeCnt,
+                                            chat: e.replyCnt,
+                                            map: e.location,
+                                            message: e.contents,
+                                            backimg: e.backgroundPicUri,
+                                            postId: e.postId,
+                                            font: e.font,
+                                            fontColor: e.fontColor,
+                                            fontSize: e.fontSize,
+                                            fontBold: e.fontBold,
+                                          )).toList());
+                                  checknumber=snapshot.data.length>0 ? snapshot.data[snapshot.data!.length-1].postId:0;
+                                }
+                            }
 
-                  return IconButton(
-                    onPressed: () {
-                      postlistchange(name);
-                      _refreshController.position!.animateTo(
-                        0.0,
-                        duration:
-                        const Duration(milliseconds: 300),
-                        curve: Curves.linear,
-                      );
-                      setState(() {
-                        item!.clear();
-                        myfuture = getPostContent(url, 0,);
-                        _loadAd();
-                      });
-                      _refreshController.refreshCompleted();
-                    },
-                    icon: icons,
-                      padding: EdgeInsets.zero,
-                  );
-                }
-                return Container(
-                  decoration: gradient,
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 1),
-                      child: Stack(children: [
-                          Column(
-                            children: [
-                              Top(),
-                              Expanded(
-                                child:  SmartRefresher(
-                                  enablePullDown: true,
-                                  enablePullUp: true,
-                                  header: CustomHeader(
-                                    builder: (BuildContext context,
-                                        RefreshStatus? mode) {
-                                      Widget body;
-                                      if (mode == RefreshStatus.refreshing)
-                                        body = CupertinoActivityIndicator();
-                                      else
-                                        body = Text('');
+                            Widget tagname(String name) {
+                              Icon icons = Icon(Icons.add);
+                              if (name == "근처에")
+                                icons = Icon(SolarIconsBold.peopleNearby, size: 30.r, color: Color(0xFF1C274C),);
+                              else if (name == "인기있는")
+                                icons = Icon(SolarIconsBold.fire, size: 30.r, color: Color(0xFF1C274C),);
+                              else if (name == "새로운")
+                                icons = Icon(SolarIconsBold.home, size: 30.r, color: Color(0xFF1C274C),);
+                              else if (name == "관심있는")
+                                icons = Icon(SolarIconsBold.starFall, size: 30.r, color: Color(0xFF1C274C),);
 
-                                      return Container(
-                                        height: 55.0,
-                                        child: Center(child: body),
-                                      );
-                                    },
-                                  ),
-                                  footer: CustomFooter(
-                                    builder:
-                                        (BuildContext context, LoadStatus) {
-                                      return Container(
-                                        height: 55.0,
-                                        child: Center(child: Text("")),
-                                      );
-                                    },
-                                  ),
-                                  onRefresh: () async {
-                                    setState(() {
-                                      item!.clear();
-                                      myfuture = getPostContent(url, 0);
-                                      _loadAd();
-                                    });
-                                    _refreshController.refreshCompleted();
-                                  },
-                                  // 새로고침
-                                  onLoading: () async {
-                                    if (lastnumber - 1 > 0) {
-                                      setState(() {
-                                        myfuture = getPostContent(
-                                            url,
-                                            lastnumber - 1);
-                                        _loadAd();
-                                        checknumber = lastnumber;
-                                      });
-                                      _refreshController.loadComplete();
-                                    }
-                                  },
-                                  controller: _refreshController,
-                                  child:
-                                  tagtitle == "관심있는" ?
-                                      TagScreen()
-                                        : (snapshot.data.length<1 ?
-                                  Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
-                                      :ListView(
-                                    controller: scrollController,
-                                    children:
-                                    item!.map<Widget>((e) => e).toList(),
-                                  )),
-                                )
-                              )
-                            ],
-                          ),
-                          Container(
-                            alignment: Alignment.bottomRight,
-                            child:
-                                Container(
-                                  height: 50.h,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                  ),
-                                  child:
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 15),
-                                        child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    tagname("새로운"),
-                                    tagname("근처에"),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Write()));
-                                      },
-                                      padding: EdgeInsets.zero,
-                                      icon: Icon(SolarIconsBold.penNewSquare,size: 30.r,color: Color(0xFF1C274C),),
+                              return IconButton(
+                                onPressed: () {
+                                  postlistchange(name);
+                                  _refreshController.position!.animateTo(0.0,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.linear,
+                                  );
+                                  setState(() {
+                                    item!.clear();
+                                    myfuture = getPostContent(url, 0,);
+                                    _loadAd();
+                                  });
+                                  _refreshController.refreshCompleted();
+                                },
+                                icon: icons,
+                                padding: EdgeInsets.zero,
+                              );
+                            }
+                            return Container(
+                              decoration: gradient,
+                              child: SafeArea(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 1),
+                                  child: Stack(children: [
+                                    Column(
+                                      children: [
+                                        Top(),
+                                        Expanded(
+                                            child: SmartRefresher(
+                                          enablePullDown: true,
+                                          enablePullUp: true,
+                                          header: CustomHeader(
+                                            builder: (BuildContext context, RefreshStatus? mode) {
+                                              Widget body;
+                                              if (mode == RefreshStatus.refreshing)
+                                                body = CupertinoActivityIndicator();
+                                              else
+                                                body = Text('');
+
+                                              return Container(
+                                                height: 55.0,
+                                                child: Center(child: body),
+                                              );
+                                            },
+                                          ),
+                                          footer: CustomFooter(
+                                            builder: (BuildContext context, LoadStatus) {
+                                              return Container(
+                                                height: 55.0,
+                                                child: Center(child: Text("")),
+                                              );
+                                            },
+                                          ),
+                                          onRefresh: () async {
+                                            setState(() {
+                                              item!.clear();
+                                              myfuture = getPostContent(url, 0);
+                                            });
+                                            _refreshController.refreshCompleted();
+                                          },
+                                          // 새로고침
+                                          onLoading: () async {
+                                            if (lastnumber - 1 > 0) {
+                                              setState(() {
+                                                myfuture = getPostContent(
+                                                    url, lastnumber - 1);
+                                                _loadAd();
+                                                checknumber = lastnumber;
+                                              });
+                                              _refreshController.loadComplete();
+                                            }
+                                          },
+                                          controller: _refreshController,
+                                          child: tagtitle == "관심있는"
+                                              ? TagScreen()
+                                              : (snapshot.data.length < 1
+                                                  ? Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
+                                                  : ListView(
+                                                      controller: scrollController,
+                                                      children: item!.map<Widget>((e) => e).toList(),
+                                                    )),
+                                        ))
+                                      ],
                                     ),
-                                    tagname("인기있는"),
-                                    tagname("관심있는"),
-                                    ]
+                                    Container(
+                                        alignment: Alignment.bottomRight,
+                                        child: Container(
+                                            height: 50.h,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(10),
+                                                    topRight: Radius.circular(10))),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 15),
+                                              child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    tagname("새로운"),
+                                                    tagname("근처에"),
+                                                    IconButton(
+                                                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Write())),
+                                                      padding: EdgeInsets.zero,
+                                                      icon: Icon(SolarIconsBold.penNewSquare,
+                                                        size: 30.r,
+                                                        color: Color(0xFF1C274C),
+                                                      ),
+                                                    ),
+                                                    tagname("인기있는"),
+                                                    tagname("관심있는"),
+                                                  ]),
+                                            ))),
+                                  ]),
                                 ),
-                                )
-                                )
-                            ),
-                        ]),
-                      ),
-                    ),
-                );
-              } else {
-                return Container(
-                    decoration: gradient,
-                    child: Center(child: CircularProgressIndicator()));
-              }
-            }))
-    )));
+                              ),
+                            );
+                          } else {
+                            return Container(
+                                decoration: gradient,
+                                child:
+                                    Center(child: CircularProgressIndicator()));
+                          }
+                        })))));
   }
+
   void _loadAd() {
     setState(() {
       _nativeAdIsLoaded = false;
@@ -269,33 +244,34 @@ class _HomeState extends State<Home> {
           },
         ),
         request: const AdRequest(),
-    //   factoryId: "listTile"
-    // )
-        nativeTemplateStyle: NativeTemplateStyle(templateType: TemplateType.small
-          // templateType: TemplateType.small,
-          //   mainBackgroundColor: Colors.white,
-          //   cornerRadius: 10.0,
-          //   callToActionTextStyle: NativeTemplateTextStyle(
-          //       textColor: Colors.cyan,
-          //       backgroundColor: Colors.red,
-          //       style: NativeTemplateFontStyle.monospace,
-          //       size: 10.0),
-          //   primaryTextStyle: NativeTemplateTextStyle(
-          //       textColor: Colors.red,
-          //       backgroundColor: Colors.cyan,
-          //       style: NativeTemplateFontStyle.italic,
-          //       size: 16.0),
-          //   secondaryTextStyle: NativeTemplateTextStyle(
-          //       textColor: Colors.green,
-          //       backgroundColor: Colors.black,
-          //       style: NativeTemplateFontStyle.bold,
-          //       size: 10.0),
-          //   tertiaryTextStyle: NativeTemplateTextStyle(
-          //       textColor: Colors.brown,
-          //       backgroundColor: Colors.amber,
-          //       style: NativeTemplateFontStyle.monospace,
-          //       size: 10.0)
-        ))
+        //   factoryId: "listTile"
+        // )
+        nativeTemplateStyle:
+            NativeTemplateStyle(templateType: TemplateType.small
+                // templateType: TemplateType.small,
+                //   mainBackgroundColor: Colors.white,
+                //   cornerRadius: 10.0,
+                //   callToActionTextStyle: NativeTemplateTextStyle(
+                //       textColor: Colors.cyan,
+                //       backgroundColor: Colors.red,
+                //       style: NativeTemplateFontStyle.monospace,
+                //       size: 10.0),
+                //   primaryTextStyle: NativeTemplateTextStyle(
+                //       textColor: Colors.red,
+                //       backgroundColor: Colors.cyan,
+                //       style: NativeTemplateFontStyle.italic,
+                //       size: 16.0),
+                //   secondaryTextStyle: NativeTemplateTextStyle(
+                //       textColor: Colors.green,
+                //       backgroundColor: Colors.black,
+                //       style: NativeTemplateFontStyle.bold,
+                //       size: 10.0),
+                //   tertiaryTextStyle: NativeTemplateTextStyle(
+                //       textColor: Colors.brown,
+                //       backgroundColor: Colors.amber,
+                //       style: NativeTemplateFontStyle.monospace,
+                //       size: 10.0)
+                ))
       ..load();
   }
 
@@ -308,8 +284,8 @@ class _HomeState extends State<Home> {
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
 
-    if (currentBackPressTime == null || now.difference(currentBackPressTime!)
-        > Duration(seconds: 2)) {
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       final msg = "'뒤로'버튼을 한 번 더 누르면 종료됩니다.";
 
@@ -324,19 +300,19 @@ class _HomeState extends State<Home> {
     setState(() {
       switch (name) {
         case "근처에":
-          tagtitle="근처에";
+          tagtitle = "근처에";
           url = '/close';
           break;
         case "인기있는":
-          tagtitle="인기있는";
+          tagtitle = "인기있는";
           url = '/popular';
           break;
         case "새로운":
-          tagtitle="새로운";
+          tagtitle = "새로운";
           url = '';
           break;
         case "관심있는":
-          tagtitle="관심있는";
+          tagtitle = "관심있는";
           url = '';
           break;
       }

@@ -22,6 +22,7 @@ Future<postcardDetail> PostPostDetail(
       "location": location
     }),
   );
+  print(response.body);
   if(response.statusCode==401){
     quest_token();
     PostPostDetail(postId, location);

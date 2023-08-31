@@ -1,8 +1,6 @@
-import 'package:dorandoran/setting/setting_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:solar_icons/solar_icons.dart';
 
 class Top extends StatefulWidget {
   const Top({Key? key}) : super(key: key);
@@ -10,8 +8,6 @@ class Top extends StatefulWidget {
   @override
   State<Top> createState() => _TopState();
 }
-
-bool notice = true;
 
 class _TopState extends State<Top> {
   @override
@@ -35,26 +31,7 @@ class _TopState extends State<Top> {
             ],
           ),
         ),
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              children: [
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(SolarIconsBold.settings,size: 30.r,color: Color(0xFF1C274C),),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SettingListScreen()),
-                  ),
-                ),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(SolarIconsBold.bell,size: 30.r,color: Color(0xFF1C274C),),
-                  onPressed: () {}
-                  ),
-              ],
-            ))
+       Container()
       ],
     );
   }

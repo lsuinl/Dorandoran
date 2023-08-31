@@ -4,6 +4,7 @@ import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:solar_icons/solar_icons.dart';
 import '../../common/basic.dart';
 import '../home/component/home_message_card.dart';
 import 'quest/hash_detail_getcontent.dart';
@@ -86,21 +87,25 @@ class _HashDetailState extends State<HashDetail> {
                   decoration: gradient,
                   child: SafeArea(
                     child: Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(0),
                       child: SafeArea(
                         child: Stack(children: [
                           Column(
                             children: [
+                              Padding(padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                                child:
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   IconButton(onPressed: (){
                                     Navigator.pop(context);
-                                  }, icon:Icon(Icons.arrow_back_ios)),
-                                  Expanded(child:
-                                  Text("#${widget.tagnames}", style: TextStyle(fontSize: 30.sp)),)
+                                  }, icon:Icon(SolarIconsOutline.doubleAltArrowLeft,size: 30.r,)),
+                                  Row(children:[
+                                  Icon(SolarIconsOutline.hashtag,size: 30.r,),
+                                  Text(" ${widget.tagnames}", style: TextStyle(fontSize: 30.sp)),]),
+                                  IconButton(onPressed: (){}, icon: Icon(Icons.star_outline_sharp,size: 30.r,))
                                 ],
-                              ),
-                              SizedBox(height: 10.h),
+                              ),),
                               Expanded(
                                   child:  SmartRefresher(
                                     enablePullDown: true,
