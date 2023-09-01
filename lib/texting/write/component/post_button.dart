@@ -50,7 +50,7 @@ class PostButton extends StatelessWidget {
                   style.fontSize!.toInt(),
                   int.parse(style.fontWeight.toString().substring(12)), anony);
 
-              if(postcheck==200)
+              if(postcheck==201)
               Navigator.push(
                 context,
                 PageRouteBuilder(

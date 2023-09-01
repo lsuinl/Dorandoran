@@ -24,6 +24,7 @@ TextStyle style = TextStyle(
     fontWeight: FontWeight.w800,
     fontFamily: 'Nanum Gothic'); //기본폰트
 
+String fontText="나눔";
 //폰트 속성 변경 변수
 List<String> menufontitem = [
   'cuteFont',
@@ -36,6 +37,7 @@ late List<Widget> taglist;
 List<String> taglistname=[];
 CustomPopupMenuController sizeController = CustomPopupMenuController();
 CustomPopupMenuController fontController = CustomPopupMenuController();
+TextEditingController tagcontroller= TextEditingController();
 
 class _MiddleTextFieldState extends State<MiddleTextField> {
   @override
@@ -56,6 +58,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                 borderRadius: BorderRadius.circular(12.0),
               )),
           onPressed: () {
+            tagcontroller.clear();
             taglist.insert(taglist.length-1,
                 Padding(padding: EdgeInsets.only(right: 5),
                 child: Container(
@@ -66,6 +69,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                   width: 70.w,
                   height: 25.h,
                   child: TextField(
+                    controller: tagcontroller,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       enabledBorder:
@@ -75,7 +79,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                     textAlignVertical: TextAlignVertical.top,
                     textAlign: TextAlign.center,
                     onTapOutside: (value){
-                      if(value=="") {
+                      if(tagcontroller.text=="") {
                         print("삭제");
                         setState(() {
                           taglist.removeAt(taglist.length - 2);
@@ -84,17 +88,17 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                       else {
                         print("확정!");
                         setState(() {
-                          taglistname.add(value.toString());
+                          taglistname.add(tagcontroller.text);
                           taglist[taglist.length-2]=
                               Padding(padding: EdgeInsets.only(right: 5),
+                                  key: Key(tagcontroller.text),
                                   child:Chip(
-                                    key: Key(value.toString()),
                             backgroundColor: Color(0xBB2D2D2D),
-                            label: Text(value.toString(),style: TextStyle(color: Colors.white),),
+                            label: Text(tagcontroller.text,style: TextStyle(color: Colors.white),),
                             onDeleted: () {
                               setState(() {
-                                taglist.removeWhere((element) => element.key==Key(value.toString()));
-                                taglistname.remove(value.toString());
+                                taglist.removeWhere((element) => element.key==Key(tagcontroller.text));
+                                taglistname.remove(tagcontroller.text);
                               });
                             },));
                         });
@@ -104,7 +108,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                       if(value=="") {
                         print("삭제");
                         setState(() {
-                          taglist.remove(value);
+                          taglist.removeAt(taglist.length - 2);
                         });
                       }
                       else{
@@ -140,7 +144,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
 
   @override
   Widget build(BuildContext context) {
-    print(taglistname);
+    print(fontText);
     return Column(children: [
       Container(
           //메세지 입력칸
@@ -189,7 +193,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
             children: [
               CustomPopupMenu(
                 //글씨체 변경
-                child: Icon(Icons.format_color_text),
+                child: Text(fontText,style: TextStyle(color:Colors.black87, fontSize:18.sp,fontWeight: FontWeight.w600)),
                 menuBuilder: fontmenu,
                 pressType: PressType.singleClick,
                 controller: sizeController,
@@ -225,12 +229,9 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
     }
     });}),
               SizedBox(width: 10),
-              IconButton(
+              TextButton(
                 //폰트굵기
-                icon: Icon(
-                  Icons.format_bold,
-                  size: weight ? 25.r : 20.r,
-                ),
+             child:Text(weight ?"굵게":"얇게",style: TextStyle(color:Colors.black87, fontSize:18.sp,fontWeight: FontWeight.w600)),
                 onPressed: () {
                   setState(() {
                     if (style.fontWeight == FontWeight.w900) {
@@ -271,15 +272,21 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                             'nanumGothic',
                             'Jua',
                           ];
-                          if (item == 'cuteFont')
+                          if (item == 'cuteFont') {
                             style = GoogleFonts.getFont('Cute Font',
                                 textStyle: style);
-                          else if (item == 'nanumGothic')
+                            fontText="큐트";
+                          }
+                          else if (item == 'nanumGothic') {
                             style = GoogleFonts.getFont('Nanum Gothic',
                                 textStyle: style);
-                          else if (item == 'Jua')
+                            fontText="나눔";
+                          }
+                          else if (item == 'Jua') {
                             style =
                                 GoogleFonts.getFont('Jua', textStyle: style);
+                          fontText="주아";
+                          }
                         });
                         sizeController.hideMenu();
                       });

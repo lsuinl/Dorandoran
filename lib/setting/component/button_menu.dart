@@ -16,7 +16,7 @@ class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-     crossAxisAlignment: CrossAxisAlignment.start,
+     crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Flexible(
             fit: FlexFit.tight,

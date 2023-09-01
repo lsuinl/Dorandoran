@@ -28,7 +28,9 @@ Future<List<postcard>> getPostContent(
     getPostContent(url, number);
     return [];
   }
-
+  if(response.statusCode==204){
+    return [];
+  }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
   return card;

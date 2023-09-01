@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
   String? url;
   String tagtitle = "새로운";
   int addcount=0;
-
+  Map<String, bool> buttonColor={"새로운":true,"근처에":false,"인기있는":false,"관심있는":false};
   //광고
   NativeAd? _nativeAd;
   bool _nativeAdIsLoaded = false;
@@ -97,15 +97,15 @@ class _HomeState extends State<Home> {
                             }
 
                             Widget tagname(String name) {
-                              Icon icons = Icon(Icons.add);
+                              IconData icons = Icons.add;
                               if (name == "근처에")
-                                icons = Icon(SolarIconsBold.peopleNearby, size: 30.r, color: Color(0xFF1C274C),);
+                                icons = SolarIconsBold.peopleNearby;
                               else if (name == "인기있는")
-                                icons = Icon(SolarIconsBold.fire, size: 30.r, color: Color(0xFF1C274C),);
+                                icons = SolarIconsBold.fire;
                               else if (name == "새로운")
-                                icons = Icon(SolarIconsBold.home, size: 30.r, color: Color(0xFF1C274C),);
+                                icons = SolarIconsBold.home;
                               else if (name == "관심있는")
-                                icons = Icon(SolarIconsBold.starFall, size: 30.r, color: Color(0xFF1C274C),);
+                                icons = SolarIconsBold.starFall;
 
                               return IconButton(
                                 onPressed: () {
@@ -115,13 +115,17 @@ class _HomeState extends State<Home> {
                                     curve: Curves.linear,
                                   );
                                   setState(() {
+                                    buttonColor.forEach((key, value) {
+                                      buttonColor[key]=false;
+                                    });
+                                    buttonColor[name]=true;
                                     item!.clear();
                                     myfuture = getPostContent(url, 0,);
                                     _loadAd();
                                   });
                                   _refreshController.refreshCompleted();
                                 },
-                                icon: icons,
+                                icon:Icon(icons,size: 30.r, color: buttonColor[name]==true ?Color(0xFF1C274C): Color(0x771C274C)),
                                 padding: EdgeInsets.zero,
                               );
                             }

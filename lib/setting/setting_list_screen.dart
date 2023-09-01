@@ -21,7 +21,6 @@ class SettingListScreen extends StatelessWidget {
                 child: Container(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Top(),
                     Flexible(child: ChangeNicknameButton()),
