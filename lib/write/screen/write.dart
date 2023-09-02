@@ -1,16 +1,16 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:dorandoran/common/util.dart';
-import 'package:dorandoran/texting/write/component/bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dorandoran/common/uri.dart';
-import 'package:dorandoran/texting/write/component/post_button.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../../common/basic.dart';
+import '../component/bottom_bar.dart';
+import '../component/post_button.dart';
 import '../component/write_middlefield.dart';
 import 'package:google_fonts/google_fonts.dart';
 class Write extends StatefulWidget {

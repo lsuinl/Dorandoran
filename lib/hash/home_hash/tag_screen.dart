@@ -1,18 +1,16 @@
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
-import 'package:dorandoran/texting/hash_detail/hash_detail.dart';
-import 'package:dorandoran/texting/home/model/popular_hash.dart';
 import 'package:dorandoran/texting/home/model/postcard.dart';
-import 'package:dorandoran/texting/home/quest/delete_del_my_hash.dart';
-import 'package:dorandoran/texting/home/quest/get_my_hash.dart';
-import 'package:dorandoran/texting/home/quest/get_my_hash_content.dart';
-import 'package:dorandoran/texting/home/quest/get_popular_hash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
-import '../../common/uri.dart';
-import 'component/home_message_card.dart';
+import '../../hash/search/model/popular_hash.dart';
+import '../../hash/search/quest/get_popular_hash.dart';
+import '../../texting/home/component/home_message_card.dart';
 import 'component/home_tag_search.dart';
+import '../hash_detail/hash_detail.dart';
+import 'quest/get_my_hash.dart';
+import 'quest/get_my_hash_content.dart';
+
 
 class TagScreen extends StatefulWidget {
   const TagScreen({Key? key}) : super(key: key);
@@ -116,31 +114,6 @@ class _TagScreenState extends State<TagScreen> {
      return widgets;
   }
 
-  Widget sizemenu(){
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(5),
-      child: Container(
-        width: 220,
-        color: const Color(0xFF4C4C4C),
-        child: GridView.count(
-            padding:
-            EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-            crossAxisCount: 1,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 10,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            children:[TextButton(
-                onPressed: () {
-                  setState(() {
-                  });
-                },
-                child:Text("d")
-            )]
-        ),
-      ),
-    );
-  }
   statemanager(){
     print("실행됨");
     setState(() {

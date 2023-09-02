@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/postcard.dart';
+
+import '../../../texting/home/model/postcard.dart';
 
 //내 해시태그 글 가져오기
 Future<List<postcard>> GetMyHashContent() async {

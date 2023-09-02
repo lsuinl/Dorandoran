@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
-import 'package:dorandoran/texting/home/tag_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +8,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:solar_icons/solar_icons.dart';
-import '../write/screen/write.dart';
+import '../../hash/home_hash/tag_screen.dart';
+import '../../write/screen/write.dart';
 import 'component/home_message_card.dart';
 import 'component/home_top.dart';
 
@@ -69,7 +69,6 @@ class _HomeState extends State<Home> {
                                 item = [];
                               }
                               else{
-                                print(_nativeAdIsLoaded);
                                 if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null) {
                                   item!.add(SizedBox(
                                       height: 90.h,

@@ -1,12 +1,10 @@
-import 'package:dorandoran/texting/write/quest/post_write_post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:solar_icons/solar_icons.dart';
-import '../../home/home.dart';
-import '../../loding.dart';
+import '../../texting/home/home.dart';
+import '../quest/post_write_post.dart';
 import '../screen/write.dart';
 import 'write_middlefield.dart';
 

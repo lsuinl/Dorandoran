@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../../common/util.dart';
-import '../../hash_detail/hash_detail.dart';
+import '../../../hash/hash_detail/hash_detail.dart';
 import '../../home/quest/home_postLike.dart';
 
 class Detail_Card extends StatefulWidget {

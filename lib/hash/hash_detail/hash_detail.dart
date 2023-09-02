@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../common/basic.dart';
-import '../home/component/home_message_card.dart';
+import '../../texting/home/component/home_message_card.dart';
 import 'quest/hash_detail_getcontent.dart';
 
 class HashDetail extends StatefulWidget {
