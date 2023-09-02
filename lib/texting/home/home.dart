@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:dorandoran/texting/home/tag_screen.dart';
@@ -24,8 +23,7 @@ class Home extends StatefulWidget {
 DateTime? currentBackPressTime;
 
 class _HomeState extends State<Home> {
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
   late Future myfuture;
   List<Widget> item=[];
@@ -41,13 +39,13 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    super.initState();
     _loadAd();
     setState(() {
       _refreshController = RefreshController(initialRefresh: false);
       scrollController = ScrollController();
     });
     myfuture = getPostContent(url, 0);
-    super.initState();
   }
 
   @override
@@ -71,11 +69,16 @@ class _HomeState extends State<Home> {
                                 item = [];
                               }
                               else{
-                                if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null)
+                                print(_nativeAdIsLoaded);
+                                if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null) {
                                   item!.add(SizedBox(
                                       height: 90.h,
-                                      width: MediaQuery.of(context).size.width,
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width,
                                       child: AdWidget(ad: _nativeAd!)));
+                                }
                               }
                               if (checknumber != lastnumber) {
                                   item!.addAll(snapshot.data!
@@ -238,7 +241,7 @@ class _HomeState extends State<Home> {
 
   void _loadAd() {
     setState(() {
-      _nativeAdIsLoaded = false;
+      _nativeAdIsLoaded=false;
     });
     _nativeAd = NativeAd(
         adUnitId: _adUnitId,

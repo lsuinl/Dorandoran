@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
 
+import '../../../notice/notice_screen.dart';
+
 class Top extends StatefulWidget {
   const Top({Key? key}) : super(key: key);
 
@@ -45,14 +47,16 @@ class _TopState extends State<Top> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SettingListScreen()),
-                  ),
+                        builder: (context) => SettingListScreen())),
                 ),
                 IconButton(
                   padding: EdgeInsets.zero,
                   icon: Icon(SolarIconsBold.bell,size: 30.r,color: Color(0xFF1C274C),),
-                  onPressed: () {}
-                  ),
+                  onPressed:() => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NoticeScreen())),
+                )
               ],
             ))
       ],
