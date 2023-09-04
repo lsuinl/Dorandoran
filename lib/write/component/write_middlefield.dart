@@ -218,6 +218,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
     TextButton(
     //폰트크기
     child: Text(textsize==15?"작게":"크게",style: TextStyle(color:Colors.black87, fontSize:18.sp,fontWeight: FontWeight.w600),),
+    style: TextButton.styleFrom(primary:  Colors.white),
     onPressed: () {
     setState(() {
     if (style.fontSize == 45) {
@@ -232,6 +233,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
               TextButton(
                 //폰트굵기
              child:Text(weight ?"굵게":"얇게",style: TextStyle(color:Colors.black87, fontSize:18.sp,fontWeight: FontWeight.w600)),
+                style: TextButton.styleFrom(primary:  Colors.white),
                 onPressed: () {
                   setState(() {
                     if (style.fontWeight == FontWeight.w900) {

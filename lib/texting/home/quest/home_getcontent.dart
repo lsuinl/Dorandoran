@@ -14,12 +14,12 @@ Future<dynamic> getPostContent(
   String location="${prefs.getString("latitude")??"123"},${prefs.getString("longtitude")??"123"}";
   var response = await http.get(
     Uri.parse(
-        '${urls}/api/post${url ?? ""}?postCnt=${number}&location=${location}'),
+        '${urls}/api/post${url ?? ""}postCnt=${number}&location=${location}'),
     headers: <String, String>{
       'authorization':'Bearer $accessToken',
     },
   );
-  print(response.statusCode);
+print(response.statusCode);
   if (response.body==[]) {
     getPostContent(url, number - 1);
   }

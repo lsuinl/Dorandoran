@@ -29,9 +29,10 @@ class _HomeState extends State<Home> {
   late Future myfuture;
   List<Widget> item=[];
   int checknumber=0;
-  String? url;
+  String url='?';
   String tagtitle = "새로운";
   int addcount=0;
+  int distance=1;
   Map<String, bool> buttonColor={"새로운":true,"근처에":false,"인기있는":false,"관심있는":false};
   //광고
   NativeAd? _nativeAd;
@@ -145,6 +146,72 @@ class _HomeState extends State<Home> {
                                     Column(
                                       children: [
                                         Top(),
+                                        tagtitle=="근처에"? Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            TextButton(onPressed: (){
+                                              _refreshController.position!.animateTo(0.0,
+                                                duration: const Duration(milliseconds: 300),
+                                                curve: Curves.linear,
+                                              );
+                                              setState(() {
+                                                distance=1;
+                                                item!.clear();
+                                                myfuture =getPostContent(url, 0);
+                                              });
+                                              _refreshController.refreshCompleted();
+                                            },
+                                                child: Text("1km",style: TextStyle(color: Colors.black),)),
+                                            TextButton(onPressed: (){
+                                              _refreshController.position!.animateTo(0.0,
+                                                duration: const Duration(milliseconds: 300),
+                                                curve: Curves.linear,
+                                              );
+                                              setState(() {
+                                                distance=5;
+                                                item!.clear();
+                                                myfuture =getPostContent(url, 0);
+                                              });
+                                              _refreshController.refreshCompleted();
+                                            }, child: Text("5km",style: TextStyle(color: Colors.black),)),
+                                            TextButton(onPressed: (){
+                                              _refreshController.position!.animateTo(0.0,
+                                                duration: const Duration(milliseconds: 300),
+                                                curve: Curves.linear,
+                                              );
+                                              setState(() {
+                                                distance=10;
+                                                item!.clear();
+                                                myfuture =getPostContent(url, 0);
+                                              });
+                                              _refreshController.refreshCompleted();
+                                            }, child: Text("10km",style: TextStyle(color: Colors.black),)),
+                                            TextButton(onPressed: (){
+                                              _refreshController.position!.animateTo(0.0,
+                                                duration: const Duration(milliseconds: 300),
+                                                curve: Curves.linear,
+                                              );
+                                              setState(() {
+                                                distance=20;
+                                                item!.clear();
+                                                myfuture =getPostContent(url, 0);
+                                              });
+                                              _refreshController.refreshCompleted();
+                                            }, child: Text("20km",style: TextStyle(color: Colors.black),)),
+                                            TextButton(onPressed: (){
+                                              _refreshController.position!.animateTo(0.0,
+                                                duration: const Duration(milliseconds: 300),
+                                                curve: Curves.linear,
+                                              );
+                                              setState(() {
+                                                distance=30;
+                                                item!.clear();
+                                                myfuture =getPostContent(url, 0);
+                                              });
+                                              _refreshController.refreshCompleted();
+                                            }, child: Text("30km",style: TextStyle(color: Colors.black),)),
+                                          ]
+                                        ):Container(),
                                         Expanded(
                                             child: SmartRefresher(
                                           enablePullDown: true,
@@ -334,19 +401,19 @@ class _HomeState extends State<Home> {
       switch (name) {
         case "근처에":
           tagtitle = "근처에";
-          url = '/close';
+          url = '/close?range=$distance&';
           break;
         case "인기있는":
           tagtitle = "인기있는";
-          url = '/popular';
+          url = '/popular?';
           break;
         case "새로운":
           tagtitle = "새로운";
-          url = '';
+          url = '?';
           break;
         case "관심있는":
           tagtitle = "관심있는";
-          url = '';
+          url = '?';
           break;
       }
     });
