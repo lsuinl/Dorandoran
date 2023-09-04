@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:solar_icons/solar_icons.dart';
+import '../../common/quest_token.dart';
 import '../../hash/home_hash/tag_screen.dart';
 import '../../write/screen/write.dart';
 import 'component/home_message_card.dart';
@@ -40,6 +41,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    quest_token();
     _loadAd();
     setState(() {
       _refreshController = RefreshController(initialRefresh: false);
@@ -61,17 +63,20 @@ class _HomeState extends State<Home> {
                     child: FutureBuilder(
                         future: myfuture,
                         builder: (context, snapshot) {
-                          if (snapshot.hasData) {
+                          if(snapshot.hasData){
+                            if(snapshot.data==401){
+                              quest_token();
+                              return Text("왜이려");
+                            }
                             int lastnumber = snapshot.data.length > 0 ? snapshot.data!.last.postId : 0;
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
+                            if (snapshot.connectionState == ConnectionState.done) {
                               if ((item?.length == 0 || item == null) && snapshot.data!.length > 0) {
                                 item = [];
                               }
                               else{
                                 if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null) {
                                   item!.add(SizedBox(
-                                      height: 90.h,
+                                      height: 100.h,
                                       width: MediaQuery
                                           .of(context)
                                           .size
@@ -108,7 +113,6 @@ class _HomeState extends State<Home> {
                                 icons = SolarIconsBold.home;
                               else if (name == "관심있는")
                                 icons = SolarIconsBold.starFall;
-
                               return IconButton(
                                 onPressed: () {
                                   postlistchange(name);
@@ -123,7 +127,7 @@ class _HomeState extends State<Home> {
                                     buttonColor[name]=true;
                                     item!.clear();
                                     myfuture = getPostContent(url, 0,);
-                                    _loadAd();
+                                 //  _loadAd();
                                   });
                                   _refreshController.refreshCompleted();
                                 },
@@ -131,6 +135,7 @@ class _HomeState extends State<Home> {
                                 padding: EdgeInsets.zero,
                               );
                             }
+
                             return Container(
                               decoration: gradient,
                               child: SafeArea(
@@ -179,7 +184,7 @@ class _HomeState extends State<Home> {
                                               setState(() {
                                                 myfuture = getPostContent(
                                                     url, lastnumber - 1);
-                                                _loadAd();
+                                               // _loadAd();
                                                 checknumber = lastnumber;
                                               });
                                               _refreshController.loadComplete();
@@ -229,11 +234,26 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             );
-                          } else {
+                          }
+                          else {
                             return Container(
                                 decoration: gradient,
+                                child: SafeArea(
+                                child: Padding(
+                                padding: const EdgeInsets.only(bottom: 1),
+                          child: Stack(children: [
+                          Column(
+                          children: [
+                          Top(),
+                          Flexible(child:  Container(
+                                decoration: gradient,
                                 child:
-                                    Center(child: CircularProgressIndicator()));
+                                    Center(child: CircularProgressIndicator()))),
+
+                          ]
+                          )
+                          ])
+                            )));
                           }
                         })))));
   }
@@ -249,6 +269,11 @@ class _HomeState extends State<Home> {
             setState(() {
               _nativeAdIsLoaded = true;
             });
+          },
+          onAdFailedToLoad: (ad, error) {
+            // Dispose the ad here to free resources.
+            print('$NativeAd failedToLoad: $error');
+            ad.dispose();
           },
         ),
         request: const AdRequest(),

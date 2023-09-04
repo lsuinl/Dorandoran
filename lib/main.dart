@@ -38,6 +38,7 @@ void main() async {
     prefs.setString("ostype", "Aos");
   else if(Platform.isIOS)
     prefs.setString("ostype", "Ios");
+  print(prefs.getString("refreshToken"));
   runApp(ScreenUtilInit(
     designSize: Size(360, 690),
     builder: (context, child) {
@@ -89,7 +90,7 @@ void main() async {
               child: child!
           );
         },
-        home: Home(),
+        home: Login_check(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

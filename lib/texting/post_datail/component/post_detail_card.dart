@@ -1,7 +1,4 @@
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
-import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_post_delete.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_block_member.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';

@@ -4,7 +4,7 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //내가 추가한 해시태그 목록 가져오기
-Future<List<String>> GetMyHash() async {
+Future<dynamic> GetMyHash() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response= await http.get(
@@ -15,6 +15,8 @@ Future<List<String>> GetMyHash() async {
     },
   );
   List<String> names = [];
+  if(response.statusCode==401)
+    return response.statusCode;
   if(response.body.length<1)
     return names;
   else {

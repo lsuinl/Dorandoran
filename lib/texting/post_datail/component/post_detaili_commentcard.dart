@@ -9,10 +9,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
+import '../../../common/quest_token.dart';
 import '../../../common/util.dart';
 import '../quest/post_block_member.dart';
 import '../quest/post_postdetail_comment_like.dart';
 import '../post_detail.dart';
+import '../quest/post_postdetail_post_detail.dart';
 
 class CommentCard extends StatefulWidget {
   final commentcard card;
@@ -297,10 +299,15 @@ class _CommentCardState extends State<CommentCard> {
                                   width: 1.0,
                                 )),
                             onPressed: () async {
-                              List<replycard> cards = await GetReplyPlus(
+                              dynamic cards = await GetReplyPlus(
                                   widget.postId,
                                   widget.card.commentId,
                                   widget.card.replies[0]['replyId']);
+                              if(cards==401) {
+                                quest_token();
+                                Fluttertoast.showToast(msg: "실행 중 오류가 발생했습니다. 다시 시도해 주세요./");
+                                PostPostDetail(widget.postId, "");
+                              }
                               setState(() {
                                 replycardd.insertAll(
                                     0,

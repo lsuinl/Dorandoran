@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../post_detail.dart';
 
@@ -70,8 +71,8 @@ class _InputCommentState extends State<InputComment> {
               height: 35.h,
               child: Row(children: [
                 IconButton(
-                    padding: EdgeInsets.only(left: 15),
                    // constraints: BoxConstraints(),
+                    padding: EdgeInsets.zero,
                     onPressed: () {
                       if (widget.postcommentstate != null) {
                         showDialog(
@@ -104,10 +105,8 @@ class _InputCommentState extends State<InputComment> {
                     icon: anonymity
                         ? Icon(SolarIconsOutline.checkSquare, size: 24.r)
                         : Icon(SolarIconsBroken.checkSquare, size: 24.r)),
-                SizedBox(width: 5),
                 IconButton(
-                    //비밀댓글
-                    padding: EdgeInsets.symmetric(horizontal: 0),
+                  //비밀댓글
                     constraints: BoxConstraints(),
                     onPressed: () {
                       setState(() {
@@ -116,7 +115,7 @@ class _InputCommentState extends State<InputComment> {
                     },
                     icon: lockcheck
                         ? Icon(Icons.lock, size: 20.r)
-                        : Icon(Icons.lock_open, size: 24.r)),
+                        : Icon(Icons.lock_open, size: 20.r)),
                 SizedBox(width: 5),
                 Flexible(
                     child: TextFormField(

@@ -1,3 +1,4 @@
+import 'package:dorandoran/common/quest_token.dart';
 import 'package:dorandoran/setting/quest/get_all_posts.dart';
 import 'package:dorandoran/setting/component/my_list_card.dart';
 import 'my_list_top.dart';
@@ -51,6 +52,10 @@ class _MyListScreenState extends State<MyListScreen> {
             future: myfuture,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                if(snapshot.data==401){
+                  quest_token();
+                  myfuture;
+                }
                 if(snapshot.data!.length==0){
                   return Column(
                       children: [

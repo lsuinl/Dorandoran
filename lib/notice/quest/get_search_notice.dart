@@ -7,7 +7,7 @@ import '../../common/quest_token.dart';
 import '../../texting/home/model/postcard.dart';
 
 //알림 전체 조회하기
-Future<List<noticeModel>> GetAllLikedPosts(int number) async {
+Future<dynamic> GetAllLikedPosts(int number) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response= await http.get(
@@ -18,6 +18,8 @@ Future<List<noticeModel>> GetAllLikedPosts(int number) async {
     },
   );
   print(response.body);
+  if(response.statusCode==401)
+    return response.statusCode;
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<noticeModel> card = body.map((dynamic e) => noticeModel.fromJson(e)).toList();
   return card;

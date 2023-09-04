@@ -1,4 +1,5 @@
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
+import 'package:dorandoran/common/quest_token.dart';
 import 'package:dorandoran/texting/home/model/postcard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,7 +21,6 @@ class TagScreen extends StatefulWidget {
 }
 CustomPopupMenuController tagcontroller = CustomPopupMenuController();
 class _TagScreenState extends State<TagScreen> {
-  List<popularHash> populartagname = [];
   List<String> mytag = [];
   List<Widget> mycontent = [];
   @override
@@ -33,7 +33,11 @@ class _TagScreenState extends State<TagScreen> {
     return FutureBuilder(
         future: getdata(),
         builder: (context, snapshot) {
-          if(snapshot.hasData)
+          if (snapshot.hasData) {
+            if (snapshot.data == 401) {
+              quest_token();
+                getdata();
+            }
             mycontent = snapshot.data!;
             return GestureDetector(
                 onTap: () {
@@ -54,13 +58,17 @@ class _TagScreenState extends State<TagScreen> {
                     SizedBox(height: 10.h),
                   ])
                 ]));
+          }else{
+            return Center(child:CircularProgressIndicator());
+          }
         }
-    );
+        );
   }
-  Future<List<Widget>> getdata() async {
-    List<popularHash> populartagnames = await GetPopularHash();
-    List<String> mytags = await GetMyHash();
-    List<postcard> mycontents = await GetMyHashContent();
+  Future<dynamic> getdata() async {
+    dynamic mytags = await GetMyHash();
+    dynamic mycontents = await GetMyHashContent();
+    if(mytags==401 || mycontents==401)
+      return 401;
     List<Widget> mytagswidget = mytag
         .map((e) =>
         Container(
@@ -109,7 +117,6 @@ class _TagScreenState extends State<TagScreen> {
         children: [mytagswidget[i], mycontentwidget[i]],
       ));
     }
-      populartagname = populartagnames;
       mytag = mytags;
      return widgets;
   }
@@ -118,7 +125,6 @@ class _TagScreenState extends State<TagScreen> {
     print("실행됨");
     setState(() {
       mycontent=[];
-      populartagname = [];
       mytag = [];
       getdata();
     });

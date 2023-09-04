@@ -15,8 +15,7 @@ Future<int> GetPicCount() async {
     },
   );
   if(response.statusCode==401){
-    quest_token();
-    GetPicCount();
+    return 401;
   }
   return int.parse(response.body);
 }

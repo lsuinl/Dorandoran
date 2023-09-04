@@ -1,3 +1,4 @@
+import 'package:dorandoran/common/quest_token.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
@@ -44,6 +45,10 @@ class _HashDetailState extends State<HashDetail> {
             future: myfuture,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                if(snapshot.data==401){
+                  quest_token();
+                  myfuture;
+                }
                 int lastnumber = snapshot.data.length>0 ? snapshot.data!.last.postId :0;
                 if (snapshot.connectionState == ConnectionState.done) {
                   if ((item?.length == 0 || item == null) && snapshot.data!.length>0) {

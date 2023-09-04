@@ -7,7 +7,7 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:dio/dio.dart';
 //글 가져오기
 //인코딩
-Future<List<postcard>> getHashContent(
+Future<dynamic> getHashContent(
     String tagname, int number) async {
 
   Dio dio=Dio();
@@ -30,11 +30,8 @@ Future<List<postcard>> getHashContent(
   if (response.data==[]) {
     getHashContent(tagname, number - 1);
   }
-  else if(response.statusCode==401){
-    quest_token();
-    getHashContent(tagname, number);
-  }
-  print(response.statusCode);
+  else if(response.statusCode==401)
+    return response.statusCode;
 
   List<dynamic> body = response.data;
   //jsonDecode(utf8.decode(response.bodyBytes));

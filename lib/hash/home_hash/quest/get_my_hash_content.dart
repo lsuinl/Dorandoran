@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../texting/home/model/postcard.dart';
 
 //내 해시태그 글 가져오기
-Future<List<postcard>> GetMyHashContent() async {
+Future<dynamic> GetMyHashContent() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
@@ -17,6 +17,8 @@ Future<List<postcard>> GetMyHashContent() async {
       'authorization':'Bearer $accessToken',
     },
   );
+  if(response.statusCode==401)
+    return response.statusCode;
   if(response.body.length<1) {
     return [];
   }

@@ -1,4 +1,5 @@
 import 'package:dorandoran/common/css.dart';
+import 'package:dorandoran/common/quest_token.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
@@ -18,6 +19,7 @@ import 'component/post_detaili_commentcard.dart';
 import 'package:dorandoran/texting/post_datail/quest/get_postdetail_plus_comment.dart';
 import 'package:dorandoran/common/basic.dart';
 
+import 'model/replycard.dart';
 import 'quest/post_block_member.dart';
 
 class PostDetail extends StatefulWidget {
@@ -54,6 +56,10 @@ class _PostDetailState extends State<PostDetail> {
             future: PostPostDetail(widget.postId, ""),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                if(snapshot.data==401){
+                  quest_token();
+                  PostPostDetail(widget.postId, "");
+                }
                 dynamic e = snapshot.data!;
                 if(e.isWrittenByMember==true)
                   _menulist=['삭제하기'];
@@ -233,7 +239,12 @@ class _PostDetailState extends State<PostDetail> {
                                       side: BorderSide(color: Color(0xFFFFFFFF), width: 1.0,)
                                   ),
                                   onPressed: () async {
-                                    List<dynamic> pluscomments = await GetCommentPlus(50, plusreply);
+                                    dynamic pluscomments = await GetCommentPlus(50, plusreply);
+                                    if(pluscomments==401) {
+                                        quest_token();
+                                        Fluttertoast.showToast(msg: "실행 중 오류가 발생했습니다. 다시 시도해 주세요./");
+                                        PostPostDetail(widget.postId, "");
+                                      }
                                     commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
                                                 CommentCard(
                                                   card: commentcard(

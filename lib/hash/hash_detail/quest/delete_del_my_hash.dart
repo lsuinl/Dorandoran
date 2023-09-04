@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void delMyHash(String hash) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  http.Response respon= await http.delete(
+  http.Response response= await http.delete(
     Uri.parse('$urls/api/hashTag/member'),
     headers: <String, String>{
       'Content-Type': 'application/json',
@@ -17,5 +17,5 @@ void delMyHash(String hash) async {
       "hashTag":hash,
     }),
   );
-  print(respon.statusCode);
+  print(response.statusCode);
 }

@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
 //글 가져오기
-Future<List<postcard>> getPostContent(
+Future<dynamic> getPostContent(
     String? url, int number) async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -24,9 +24,7 @@ Future<List<postcard>> getPostContent(
     getPostContent(url, number - 1);
   }
   else if(response.statusCode==401){
-    quest_token();
-    getPostContent(url, number);
-    return [];
+    return response.statusCode;
   }
   if(response.statusCode==204){
     return [];
