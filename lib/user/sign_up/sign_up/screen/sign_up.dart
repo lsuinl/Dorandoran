@@ -1,10 +1,10 @@
 import 'package:dorandoran/common/basic.dart';
-import 'package:dorandoran/user/sign_up/component/logo.dart';
-import 'package:dorandoran/user/sign_up/component/next_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
+import '../component/logo.dart';
+import '../component/next_button.dart';
 import '../quest/namecheck.dart';
 
 class SignUp extends StatefulWidget {
@@ -43,60 +43,45 @@ class _SignUpState extends State<SignUp> {
                 Row(
                   children: [
                     Container(
+                      width: 220.w,
                       child: TextField(
                         style: Theme.of(context).textTheme.bodyMedium!,
                         decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black54)),
+                          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black54)),
                           hintText: "닉네임을 입력해주세요",
-                          hintStyle: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: Colors.indigo),
+                          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.indigo),
                         ),
                         controller: name,
                         maxLength: 9,
                       ),
-                      width: 220.w,
                     ),
                     SizedBox(width: 15.w),
                     TextButton(
                         onPressed: () {
-                          //   textchange(checkname(name.text.toString()),name.text.toString())
                           setState(() {
                             text = checkname(name.text.toString());
                           });
                           if (text == "") textchange(name.text.toString());
                         },
-                        child: Text("확인", style: Theme.of(context)
-                            .textTheme
-                            .labelSmall!,),
+                        child: Text("확인", style: Theme.of(context).textTheme.labelSmall!,),
                         style: TextButton.styleFrom(
                             primary: Colors.black54,
-                            side: BorderSide(
-                              color: Colors.black54,
+                            side: BorderSide(color: Colors.black54,
                             ))),
                   ],
                 ),
                 Text(
                   text,
                   style: text == '사용가능한 이름입니다.'
-                      ? Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.blue)
-                      : Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.red),
+                      ? Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.blue)
+                      : Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.red),
                 ),
               ]),
               SizedBox(height: 12.h),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('생년월일을 선택해주세요',
-                      style:  Theme.of(context).textTheme.headlineMedium!),
+                  Text('생년월일을 선택해주세요', style:  Theme.of(context).textTheme.headlineMedium!),
                   SizedBox(height: 10.h),
                   Container(
                     width: 240.w,
@@ -104,16 +89,11 @@ class _SignUpState extends State<SignUp> {
                     child: TextButton(
                       child: Text(
                         '${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .copyWith(fontSize: 15.sp),
+                        style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 15.sp),
                       ),
                       style: TextButton.styleFrom(
                           primary: Colors.black54,
-                          side: BorderSide(
-                            color: Colors.black54,
-                          )),
+                          side: BorderSide(color: Colors.black54,)),
                       onPressed: dialog,
                     ),
                   ),

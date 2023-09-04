@@ -18,22 +18,15 @@ Future<int> registered() async {
       "osType":ostype
     }),
   );
-  //이미가입된 회원이면 회원정보저장하기
+  //가입된 회원이면 회원정보저장하기
   if(response.statusCode==200) {
     Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     prefs.setString("nickname", body["nickname"].toString());
     prefs.setString("email", body["email"].toString());
-    prefs.setString("accessToken",
-        body["tokenDto"]!["accessToken"].toString()); //액세스토큰:첫번쨰에있음
-    prefs.setString(
-        "refreshToken", body["tokenDto"]!["refreshToken"].toString());
-    print(prefs.getString("accessToken"));
-    print(prefs.getString("refreshToken"));
-    print(200);
+    prefs.setString("accessToken", body["tokenDto"]!["accessToken"].toString()); //액세스토큰:첫번쨰에있음
+    prefs.setString("refreshToken", body["tokenDto"]!["refreshToken"].toString());
     return 200;
   }
   else
-    print(400);
     return 400;
-
 }

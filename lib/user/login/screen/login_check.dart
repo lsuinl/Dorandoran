@@ -45,18 +45,10 @@ class _Login_checkState extends State<Login_check> {
 
   logincheck() async {
     final prefs = await SharedPreferences.getInstance();
-    //이미 저장된 이메일이 있는 경우==앱에 로그인 데이터가 남아있는 경우
-    if(prefs.getString('accessToken')!=""&&prefs.getString('accessToken')!=null) {
-      // prefs.setString('refreshToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqdzEwMTAxMTBAZ21haWwuY29tIiwiaWF0IjoxNjg5MDA0NTU2LCJleHAiOjE3MDQ1NTY1NTYsInN1YiI6IjEyMyIsImVtYWlsIjoiOTY0M3VzQG5hdmVyLmNvbSJ9.y83FD5n38b3AgLhs8RKJBhc2WFFJsI0mOO5UoJOKhiI');
-      // prefs.setString('accessToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqdzEwMTAxMTBAZ21haWwuY29tIiwiaWF0IjoxNjg5MDA0NTU2LCJleHAiOjE2ODkwOTA5NTYsInN1YiI6IjEyMyIsImVtYWlsIjoiOTY0M3VzQG5hdmVyLmNvbSJ9.5zFLL4cLju5kTbPJOKA4M_8JkOnaMEemxiIeqprRhLU');
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) =>
-          new Home()));
-    }
-    else{
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) =>
-          new KaKaoLogin()));
-    }
+    //앱에 로그인 데이터가 남아있는 경우
+    if(prefs.getString('accessToken')!=""&&prefs.getString('accessToken')!=null)
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new Home()));
+    else
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new KaKaoLogin()));
   }
 }

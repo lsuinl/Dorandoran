@@ -16,13 +16,13 @@ class Logo extends StatelessWidget {
         'asset/image/logo.png',
         width: 100.w,
         height: 100.h,
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.centerLeft
       ),
       SizedBox(height: 20.h),
       Text(text,
           style: style.copyWith(
             fontSize: 30.sp,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w500
           )),
     ]);
   }

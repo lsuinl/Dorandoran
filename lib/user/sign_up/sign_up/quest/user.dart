@@ -4,10 +4,11 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //회원가입: 데이터 전송 500
-Future<String> postUserRequest(String dateOfBirth, String nickname, String firebasetoken,
-    String kakaoAccessToken) async {
+Future<String> postUserRequest(String dateOfBirth, String nickname) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String ostype = prefs.getString("ostype")!;
+  String firebasetoken = prefs.getString("firebasetoken")!;
+  String kakaoAccessToken = prefs.getString("kakaotoken")!;
 
   var response = await http.post(
     Uri.parse('$urls/api/member'),
@@ -26,7 +27,7 @@ Future<String> postUserRequest(String dateOfBirth, String nickname, String fireb
   Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   prefs.setString("nickname", body["nickname"].toString());
   prefs.setString("email", body["email"].toString());
-  prefs.setString("accessToken", body["tokenDto"]!["accessToken"].toString()); //액세스토큰:첫번쨰에있음
+  prefs.setString("accessToken", body["tokenDto"]!["accessToken"].toString());
   prefs.setString("refreshToken", body["tokenDto"]!["refreshToken"].toString());
   return response.body;
 }

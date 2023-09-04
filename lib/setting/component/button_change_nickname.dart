@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 import '../../common/util.dart';
-import '../../user/sign_up/quest/namecheck.dart';
+import '../../user/sign_up/sign_up/quest/namecheck.dart';
 import '../quest/patch_change_nickname.dart';
 import 'button_menu.dart';
 

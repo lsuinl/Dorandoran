@@ -1,14 +1,6 @@
 import 'dart:io';
-
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/firebase.dart';
-import 'package:dorandoran/setting/setting_list_screen.dart';
-import 'package:dorandoran/texting/home/home.dart';
-import 'package:dorandoran/texting/post_datail/post_detail.dart';
-import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
-import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
