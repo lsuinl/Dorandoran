@@ -9,7 +9,10 @@ import 'quest/get_popular_hash.dart';
 import 'quest/get_search_hash.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  final VoidCallback statemanage;
+  const SearchScreen({
+    required this.statemanage,
+    Key? key}) : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -38,9 +41,7 @@ class _SearchScreenState extends State<SearchScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
       Padding(
-          padding: EdgeInsets.only(
-            top: 10,
-          ),
+          padding: EdgeInsets.only(top: 10),
           child: Row(
             children: [
               Container(
@@ -97,7 +98,7 @@ class _SearchScreenState extends State<SearchScreen> {
               Container(
                 alignment: Alignment.bottomCenter,
                 child: TextButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: widget.statemanage,
                     child: Text(
                       "취소",
                       style: TextStyle(color: Colors.black),

@@ -1,5 +1,6 @@
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:dorandoran/common/quest_token.dart';
+import 'package:dorandoran/hash/search/search_screen.dart';
 import 'package:dorandoran/texting/home/model/postcard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +22,7 @@ class TagScreen extends StatefulWidget {
 }
 CustomPopupMenuController tagcontroller = CustomPopupMenuController();
 class _TagScreenState extends State<TagScreen> {
+  bool searchOn=false;
   List<String> mytag = [];
   List<Widget> mycontent = [];
   @override
@@ -30,6 +32,8 @@ class _TagScreenState extends State<TagScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    if(searchOn)
+      return SearchScreen(statemanage: statemanager);
     return FutureBuilder(
         future: getdata(),
         builder: (context, snapshot) {
@@ -39,7 +43,7 @@ class _TagScreenState extends State<TagScreen> {
                 getdata();
             }
             mycontent = snapshot.data!;
-            return GestureDetector(
+             return GestureDetector(
                 onTap: () {
                   if (showlist == true) {
                     setState(() {
@@ -124,6 +128,7 @@ class _TagScreenState extends State<TagScreen> {
   statemanager(){
     print("실행됨");
     setState(() {
+      searchOn=!searchOn;
       mycontent=[];
       mytag = [];
       getdata();
