@@ -20,9 +20,9 @@ Future<int> PostWritePost(String content,
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   String email = prefs.getString("email")!;
-
-  String location = "${prefs.getString("latitude") ?? ""},${prefs.getString("longtitude") ?? ""}";
-  location = usinglocation == true ? location : "";
+  String location="";
+  if(usinglocation==true)
+     location = "${prefs.getString("latitude") ?? ""},${prefs.getString("longtitude") ?? ""}";
 
   FormData formData =file==null? FormData.fromMap({
     'email': email,
@@ -49,7 +49,6 @@ Future<int> PostWritePost(String content,
   'fontBold': fontBold,
   'anonymity': anaoymity
   });
-  print(formData.fields);
 
   var response = await dio.post('${urls}/api/post',
       options: Options(headers: {
@@ -58,6 +57,5 @@ Future<int> PostWritePost(String content,
       data: formData
   );
 
-  print(response.statusCode);
   return response.statusCode!;
 }

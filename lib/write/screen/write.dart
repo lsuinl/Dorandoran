@@ -164,9 +164,8 @@ class _WriteState extends State<Write> {
                           onPressed: () {
                             setState(() {
                               imagenumber.clear();
-                              if (backgroundimgname != null) {
+                              if (backgroundimgname != null)
                                 imagenumber.add(int.parse(backgroundimgname!));
-                              }
                               while (imagenumber.length < 10)
                                 imagenumber.add(Random().nextInt(99) + 1);
                             });

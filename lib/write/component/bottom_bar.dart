@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
 
-
 class BottomBar extends StatefulWidget {
   final VoidCallback formefun;
   final VoidCallback usinglocationfun;
