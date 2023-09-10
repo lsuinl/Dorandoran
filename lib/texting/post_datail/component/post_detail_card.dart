@@ -1,14 +1,11 @@
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
-import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_post_delete.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_block_member.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:solar_icons/solar_icons.dart';
 import '../../../common/util.dart';
-import '../../hash_detail/hash_detail.dart';
-import '../../home/home.dart';
+import '../../../hash/hash_detail/hash_detail.dart';
 import '../../home/quest/home_postLike.dart';
 
 class Detail_Card extends StatefulWidget {
@@ -24,7 +21,6 @@ class Detail_Card extends StatefulWidget {
 
 bool like = false;
 int likecnt = 0;
-List<String> _menulist = ['신고하기','차단하기'];
 
 class _Detail_CardState extends State<Detail_Card> {
   @override
@@ -32,8 +28,6 @@ class _Detail_CardState extends State<Detail_Card> {
     setState(() {
       like = widget.card.postLikeResult!;
       likecnt = widget.card.postLikeCnt;
-      if (widget.card.isWrittenByMember==true)
-        _menulist = ['삭제하기'];
     });
     super.initState();
   }
@@ -44,75 +38,19 @@ class _Detail_CardState extends State<Detail_Card> {
       InkWell(
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
               image: DecorationImage(
                 image: NetworkImage('http://' + widget.card.backgroundPicUri),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.7), BlendMode.dstATop),
               )),
-          //BoxDecoration(image: DecorationImage(image:NetworkImage('http://'+backimg))),
           child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
                 children: [
                   SizedBox(height: 20.h),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children:[
-                        BackButton(
-                          onPressed: () => Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Home()))
-                              .then((value) => setState(() {})),
-                        ),
-                        DropdownButton2(
-                          customButton: Icon(Icons.more_vert),
-                          dropdownWidth: 150,
-                          dropdownDecoration: BoxDecoration(color: Colors.white),
-                          dropdownDirection: DropdownDirection.left,
-                          items: [
-                            ..._menulist.map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(item),
-                            ),
-                            ),
-                          ],
-                          onChanged: (value) {
-                            if(value=="삭제하기")
-                                showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    // 바깥 영역 터치시 닫을지 여부
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        backgroundColor: Colors.white,
-                                        content: const Text("작성한 글을 삭제하시겠습니까?"),
-                                        actions: [
-                                          TextButton(
-                                            child: const Text('확인', style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
-                                            onPressed: () async {
-                                              await DeletePostDelete(widget.postId);
-                                              Navigator.push(context, MaterialPageRoute(
-                                                      builder: (context) => Home())).then((value) => setState(() {}));
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: const Text('취소',
-                                                style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
-                                            onPressed: () => Navigator.of(context).pop()
-                                          ),
-                                        ],
-                                      );
-                                    });
-                            if(value=="차단하기"){
-                              PostBlockMember("post", widget.postId);
-                              Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
-                            }
-                            })
-                      ]
-                  ),
                   SizedBox(
-                    height: 450.h,
+                    height: 350.h,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -141,86 +79,82 @@ class _Detail_CardState extends State<Detail_Card> {
                       ? SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(children: [
+                            Icon(SolarIconsBold.hashtagCircle,size: 24.r,),
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: widget.card.postHashes!
-                                    .map((e) => InputChip(
+                                    .map((e) =>Padding(
+                                    padding: EdgeInsets.only(right: 3),
+                                    child:
+                                    InputChip(
+                                  backgroundColor: Color(0xBB2D2D2D),
                                           onPressed: () {
                                             Navigator.push(context, MaterialPageRoute(
                                                 builder: (context) => HashDetail(tagnames: e.toString())));
                                           },
-                                          label: Text(e),
-                                        ))
+                                          label: Text(e,style: TextStyle(color: Colors.white,fontSize: 12.sp),),
+                                        )))
                                     .toList()),
                             SizedBox(
                               width: 360.w,
                             )
                           ]))
                       : Container(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.access_time_filled_rounded),
-                          SizedBox(width: 3.w),
-                          Text(timecount(widget.card.postTime)),
-                          SizedBox(width: 7.w),
-                          if (widget.card.location != null) Icon(Icons.place),
-                          Text(widget.card.location == null
-                              ? ''
-                              : '${widget.card.location}km'),
-                        ],
-                      ),
-                      Row(
-                        //하트버튼
-                        children: [
-                          IconButton(
-                            onPressed: ()async {
-                              SharedPreferences prefs =await  SharedPreferences.getInstance();
-                              if(widget.card.postNickname== prefs.getString("nickName")){
-                                Fluttertoast.showToast(msg:"자신의 글은 좋아요를 누를 수 없습니다.");
-                              }
-                                else {
-                                setState(() {
-                                  like = !like;
-                                  if (likecnt != widget.card.postLikeResult &&
-                                      like == false) {
-                                    //화면에서 취소누르면,,
-                                    likecnt = likecnt - 1;
-                                  } else
-                                  if (likecnt != widget.card.postLikeResult &&
-                                      like == true) {
-                                    //화면에서 좋아요
-                                    likecnt = widget.card.postLikeCnt + 1;
-                                  } else {
-                                    likecnt = widget.card.postLikeCnt;
-                                  }
-                                });
-                                postLike(widget.postId);
-                              }
-                            },
-                            icon: like!
-                                ? Icon(Icons.favorite)
-                                : Icon(Icons.favorite_border),
-                            constraints: BoxConstraints(),
-                            padding: EdgeInsets.zero,
-                          ),
-                          SizedBox(width: 3.w),
-                          Text('${likecnt}'),
-                          SizedBox(width: 7.w),
-                          Icon(Icons.forum),
-                          SizedBox(width: 3.w),
-                          Text('${widget.card.commentCnt}'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.h),
-                ],
-              )),
+                 ])),
         ),
       ),
-    ]);
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+          child:
+          IconButton(
+            onPressed: ()async {
+              SharedPreferences prefs =await  SharedPreferences.getInstance();
+              if(widget.card.postNickname== prefs.getString("nickName")){
+                Fluttertoast.showToast(msg:"자신의 글은 좋아요를 누를 수 없습니다.");
+              }
+              else {
+                setState(() {
+                  like = !like;
+                  if (likecnt != widget.card.postLikeResult &&
+                      like == false) {
+                    //화면에서 취소누르면,,
+                    likecnt = likecnt - 1;
+                  } else
+                  if (likecnt != widget.card.postLikeResult &&
+                      like == true) {
+                    //화면에서 좋아요
+                    likecnt = widget.card.postLikeCnt + 1;
+                  } else {
+                    likecnt = widget.card.postLikeCnt;
+                  }
+                });
+                postLike(widget.postId);
+              }
+            },
+            icon: like!
+                ? Icon(SolarIconsBold.heart,size: 30.r,)
+                : Icon(SolarIconsOutline.heart,size: 30.r,),
+            constraints: BoxConstraints(),
+            padding: EdgeInsets.zero,
+          )),
+              Row(
+                children: [
+                  Icon(Icons.access_time_filled_rounded),
+                  SizedBox(width: 3.w),
+                  Text(timecount(widget.card.postTime)),
+                  SizedBox(width: 7.w),
+                  widget.card.location!=null ? Row(
+                    children: [
+                      Icon(SolarIconsBold.mapPoint),
+                      Text('${widget.card.location}km'),
+                    ],
+                  ):Container(),
+                  SizedBox(width: 7.w),
+                ],
+              ),
+        ],
+    )]
+      );
   }
 }

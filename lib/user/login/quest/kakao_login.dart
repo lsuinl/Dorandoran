@@ -28,7 +28,6 @@ questkakaologin() async {
         }
       }
       catch (error){
-        print('카카오계정으로 로그인 실패2 $error');
         return 100;
       }
     }
@@ -44,7 +43,6 @@ questkakaologin() async {
         return 200;
       }
     } catch (error) {
-      print('카카오계정으로 로그인 실패2 $error');
       return 100;
     }
   }

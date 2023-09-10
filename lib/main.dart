@@ -1,13 +1,6 @@
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:dorandoran/common/basic.dart';
+import 'dart:io';
 import 'package:dorandoran/firebase.dart';
-import 'package:dorandoran/texting/home/home.dart';
-import 'package:dorandoran/texting/home/tag_screen.dart';
-import 'package:dorandoran/texting/post_datail/post_detail.dart';
-import 'package:dorandoran/texting/write/screen/write.dart';
-import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
-import 'package:dorandoran/user/sign_up/screen/sign_up.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +26,11 @@ void main() async {
   String firebasetoken = (await FirebaseMessaging.instance.getToken())!;
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('firebasetoken', firebasetoken!);
+  if(Platform.isAndroid)
+    prefs.setString("ostype", "Aos");
+  else if(Platform.isIOS)
+    prefs.setString("ostype", "Ios");
+  print(prefs.getString("refreshToken"));
   runApp(ScreenUtilInit(
     designSize: Size(360, 690),
     builder: (context, child) {

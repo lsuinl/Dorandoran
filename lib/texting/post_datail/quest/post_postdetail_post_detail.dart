@@ -6,7 +6,7 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //세부 글 가져오기
-Future<postcardDetail> PostPostDetail(
+Future<dynamic> PostPostDetail(
     int postId, String location) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
@@ -22,9 +22,9 @@ Future<postcardDetail> PostPostDetail(
       "location": location
     }),
   );
+  print(response.body);
   if(response.statusCode==401){
-    quest_token();
-    PostPostDetail(postId, location);
+    return response.statusCode;
   }
   Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   postcardDetail card = postcardDetail.fromJson(body);

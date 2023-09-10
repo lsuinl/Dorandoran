@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
 //글 가져오기
-Future<List<postcard>> getPostContent(
+Future<dynamic> getPostContent(
     String? url, int number) async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -14,21 +14,21 @@ Future<List<postcard>> getPostContent(
   String location="${prefs.getString("latitude")??"123"},${prefs.getString("longtitude")??"123"}";
   var response = await http.get(
     Uri.parse(
-        '${urls}/api/post${url ?? ""}?postCnt=${number}&location=${location}'),
+        '${urls}/api/post${url ?? ""}postCnt=${number}&location=${location}'),
     headers: <String, String>{
       'authorization':'Bearer $accessToken',
     },
   );
-  print(response.statusCode);
+print(response.statusCode);
   if (response.body==[]) {
     getPostContent(url, number - 1);
   }
   else if(response.statusCode==401){
-    quest_token();
-    getPostContent(url, number);
+    return response.statusCode;
+  }
+  if(response.statusCode==204){
     return [];
   }
-
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
   return card;

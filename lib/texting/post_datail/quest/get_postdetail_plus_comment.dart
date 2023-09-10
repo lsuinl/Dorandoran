@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 
 //댓글 더보기
-Future<List<commentcard>> GetCommentPlus(int postid,int commentid) async {
+Future<dynamic> GetCommentPlus(int postid,int commentid) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   var response = await http.get(
@@ -15,10 +15,9 @@ Future<List<commentcard>> GetCommentPlus(int postid,int commentid) async {
       'authorization':'Bearer $accessToken',
     },
   );
-  if(response.statusCode==401){
-    quest_token();
-    GetCommentPlus(postid, commentid);
-  }
+  if(response.statusCode==401)
+    return response.statusCode;
+
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<commentcard> card = body.map((dynamic e) => commentcard.fromJson(e)).toList();
   return card;
