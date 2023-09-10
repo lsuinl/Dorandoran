@@ -8,7 +8,7 @@ class commentcard {
   final int countReply;
   final bool isWrittenByMember;
   final String commentTime;
-  final List<dynamic> replies;
+  final dynamic replies;
   final String? commentAnonymityNickname;
 
   commentcard({

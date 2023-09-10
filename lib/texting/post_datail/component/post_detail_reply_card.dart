@@ -36,8 +36,6 @@ class ReplyCard extends StatefulWidget {
   State<ReplyCard> createState() => _ReplyCardState();
 }
 
-late Future myfuture;
-
 class _ReplyCardState extends State<ReplyCard> {
   @override
   Widget build(BuildContext context) {
@@ -49,11 +47,12 @@ class _ReplyCardState extends State<ReplyCard> {
           return Container(
               child: Row(children: [
             SizedBox(width: 10.w),
-            Icon(Icons.subdirectory_arrow_right_outlined, size: 30,),
+            Icon(Icons.subdirectory_arrow_right_outlined, size: 30),
             Expanded(
                 child: Container(
                     child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                         child: Row(children: [
                           SizedBox(width: 10.w),
                           Expanded(
@@ -61,18 +60,18 @@ class _ReplyCardState extends State<ReplyCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 widget.replyCheckDelete
-                                    ? Text("삭제", style: GoogleFonts.jua(),)
+                                    ? Text("삭제", style: GoogleFonts.jua())
                                     : Row(
                                         children: [
-                                        Text(
-                                              widget.replyAnonymityNickname ??
-                                                  widget.replyNickname,
-                                              style: GoogleFonts.jua(
-                                                  fontSize: 17.sp),
-                                            ),
+                                          Text(
+                                            widget.replyAnonymityNickname ?? widget.replyNickname,
+                                            style: GoogleFonts.jua(fontSize: 17.sp),
+                                          ),
                                           SizedBox(width: 5.w),
                                           Expanded(
-                                              child: Text(timecount(widget.replyTime), style: TextStyle(fontSize: 12.sp)),
+                                            child: Text(
+                                                timecount(widget.replyTime),
+                                                style: TextStyle(fontSize: 12.sp)),
                                           ),
                                           DropdownButton2(
                                             customButton: Icon(Icons.more_vert),
@@ -90,51 +89,60 @@ class _ReplyCardState extends State<ReplyCard> {
                                                 ),
                                               ),
                                             ],
-                                            onChanged: (value) {
-                                              if (value == "삭제하기")
-                                                showDialog(
-                                                    context: context,
-                                                    barrierDismissible: false,
-                                                    builder: (BuildContext context) {
-                                                      return AlertDialog(
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        content: const Text("작성한 대댓글을 삭제하시겠습니까?"),
-                                                        actions: [
-                                                          TextButton(
-                                                            child: const Text(
-                                                                '확인', style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
-                                                            onPressed: () async {
-                                                              await DeleteReplyDelete(widget.replyId);
-                                                              Navigator.push(context, MaterialPageRoute(
-                                                                      builder: (context) => PostDetail(postId: widget.postId))).then((value) => setState(() {}));
-                                                            },
-                                                          ),
-                                                          TextButton(
-                                                            child: const Text('취소', style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
-                                                            onPressed: ()=> Navigator.of(context).pop()
-                                                          ),
-                                                        ],
-                                                      );
-                                                    });
-                                                if(value=="차단하기"){
-                                                  PostBlockMember("reply", widget.replyId);
-                                                  Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
-                                                }
-
-                                            },
+                                            onChanged: (value) {ondropbutton(value);},
                                           ),
                                         ],
                                       ),
                                 Text(widget.replyCheckDelete
-                                      ? "!삭제된 댓글입니다!"
-                                      : widget.reply!
-                                ),
+                                    ? "!삭제된 댓글입니다!"
+                                    : widget.reply),
                               ],
                             ),
                           )
                         ]))))
           ]));
         });
+  }
+
+  ondropbutton(String? value) {
+    if (value == "삭제하기")
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              content: const Text("작성한 대댓글을 삭제하시겠습니까?"),
+              actions: [
+                TextButton(
+                  child: const Text('확인',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700)),
+                  onPressed: () async {
+                    await DeleteReplyDelete(widget.replyId);
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    PostDetail(postId: widget.postId)))
+                        .then((value) => setState(() {}));
+                  },
+                ),
+                TextButton(
+                    child: const Text('취소',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700)),
+                    onPressed: () => Navigator.of(context).pop()),
+              ],
+            );
+          });
+    if (value == "차단하기") {
+      PostBlockMember("reply", widget.replyId);
+      Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
+    }
   }
 }

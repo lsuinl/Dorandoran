@@ -138,7 +138,7 @@ class _PostDetailState extends State<PostDetail> {
                     //댓글 작성자
                     if (a["isWrittenByMember"] == true && a["commentCheckDelete"] == false)
                       postcommentstate = a["commentAnonymityNickname"] == null ? false : true;
-                    for (final b in a["replies"])
+                    for (final b in a["replies"]['replyData'])
                       if (b["isWrittenByMember"] == true && b["replyCheckDelete"] == false)
                         postcommentstate = b["replyAnonymityNickname"] == null ? false : true;
                   }
