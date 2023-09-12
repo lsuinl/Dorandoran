@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:dorandoran/firebase.dart';
+import 'package:dorandoran/setting/setting_list_screen.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
+import 'package:dorandoran/user/sign_up/agree/using_agree.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';

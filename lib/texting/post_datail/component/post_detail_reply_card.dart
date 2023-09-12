@@ -1,9 +1,14 @@
 import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_reply_delete.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
+import 'package:solar_icons/solar_icons.dart';
 import '../../../common/util.dart';
 import '../post_detail.dart';
 import '../quest/post_block_member.dart';
@@ -39,12 +44,28 @@ class ReplyCard extends StatefulWidget {
 class _ReplyCardState extends State<ReplyCard> {
   @override
   Widget build(BuildContext context) {
-    List<String> _menulist = ['신고하기', '차단하기'];
-    if (widget.isWrittenByMember == true) _menulist = ['삭제하기'];
     return FutureBuilder(
         future: getnickname(),
         builder: (context, snapshot) {
-          return Container(
+          return SwipeActionCell(
+              key: ObjectKey(widget.replyId),
+          trailingActions:widget.replyCheckDelete?[]:widget.isWrittenByMember == true?
+          //삭제
+          [SwipeAction( icon:Icon(Icons.delete,size: 30.r),
+              onTap: (CompletionHandler handler) async {
+                ondelete();
+                //await handler(true);
+              },
+              color: Color(0xFFD9D9D9))]:
+          //신고/차단
+          [SwipeAction( icon:Icon(SolarIconsOutline.sirenRounded,size: 30.r),
+                    onTap: (CompletionHandler handler) async {
+                      onsiren();
+                      // await handler(true);
+                      // setState(() {});
+                    },
+                    color: Color(0xFFD9D9D9))],
+          child:Container(
               child: Row(children: [
             SizedBox(width: 10.w),
             Icon(Icons.subdirectory_arrow_right_outlined, size: 30),
@@ -73,24 +94,6 @@ class _ReplyCardState extends State<ReplyCard> {
                                                 timecount(widget.replyTime),
                                                 style: TextStyle(fontSize: 12.sp)),
                                           ),
-                                          DropdownButton2(
-                                            customButton: Icon(Icons.more_vert),
-                                            dropdownWidth: 150,
-                                            dropdownDecoration: BoxDecoration(
-                                                color: Colors.white),
-                                            dropdownDirection:
-                                                DropdownDirection.left,
-                                            items: [
-                                              ..._menulist.map(
-                                                (item) =>
-                                                    DropdownMenuItem<String>(
-                                                  value: item,
-                                                  child: Text(item),
-                                                ),
-                                              ),
-                                            ],
-                                            onChanged: (value) {ondropbutton(value);},
-                                          ),
                                         ],
                                       ),
                                 Text(widget.replyCheckDelete
@@ -100,49 +103,72 @@ class _ReplyCardState extends State<ReplyCard> {
                             ),
                           )
                         ]))))
-          ]));
+          ])));
         });
   }
 
-  ondropbutton(String? value) {
-    if (value == "삭제하기")
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: Colors.white,
-              content: const Text("작성한 대댓글을 삭제하시겠습니까?"),
-              actions: [
-                TextButton(
-                  child: const Text('확인',
+  ondelete(){
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            content: const Text("작성한 대댓글을 삭제하시겠습니까?"),
+            actions: [
+              TextButton(
+                child: const Text('확인',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700)),
+                onPressed: () async {
+                  await DeleteReplyDelete(widget.replyId);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              PostDetail(postId: widget.postId)))
+                      .then((value) => setState(() {}));
+                },
+              ),
+              TextButton(
+                  child: const Text('취소',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w700)),
-                  onPressed: () async {
-                    await DeleteReplyDelete(widget.replyId);
-                    Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    PostDetail(postId: widget.postId)))
-                        .then((value) => setState(() {}));
-                  },
-                ),
-                TextButton(
-                    child: const Text('취소',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700)),
-                    onPressed: () => Navigator.of(context).pop()),
-              ],
-            );
-          });
-    if (value == "차단하기") {
-      PostBlockMember("reply", widget.replyId);
-      Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
-    }
+                  onPressed: () => Navigator.of(context).pop()),
+            ],
+          );
+        });
+  }
+  onsiren() {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            child: const Text('신고',style: TextStyle(color: Colors.black)),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: const Text('차단',style: TextStyle(color: Colors.black)),
+            onPressed: () {
+                setState(() {
+                  PostBlockMember("reply", widget.replyId);
+                });
+                Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
+                Navigator.pop(context);
+            },
+          )
+        ],
+          cancelButton: CupertinoActionSheetAction(
+            child: Text('취소',style: TextStyle(color: Colors.black)),
+            onPressed: ()=>Navigator.pop(context))
+      ),
+    );
   }
 }

@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../common/quest_token.dart';
@@ -24,7 +22,7 @@ class Home extends StatefulWidget {
 DateTime? currentBackPressTime;
 
 class _HomeState extends State<Home> {
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: true);
   ScrollController scrollController = ScrollController();
   late Future myfuture;
   List<Widget> item=[];
@@ -35,19 +33,15 @@ class _HomeState extends State<Home> {
   int distance=1;
   Map<String, bool> buttonColor={"새로운":true,"근처에":false,"인기있는":false,"관심있는":false};
   //광고
-  NativeAd? _nativeAd;
-  bool _nativeAdIsLoaded = false;
-  final String _adUnitId = Platform.isIOS ? 'ca-app-pub-2389438989674944/3518867863' : 'ca-app-pub-2389438989674944/5510606382';
+  // NativeAd? _nativeAd;
+  // bool _nativeAdIsLoaded = false;
+  // final String _adUnitId = Platform.isIOS ? 'ca-app-pub-2389438989674944/3518867863' : 'ca-app-pub-2389438989674944/5510606382';
 
   @override
   void initState() {
     super.initState();
     quest_token();
-    _loadAd();
-    setState(() {
-      _refreshController = RefreshController(initialRefresh: false);
-      scrollController = ScrollController();
-    });
+    //_loadAd();
     myfuture = getPostContent(url, 0);
   }
 
@@ -71,37 +65,37 @@ class _HomeState extends State<Home> {
                             }
                             int lastnumber = snapshot.data.length > 0 ? snapshot.data!.last.postId : 0;
                             if (snapshot.connectionState == ConnectionState.done) {
-                              if ((item?.length == 0 || item == null) && snapshot.data!.length > 0) {
+                              if ((item.length == 0 || item == null) && snapshot.data!.length > 0) {
                                 item = [];
                               }
                               else{
-                                if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null) {
-                                  item!.add(SizedBox(
-                                      height: 100.h,
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width,
-                                      child: AdWidget(ad: _nativeAd!)));
-                                }
+                                // if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null) {
+                                //   item!.add(SizedBox(
+                                //       height: 100.h,
+                                //       width: MediaQuery
+                                //           .of(context)
+                                //           .size
+                                //           .width,
+                                //       child: AdWidget(ad: _nativeAd!)));
+                                // }
                               }
                               if (checknumber != lastnumber) {
-                                  item!.addAll(snapshot.data!
-                                      .map<Widget>((e) => Message_Card(
-                                            time: e.postTime,
-                                            heart: e.likeCnt,
-                                            chat: e.replyCnt,
-                                            map: e.location,
-                                            message: e.contents,
-                                            backimg: e.backgroundPicUri,
-                                            postId: e.postId,
-                                            font: e.font,
-                                            fontColor: e.fontColor,
-                                            fontSize: e.fontSize,
-                                            fontBold: e.fontBold,
-                                          )).toList());
-                                  checknumber=snapshot.data.length>0 ? snapshot.data[snapshot.data!.length-1].postId:0;
-                                }
+                                item.addAll(snapshot.data!
+                                    .map<Widget>((e) => Message_Card(
+                                  time: e.postTime,
+                                  heart: e.likeCnt,
+                                  chat: e.replyCnt,
+                                  map: e.location,
+                                  message: e.contents,
+                                  backimg: e.backgroundPicUri,
+                                  postId: e.postId,
+                                  font: e.font,
+                                  fontColor: e.fontColor,
+                                  fontSize: e.fontSize,
+                                  fontBold: e.fontBold,
+                                )).toList());
+                                checknumber=snapshot.data.length>0 ? snapshot.data[snapshot.data!.length-1].postId:0;
+                              }
                             }
 
                             Widget tagname(String name) {
@@ -117,17 +111,14 @@ class _HomeState extends State<Home> {
                               return IconButton(
                                 onPressed: () {
                                   postlistchange(name);
-                                  _refreshController.position!.animateTo(0.0,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.linear,
-                                  );
+                                  checknumber=0;
                                   setState(() {
                                     buttonColor.forEach((key, value) {
                                       buttonColor[key]=false;
                                     });
                                     buttonColor[name]=true;
-                                    item!.clear();
-                                    myfuture = getPostContent(url, 0,);
+                                    item.clear();
+                                    myfuture = getPostContent(url, 0);
                                  //  _loadAd();
                                   });
                                   _refreshController.refreshCompleted();
@@ -136,7 +127,24 @@ class _HomeState extends State<Home> {
                                 padding: EdgeInsets.zero,
                               );
                             }
-
+                            Widget kmname(int name) {
+                              return TextButton(
+                                onPressed: (){
+                                  changekm(name);
+                                  _refreshController.position!.animateTo(0.0,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.linear,
+                                  );
+                                  setState(() {
+                                    checknumber=0;
+                                    item.clear();
+                                    myfuture =getPostContent(url, 0);
+                                  });
+                                  _refreshController.refreshCompleted();
+                                },
+                                child:Text('$name km',style: TextStyle(color: Colors.black)),
+                              );
+                            }
                             return Container(
                               decoration: gradient,
                               child: SafeArea(
@@ -149,67 +157,11 @@ class _HomeState extends State<Home> {
                                         tagtitle=="근처에"? Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            TextButton(onPressed: (){
-                                              _refreshController.position!.animateTo(0.0,
-                                                duration: const Duration(milliseconds: 300),
-                                                curve: Curves.linear,
-                                              );
-                                              setState(() {
-                                                distance=1;
-                                                item!.clear();
-                                                myfuture =getPostContent(url, 0);
-                                              });
-                                              _refreshController.refreshCompleted();
-                                            },
-                                                child: Text("1km",style: TextStyle(color: Colors.black),)),
-                                            TextButton(onPressed: (){
-                                              _refreshController.position!.animateTo(0.0,
-                                                duration: const Duration(milliseconds: 300),
-                                                curve: Curves.linear,
-                                              );
-                                              setState(() {
-                                                distance=5;
-                                                item!.clear();
-                                                myfuture =getPostContent(url, 0);
-                                              });
-                                              _refreshController.refreshCompleted();
-                                            }, child: Text("5km",style: TextStyle(color: Colors.black),)),
-                                            TextButton(onPressed: (){
-                                              _refreshController.position!.animateTo(0.0,
-                                                duration: const Duration(milliseconds: 300),
-                                                curve: Curves.linear,
-                                              );
-                                              setState(() {
-                                                distance=10;
-                                                item!.clear();
-                                                myfuture =getPostContent(url, 0);
-                                              });
-                                              _refreshController.refreshCompleted();
-                                            }, child: Text("10km",style: TextStyle(color: Colors.black),)),
-                                            TextButton(onPressed: (){
-                                              _refreshController.position!.animateTo(0.0,
-                                                duration: const Duration(milliseconds: 300),
-                                                curve: Curves.linear,
-                                              );
-                                              setState(() {
-                                                distance=20;
-                                                item!.clear();
-                                                myfuture =getPostContent(url, 0);
-                                              });
-                                              _refreshController.refreshCompleted();
-                                            }, child: Text("20km",style: TextStyle(color: Colors.black),)),
-                                            TextButton(onPressed: (){
-                                              _refreshController.position!.animateTo(0.0,
-                                                duration: const Duration(milliseconds: 300),
-                                                curve: Curves.linear,
-                                              );
-                                              setState(() {
-                                                distance=30;
-                                                item!.clear();
-                                                myfuture =getPostContent(url, 0);
-                                              });
-                                              _refreshController.refreshCompleted();
-                                            }, child: Text("30km",style: TextStyle(color: Colors.black),)),
+                                            kmname(1),
+                                            kmname(5),
+                                            kmname(10),
+                                            kmname(20),
+                                            kmname(30),
                                           ]
                                         ):Container(),
                                         Expanded(
@@ -231,22 +183,34 @@ class _HomeState extends State<Home> {
                                             },
                                           ),
                                           footer: CustomFooter(
-                                            builder: (BuildContext context, LoadStatus) {
+                                            builder: (BuildContext context, LoadStatus? mode) {
+                                              Widget body;
+                                              if (mode == RefreshStatus.refreshing)
+                                                body = CupertinoActivityIndicator();
+                                              else
+                                                body = Text('');
+
                                               return Container(
                                                 height: 55.0,
-                                                child: Center(child: Text("")),
+                                                child: Center(child: body),
                                               );
+
                                             },
                                           ),
                                           onRefresh: () async {
+                                            _refreshController.position!.animateTo(0.0,
+                                              duration: const Duration(milliseconds: 300),
+                                              curve: Curves.linear,
+                                            );
                                             setState(() {
-                                              item!.clear();
+                                              checknumber=0;
+                                              item.clear();
                                               myfuture = getPostContent(url, 0);
                                             });
                                             _refreshController.refreshCompleted();
                                           },
-                                          // 새로고침
                                           onLoading: () async {
+                                            print("실행?중?");
                                             if (lastnumber - 1 > 0) {
                                               setState(() {
                                                 myfuture = getPostContent(
@@ -254,17 +218,17 @@ class _HomeState extends State<Home> {
                                                // _loadAd();
                                                 checknumber = lastnumber;
                                               });
-                                              _refreshController.loadComplete();
                                             }
+                                            _refreshController.loadComplete();
                                           },
                                           controller: _refreshController,
                                           child: tagtitle == "관심있는"
                                               ? TagScreen()
-                                              : (snapshot.data.length < 1
+                                              : (item.length==0 && snapshot.data==0
                                                   ? Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
                                                   : ListView(
                                                       controller: scrollController,
-                                                      children: item!.map<Widget>((e) => e).toList(),
+                                                      children: item.map<Widget>((e) => e).toList(),
                                                     )),
                                         ))
                                       ],
@@ -312,10 +276,10 @@ class _HomeState extends State<Home> {
                           Column(
                           children: [
                           Top(),
-                          Flexible(child:  Container(
+                          Flexible(
+                              child:  Container(
                                 decoration: gradient,
-                                child:
-                                    Center(child: CircularProgressIndicator()))),
+                                child: Center(child: CircularProgressIndicator()))),
 
                           ]
                           )
@@ -325,61 +289,61 @@ class _HomeState extends State<Home> {
                         })))));
   }
 
-  void _loadAd() {
-    setState(() {
-      _nativeAdIsLoaded=false;
-    });
-    _nativeAd = NativeAd(
-        adUnitId: _adUnitId,
-        listener: NativeAdListener(
-          onAdLoaded: (ad) {
-            setState(() {
-              _nativeAdIsLoaded = true;
-            });
-          },
-          onAdFailedToLoad: (ad, error) {
-            // Dispose the ad here to free resources.
-            print('$NativeAd failedToLoad: $error');
-            ad.dispose();
-          },
-        ),
-        request: const AdRequest(),
-        //   factoryId: "listTile"
-        // )
-        nativeTemplateStyle:
-            NativeTemplateStyle(templateType: TemplateType.small
-                // templateType: TemplateType.small,
-                //   mainBackgroundColor: Colors.white,
-                //   cornerRadius: 10.0,
-                //   callToActionTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.cyan,
-                //       backgroundColor: Colors.red,
-                //       style: NativeTemplateFontStyle.monospace,
-                //       size: 10.0),
-                //   primaryTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.red,
-                //       backgroundColor: Colors.cyan,
-                //       style: NativeTemplateFontStyle.italic,
-                //       size: 16.0),
-                //   secondaryTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.green,
-                //       backgroundColor: Colors.black,
-                //       style: NativeTemplateFontStyle.bold,
-                //       size: 10.0),
-                //   tertiaryTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.brown,
-                //       backgroundColor: Colors.amber,
-                //       style: NativeTemplateFontStyle.monospace,
-                //       size: 10.0)
-                ))
-      ..load();
-  }
+  // void _loadAd() {
+  //   setState(() {
+  //     _nativeAdIsLoaded=false;
+  //   });
+  //   _nativeAd = NativeAd(
+  //       adUnitId: _adUnitId,
+  //       listener: NativeAdListener(
+  //         onAdLoaded: (ad) {
+  //           setState(() {
+  //             _nativeAdIsLoaded = true;
+  //           });
+  //         },
+  //         onAdFailedToLoad: (ad, error) {
+  //           // Dispose the ad here to free resources.
+  //           print('$NativeAd failedToLoad: $error');
+  //           ad.dispose();
+  //         },
+  //       ),
+  //       request: const AdRequest(),
+  //       //   factoryId: "listTile"
+  //       // )
+  //       nativeTemplateStyle:
+  //           NativeTemplateStyle(templateType: TemplateType.small
+  //               // templateType: TemplateType.small,
+  //               //   mainBackgroundColor: Colors.white,
+  //               //   cornerRadius: 10.0,
+  //               //   callToActionTextStyle: NativeTemplateTextStyle(
+  //               //       textColor: Colors.cyan,
+  //               //       backgroundColor: Colors.red,
+  //               //       style: NativeTemplateFontStyle.monospace,
+  //               //       size: 10.0),
+  //               //   primaryTextStyle: NativeTemplateTextStyle(
+  //               //       textColor: Colors.red,
+  //               //       backgroundColor: Colors.cyan,
+  //               //       style: NativeTemplateFontStyle.italic,
+  //               //       size: 16.0),
+  //               //   secondaryTextStyle: NativeTemplateTextStyle(
+  //               //       textColor: Colors.green,
+  //               //       backgroundColor: Colors.black,
+  //               //       style: NativeTemplateFontStyle.bold,
+  //               //       size: 10.0),
+  //               //   tertiaryTextStyle: NativeTemplateTextStyle(
+  //               //       textColor: Colors.brown,
+  //               //       backgroundColor: Colors.amber,
+  //               //       style: NativeTemplateFontStyle.monospace,
+  //               //       size: 10.0)
+  //               ))
+  //     ..load();
+  // }
 
-  @override
-  void dispose() {
-    _nativeAd?.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _nativeAd?.dispose();
+  //   super.dispose();
+  // }
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
@@ -396,11 +360,18 @@ class _HomeState extends State<Home> {
     return Future.value(true);
   }
 
+  changekm(int name){
+    setState(() {
+      distance=name;
+      url = '/close?range=$distance&';
+    });
+  }
   postlistchange(String name) {
     setState(() {
       switch (name) {
         case "근처에":
           tagtitle = "근처에";
+          distance=1;
           url = '/close?range=$distance&';
           break;
         case "인기있는":
