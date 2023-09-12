@@ -4,6 +4,7 @@ import 'package:dorandoran/setting/component/my_list_screen.dart';
 import 'package:dorandoran/setting/component/button_show_out.dart';
 import 'package:dorandoran/setting/component/top.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../common/css.dart';
 
@@ -55,14 +56,26 @@ class SettingListScreen extends StatelessWidget {
                             onPressed: () {},
                             icons: SolarIconsOutline.callChat,
                             text: "문의하기")),
+                    Flexible(fit: FlexFit.tight, child: ShowOutButton()),
                     Flexible(
                         fit: FlexFit.tight,
-                        child: MenuButton(
-                            onPressed: () {},
-                            icons: SolarIconsOutline.home,
-                            text: "앱 버전")),
-                    Flexible(fit: FlexFit.tight, child: ShowOutButton())
-                  ],
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10,right: 20),
+                      child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    WidgetSpan(child: Icon(SolarIconsOutline.home,size: 24.r,)),
+                                    TextSpan(text: '  앱 버전',style: TextStyle(fontSize: 18.sp)),
+                                  ],
+                                ),
+                              ),
+                              Text("1.0.0",style: TextStyle(fontSize: 18.sp)),
+                            ]
+                            ))
+                    )],
                 )))));
   }
 }
