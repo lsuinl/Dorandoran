@@ -23,9 +23,13 @@ Future<dynamic> PostPostDetail(
     }),
   );
   if(response.statusCode==401){
-    return response.statusCode;
+    int number = await quest_token();
+    if(number==200)
+      return PostPostDetail(postId, location);
   }
-  Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  postcardDetail card = postcardDetail.fromJson(body);
-  return card;
+  else {
+    Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+    postcardDetail card = postcardDetail.fromJson(body);
+    return card;
+  }
 }

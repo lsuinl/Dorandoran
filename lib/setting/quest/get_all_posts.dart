@@ -10,21 +10,26 @@ import '../../texting/home/model/postcard.dart';
 Future<dynamic> GetAllPosts(int number) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  http.Response response= await http.get(
+  http.Response response = await http.get(
     Uri.parse('$urls/api/post/member/$number'),
     headers: <String, String>{
       'Content-Type': 'application/json',
-      'authorization':'Bearer $accessToken',
+      'authorization': 'Bearer $accessToken',
     },
   );
-  if (response.body==[]) {
-    GetAllPosts(number - 1);
+  if (response.body == []) {
+    return GetAllPosts(number - 1);
   }
-  else if(response.statusCode==401)
-    return response.statusCode;
-
-  print(response.body);
-  List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
-  return card;
+  else if (response.statusCode == 401) {
+    int number = await quest_token();
+    if (number == 200)
+      return GetAllPosts(number);
   }
+  else {
+    print(response.body);
+    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+    List<postcard> card = body.map((dynamic e) => postcard.fromJson(e))
+        .toList();
+    return card;
+  }
+}

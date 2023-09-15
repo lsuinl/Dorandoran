@@ -1,3 +1,4 @@
+import 'package:dorandoran/common/quest_token.dart';
 import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,11 @@ Future<int> DeleteAccountClosure() async {
     prefs.remove("email");
     prefs.remove("accessToken");
     prefs.remove("refreshToken");
+  }
+  else if(response.statusCode==401){
+    int number=await quest_token();
+    if(number==200)
+      return DeleteAccountClosure();
   }
   return response.statusCode;
 }

@@ -1,4 +1,5 @@
 import 'package:dorandoran/common/css.dart';
+import 'package:dorandoran/hash/home_hash/quest/get_my_hash.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    quest_token();
     //_loadAd();
     myfuture = getPostContent(url, 0);
   }
@@ -59,10 +59,6 @@ class _HomeState extends State<Home> {
                         future: myfuture,
                         builder: (context, snapshot) {
                           if(snapshot.hasData){
-                            if(snapshot.data==401){
-                              quest_token();
-                              return Text("왜이려");
-                            }
                             int lastnumber = snapshot.data.length > 0 ? snapshot.data!.last.postId : 0;
                             if (snapshot.connectionState == ConnectionState.done) {
                               if ((item.length == 0 || item == null) && snapshot.data!.length > 0) {
@@ -142,7 +138,7 @@ class _HomeState extends State<Home> {
                                   });
                                   _refreshController.refreshCompleted();
                                 },
-                                child:Text('$name km',style: TextStyle(color: Colors.black)),
+                                child:Text('$name km',style: TextStyle(color:distance==name? Colors.blue:Colors.black)),
                               );
                             }
                             return Container(

@@ -16,9 +16,11 @@ Future<dynamic> GetReplyPlus(
         'authorization':'Bearer $accessToken',
       },
     );
-  if(response.statusCode==401)
-    return response.statusCode;
-
+  if(response.statusCode==401) {
+    int number = await quest_token();
+    if(number==200)
+      return GetReplyPlus(postid, commentid, replyid);
+  }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<replycard> card = body.map((dynamic e) => replycard.fromJson(e)).toList();
   return card;

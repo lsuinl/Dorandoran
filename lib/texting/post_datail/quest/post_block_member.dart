@@ -19,7 +19,11 @@ Future<int> PostBlockMember(String blockType,int id) async {
       "id": id,
     }),
   );
-
+  if(response.statusCode==401){
+    int number = await quest_token();
+    if(number==200)
+      return PostBlockMember(blockType, id);
+  }
   print(response.statusCode);
   return response.statusCode;
 }

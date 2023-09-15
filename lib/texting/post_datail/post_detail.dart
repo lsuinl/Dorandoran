@@ -56,10 +56,6 @@ class _PostDetailState extends State<PostDetail> {
             future: PostPostDetail(widget.postId, ""),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if(snapshot.data==401){
-                  quest_token();
-                  PostPostDetail(widget.postId, "");
-                }
                 dynamic e = snapshot.data!;
                 if(e.isWrittenByMember==true)
                   _menulist=['삭제하기'];

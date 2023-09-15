@@ -5,7 +5,7 @@ import 'uri.dart';
 
 
 //refresh 토큰으로 accesstoken=토큰재발급
-void quest_token() async {
+Future<int> quest_token() async {
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // String accessToken = prefs.getString("accessToken")!;
   // String refreshToken = prefs.getString("refreshToken")!;
@@ -33,7 +33,7 @@ void quest_token() async {
     },
     body: jsonEncode({
       'refreshToken':refreshToken,
-      'limitTime':5000000,
+      'limitTime':5000,
     }),
   );
   print("엑세스");
@@ -42,4 +42,5 @@ void quest_token() async {
     // Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     // prefs.setString("accessToken", body["accessToken"].toString());
   }
+  return 200;
 }

@@ -15,10 +15,15 @@ Future<dynamic> GetCommentPlus(int postid,int commentid) async {
       'authorization':'Bearer $accessToken',
     },
   );
-  if(response.statusCode==401)
-    return response.statusCode;
-
-  List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  List<commentcard> card = body.map((dynamic e) => commentcard.fromJson(e)).toList();
-  return card;
+  if(response.statusCode==401) {
+    int number = await quest_token();
+    if(number==200)
+      GetCommentPlus(postid, commentid);
+  }
+  else {
+    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+    List<commentcard> card = body.map((dynamic e) => commentcard.fromJson(e))
+        .toList();
+    return card;
+  }
 }

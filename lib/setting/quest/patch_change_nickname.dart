@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dorandoran/common/quest_token.dart';
 import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,11 @@ Future<int> PatchChangeNickname(String nickname) async {
     }),
   );
   prefs.setString("nickname", nickname);
+  if(response.statusCode==401){
+    int number=await quest_token();
+    if(number==200)
+      PatchChangeNickname(nickname);
+  }
   print(response.statusCode);
   return response.statusCode;
 }
