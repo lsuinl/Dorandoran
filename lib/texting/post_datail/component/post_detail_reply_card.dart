@@ -67,8 +67,7 @@ class _ReplyCardState extends State<ReplyCard> {
                     color: Color(0xFFD9D9D9))],
           child:Container(
               child: Row(children: [
-            SizedBox(width: 10.w),
-            Icon(Icons.subdirectory_arrow_right_outlined, size: 30),
+            SizedBox(width: 40.w),
             Expanded(
                 child: Container(
                     child: Padding(

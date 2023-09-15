@@ -22,7 +22,6 @@ Future<dynamic> PostPostDetail(
       "location": location
     }),
   );
-  print(response.body);
   if(response.statusCode==401){
     return response.statusCode;
   }

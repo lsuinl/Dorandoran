@@ -3,13 +3,16 @@ import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_comment_delete.dart';
 import 'package:dorandoran/texting/post_datail/quest/get_postdetail_reply_plus.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../../common/quest_token.dart';
 import '../../../common/util.dart';
+import '../quest/delete_postdetail_reply_delete.dart';
 import '../quest/post_block_member.dart';
 import '../quest/post_postdetail_comment_like.dart';
 import '../post_detail.dart';
@@ -48,8 +51,6 @@ class _CommentCardState extends State<CommentCard> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> _menulist = ['신고하기', '차단하기'];
-    if (widget.card.isWrittenByMember == true) _menulist = ['삭제하기'];
     List<ReplyCard> replycardd = [];
     return FutureBuilder(
         future: getreply(widget.card.replies['replyData']),
@@ -65,7 +66,25 @@ class _CommentCardState extends State<CommentCard> {
                                 padding: EdgeInsets.all(15),
                                 child: Row(children: [
                                   Expanded(
-                                    child: Column(
+                                    child: SwipeActionCell(
+                  key: ObjectKey(widget.card.commentId),
+                  trailingActions:widget.card.commentCheckDelete?[]:widget.card.isWrittenByMember == true?
+                  //삭제
+                  [SwipeAction( icon:Icon(Icons.delete,size: 30.r),
+                  onTap: (CompletionHandler handler) async {
+                  ondelete();
+                  //await handler(true);
+                  },
+                  color: Color(0xFFD9D9D9))]:
+                  //신고/차단
+                  [SwipeAction( icon:Icon(SolarIconsOutline.sirenRounded,size: 30.r),
+                  onTap: (CompletionHandler handler) async {
+                  onsiren();
+                  // await handler(true);
+                  // setState(() {});
+                  },
+                  color: Color(0xFFD9D9D9))],
+                  child:Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(children: [
@@ -78,19 +97,6 @@ class _CommentCardState extends State<CommentCard> {
                                               timecount(widget.card.commentTime),
                                               style: TextStyle(fontSize: 12.sp),
                                             )),
-                                            widget.card.commentCheckDelete == false ? DropdownButton2(
-                                                    customButton: Icon(Icons.more_vert),
-                                                    dropdownWidth: 150,
-                                                    dropdownDecoration: BoxDecoration(color: Colors.white),
-                                                    dropdownDirection: DropdownDirection.left,
-                                                    items: [
-                                                      ..._menulist.map((item) => DropdownMenuItem<String>(
-                                                          value: item,
-                                                          child: Text(item),
-                                                        )),
-                                                    ],
-                                                    onChanged: (value) => ondropButton(value),
-                                                  ) : Container()
                                           ],
                                         ),
                                         Text(widget.card.commentCheckDelete ? "!삭제된 댓글입니다.!" : widget.card.comment),
@@ -141,7 +147,7 @@ class _CommentCardState extends State<CommentCard> {
                                       ],
                                     ),
                                   )
-                                ]))),
+                                  )]))),
                     widget.card.replies['isExistNextReply'] == true
                         ? OutlinedButton(
                             style: OutlinedButton.styleFrom(
@@ -200,46 +206,68 @@ class _CommentCardState extends State<CommentCard> {
         : [];
   }
 
-  ondropButton(String? value) {
-    if (value == "삭제하기")
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          // 바깥 영역 터치시 닫을지 여부
-          builder: (BuildContextcontext) {
-            return AlertDialog(
-              backgroundColor: Colors.white,
-              content: const Text("작성한 댓글을 삭제하시겠습니까?"),
-              actions: [
-                TextButton(
-                  child: const Text('확인',
+  ondelete(){
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            content: const Text("작성한 대댓글을 삭제하시겠습니까?"),
+            actions: [
+              TextButton(
+                child: const Text('확인',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700)),
+                onPressed: () async {
+                  await DeleteCommentDelete(widget.card.commentId);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              PostDetail(postId: widget.postId)))
+                      .then((value) => setState(() {}));
+                },
+              ),
+              TextButton(
+                  child: const Text('취소',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w700)),
-                  onPressed: () async {
-                    await DeleteCommentDelete(widget.card.commentId);
-                    Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    PostDetail(postId: widget.postId)))
-                        .then((value) => setState(() {}));
-                  },
-                ),
-                TextButton(
-                    child: const Text('취소',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700)),
-                    onPressed: () => Navigator.of(context).pop()),
-              ],
-            );
-          });
-    if (value == "차단하기") {
-      PostBlockMember("comment", widget.card.commentId);
-      Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
-    }
+                  onPressed: () => Navigator.of(context).pop()),
+            ],
+          );
+        });
+  }
+  onsiren() {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              child: const Text('신고',style: TextStyle(color: Colors.black)),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: const Text('차단',style: TextStyle(color: Colors.black)),
+              onPressed: () {
+                setState(() {
+                  PostBlockMember("comment", widget.card.commentId);
+                });
+                Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
+                Navigator.pop(context);
+              },
+            )
+          ],
+          cancelButton: CupertinoActionSheetAction(
+              child: Text('취소',style: TextStyle(color: Colors.black)),
+              onPressed: ()=>Navigator.pop(context))
+      ),
+    );
   }
 }
