@@ -21,6 +21,7 @@ Future<dynamic> GetMyHash() async {
     return names;
   else {
    Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+   print(body);
     names = List<String>.from(body["hashTagList"]);
     return names;
   }

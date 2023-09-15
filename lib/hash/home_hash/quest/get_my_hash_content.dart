@@ -24,6 +24,7 @@ Future<dynamic> GetMyHashContent() async {
   }
   else{
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+    print(body);
     List<postcard> cards=List<postcard>.from(body[0].values.map((dynamic e) => postcard.fromJson(e)).toList());
     return cards;
   }

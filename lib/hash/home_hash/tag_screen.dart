@@ -126,7 +126,6 @@ class _TagScreenState extends State<TagScreen> {
   }
 
   statemanager(){
-    print("실행됨");
     setState(() {
       searchOn=!searchOn;
       mycontent=[];
