@@ -210,7 +210,6 @@ class _HomeState extends State<Home> {
                                             _refreshController.refreshCompleted();
                                           },
                                           onLoading: () async {
-                                            print("실행?중?");
                                             if (lastnumber - 1 > 0) {
                                               setState(() {
                                                 myfuture = getPostContent(
@@ -224,7 +223,7 @@ class _HomeState extends State<Home> {
                                           controller: _refreshController,
                                           child: tagtitle == "관심있는"
                                               ? TagScreen()
-                                              : (item.length==0 && snapshot.data==0
+                                              : (item.length==0 &&snapshot.data.length==0
                                                   ? Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
                                                   : ListView(
                                                       controller: scrollController,

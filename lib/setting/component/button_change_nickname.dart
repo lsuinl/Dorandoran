@@ -17,27 +17,45 @@ class ChangeNicknameButton extends StatefulWidget {
 }
 
 class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
-  TextEditingController name = TextEditingController();
-  Map<String, bool> namecheck = {'': false};
-  String text = "";
 
   @override
   Widget build(BuildContext context) {
-   print(text);
     return MenuButton(
         icons: SolarIconsOutline.chandelier,
         text: "닉네임 변경",
         onPressed: () {
-          setState(() {
-            name.text = "";
-            text = "";
-          });
+          TextEditingController name = TextEditingController();
+          Map<String, bool> namecheck = {'': false};
+          String text = "";
           showDialog(
               context: context,
               barrierDismissible: true,
               builder: (BuildContext context) {
                 return StatefulBuilder(
                     builder: (context, setState) {
+                      void textchange(String name) {
+                        postNameCheckRequest(name).then((value) {
+                          if (value == 204) {
+                            setState(() {
+                              print(name);
+                              text = '사용가능한 이름입니다.';
+                              namecheck[name] = true;
+                            });
+                          } else if(value==409){
+                            setState(() {
+                              text = '이미 사용중인 이름입니다.';
+                              namecheck[name] = false;
+                            });
+                          }
+                          else if(value==422){
+                            setState(() {
+                              text = '부적절한 닉네임입니다.';
+                              namecheck[name] = false;
+                            });
+                          }
+                        });
+                      }
+
                       return AlertDialog(
                       backgroundColor: Colors.white,
                       content: Text('닉네임을 설정해주세요', style: Theme.of(context).textTheme.headlineMedium!),
@@ -66,33 +84,11 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                                     primary: Colors.black54,
                                     side: BorderSide(color: Colors.black54)),
                                 onPressed: () {
-                                  //textchange 네임체크 api 요청 후 메세지
-                                  //checkname 이름 형식 체크
-                                  if(name.text==""){
-                                    setState(() {
-                                      text="닉네임을 입력해주세요.";
-                                    });
+                setState(() {
+                text = checkname(name.text.toString());
+                });
+                if (text == "") textchange(name.text.toString());
                                   }
-                                  else{
-                                    setState(() {
-                                      text = checkname(name.text);
-                                    });
-                                    if(text=="")
-                                      postNameCheckRequest(name.text).then((value) {
-                                        if (value == 200) {
-                                          setState(() {
-                                            text = '사용가능한 이름입니다.';
-                                            namecheck[name.text] = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            text = '이미 사용중인 이름입니다.';
-                                            namecheck[name.text] = false;
-                                          });
-                                        }
-                                      });
-                                  }
-                                },
                               ),
                             ],
                           ),

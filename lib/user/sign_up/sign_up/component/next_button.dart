@@ -32,6 +32,7 @@ class NextButton extends StatelessWidget {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
           onPressed: () async {
+            print(name.text);
             if (namecheck[name.text] == true) {//닉네임체크넘어가야
               await postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString());
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new Home()));
