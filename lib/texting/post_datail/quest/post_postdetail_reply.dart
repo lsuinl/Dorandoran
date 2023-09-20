@@ -22,8 +22,9 @@ Future<DateTime>  PostReply(int commentId, String reply, bool anonymity, bool se
     }),
   );
   if(response.statusCode==401){
-    quest_token();
-    PostReply(commentId, reply, anonymity, secretMode);
+    int number=await quest_token();
+    if(number==200)
+      return PostReply(commentId, reply, anonymity, secretMode);
   }
   return DateTime.now();
 }

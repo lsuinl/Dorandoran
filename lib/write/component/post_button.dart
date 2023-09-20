@@ -40,6 +40,7 @@ class PostButton extends StatelessWidget {
               if(postcheck==201)
                 Navigator.push(context, PageRouteBuilder(pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2) {return Home();},),);
               else {
+                print(postcheck);
                 if(postcheck==401) quest_token();
                 Fluttertoast.showToast(msg: "전송에 오류가 발생하였습니다 다시 시도해주세요.");
               }

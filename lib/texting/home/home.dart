@@ -128,7 +128,7 @@ class _HomeState extends State<Home> {
                                 onPressed: (){
                                   changekm(name);
                                   _refreshController.position!.animateTo(0.0,
-                                    duration: const Duration(milliseconds: 300),
+                                    duration: const Duration(milliseconds: 100),
                                     curve: Curves.linear,
                                   );
                                   setState(() {
@@ -194,10 +194,6 @@ class _HomeState extends State<Home> {
                                             },
                                           ),
                                           onRefresh: () async {
-                                            _refreshController.position!.animateTo(0.0,
-                                              duration: const Duration(milliseconds: 300),
-                                              curve: Curves.linear,
-                                            );
                                             setState(() {
                                               checknumber=0;
                                               item.clear();

@@ -16,11 +16,12 @@ Future<dynamic> GetCommentPlus(int postid,int commentid) async {
     },
   );
   if(response.statusCode==401) {
-    int number = await quest_token();
+    int number=await quest_token();
     if(number==200)
-      GetCommentPlus(postid, commentid);
+      return GetCommentPlus(postid, commentid);
   }
   else {
+
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     List<commentcard> card = body.map((dynamic e) => commentcard.fromJson(e))
         .toList();

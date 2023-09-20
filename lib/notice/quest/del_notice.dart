@@ -17,5 +17,6 @@ Future<int> DelNotice(int noticationid) async {
     },
   );
   print(response.body);
+
   return response.statusCode;
 }

@@ -24,8 +24,9 @@ Future<int>  DeleteReplyDelete(int replyId) async {
     return response.statusCode;
   }
   catch(e){
-    quest_token();
-    DeleteReplyDelete(replyId);
-    return 400;
+      int number=await quest_token();
+      if(number==200)
+        return DeleteReplyDelete(replyId);
+      return 400;
   }
 }

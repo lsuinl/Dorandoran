@@ -33,7 +33,7 @@ Future<int> quest_token() async {
     },
     body: jsonEncode({
       'refreshToken':refreshToken,
-      'limitTime':5000,
+      'limitTime':50000000,
     }),
   );
   print("엑세스");

@@ -28,11 +28,13 @@ Future<dynamic> getHashContent(
   );
  print(response.data);
   if (response.data['Data']==[]) {
-    getHashContent(tagname, number - 1);
+    return [];
   }
-  else if(response.statusCode==401)
-    return response.statusCode;
-
+  if(response.statusCode==401){
+    int number=await quest_token();
+    if(number==200)
+      return getHashContent(tagname, number);
+  }
   List<dynamic> body = response.data['Data'];
   //jsonDecode(utf8.decode(response.bodyBytes));
   List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();

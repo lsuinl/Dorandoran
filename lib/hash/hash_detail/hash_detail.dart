@@ -3,7 +3,6 @@ import 'package:dorandoran/hash/hash_detail/quest/delete_del_my_hash.dart';
 import 'package:dorandoran/hash/hash_detail/quest/post_add_my_hash.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -24,12 +23,12 @@ class HashDetail extends StatefulWidget {
   State<HashDetail> createState() => _HashDetailState();
 }
 class _HashDetailState extends State<HashDetail> {
-  RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
   late Future myfuture;
   List<Message_Card>? item;
   int? checknumber;
+
   @override
   void initState() {
     super.initState();
@@ -152,7 +151,7 @@ class _HashDetailState extends State<HashDetail> {
                                     },
                                     // 새로고침
                                     onLoading: () async {
-                                      if (lastnumber - 1 > 0) {
+                                      if (lastnumber - 1 > 0 &&snapshot.data[1].length==20) {
                                         setState(() {
                                           myfuture = getHashContent(
                                               widget.tagnames,

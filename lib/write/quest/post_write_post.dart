@@ -2,6 +2,8 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../common/quest_token.dart';
+
 //formdata형식
 Future<int> PostWritePost(String content,
     bool forme,
@@ -56,6 +58,21 @@ Future<int> PostWritePost(String content,
       }),
       data: formData
   );
-
+  if(response.statusCode==401) {
+    int number = await quest_token();
+    if (number == 200)
+      return PostWritePost(
+          content,
+          forme,
+          usinglocation,
+          backgroundImgName,
+          hashTag,
+          file,
+          font,
+          fontColor,
+          fontSize,
+          fontBold,
+          anaoymity);
+  }
   return response.statusCode!;
 }
