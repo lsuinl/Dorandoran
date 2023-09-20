@@ -7,6 +7,7 @@ import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_post_dele
 import 'package:dorandoran/texting/post_datail/quest/post_postdetail_post_detail.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_postdetail_comment.dart';
 import 'package:dorandoran/texting/post_datail/quest/post_postdetail_reply.dart';
+import 'package:dorandoran/texting/post_datail/quest/report/post_report_post.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -191,6 +192,91 @@ class _PostDetailState extends State<PostDetail> {
                                         ],
                                       );
                                     });
+                              if(value=="신고하기"){
+                                showDialog(
+                                    barrierColor:Colors.white70,
+                                    context: context,
+                                    barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                          elevation: 0,
+                                          title: Center(child: Text("신고항목 선택")),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                                            side: BorderSide(color: Colors.black26),
+                                          ),
+                                          content:Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context).size.height/2,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(width: 2, color: Colors.black12),
+                                            ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      alignment: Alignment.centerLeft,
+                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                    ),
+                                                    onPressed: ()=>sendreport('선정성'),
+                                                    child: Text(" 1.선정성",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                Container(height: 2,color: Colors.black12),
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        alignment: Alignment.centerLeft,
+                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                    ),
+                                                    onPressed: ()=>sendreport('폭력성'),
+                                                    child: Text(" 2.폭력성",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                Container(height: 2,color: Colors.black12),
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        alignment: Alignment.centerLeft,
+                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                    ),
+                                                    onPressed: ()=>sendreport('욕설 및 비방'),
+                                                    child: Text(" 3.욕설 및 비방",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                Container(height: 2,color: Colors.black12),
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        alignment: Alignment.centerLeft,
+                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                    ),
+                                                    onPressed: ()=>sendreport('광고'),
+                                                    child: Text(" 4.광고",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                Container(height: 2,color: Colors.black12),
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        alignment: Alignment.centerLeft,
+                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                    ),
+                                                    onPressed:()=>sendreport('불건전한 만남 유도'),
+                                                    child: Text(" 5.불건전한 만남 유도",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                Container(height: 2,color: Colors.black12),
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        alignment: Alignment.centerLeft,
+                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                    ),
+                                                    onPressed:()=>sendreport('불건전한 닉네임'),
+                                                    child: Text(" 6.불건전한 닉네임",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                Container(height: 2,color: Colors.black12),
+                                                TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        alignment: Alignment.centerLeft,
+                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                    ),
+                                                    onPressed:()=>sendreport('기타'),
+                                                    child: Text(" 7.기타",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                              ],
+                                            ),
+                                          )
+                                      );
+                                    });
+                              }
                               if(value=="차단하기"){
                                 PostBlockMember("post", widget.postId);
                                 Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
@@ -347,7 +433,11 @@ class _PostDetailState extends State<PostDetail> {
       selectcommentid = select;
     });
   }
-
+  sendreport(String name) async {
+    int num=await PostReportPost(widget.postId,name);
+    if(num==201)
+      Fluttertoast.showToast(msg: "신고가 접수되었습니다.");
+  }
   deletereply() {
     setState(() {});
   }
