@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
   NotificationModel? feednotice;
   Widget? homenoticewidget;
   Widget? feednoticewidget;
+  bool feedpopup=false;
   @override
   void initState() {
     super.initState();
@@ -70,7 +71,8 @@ class _HomeState extends State<Home> {
                         builder: (context, snapshot) {
                           if(snapshot.hasData){
                             SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
-                              if(feednotice!=null && tagtitle=="새로운") {
+                              if(feednotice!=null && tagtitle=="새로운"&&feedpopup==false) {
+                                feedpopup=true;
                                 feednoticepopup();
                               }
                             });
