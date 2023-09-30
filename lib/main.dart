@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:dorandoran/firebase.dart';
 import 'package:dorandoran/setting/setting_list_screen.dart';
+import 'package:dorandoran/texting/home/home.dart';
+import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
 import 'package:dorandoran/user/sign_up/agree/using_agree.dart';
 import 'package:get/get.dart';
@@ -84,7 +86,7 @@ void main() async {
               child: child!
           );
         },
-        home: Login_check(),
+        home:KaKaoLogin(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

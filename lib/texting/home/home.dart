@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/hash/home_hash/quest/get_my_hash.dart';
+import 'package:dorandoran/texting/home/quest/get_feed_notification.dart';
+import 'package:dorandoran/texting/home/quest/get_home_notification.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:solar_icons/solar_icons.dart';
-import '../../common/quest_token.dart';
+import '../../common/uri.dart';
 import '../../hash/home_hash/tag_screen.dart';
 import '../../write/screen/write.dart';
 import 'component/home_message_card.dart';
@@ -37,12 +40,16 @@ class _HomeState extends State<Home> {
   // NativeAd? _nativeAd;
   // bool _nativeAdIsLoaded = false;
   // final String _adUnitId = Platform.isIOS ? 'ca-app-pub-2389438989674944/3518867863' : 'ca-app-pub-2389438989674944/5510606382';
-
+  int number =Random().nextInt(100)+1;
+  dynamic homenotice;
+  dynamic feednotice;
   @override
   void initState() {
     super.initState();
     //_loadAd();
+    //getnoticiations();
     myfuture = getPostContent(url, 0);
+   // feednoticepopup();
   }
 
   @override
@@ -93,7 +100,18 @@ class _HomeState extends State<Home> {
                                 checknumber=snapshot.data.length>0 ? snapshot.data[snapshot.data!.length-1].postId:0;
                               }
                             }
-
+                            //홈팝업 구현하기
+                            if(homenotice!=null){
+                              homenotice=Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage('$urls/api/pic/default/' + number.toString()),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                child:Center(child:Text("공지"))
+                              );
+                            }
                             Widget tagname(String name) {
                               IconData icons = Icons.add;
                               if (name == "근처에")
@@ -150,6 +168,20 @@ class _HomeState extends State<Home> {
                                     Column(
                                       children: [
                                         Top(),
+                                 //홈화면 공지
+                                 tagtitle!="관심있는" ? Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                                   child: Container(
+                                      height: 60.h,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage('$urls/api/pic/default/' + number.toString()),
+                                             colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        child:Center(child:Text("공지써둘공간입니다...",style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
+                                    )):Container(),
                                         tagtitle=="근처에"? Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
@@ -379,5 +411,53 @@ class _HomeState extends State<Home> {
           break;
       }
     });
+  }
+  void feednoticepopup(){
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+                backgroundColor: Colors.white,
+                title: Text("공지사항"),
+                content: Text('내용어쩌고저쩌고',
+                    style: Theme.of(context).textTheme.headlineMedium!),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "다시는 보지 않기",
+                        style: Theme.of(context).textTheme.labelSmall!,
+                      ),
+                      style: TextButton.styleFrom(
+                          primary: Colors.black54,
+                          side: BorderSide(
+                            color: Colors.black54,
+                          ))),
+                  TextButton(
+                      onPressed: () {
+                        //다시보지않음요청
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "확인",
+                        style: Theme.of(context).textTheme.labelSmall!,
+                      ),
+                      style: TextButton.styleFrom(
+                          primary: Colors.black54,
+                          side: BorderSide(
+                            color: Colors.black54,
+                          ))),
+                ]);
+          });
+        });
+  }
+
+  getnoticiations() async {
+    homenotice = await GetHomeNotification();
+    feednotice = await GetFeedNOtification();
   }
 }

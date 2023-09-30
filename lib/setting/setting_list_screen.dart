@@ -1,3 +1,4 @@
+import 'package:dorandoran/notice/notice_screen.dart';
 import 'package:dorandoran/setting/component/button_change_nickname.dart';
 import 'package:dorandoran/setting/component/button_menu.dart';
 import 'package:dorandoran/setting/component/my_list_screen.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../common/css.dart';
+import 'component/notification_list_screen.dart';
 
 class SettingListScreen extends StatelessWidget {
   const SettingListScreen({Key? key}) : super(key: key);
@@ -47,7 +49,7 @@ class SettingListScreen extends StatelessWidget {
                     Flexible(
                         fit: FlexFit.tight,
                         child: MenuButton(
-                            onPressed: () {},
+                            onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationListScreen())),
                             icons: Icons.campaign_outlined,
                             text: "공지사항")),
                     Flexible(
