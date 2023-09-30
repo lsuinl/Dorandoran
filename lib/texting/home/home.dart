@@ -57,11 +57,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
-      if(feednotice!=null && tagtitle=="새로운") {
-        feednoticepopup();
-      }
-    });
     return Scaffold(
         body: WillPopScope(
             onWillPop: onWillPop,
@@ -74,6 +69,11 @@ class _HomeState extends State<Home> {
                         future: myfuture,
                         builder: (context, snapshot) {
                           if(snapshot.hasData){
+                            SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
+                              if(feednotice!=null && tagtitle=="새로운") {
+                                feednoticepopup();
+                              }
+                            });
                             int lastnumber = snapshot.data.length > 0 ? snapshot.data!.last.postId : 0;
                             if (snapshot.connectionState == ConnectionState.done) {
                               if ((item.length == 0 || item == null) && snapshot.data!.length > 0) {
