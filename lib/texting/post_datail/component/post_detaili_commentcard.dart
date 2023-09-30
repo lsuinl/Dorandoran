@@ -69,7 +69,7 @@ class _CommentCardState extends State<CommentCard> {
                                   Expanded(
                                     child: SwipeActionCell(
                   key: ObjectKey(widget.card.commentId),
-                  trailingActions:widget.card.commentCheckDelete?[]:widget.card.isWrittenByMember == true?
+                  trailingActions:(widget.card.commentCheckDelete || widget.card.isLocked ) ? []:widget.card.isWrittenByMember == true?
                   //삭제
                   [SwipeAction( icon:Icon(Icons.delete,size: 30.r),
                   onTap: (CompletionHandler handler) async {
@@ -172,6 +172,7 @@ class _CommentCardState extends State<CommentCard> {
                                               replyId: a.replyId,
                                               replyNickname: a.replyNickname,
                                               reply: a.reply,
+                                              isLocked: a.isLocked,
                                               replyAnonymityNickname: a.replyAnonymityNickname,
                                               isWrittenByMember: a.isWrittenByMember,
                                               replyCheckDelete: a.replyCheckDelete,
@@ -196,6 +197,7 @@ class _CommentCardState extends State<CommentCard> {
                   replyId: a['replyId'],
                   replyNickname: a['replyNickname'],
                   reply: a['reply'],
+                  isLocked: a['isLocked'],
                   replyAnonymityNickname: a['replyAnonymityNickname'],
                   replyCheckDelete: a['replyCheckDelete'],
                   replyTime: a['replyTime'],

@@ -8,6 +8,7 @@ class commentcard {
   final int countReply;
   final bool isWrittenByMember;
   final String commentTime;
+  final bool isLocked;
   final dynamic replies;
   final String? commentAnonymityNickname;
 
@@ -21,6 +22,7 @@ class commentcard {
     required this.commentTime,
     required this.countReply,
     required this.replies,
+    required this.isLocked,
     required this.commentAnonymityNickname,
     required this.isWrittenByMember
   });
@@ -35,6 +37,7 @@ class commentcard {
         commentCheckDelete: json["commentCheckDelete"],
         commentTime: json["commentTime"],
         countReply: json["countReply"],
+        isLocked: json['isLocked'],
         replies: json["replies"],
         commentAnonymityNickname: json["commentAnonymityNickname"],
     );

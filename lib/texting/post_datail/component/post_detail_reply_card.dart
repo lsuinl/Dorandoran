@@ -24,6 +24,7 @@ class ReplyCard extends StatefulWidget {
   final String replyTime;
   final VoidCallback deletedreply;
   final bool isWrittenByMember;
+  final bool isLocked;
 
   const ReplyCard(
       {required this.postId,
@@ -34,7 +35,9 @@ class ReplyCard extends StatefulWidget {
       required this.replyCheckDelete,
       required this.replyTime,
       required this.deletedreply,
+        required this.isLocked,
       required this.isWrittenByMember,
+
       Key? key})
       : super(key: key);
 
@@ -50,7 +53,7 @@ class _ReplyCardState extends State<ReplyCard> {
         builder: (context, snapshot) {
           return SwipeActionCell(
               key: ObjectKey(widget.replyId),
-              trailingActions: widget.replyCheckDelete
+              trailingActions: (widget.replyCheckDelete || widget.isLocked)
                   ? []
                   : widget.isWrittenByMember == true
                       ?

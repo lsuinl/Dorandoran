@@ -70,6 +70,7 @@ dependencies:
   app_tracking_transparency: ^2.0.4
   solar_icons: ^0.0.5
   flutter_swipe_action_cell: ^3.1.2
+  mime: ^1.0.4
 
 dev_dependencies:
   flutter_test:

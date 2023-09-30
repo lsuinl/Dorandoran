@@ -66,6 +66,7 @@ class _PostDetailState extends State<PostDetail> {
                 if(commentlist.length<1){
                   commentlist.addAll(e.commentDetailDto.map<CommentCard>((a) => CommentCard(
                     card: commentcard(
+                      isLocked: a['isLocked'],
                     commentCheckDelete: a['commentCheckDelete'],
                     commentId: a['commentId'],
                     isWrittenByMember: a['isWrittenByMember'],
@@ -85,6 +86,7 @@ class _PostDetailState extends State<PostDetail> {
                 }
                   List<CommentCard> newlist= e.commentDetailDto.map<CommentCard>((a) => CommentCard(
                       card: commentcard(
+                        isLocked: a['isLocked'],
                     commentCheckDelete: a['commentCheckDelete'],
                     commentId: a['commentId'],
                     commentAnonymityNickname: a['commentAnonymityNickname'],
@@ -330,6 +332,7 @@ class _PostDetailState extends State<PostDetail> {
                                     commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
                                                 CommentCard(
                                                   card: commentcard(
+                                                    isLocked: a['isLocked'],
                                                   commentCheckDelete: a.commentCheckDelete,
                                                   isWrittenByMember: a.isWrittenByMember,
                                                   commentId: a.commentId,
