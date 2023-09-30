@@ -18,13 +18,17 @@ Future<dynamic> GetAllLikedPosts(int number) async {
   );
   print(response.body);
   if (response.body==[]) {
-    GetAllLikedPosts(number - 1);
+    return GetAllLikedPosts(number - 1);
   }
-  else if(response.statusCode==401)
-    return response.statusCode;
-
-  print(response.body);
-  List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
-  return card;
+  else if(response.statusCode==401) {
+    int number=await quest_token();
+    if(number==200)
+      return GetAllLikedPosts(number);
+  }
+  else {
+    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+    List<postcard> card = body.map((dynamic e) => postcard.fromJson(e))
+        .toList();
+    return card;
+  }
 }

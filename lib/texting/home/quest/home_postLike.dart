@@ -1,3 +1,4 @@
+import 'package:dorandoran/common/quest_token.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
@@ -17,5 +18,10 @@ void postLike(int postId) async {
       "postId":postId,
     }),
   );
+  if(respon==401){
+    int number = await quest_token();
+    if(number==200)
+      postLike(postId);
+  }
   print(respon.statusCode);
 }

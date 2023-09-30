@@ -142,7 +142,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                     },
                                     // 새로고침
                                     onLoading: () async {
-                                      if (lastnumber - 1 > 0) {
+                                      if (lastnumber - 1 > 0 && snapshot.data.length==20) {
                                         setState(() {
                                           myfuture =    widget.text=="좋아요 한 글"? GetAllLikedPosts(
                                               lastnumber - 1): GetAllPosts(lastnumber - 1);

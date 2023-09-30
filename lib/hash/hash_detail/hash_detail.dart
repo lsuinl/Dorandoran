@@ -1,13 +1,15 @@
 import 'package:dorandoran/common/quest_token.dart';
+import 'package:dorandoran/hash/hash_detail/quest/delete_del_my_hash.dart';
+import 'package:dorandoran/hash/hash_detail/quest/post_add_my_hash.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../common/basic.dart';
 import '../../texting/home/component/home_message_card.dart';
+import 'component/hash_button.dart';
 import 'quest/hash_detail_getcontent.dart';
 
 class HashDetail extends StatefulWidget {
@@ -21,8 +23,7 @@ class HashDetail extends StatefulWidget {
   State<HashDetail> createState() => _HashDetailState();
 }
 class _HashDetailState extends State<HashDetail> {
-  RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   ScrollController scrollController = ScrollController();
   late Future myfuture;
   List<Message_Card>? item;
@@ -49,10 +50,10 @@ class _HashDetailState extends State<HashDetail> {
                   quest_token();
                   myfuture;
                 }
-                int lastnumber = snapshot.data.length>0 ? snapshot.data!.last.postId :0;
+                int lastnumber = snapshot.data[1].length>0 ? snapshot.data[1].last.postId :0;
                 if (snapshot.connectionState == ConnectionState.done) {
-                  if ((item?.length == 0 || item == null) && snapshot.data!.length>0) {
-                    item = snapshot.data!
+                  if ((item?.length == 0 || item == null) && snapshot.data[1]!.length>0) {
+                    item = snapshot.data[1]!
                         .map<Message_Card>((e) => Message_Card(
                       time: e.postTime,
                       heart: e.likeCnt,
@@ -69,7 +70,7 @@ class _HashDetailState extends State<HashDetail> {
                         .toList();
                   } else {
                     if (checknumber != lastnumber) {
-                      item!.addAll(snapshot.data!
+                      item!.addAll(snapshot.data[1]!
                           .map<Message_Card>((e) => Message_Card(
                         time: e.postTime,
                         heart: e.likeCnt,
@@ -106,9 +107,9 @@ class _HashDetailState extends State<HashDetail> {
                                     Navigator.pop(context);
                                   }, icon:Icon(SolarIconsOutline.doubleAltArrowLeft,size: 30.r,)),
                                   Row(children:[
-                                  Icon(SolarIconsOutline.hashtag,size: 30.r,),
+                                  Icon(SolarIconsOutline.hashtag,size: 30.r),
                                   Text(" ${widget.tagnames}", style: TextStyle(fontSize: 30.sp)),]),
-                                  IconButton(onPressed: (){}, icon: Icon(Icons.star_outline_sharp,size: 30.r,))
+                                  HashButton(mytags: snapshot.data[0],tagnames: widget.tagnames,)
                                 ],
                               ),),
                               Expanded(
@@ -150,7 +151,7 @@ class _HashDetailState extends State<HashDetail> {
                                     },
                                     // 새로고침
                                     onLoading: () async {
-                                      if (lastnumber - 1 > 0) {
+                                      if (lastnumber - 1 > 0 &&snapshot.data[1].length==20) {
                                         setState(() {
                                           myfuture = getHashContent(
                                               widget.tagnames,

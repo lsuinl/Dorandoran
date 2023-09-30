@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../common/quest_token.dart';
 import '../../../texting/home/model/postcard.dart';
 
 //내 해시태그 글 가져오기
@@ -17,8 +18,12 @@ Future<dynamic> GetMyHashContent() async {
       'authorization':'Bearer $accessToken',
     },
   );
-  if(response.statusCode==401)
-    return response.statusCode;
+  print(response.body);
+  if(response.statusCode==401){
+    int number=await quest_token();
+    if(number==200)
+      return GetMyHashContent();
+  }
   if(response.body.length<1) {
     return [];
   }

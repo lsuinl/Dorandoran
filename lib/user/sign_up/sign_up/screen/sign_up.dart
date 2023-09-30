@@ -114,15 +114,21 @@ class _SignUpState extends State<SignUp> {
 
   void textchange(String name) {
     postNameCheckRequest(name).then((value) {
-      if (value == 200) {
+      if (value == 204) {
         setState(() {
           print(name);
           text = '사용가능한 이름입니다.';
           namecheck[name] = true;
         });
-      } else {
+      } else if(value==409){
         setState(() {
           text = '이미 사용중인 이름입니다.';
+          namecheck[name] = false;
+        });
+      }
+      else if(value==422){
+        setState(() {
+          text = '부적절한 닉네임입니다.';
           namecheck[name] = false;
         });
       }

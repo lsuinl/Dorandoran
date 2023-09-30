@@ -21,15 +21,20 @@ Future<dynamic> getPostContent(
   );
 print(response.statusCode);
   if (response.body==[]) {
-    getPostContent(url, number - 1);
+    return getPostContent(url, number - 1);
   }
   else if(response.statusCode==401){
-    return response.statusCode;
+    int number = await quest_token();
+    if(number==200)
+      return getPostContent(url, number - 1);
   }
-  if(response.statusCode==204){
+  else if(response.statusCode==204){
     return [];
   }
-  List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
-  return card;
+  else {
+    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+    List<postcard> card = body.map((dynamic e) => postcard.fromJson(e))
+        .toList();
+    return card;
+  }
 }

@@ -14,7 +14,7 @@ class postcardDetail {
   final int fontBold;
   final bool checkWrite;
   final bool isWrittenByMember;
-  final List<dynamic>? commentDetailDto;
+  final dynamic commentDetailDto;
   final List<dynamic>? postHashes;
 
   postcardDetail({
@@ -55,7 +55,7 @@ class postcardDetail {
         fontColor: json["fontColor"],
         fontSize: json["fontSize"],
         fontBold: json["fontBold"],
-        commentDetailDto: json["commentDetailDto"],
+        commentDetailDto: json["commentDetailDto"]['commentData'],
     );
   }
 }

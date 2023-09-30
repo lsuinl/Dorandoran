@@ -8,21 +8,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 void PostCommentLike(int postId,int commentId) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  try {
-     await http.post(
-      Uri.parse('$urls/api/comment/like'),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'authorization': 'Bearer $accessToken',
-      },
-      body: jsonEncode({
-        "postId": postId,
-        "commentId": commentId,
-      }),
-    );
-  }
-  catch(e){
-    quest_token();
-    PostCommentLike(postId, commentId);
+  var response = await http.post(
+    Uri.parse('$urls/api/comment/like'),
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer $accessToken',
+    },
+    body: jsonEncode({
+      "postId": postId,
+      "commentId": commentId,
+    }),
+  );
+  if (response.statusCode == 401) {
+    int number = await quest_token();
+    if(number==200)
+      PostCommentLike(postId, commentId);
   }
 }

@@ -76,7 +76,7 @@ class _TagScreenState extends State<TagScreen> {
     List<Widget> mytagswidget = mytag
         .map((e) =>
         Container(
-          height: 20.h     ,
+          height: 20.h,
             child:
         Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -126,7 +126,6 @@ class _TagScreenState extends State<TagScreen> {
   }
 
   statemanager(){
-    print("실행됨");
     setState(() {
       searchOn=!searchOn;
       mycontent=[];

@@ -4,27 +4,22 @@ import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//대댓글달기
-Future<DateTime>  PostReply(int commentId, String reply, bool anonymity, bool secretMode) async {
+//신고하기-글
+Future<int> PostReportPost(int postid,String reportContent) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  http.Response response=  await http.post(
-    Uri.parse('$urls/api/reply'),
+  http.Response response= await http.post(
+    Uri.parse('$urls/api/post/report'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
     },
     body: jsonEncode({
-      "commentId":commentId,
-      "reply": reply,
-      "anonymity":anonymity,
-      "secretMode": secretMode
+      "postId":postid,
+      "reportContent": reportContent,
     }),
   );
-  if(response.statusCode==401){
-    int number=await quest_token();
-    if(number==200)
-      return PostReply(commentId, reply, anonymity, secretMode);
-  }
-  return DateTime.now();
+
+  print(response.statusCode);
+  return response.statusCode;
 }

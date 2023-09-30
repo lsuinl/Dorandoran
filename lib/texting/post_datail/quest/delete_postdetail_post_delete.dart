@@ -23,7 +23,9 @@ Future<int>  DeletePostDelete(int postId) async {
   }
   catch(e){
     quest_token();
-    DeletePostDelete(postId);
+    int number=await quest_token();
+    if(number==200)
+      return DeletePostDelete(postId);
     return 400;
   }
 }

@@ -26,15 +26,18 @@ Future<dynamic> getHashContent(
       "location":location
     }),
   );
-
-  if (response.data==[]) {
-    getHashContent(tagname, number - 1);
+ print(response.data);
+  if (response.data['Data']==[]) {
+    return [];
   }
-  else if(response.statusCode==401)
-    return response.statusCode;
-
-  List<dynamic> body = response.data;
+  if(response.statusCode==401){
+    int number=await quest_token();
+    if(number==200)
+      return getHashContent(tagname, number);
+  }
+  List<dynamic> body = response.data['Data'];
   //jsonDecode(utf8.decode(response.bodyBytes));
   List<postcard> card = body.map((dynamic e) => postcard.fromJson(e)).toList();
-  return card;
+  List<dynamic> result=[response.data['isBookmarked'],card];
+  return result;
 }
