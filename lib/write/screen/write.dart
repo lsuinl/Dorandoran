@@ -112,13 +112,17 @@ class _WriteState extends State<Write> {
     //사용자이미지
     XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (f != null) dummyFille = File(f.path);
+    String lengths=dummyFille.toString();
     if(dummyFille!.lengthSync()/(1024*1024)>3)
       Fluttertoast.showToast(msg: "이미지의 크기가 3MB 미만이어야 합니다.");
-    else
+    else if(lengths.substring(lengths.length-3,lengths.length)=="gif") {
+      Fluttertoast.showToast(msg: "움짤은 배경으로 설정할 수 없습니다.");
+    }
     setState(() {
       backgroundimgname = null;
       backimg = Image.file(dummyFille!);
     });
+    print(dummyFille);
   }
 
   formefun(){
