@@ -36,7 +36,7 @@ Future<int> quest_token() async {
       'limitTime':50000000,
     }),
   );
-  print("엑세스");
+  print(response.statusCode);
   if(response.statusCode==200) {//재대로 받은 경우에만 변경
     prefs.setString("accessToken", response.body);
     // Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));

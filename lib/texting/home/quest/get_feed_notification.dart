@@ -4,6 +4,7 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/quest_token.dart';
+import '../model/notification_model.dart';
 
 
 //피드 공지
@@ -11,7 +12,7 @@ Future<dynamic> GetFeedNOtification() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response = await http.get(
-    Uri.parse('$urls/api/notification/all'),
+    Uri.parse('http://116.44.231.155:8081/api/notification/feed'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization': 'Bearer $accessToken',
@@ -26,9 +27,9 @@ Future<dynamic> GetFeedNOtification() async {
       return GetFeedNOtification();
   }
   else {
-    print(response.body);
-    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-    //리스트 변환? 또는 그대로
-    return body;
+    dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
+    print(body);
+    NotificationModel message =  NotificationModel.fromJson(body[0]);
+    return message;
   }
 }

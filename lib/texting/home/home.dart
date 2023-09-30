@@ -1,11 +1,13 @@
 import 'dart:math';
 
 import 'package:dorandoran/common/css.dart';
+import 'package:dorandoran/texting/home/model/notification_model.dart';
 import 'package:dorandoran/texting/home/quest/get_feed_notification.dart';
 import 'package:dorandoran/texting/home/quest/get_home_notification.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -41,19 +43,25 @@ class _HomeState extends State<Home> {
   // bool _nativeAdIsLoaded = false;
   // final String _adUnitId = Platform.isIOS ? 'ca-app-pub-2389438989674944/3518867863' : 'ca-app-pub-2389438989674944/5510606382';
   int number =Random().nextInt(100)+1;
-  dynamic homenotice;
-  dynamic feednotice;
+  NotificationModel? homenotice;
+  NotificationModel? feednotice;
+  Widget? homenoticewidget;
+  Widget? feednoticewidget;
   @override
   void initState() {
     super.initState();
     //_loadAd();
-    //getnoticiations();
+    getnoticiations();
     myfuture = getPostContent(url, 0);
-   // feednoticepopup();
   }
 
   @override
   Widget build(BuildContext context) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
+      if(feednotice!=null && tagtitle=="새로운") {
+        feednoticepopup();
+      }
+    });
     return Scaffold(
         body: WillPopScope(
             onWillPop: onWillPop,
@@ -102,15 +110,19 @@ class _HomeState extends State<Home> {
                             }
                             //홈팝업 구현하기
                             if(homenotice!=null){
-                              homenotice=Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage('$urls/api/pic/default/' + number.toString()),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                child:Center(child:Text("공지"))
-                              );
+                              homenoticewidget= Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                                  child: Container(
+                                      height: 60.h,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage('$urls/api/pic/default/' + number.toString()),
+                                          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      child:Center(child:Text(homenotice?.content ??"공지사항" ,style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
+                                  ));
                             }
                             Widget tagname(String name) {
                               IconData icons = Icons.add;
@@ -169,19 +181,7 @@ class _HomeState extends State<Home> {
                                       children: [
                                         Top(),
                                  //홈화면 공지
-                                 tagtitle!="관심있는" ? Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                                   child: Container(
-                                      height: 60.h,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage('$urls/api/pic/default/' + number.toString()),
-                                             colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        child:Center(child:Text("공지써둘공간입니다...",style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
-                                    )):Container(),
+                                        (tagtitle!="관심있는"&&homenoticewidget!=null) ? homenoticewidget! :Container(),
                                         tagtitle=="근처에"? Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
@@ -412,48 +412,32 @@ class _HomeState extends State<Home> {
       }
     });
   }
-  void feednoticepopup(){
+  void feednoticepopup() async{
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
                 backgroundColor: Colors.white,
-                title: Text("공지사항"),
-                content: Text('내용어쩌고저쩌고',
+                title: Text(feednotice!.title),
+                content: Text(feednotice!.content,
                     style: Theme.of(context).textTheme.headlineMedium!),
                 actions: [
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text(
-                        "다시는 보지 않기",
-                        style: Theme.of(context).textTheme.labelSmall!,
-                      ),
-                      style: TextButton.styleFrom(
-                          primary: Colors.black54,
-                          side: BorderSide(
-                            color: Colors.black54,
-                          ))),
+                      child: Text("다시는 보지 않기", style: Theme.of(context).textTheme.labelSmall!,),
+                     ),
                   TextButton(
                       onPressed: () {
                         //다시보지않음요청
                         Navigator.pop(context);
                       },
-                      child: Text(
-                        "확인",
-                        style: Theme.of(context).textTheme.labelSmall!,
+                      child: Text("확인", style: Theme.of(context).textTheme.labelSmall!,),
                       ),
-                      style: TextButton.styleFrom(
-                          primary: Colors.black54,
-                          side: BorderSide(
-                            color: Colors.black54,
-                          ))),
                 ]);
           });
-        });
   }
 
   getnoticiations() async {
