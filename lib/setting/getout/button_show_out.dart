@@ -1,11 +1,11 @@
-import 'package:dorandoran/setting/component/button_menu.dart';
+import 'package:dorandoran/setting/main/button_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 import '../../user/login/screen/kakao_login.dart';
-import '../quest/delete_account_closure.dart';
+import 'delete_account_closure.dart';
 
 class ShowOutButton extends StatelessWidget {
   const ShowOutButton({Key? key}) : super(key: key);

@@ -4,8 +4,8 @@ import 'package:solar_icons/solar_icons.dart';
 
 import '../../common/util.dart';
 import '../../user/sign_up/sign_up/quest/namecheck.dart';
-import '../quest/patch_change_nickname.dart';
-import 'button_menu.dart';
+import 'patch_change_nickname.dart';
+import '../main/button_menu.dart';
 
 class ChangeNicknameButton extends StatefulWidget {
 
