@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:dorandoran/firebase.dart';
-import 'package:dorandoran/setting/setting_list_screen.dart';
+import 'package:dorandoran/setting/main/setting_list_screen.dart';
 import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';

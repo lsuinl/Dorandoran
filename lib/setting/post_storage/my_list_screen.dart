@@ -1,8 +1,8 @@
 import 'package:dorandoran/common/quest_token.dart';
-import 'package:dorandoran/setting/quest/get_all_posts.dart';
-import 'package:dorandoran/setting/component/my_list_card.dart';
+import 'package:dorandoran/setting/post_storage/get_all_posts.dart';
+import 'package:dorandoran/setting/post_storage/my_list_card.dart';
 import 'my_list_top.dart';
-import '../quest/get_all_liked_posts.dart';
+import 'get_all_liked_posts.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:flutter/cupertino.dart';

@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../texting/home/home.dart';
-import '../../../texting/home/model/notification_model.dart';
+import '../../../common/model/notification_model.dart';
 import '../component/mainlogo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

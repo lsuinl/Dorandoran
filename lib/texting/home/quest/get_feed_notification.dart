@@ -4,7 +4,7 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/quest_token.dart';
-import '../model/notification_model.dart';
+import '../../../common/model/notification_model.dart';
 
 
 //피드 공지

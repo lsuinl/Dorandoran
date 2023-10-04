@@ -1,14 +1,14 @@
 import 'package:dorandoran/notice/notice_screen.dart';
-import 'package:dorandoran/setting/component/button_change_nickname.dart';
-import 'package:dorandoran/setting/component/button_menu.dart';
-import 'package:dorandoran/setting/component/my_list_screen.dart';
-import 'package:dorandoran/setting/component/button_show_out.dart';
-import 'package:dorandoran/setting/component/top.dart';
+import 'package:dorandoran/setting/nickname_change/button_change_nickname.dart';
+import 'package:dorandoran/setting/main/button_menu.dart';
+import 'package:dorandoran/setting/post_storage/my_list_screen.dart';
+import 'package:dorandoran/setting/getout/button_show_out.dart';
+import 'package:dorandoran/setting/main/top.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
-import '../common/css.dart';
-import 'component/notification_list_screen.dart';
+import '../../common/css.dart';
+import '../notification/notification_list_screen.dart';
 
 class SettingListScreen extends StatelessWidget {
   const SettingListScreen({Key? key}) : super(key: key);

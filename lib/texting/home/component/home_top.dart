@@ -1,4 +1,4 @@
-import 'package:dorandoran/setting/setting_list_screen.dart';
+import 'package:dorandoran/setting/main/setting_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
