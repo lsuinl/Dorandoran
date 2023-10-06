@@ -10,12 +10,10 @@ import '../../../common/model/notification_model.dart';
 //공지 목록 보기
 Future<dynamic> GetCriticalNotification() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String accessToken = prefs.getString("accessToken")!;
   http.Response response = await http.get(
     Uri.parse('http://116.44.231.155:8081/api/notification/critical'),
     headers: <String, String>{
       'Content-Type': 'application/json',
-      'authorization': 'Bearer $accessToken',
     },
   );
   if (response.body == []) {
