@@ -113,10 +113,11 @@ class _WriteState extends State<Write> {
     XFile? f = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (f != null) dummyFille = File(f.path);
     String lengths=dummyFille.toString();
+    lengths=lengths.substring(lengths.length-4,lengths.length-1);
     if(dummyFille!.lengthSync()/(1024*1024)>3)
       Fluttertoast.showToast(msg: "이미지의 크기가 3MB 미만이어야 합니다.");
-    else if(lengths.substring(lengths.length-4,lengths.length-1)=="gif") {
-      Fluttertoast.showToast(msg: "움짤은 배경으로 설정할 수 없습니다.");
+    else if(lengths!="png" && lengths!="jpg") {
+      Fluttertoast.showToast(msg: "png와 jpg 이미지만 설정할 수 있습니다.");
     }
     else {
       setState(() {
