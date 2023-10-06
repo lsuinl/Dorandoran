@@ -7,19 +7,23 @@ import '../../common/quest_token.dart';
 import '../../texting/home/model/postcard.dart';
 
 //알림 전체 조회하기
-Future<dynamic> GetAllLikedPosts(int number) async {
+Future<dynamic> GetSearchNotice(int number) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response= await http.get(
-    Uri.parse('$urls/api/post/member/like/$number'),
+    Uri.parse('$urls/api/notification/0'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
     },
   );
-  print(response.body);
-  if(response.statusCode==401)
-    return response.statusCode;
+  if(response.body==[])
+    return [];
+  if(response.statusCode==401) {
+    int number = await quest_token();
+    if (number == 200)
+      return GetSearchNotice(number);
+  }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<noticeModel> card = body.map((dynamic e) => noticeModel.fromJson(e)).toList();
   return card;
