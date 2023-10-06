@@ -52,7 +52,7 @@ class _Login_checkState extends State<Login_check> {
 
   logincheck() async {
     //먼저 서버 체크.
-    dynamic check = await GetCriticalNotification();
+   // dynamic check = await GetCriticalNotification();
     // if(check is int) {
       final prefs = await SharedPreferences.getInstance();
       //앱에 로그인 데이터가 남아있는 경우

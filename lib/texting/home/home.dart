@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:dorandoran/common/css.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../common/uri.dart';
@@ -39,9 +41,9 @@ class _HomeState extends State<Home> {
   int distance=1;
   Map<String, bool> buttonColor={"새로운":true,"근처에":false,"인기있는":false,"관심있는":false};
   //광고
-  // NativeAd? _nativeAd;
-  // bool _nativeAdIsLoaded = false;
-  // final String _adUnitId = Platform.isIOS ? 'ca-app-pub-2389438989674944/3518867863' : 'ca-app-pub-2389438989674944/5510606382';
+  NativeAd? _nativeAd;
+  bool _nativeAdIsLoaded = false;
+  final String _adUnitId = Platform.isIOS ? 'ca-app-pub-2389438989674944/3518867863' : 'ca-app-pub-2389438989674944/5510606382';
   int number =Random().nextInt(100)+1;
   NotificationModel? homenotice;
   NotificationModel? feednotice;
@@ -82,15 +84,15 @@ class _HomeState extends State<Home> {
                                 item = [];
                               }
                               else{
-                                // if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null) {
-                                //   item!.add(SizedBox(
-                                //       height: 100.h,
-                                //       width: MediaQuery
-                                //           .of(context)
-                                //           .size
-                                //           .width,
-                                //       child: AdWidget(ad: _nativeAd!)));
-                                // }
+                                if (item.length/20>addcount && _nativeAdIsLoaded && _nativeAd != null) {
+                                  // item!.add(SizedBox(
+                                  //     height: 100.h,
+                                  //     width: MediaQuery
+                                  //         .of(context)
+                                  //         .size
+                                  //         .width,
+                                  //     child: AdWidget(ad: _nativeAd!)));
+                                }
                               }
                               if (checknumber != lastnumber) {
                                 item.addAll(snapshot.data!
@@ -147,7 +149,7 @@ class _HomeState extends State<Home> {
                                     buttonColor[name]=true;
                                     item.clear();
                                     myfuture = getPostContent(url, 0);
-                                 //  _loadAd();
+                                  //_loadAd();
                                   });
                                   _refreshController.refreshCompleted();
                                 },
@@ -240,7 +242,7 @@ class _HomeState extends State<Home> {
                                               setState(() {
                                                 myfuture = getPostContent(
                                                     url, lastnumber - 1);
-                                               // _loadAd();
+                                                //_loadAd();
                                                 checknumber = lastnumber;
                                               });
                                             }
@@ -314,61 +316,61 @@ class _HomeState extends State<Home> {
                         })))));
   }
 
-  // void _loadAd() {
-  //   setState(() {
-  //     _nativeAdIsLoaded=false;
-  //   });
-  //   _nativeAd = NativeAd(
-  //       adUnitId: _adUnitId,
-  //       listener: NativeAdListener(
-  //         onAdLoaded: (ad) {
-  //           setState(() {
-  //             _nativeAdIsLoaded = true;
-  //           });
-  //         },
-  //         onAdFailedToLoad: (ad, error) {
-  //           // Dispose the ad here to free resources.
-  //           print('$NativeAd failedToLoad: $error');
-  //           ad.dispose();
-  //         },
-  //       ),
-  //       request: const AdRequest(),
-  //       //   factoryId: "listTile"
-  //       // )
-  //       nativeTemplateStyle:
-  //           NativeTemplateStyle(templateType: TemplateType.small
-  //               // templateType: TemplateType.small,
-  //               //   mainBackgroundColor: Colors.white,
-  //               //   cornerRadius: 10.0,
-  //               //   callToActionTextStyle: NativeTemplateTextStyle(
-  //               //       textColor: Colors.cyan,
-  //               //       backgroundColor: Colors.red,
-  //               //       style: NativeTemplateFontStyle.monospace,
-  //               //       size: 10.0),
-  //               //   primaryTextStyle: NativeTemplateTextStyle(
-  //               //       textColor: Colors.red,
-  //               //       backgroundColor: Colors.cyan,
-  //               //       style: NativeTemplateFontStyle.italic,
-  //               //       size: 16.0),
-  //               //   secondaryTextStyle: NativeTemplateTextStyle(
-  //               //       textColor: Colors.green,
-  //               //       backgroundColor: Colors.black,
-  //               //       style: NativeTemplateFontStyle.bold,
-  //               //       size: 10.0),
-  //               //   tertiaryTextStyle: NativeTemplateTextStyle(
-  //               //       textColor: Colors.brown,
-  //               //       backgroundColor: Colors.amber,
-  //               //       style: NativeTemplateFontStyle.monospace,
-  //               //       size: 10.0)
-  //               ))
-  //     ..load();
-  // }
+  void _loadAd() {
+    setState(() {
+      _nativeAdIsLoaded=false;
+    });
+    _nativeAd = NativeAd(
+        adUnitId: _adUnitId,
+        listener: NativeAdListener(
+          onAdLoaded: (ad) {
+            setState(() {
+              _nativeAdIsLoaded = true;
+            });
+          },
+          onAdFailedToLoad: (ad, error) {
+            // Dispose the ad here to free resources.
+            print('$NativeAd failedToLoad: $error');
+            ad.dispose();
+          },
+        ),
+        request: const AdRequest(),
+        //   factoryId: "listTile"
+        // )
+        nativeTemplateStyle:
+            NativeTemplateStyle(templateType: TemplateType.small
+                // templateType: TemplateType.small,
+                //   mainBackgroundColor: Colors.white,
+                //   cornerRadius: 10.0,
+                //   callToActionTextStyle: NativeTemplateTextStyle(
+                //       textColor: Colors.cyan,
+                //       backgroundColor: Colors.red,
+                //       style: NativeTemplateFontStyle.monospace,
+                //       size: 10.0),
+                //   primaryTextStyle: NativeTemplateTextStyle(
+                //       textColor: Colors.red,
+                //       backgroundColor: Colors.cyan,
+                //       style: NativeTemplateFontStyle.italic,
+                //       size: 16.0),
+                //   secondaryTextStyle: NativeTemplateTextStyle(
+                //       textColor: Colors.green,
+                //       backgroundColor: Colors.black,
+                //       style: NativeTemplateFontStyle.bold,
+                //       size: 10.0),
+                //   tertiaryTextStyle: NativeTemplateTextStyle(
+                //       textColor: Colors.brown,
+                //       backgroundColor: Colors.amber,
+                //       style: NativeTemplateFontStyle.monospace,
+                //       size: 10.0)
+                ))
+      ..load();
+  }
 
-  // @override
-  // void dispose() {
-  //   _nativeAd?.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _nativeAd?.dispose();
+    super.dispose();
+  }
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
