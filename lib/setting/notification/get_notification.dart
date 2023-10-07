@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dorandoran/common/model/all_notification_model.dart';
+import 'package:dorandoran/common/uri.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/quest_token.dart';
@@ -9,7 +10,7 @@ Future<dynamic> GetNotification() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response = await http.get(
-    Uri.parse('http://116.44.231.155:8081/api/notification/all'),
+    Uri.parse('$noticeUrls/api/notification/all'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization': 'Bearer $accessToken',
