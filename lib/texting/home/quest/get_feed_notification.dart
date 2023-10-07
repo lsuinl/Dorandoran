@@ -12,7 +12,7 @@ Future<dynamic> GetFeedNOtification() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response = await http.get(
-    Uri.parse('http://116.44.231.155:8081/api/notification/feed'),
+    Uri.parse('$noticeUrls/api/notification/feed'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization': 'Bearer $accessToken',

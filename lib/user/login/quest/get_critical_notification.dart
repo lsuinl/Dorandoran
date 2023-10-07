@@ -11,7 +11,7 @@ import '../../../common/model/notification_model.dart';
 Future<dynamic> GetCriticalNotification() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   http.Response response = await http.get(
-    Uri.parse('http://116.44.231.155:8081/api/notification/critical'),
+    Uri.parse('$noticeUrls/api/notification/critical'),
     headers: <String, String>{
       'Content-Type': 'application/json',
     },

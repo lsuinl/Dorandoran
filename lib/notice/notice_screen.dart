@@ -1,7 +1,9 @@
+import 'package:dorandoran/hash/search/quest/get_search_hash.dart';
+import 'package:dorandoran/notice/component/notice_card.dart';
+import 'package:dorandoran/notice/model/notice_model.dart';
+import 'package:dorandoran/notice/quest/get_read_notice.dart';
+import 'package:dorandoran/notice/quest/get_search_notice.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:solar_icons/solar_icons.dart';
-
 import '../common/css.dart';
 import '../texting/home/home.dart';
 import 'component/top.dart';
@@ -14,6 +16,7 @@ class NoticeScreen extends StatefulWidget {
 }
 
 class _NoticeScreenState extends State<NoticeScreen> {
+  List<Widget> item=[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,89 +25,47 @@ class _NoticeScreenState extends State<NoticeScreen> {
             child: SafeArea(
                 top: true,
                 bottom: true,
-                child: Container(
-                    child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Top(),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 20,top: 20,bottom: 20),
-                                  child: Column(children: [
-                                    Row(
-                                        children:[
-                                          TextButton.icon(
-                                              onPressed: (){
-                                                print("눌림");
-                                              },
-                                              style: TextButton.styleFrom(
-                                                  primary: Colors.white,
-                                                  animationDuration: Duration(seconds: 0),
-                                                  minimumSize: const Size(330,50),
-                                                  alignment: Alignment.centerLeft
-                                              ),
-                                              icon: Icon(SolarIconsOutline.chatLine,color: Colors.black,),
-                                              label: Row(
-                                                children: [
-                                                  Text("새로운 댓글이 달렸습니다",style: TextStyle(color: Colors.black),),
-                                                ],
-                                              )
-                                          ),
-                                          Container(
-                                              alignment: Alignment.bottomRight,
-                                              child:Text("5분전")
-                                          )
-                                        ]),
-                                    Row(
-                                        children:[
-                                          TextButton.icon(
-                                              onPressed: (){
-                                                print("눌림");
-                                              },
-                                              style: TextButton.styleFrom(
-                                                  primary: Colors.white,
-                                                  animationDuration: Duration(seconds: 0),
-                                                  minimumSize: const Size(330,50),
-                                                  alignment: Alignment.centerLeft
-                                              ),
-                                              icon: Icon(SolarIconsOutline.chatLine,color: Colors.black,),
-                                              label: Row(
-                                                children: [
-                                                  Text("새로운 댓글이 달렸습니다",style: TextStyle(color: Colors.black),),
-                                                ],
-                                              )
-                                          ),
-                                          Container(
-                                              alignment: Alignment.bottomRight,
-                                              child:Text("5분전")
-                                          )
-                                        ]),
-                                    Row(
-                                        children:[
-                                          TextButton.icon(
-                                              onPressed: (){
-                                                print("눌림");
-                                              },
-                                              style: TextButton.styleFrom(
-                                                  primary: Colors.white,
-                                                  animationDuration: Duration(seconds: 0),
-                                                  minimumSize: const Size(330,50),
-                                                  alignment: Alignment.centerLeft
-                                              ),
-                                              icon: Icon(SolarIconsOutline.chatLine,color: Colors.black,),
-                                              label: Row(
-                                                children: [
-                                                  Text("새로운 댓글이 달렸습니다",style: TextStyle(color: Colors.black),),
-                                                ],
-                                              )
-                                          ),
-                                          Container(
-                                              alignment: Alignment.bottomRight,
-                                              child:Text("5분전")
-                                          )
-                                        ]),
-                                  ]))
-                            ]))))));
+                child: FutureBuilder(
+                  future:GetSearchNotice(0),
+                  builder: (context, snapshot){
+                    if(snapshot.hasData) {
+                      List<noticeModel> data=snapshot.data!;
+                      if(item.length<1) {
+                        item.addAll(
+                            data.map((e) =>
+                                NoticeCard(notificationId: e.notificationId,
+                                    title: e.title,
+                                    message: e.message,
+                                    notificationTime: e.notificationTime,
+                                    isRead: e.isRead,
+                                    notificationType: e.notificationType
+                                )
+                            ).toList()
+                        );
+                      }
+                      return Container(
+                          child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Top(),
+                                    Flexible(child:
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20, top: 20, bottom: 20),
+                                        child:SingleChildScrollView(
+                                          child:
+                                        Column(children: item)
+                                        )
+                                    )
+                                    )
+                                  ])));
+                    }
+                    else{
+                      return CircularProgressIndicator();
+                    }
+                    }
+    ))));
   }
 }
