@@ -57,7 +57,8 @@ class _PostDetailState extends State<PostDetail> {
             future: PostPostDetail(widget.postId, ""),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                dynamic e = snapshot.data!;
+                postcardDetail e = snapshot.data!;
+                print(e.isExistNextComment);
                 if(e.isWrittenByMember==true)
                   _menulist=['삭제하기'];
                 bool? postcommentstate;
@@ -311,9 +312,10 @@ class _PostDetailState extends State<PostDetail> {
                             fontColor: e.fontColor,
                             fontSize: e.fontSize,
                               commentDetailDto: e.commentDetailDto,
+                              isExistNextComment: e.isExistNextComment
                             )
                           ),
-                          plusreply == -1
+                        e.isExistNextComment==false
                               ? Container()
                               : OutlinedButton(
                                   style: OutlinedButton.styleFrom(
@@ -323,16 +325,11 @@ class _PostDetailState extends State<PostDetail> {
                                       side: BorderSide(color: Color(0xFFFFFFFF), width: 1.0,)
                                   ),
                                   onPressed: () async {
-                                    dynamic pluscomments = await GetCommentPlus(50, plusreply);
-                                    if(pluscomments==401) {
-                                        quest_token();
-                                        Fluttertoast.showToast(msg: "실행 중 오류가 발생했습니다. 다시 시도해 주세요./");
-                                        PostPostDetail(widget.postId, "");
-                                      }
+                                    dynamic pluscomments = await GetCommentPlus(widget.postId, plusreply);
                                     commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
                                                 CommentCard(
                                                   card: commentcard(
-                                                    isLocked: a['isLocked'],
+                                                    isLocked: a.isLocked,
                                                   commentCheckDelete: a.commentCheckDelete,
                                                   isWrittenByMember: a.isWrittenByMember,
                                                   commentId: a.commentId,

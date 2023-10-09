@@ -11,7 +11,7 @@ Future<dynamic> PostSaveInquiryPost(String title, String content) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response = await http.post(
-    Uri.parse('$noticeUrls/api/inquiryPost'),
+    Uri.parse('$urls/api/inquiryPost'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization': 'Bearer $accessToken',

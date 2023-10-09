@@ -11,7 +11,7 @@ Future<dynamic> GetReadInquiryPost(int number) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response = await http.get(
-    Uri.parse('$noticeUrls/api/inquiryPost/$number/read'),
+    Uri.parse('$urls/api/inquiryPost/$number/read'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization': 'Bearer $accessToken',

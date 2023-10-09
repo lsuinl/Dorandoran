@@ -25,24 +25,5 @@ Future<int> quest_token() async {
     Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     prefs.setString("accessToken", body["accessToken"].toString());
   }
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // String accessToken = prefs.getString("accessToken")!;
-  // String refreshToken = prefs.getString("refreshToken")!;
-  // var response = await http.patch(
-  //   Uri.parse('$urls/api/test/token'),
-  //   headers: <String, String>{
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: jsonEncode({
-  //     'refreshToken':refreshToken,
-  //     'limitTime':50000000,
-  //   }),
-  // );
-  // print(response.statusCode);
-  // if(response.statusCode==200) {//재대로 받은 경우에만 변경
-  //   prefs.setString("accessToken", response.body);
-  //   // Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  //   // prefs.setString("accessToken", body["accessToken"].toString());
-  // }
   return response.statusCode;
 }

@@ -11,12 +11,13 @@ Future<dynamic> GetInquiryPostList() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response = await http.get(
-    Uri.parse('$noticeUrls/api/inquiryPost'),
+    Uri.parse('$urls/api/inquiryPost'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization': 'Bearer $accessToken',
     },
   );
+  print(response.statusCode);
   if (response.body == []) {
     return [];
   }

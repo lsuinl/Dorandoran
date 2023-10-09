@@ -21,10 +21,8 @@ Future<dynamic> GetCommentPlus(int postid,int commentid) async {
       return GetCommentPlus(postid, commentid);
   }
   else {
-
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-    List<commentcard> card = body.map((dynamic e) => commentcard.fromJson(e))
-        .toList();
+    List<dynamic> card = body[0]['commentData'].map((dynamic e) => commentcard.fromJson(e)).toList();
     return card;
   }
 }

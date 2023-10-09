@@ -158,15 +158,11 @@ class _CommentCardState extends State<CommentCard> {
                                 backgroundColor: Color(0xFFBDBDBD),
                                 side: BorderSide(color: Color(0xFFFFFFFF), width: 1.0,)),
                             onPressed: () async {
+                              print("dd");
                               dynamic cards = await GetReplyPlus(
                                   widget.postId,
                                   widget.card.commentId,
                                   widget.card.replies[0]['replyId']);
-                              if (cards == 401) {
-                                quest_token();
-                                Fluttertoast.showToast(msg: "실행 중 오류가 발생했습니다. 다시 시도해 주세요./");
-                                PostPostDetail(widget.postId, "");
-                              }
                               setState(() {
                                 replycardd.insertAll(0, cards.map<ReplyCard>((a) => ReplyCard(
                                               replyId: a.replyId,

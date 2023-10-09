@@ -11,7 +11,7 @@ Future<dynamic> DelInquiryPost(int number) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response = await http.delete(
-    Uri.parse('$noticeUrls/api/inquiryPost/$number'),
+    Uri.parse('$urls/api/inquiryPost/$number'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization': 'Bearer $accessToken',
