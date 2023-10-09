@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:dorandoran/common/model/all_notification_model.dart';
 import 'package:dorandoran/common/uri.dart';
+import 'package:dorandoran/setting/inquiry/model/inquiry_detail_model.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,19 +19,15 @@ Future<dynamic> GetReadInquiryPost(int number) async {
       'authorization': 'Bearer $accessToken',
     },
   );
-  if (response.body == []) {
-    return [];
-  }
-  else if (response.statusCode == 401) {
+  if (response.statusCode == 401) {
     int number = await quest_token();
     if (number == 200)
       return GetReadInquiryPost(number);
   }
   else {
-    print(response.body);
-    List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-    List<AllNotificationModel> card = body.map((dynamic e) => AllNotificationModel.fromJson(e)).toList();
-    //리스트 변환? 또는 그대로
+    dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
+    print(body);
+    InquiryDetailModel card = InquiryDetailModel.fromJson(body);
     return card;
   }
 }
