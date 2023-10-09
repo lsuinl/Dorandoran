@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'notification_detail_screen.dart';
+
 class NotificationCard extends StatelessWidget {
   final int id;
   final String title;
@@ -19,9 +21,8 @@ class NotificationCard extends StatelessWidget {
       children: [
         Card(
             child: InkWell(
-              onTap: () {},
-                  // Navigator.push(context, MaterialPageRoute(
-                  //     builder: (context) => NoteDeatilScreen(id: id))),
+              onTap: () => Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => NotificationDetailScreen(id: id))),
               child: Container(
                   height: 60.h,
                   width: MediaQuery.of(context).size.width,
