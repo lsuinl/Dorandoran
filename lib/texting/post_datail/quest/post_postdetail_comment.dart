@@ -5,7 +5,7 @@ import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //댓글달기
-Future<DateTime> PostComment(int postId, String comment, bool anonymity, bool secretMode) async {
+Future<dynamic> PostComment(int postId, String comment, bool anonymity, bool secretMode) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response= await http.post(
@@ -26,5 +26,8 @@ Future<DateTime> PostComment(int postId, String comment, bool anonymity, bool se
     if(number==200)
       return PostComment(postId, comment, anonymity, secretMode);
   }
-  return DateTime.now();
+  else if(response.statusCode==201)
+    return DateTime.now();
+  else
+    return response.statusCode;
 }

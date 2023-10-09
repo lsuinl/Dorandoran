@@ -395,6 +395,8 @@ class _PostDetailState extends State<PostDetail> {
         //대댓글
         commenttime = await PostReply(selectcommentid, controller.text, anonymity,lockcheck);
       }
+      if(commenttime==403)
+        Fluttertoast.showToast(msg: "작성이 정지된 상태입니다.");
       setState(() {
         controller.clear();
         number = number;
