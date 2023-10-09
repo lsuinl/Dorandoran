@@ -5,6 +5,7 @@ import 'package:dorandoran/common/model/notification_model.dart';
 import 'package:dorandoran/texting/home/quest/get_feed_notification.dart';
 import 'package:dorandoran/texting/home/quest/get_home_notification.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
+import 'package:dorandoran/texting/home/quest/patch_reject_home_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -428,13 +429,13 @@ class _HomeState extends State<Home> {
                 actions: [
                   TextButton(
                       onPressed: () {
+                        PatchRejectHomeNotification();
                         Navigator.pop(context);
                       },
                       child: Text("다시는 보지 않기", style: Theme.of(context).textTheme.labelSmall!,),
                      ),
                   TextButton(
                       onPressed: () {
-                        //다시보지않음요청
                         Navigator.pop(context);
                       },
                       child: Text("확인", style: Theme.of(context).textTheme.labelSmall!,),
