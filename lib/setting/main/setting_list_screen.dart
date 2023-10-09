@@ -1,4 +1,5 @@
 import 'package:dorandoran/notice/notice_screen.dart';
+import 'package:dorandoran/setting/inquiry/inquiry_screen.dart';
 import 'package:dorandoran/setting/nickname_change/button_change_nickname.dart';
 import 'package:dorandoran/setting/main/button_menu.dart';
 import 'package:dorandoran/setting/post_storage/my_list_screen.dart';
@@ -55,7 +56,7 @@ class SettingListScreen extends StatelessWidget {
                     Flexible(
                         fit: FlexFit.tight,
                         child: MenuButton(
-                            onPressed: () {},
+                            onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => InquiryScreen())),
                             icons: SolarIconsOutline.callChat,
                             text: "문의하기")),
                     Flexible(fit: FlexFit.tight, child: ShowOutButton()),

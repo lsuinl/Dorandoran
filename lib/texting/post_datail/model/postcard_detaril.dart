@@ -16,6 +16,7 @@ class postcardDetail {
   final bool isWrittenByMember;
   final dynamic commentDetailDto;
   final List<dynamic>? postHashes;
+  final bool isExistNextComment;
 
   postcardDetail({
     required this.content,
@@ -34,7 +35,8 @@ class postcardDetail {
     required this.fontSize,
     required this.fontBold,
     required this.checkWrite,
-    required this.isWrittenByMember
+    required this.isWrittenByMember,
+    required this.isExistNextComment,
   });
 
   factory postcardDetail.fromJson(Map<String, dynamic> json) {
@@ -56,6 +58,7 @@ class postcardDetail {
         fontSize: json["fontSize"],
         fontBold: json["fontBold"],
         commentDetailDto: json["commentDetailDto"]['commentData'],
+        isExistNextComment:json["commentDetailDto"]['isExistNextComment'],
     );
   }
 }

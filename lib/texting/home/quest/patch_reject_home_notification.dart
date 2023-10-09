@@ -1,33 +1,25 @@
+import 'dart:convert';
 import 'package:dorandoran/common/quest_token.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//댓글달기
-Future<dynamic> PostComment(int postId, String comment, bool anonymity, bool secretMode) async {
+//다시보지않기
+Future<int> PatchRejectHomeNotification() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
-  http.Response response= await http.post(
-    Uri.parse('$urls/api/comment'),
+  http.Response response= await http.patch(
+    Uri.parse('$noticeUrls/api/reject/notification/home'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
     },
-    body: jsonEncode({
-      "postId":postId,
-      "comment": comment,
-      "anonymity":anonymity,
-      "secretMode": secretMode
-    }),
   );
+  print(response.statusCode);
   if(response.statusCode==401){
     int number=await quest_token();
     if(number==200)
-      return PostComment(postId, comment, anonymity, secretMode);
+      PatchRejectHomeNotification();
   }
-  else if(response.statusCode==201)
-    return DateTime.now();
-  else
-    return response.statusCode;
+  return response.statusCode;
 }
