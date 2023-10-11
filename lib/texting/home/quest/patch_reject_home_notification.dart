@@ -9,7 +9,7 @@ Future<int> PatchRejectHomeNotification() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response= await http.patch(
-    Uri.parse('$noticeUrls/api/reject/notification/home'),
+    Uri.parse('$noticeUrls/api/notification/reject/home'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',

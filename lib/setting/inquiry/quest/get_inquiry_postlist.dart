@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dorandoran/common/model/all_notification_model.dart';
 import 'package:dorandoran/common/uri.dart';
+import 'package:dorandoran/setting/inquiry/model/inquiry_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,8 +30,7 @@ Future<dynamic> GetInquiryPostList() async {
   else {
     print(response.body);
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-    List<AllNotificationModel> card = body.map((dynamic e) => AllNotificationModel.fromJson(e)).toList();
-    //리스트 변환? 또는 그대로
+    List<InquiryModel> card = body.map((dynamic e) => InquiryModel.fromJson(e)).toList();
     return card;
   }
 }
