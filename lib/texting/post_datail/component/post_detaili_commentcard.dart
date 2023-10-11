@@ -13,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../../common/quest_token.dart';
 import '../../../common/util.dart';
+import '../model/postcard_detaril.dart';
 import '../quest/delete_postdetail_reply_delete.dart';
 import '../quest/post_block_member.dart';
 import '../quest/post_postdetail_comment_like.dart';
@@ -222,11 +223,12 @@ class _CommentCardState extends State<CommentCard> {
                         fontWeight: FontWeight.w700)),
                 onPressed: () async {
                   await DeleteCommentDelete(widget.card.commentId);
+                  postcardDetail e =  await PostPostDetail(widget.postId,"");
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              PostDetail(postId: widget.postId)))
+                              PostDetail(postId: widget.postId,e: e,)))
                       .then((value) => setState(() {}));
                 },
               ),

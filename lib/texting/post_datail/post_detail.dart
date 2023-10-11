@@ -10,6 +10,7 @@ import 'package:dorandoran/texting/post_datail/quest/post_postdetail_reply.dart'
 import 'package:dorandoran/texting/post_datail/quest/report/post_report_post.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,27 +26,35 @@ import 'quest/post_block_member.dart';
 
 class PostDetail extends StatefulWidget {
   final int postId;
+  final postcardDetail e;
 
-  const PostDetail({required this.postId, Key? key}) : super(key: key);
+  const PostDetail({
+    required this.postId,
+    required this.e,
+    Key? key}) : super(key: key);
 
   @override
   State<PostDetail> createState() => _PostDetailState();
 }
-
-List<CommentCard> commentlist = [];
 int select = 0;
-int plusreply = -1;
-int replycnt = 0;
-List<String> _menulist = ['신고하기','차단하기'];
-
 class _PostDetailState extends State<PostDetail> {
+  int select = 0;
+  int plusreply = -1;
+  int replycnt = 0;
+  List<String> _menulist = ['신고하기','차단하기'];
+  bool postcommentstate=false;
+  bool isExistNextComment=false;
   DateTime commenttime = new DateTime.now().copyWith(year: 2022);
   int number = 1;
   int selectcommentid = 0;
   ScrollController scrollController = ScrollController();
+  List<CommentCard> commentlist = [];
 
   @override
   void initState() {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      dataset();
+    });
     super.initState();
     commentlist = [];
   }
@@ -53,97 +62,7 @@ class _PostDetailState extends State<PostDetail> {
   @override
   Widget build(BuildContext context) {
     return Basic(
-      widgets: FutureBuilder(
-            future: PostPostDetail(widget.postId, ""),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                postcardDetail e = snapshot.data!;
-                print(e.isExistNextComment);
-                if(e.isWrittenByMember==true)
-                  _menulist=['삭제하기'];
-                bool? postcommentstate;
-                if (e.isWrittenByMember == true) //익명체크. 작성자용
-                  postcommentstate = e.postAnonymity;
-                if(commentlist.length<1){
-                  commentlist.addAll(e.commentDetailDto.map<CommentCard>((a) => CommentCard(
-                    card: commentcard(
-                      isLocked: a['isLocked'],
-                    commentCheckDelete: a['commentCheckDelete'],
-                    commentId: a['commentId'],
-                    isWrittenByMember: a['isWrittenByMember'],
-                    commentAnonymityNickname: a['commentAnonymityNickname'],
-                    comment: a['comment'],
-                    commentLike: a['commentLike'],
-                    commentLikeResult: a['commentLikeResult'],
-                    replies: a['replies'],
-                    commentNickname: a['commentNickname'],
-                    commentTime: a['commentTime'],
-                      countReply: a['countReply'],
-                    ),
-                    postId: widget.postId,
-                    changeinputtarget: changeinputtarget,
-                    deletedreply: deletereply,
-                  )).toList());
-                }
-                  List<CommentCard> newlist= e.commentDetailDto.map<CommentCard>((a) => CommentCard(
-                      card: commentcard(
-                        isLocked: a['isLocked'],
-                    commentCheckDelete: a['commentCheckDelete'],
-                    commentId: a['commentId'],
-                    commentAnonymityNickname: a['commentAnonymityNickname'],
-                    comment: a['comment'],
-                    commentLike: a['commentLike'],
-                    commentLikeResult: a['commentLikeResult'],
-                    replies: a['replies'],
-                    isWrittenByMember: a['isWrittenByMember'],
-                    commentNickname: a['commentNickname'],
-                    commentTime: a['commentTime'],
-                        countReply: a['countReply'],
-                      ),
-                    postId: widget.postId,
-                    changeinputtarget: changeinputtarget,
-                    deletedreply: deletereply,
-                  )).toList();
-
-                //***** 대댓글 중복체크하기
-                  //중복체크 후
-                  newlist.forEach((element) { //새로운리스트와 기존리스트비교
-                      for(int i=0;i<commentlist.length;i++){
-                        if(commentlist[i].card.commentId==element.card.commentId
-                        &&   commentlist[i].card.commentCheckDelete==element.card.commentCheckDelete
-                        &&   commentlist[i].card.commentLikeResult==element.card.commentLikeResult
-                        &&   commentlist[i].card.commentLike==element.card.commentLike
-                        &&   commentlist[i].card.replies==element.card.replies
-                        )
-                        { //같은거발견
-                          break;
-                        }
-                        else if(commentlist[i].card.commentId==element.card.commentId) { //같은데 내용 바뀐거.
-                          commentlist[i]=element;
-                          break;
-                        }
-                        else if(i+1==commentlist.length){ //끝까지 같은거없었으면
-                          commentlist.add(element);
-                        }
-                    }
-                  });
-
-                  //불러올 댓글갯수가 더 남아있다면
-                  int count = 0;
-                  commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
-                  plusreply = (commentlist.length + count) < e.commentCnt ?
-                  commentlist[0].card.commentId : -1;
-                  //이미 쓴 댓글 익명여부 검사
-                  for (final a in e.commentDetailDto) {
-                    //댓글 작성자
-                    if (a["isWrittenByMember"] == true && a["commentCheckDelete"] == false)
-                      postcommentstate = a["commentAnonymityNickname"] == null ? false : true;
-                    for (final b in a["replies"]['replyData'])
-                      if (b["isWrittenByMember"] == true && b["replyCheckDelete"] == false)
-                        postcommentstate = b["replyAnonymityNickname"] == null ? false : true;
-                  }
-
-                return Container(
+      widgets:Container(
                     alignment: Alignment.topCenter,
                     decoration: gradient,
                     child: Column(
@@ -155,7 +74,7 @@ class _PostDetailState extends State<PostDetail> {
                         IconButton(onPressed: ()=> Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Home()))
                       .then((value) => setState(() {})), icon: Icon(SolarIconsOutline.doubleAltArrowLeft,size: 30.r,)),
-                        Text("${e.postAnonymity==true ?"익명":e.postNickname}", style: GoogleFonts.nanumGothic(fontSize: 20.sp,fontWeight: FontWeight.w800),),
+                        Text("${widget.e.postAnonymity==true ?"익명":widget.e.postNickname}", style: GoogleFonts.nanumGothic(fontSize: 20.sp,fontWeight: FontWeight.w800),),
                         DropdownButton2(
                             customButton: Icon(SolarIconsOutline.sirenRounded,size: 24.r),
                             dropdownWidth: 150,
@@ -295,27 +214,27 @@ class _PostDetailState extends State<PostDetail> {
                           Detail_Card(
                             postId: widget.postId,
                             card: postcardDetail(
-                            postNickname: e.postNickname,
-                            postAnonymity: e.postAnonymity,
-                            content: e.content,
-                            postTime: e.postTime,
-                            isWrittenByMember: e.isWrittenByMember,
-                            checkWrite: e.checkWrite,
-                            location: e.location,
-                            postLikeCnt: e.postLikeCnt,
-                            postLikeResult: e.postLikeResult,
-                            commentCnt: e.commentCnt,
-                            backgroundPicUri: e.backgroundPicUri,
-                            postHashes: e.postHashes,
-                            font: e.font,
-                            fontBold: e.fontBold,
-                            fontColor: e.fontColor,
-                            fontSize: e.fontSize,
-                              commentDetailDto: e.commentDetailDto,
-                              isExistNextComment: e.isExistNextComment
+                            postNickname: widget.e.postNickname,
+                            postAnonymity: widget.e.postAnonymity,
+                            content: widget.e.content,
+                            postTime: widget.e.postTime,
+                            isWrittenByMember: widget.e.isWrittenByMember,
+                            checkWrite: widget.e.checkWrite,
+                            location: widget.e.location,
+                            postLikeCnt: widget.e.postLikeCnt,
+                            postLikeResult: widget.e.postLikeResult,
+                            commentCnt: widget.e.commentCnt,
+                            backgroundPicUri: widget.e.backgroundPicUri,
+                            postHashes: widget.e.postHashes,
+                            font: widget.e.font,
+                            fontBold: widget.e.fontBold,
+                            fontColor: widget.e.fontColor,
+                            fontSize: widget.e.fontSize,
+                              commentDetailDto: widget.e.commentDetailDto,
+                              isExistNextComment: widget.e.isExistNextComment
                             )
                           ),
-                        e.isExistNextComment==false
+                          isExistNextComment==false
                               ? Container()
                               : OutlinedButton(
                                   style: OutlinedButton.styleFrom(
@@ -325,7 +244,8 @@ class _PostDetailState extends State<PostDetail> {
                                       side: BorderSide(color: Color(0xFFFFFFFF), width: 1.0,)
                                   ),
                                   onPressed: () async {
-                                    dynamic pluscomments = await GetCommentPlus(widget.postId, plusreply);
+                                    dynamic plusdata = await GetCommentPlus(widget.postId, plusreply);
+                                    List<dynamic> pluscomments = plusdata['commentData'].map((dynamic e) => commentcard.fromJson(e)).toList();
                                     commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
                                                 CommentCard(
                                                   card: commentcard(
@@ -346,14 +266,8 @@ class _PostDetailState extends State<PostDetail> {
                                                   changeinputtarget: changeinputtarget,
                                                   deletedreply: deletereply,
                                                 )).toList());
-                                    //중복체크해서 삽입
-                                    //불러올 댓글갯수가 더 남아있다면
-                                    setState(() {
-                                      int count = 0;
-                                      commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
-                                      plusreply = (commentlist.length + count) < e.commentCnt ?
-                                      commentlist[0].card.commentId : -1;
-                                    });
+                                    //불러올 댓글갯수가 더 남아있다면기
+                                    plusreplys(plusdata['isExistNextComment'],widget.e.commentCnt);
                                   },
                                   child: Text("댓글 더보기", style: Theme.of(context).textTheme.headlineMedium!)),
                           ListBody(
@@ -377,13 +291,8 @@ class _PostDetailState extends State<PostDetail> {
                         sendmessage: sendmessage,
                         reset: changeinputtarget,
                       ),
-                    ]));
-              } else {
-                return Container(
-                    decoration: gradient,
-                    child: Center(child: CircularProgressIndicator()));
-              }
-            }));
+                    ]))
+              );
   }
 
   sendmessage() async {
@@ -428,6 +337,62 @@ class _PostDetailState extends State<PostDetail> {
       //5초미만의 간격으로 댓글 작성시
       // 경고 문구와함께 댓글이 쳐지지 않음
     }
+  }
+  dataset()  {
+    setState(() {
+      isExistNextComment=widget.e.isExistNextComment;
+
+      if(widget.e.isWrittenByMember==true)
+        _menulist=['삭제하기'];
+
+      if (widget.e.isWrittenByMember == true) //익명체크. 작성자용
+        postcommentstate = widget.e.postAnonymity;
+
+      commentlist=widget.e.commentDetailDto.map<CommentCard>((a) => CommentCard( //댓글추가
+        card: commentcard(
+          isLocked: a['isLocked'],
+          commentCheckDelete: a['commentCheckDelete'],
+          commentId: a['commentId'],
+          isWrittenByMember: a['isWrittenByMember'],
+          commentAnonymityNickname: a['commentAnonymityNickname'],
+          comment: a['comment'],
+          commentLike: a['commentLike'],
+          commentLikeResult: a['commentLikeResult'],
+          replies: a['replies'],
+          commentNickname: a['commentNickname'],
+          commentTime: a['commentTime'],
+          countReply: a['countReply'],
+        ),
+        postId: widget.postId,
+        changeinputtarget: changeinputtarget,
+        deletedreply: deletereply,
+      )).toList();
+
+      //불러올 댓글갯수가 더 남아있다면
+      int count = 0;
+      commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
+      plusreply = commentlist[0].card.commentId;
+
+      for (final a in widget.e.commentDetailDto) { //이미 쓴 댓글 익명여부 검사
+        //댓글 작성자
+        if (a["isWrittenByMember"] == true && a["commentCheckDelete"] == false)
+          postcommentstate = a["commentAnonymityNickname"] == null ? false : true;
+        for (final b in a["replies"]['replyData'])
+          if (b["isWrittenByMember"] == true && b["replyCheckDelete"] == false)
+            postcommentstate = b["replyAnonymityNickname"] == null ? false : true;
+        }
+    });
+  }
+
+
+  plusreplys(bool isExistNextComments, int commentCnt){
+    setState(() {
+      int count = 0;
+      isExistNextComment=isExistNextComments;
+      commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
+      plusreply = (commentlist.length + count) < commentCnt ?
+      commentlist[0].card.commentId : -1;
+    });
   }
 
   changeinputtarget() {
