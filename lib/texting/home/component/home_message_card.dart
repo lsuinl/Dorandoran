@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:solar_icons/solar_icons.dart';
+import '../../post_datail/model/postcard_detaril.dart';
 import '../../post_datail/post_detail.dart';
+import '../../post_datail/quest/post/post_postdetail_post_detail.dart';
 import '../quest/home_postLike.dart';
 
 class Message_Card extends StatefulWidget {
@@ -52,7 +54,11 @@ class _Message_CardState extends State<Message_Card> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r)),
       elevation: 0, //그림자
       child: InkWell(
-        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail(postId:widget.postId))),
+        onTap: () async {
+          postcardDetail e =  await PostPostDetail(widget.postId,"");
+          Navigator.push(context, MaterialPageRoute(
+              builder: (context) => PostDetail(postId: widget.postId,e:e)));
+        },
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.r),

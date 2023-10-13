@@ -1,4 +1,5 @@
-import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_reply_delete.dart';
+import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
+import 'package:dorandoran/texting/post_datail/quest/reply/delete_postdetail_reply_delete.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../../common/util.dart';
 import '../post_detail.dart';
-import '../quest/post_block_member.dart';
+import '../quest/post/post_block_member.dart';
+import '../quest/post/post_postdetail_post_detail.dart';
 import '../quest/report/post_report_reply.dart';
 
 class ReplyCard extends StatefulWidget {
@@ -48,10 +50,7 @@ class ReplyCard extends StatefulWidget {
 class _ReplyCardState extends State<ReplyCard> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: getnickname(),
-        builder: (context, snapshot) {
-          return SwipeActionCell(
+    return SwipeActionCell(
               key: ObjectKey(widget.replyId),
               trailingActions: (widget.replyCheckDelete || widget.isLocked)
                   ? []
@@ -121,7 +120,7 @@ class _ReplyCardState extends State<ReplyCard> {
                               )
                             ]))))
               ])));
-        });
+        ;
   }
 
   ondelete() {
@@ -141,11 +140,12 @@ class _ReplyCardState extends State<ReplyCard> {
                         fontWeight: FontWeight.w700)),
                 onPressed: () async {
                   await DeleteReplyDelete(widget.replyId);
+                  postcardDetail e =  await PostPostDetail(widget.postId,"");
                   Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  PostDetail(postId: widget.postId)))
+                                  PostDetail(postId: widget.postId,e: e,)))
                       .then((value) => setState(() {}));
                 },
               ),

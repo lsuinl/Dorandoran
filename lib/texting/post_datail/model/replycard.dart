@@ -2,7 +2,7 @@ class replycard {
   final int replyId;
   final String replyNickname;
   final String reply;
-  final String replyAnonymityNickname;
+  final String? replyAnonymityNickname;
   final bool replyCheckDelete;
   final bool isWrittenByMember;
   final String replyTime;

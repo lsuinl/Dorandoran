@@ -7,6 +7,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
 
+import '../../texting/post_datail/model/postcard_detaril.dart';
+import '../../texting/post_datail/quest/post/post_postdetail_post_detail.dart';
+
 class NoticeCard extends StatelessWidget {
   final String notificationType;
   final bool isRead;
@@ -39,7 +42,8 @@ class NoticeCard extends StatelessWidget {
         TextButton(
             onPressed: ()async {
               ReadNoticeModel moveId= await GetReadNotice(notificationId);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail(postId: moveId.postId)));
+              postcardDetail e =  await PostPostDetail(moveId.postId,"");
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail(postId: moveId.postId,e:e)));
             },
             style: TextButton.styleFrom(
               alignment: Alignment.centerLeft,

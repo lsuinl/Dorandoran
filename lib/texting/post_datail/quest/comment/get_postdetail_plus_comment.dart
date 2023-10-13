@@ -1,6 +1,6 @@
 import 'package:dorandoran/common/quest_token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/commentcard.dart';
+import '../../model/commentcard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
@@ -22,7 +22,6 @@ Future<dynamic> GetCommentPlus(int postid,int commentid) async {
   }
   else {
     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-    List<dynamic> card = body[0]['commentData'].map((dynamic e) => commentcard.fromJson(e)).toList();
-    return card;
+    return body[0];
   }
 }
