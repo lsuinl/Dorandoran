@@ -3,10 +3,10 @@ import 'package:dorandoran/common/quest_token.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
-import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_post_delete.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_postdetail_post_detail.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_postdetail_comment.dart';
-import 'package:dorandoran/texting/post_datail/quest/post_postdetail_reply.dart';
+import 'package:dorandoran/texting/post_datail/quest/post/delete_postdetail_post_delete.dart';
+import 'package:dorandoran/texting/post_datail/quest/post/post_postdetail_post_detail.dart';
+import 'package:dorandoran/texting/post_datail/quest/comment/post_postdetail_comment.dart';
+import 'package:dorandoran/texting/post_datail/quest/reply/post_postdetail_reply.dart';
 import 'package:dorandoran/texting/post_datail/quest/report/post_report_post.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +18,11 @@ import 'package:solar_icons/solar_icons.dart';
 import '../home/home.dart';
 import 'component/post_detail_card.dart';
 import 'component/post_detaili_commentcard.dart';
-import 'package:dorandoran/texting/post_datail/quest/get_postdetail_plus_comment.dart';
+import 'package:dorandoran/texting/post_datail/quest/comment/get_postdetail_plus_comment.dart';
 import 'package:dorandoran/common/basic.dart';
 
 import 'model/replycard.dart';
-import 'quest/post_block_member.dart';
+import 'quest/post/post_block_member.dart';
 
 class PostDetail extends StatefulWidget {
   final int postId;
@@ -37,26 +37,25 @@ class PostDetail extends StatefulWidget {
   State<PostDetail> createState() => _PostDetailState();
 }
 int select = 0;
+int number = 1;
+int selectcommentid = 0;
+DateTime commenttime = new DateTime.now().copyWith(year: 2022);
+ScrollController scrollController = ScrollController();
+
 class _PostDetailState extends State<PostDetail> {
-  int select = 0;
   int plusreply = -1;
   int replycnt = 0;
   List<String> _menulist = ['신고하기','차단하기'];
   bool postcommentstate=false;
   bool isExistNextComment=false;
-  DateTime commenttime = new DateTime.now().copyWith(year: 2022);
-  int number = 1;
-  int selectcommentid = 0;
-  ScrollController scrollController = ScrollController();
   List<CommentCard> commentlist = [];
-
+  List<CommentCard> pluscomments=[];
   @override
   void initState() {
     SchedulerBinding.instance!.addPostFrameCallback((_) {
       dataset();
     });
     super.initState();
-    commentlist = [];
   }
 
   @override
@@ -71,9 +70,8 @@ class _PostDetailState extends State<PostDetail> {
                     padding: const EdgeInsets.all(10.0),
                   child:   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(onPressed: ()=> Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Home()))
-                      .then((value) => setState(() {})), icon: Icon(SolarIconsOutline.doubleAltArrowLeft,size: 30.r,)),
+                        IconButton(onPressed: ()=> Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Home()),(route)=>false),
+                            icon: Icon(SolarIconsOutline.doubleAltArrowLeft,size: 30.r,)),
                         Text("${widget.e.postAnonymity==true ?"익명":widget.e.postNickname}", style: GoogleFonts.nanumGothic(fontSize: 20.sp,fontWeight: FontWeight.w800),),
                         DropdownButton2(
                             customButton: Icon(SolarIconsOutline.sirenRounded,size: 24.r),
@@ -245,33 +243,39 @@ class _PostDetailState extends State<PostDetail> {
                                   ),
                                   onPressed: () async {
                                     dynamic plusdata = await GetCommentPlus(widget.postId, plusreply);
-                                    List<dynamic> pluscomments = plusdata['commentData'].map((dynamic e) => commentcard.fromJson(e)).toList();
-                                    commentlist.insertAll(0, pluscomments.map<CommentCard>((a) =>
-                                                CommentCard(
-                                                  card: commentcard(
-                                                    isLocked: a.isLocked,
-                                                  commentCheckDelete: a.commentCheckDelete,
-                                                  isWrittenByMember: a.isWrittenByMember,
-                                                  commentId: a.commentId,
-                                                  commentAnonymityNickname: a.commentAnonymityNickname,
-                                                  comment: a.comment,
-                                                  commentLike: a.commentLike,
-                                                  commentLikeResult: a.commentLikeResult,
-                                                  replies: a.replies,
-                                                  commentNickname: a.commentNickname,
-                                                  commentTime: a.commentTime,
-                                                    countReply: a.countReply,
-                                                  ),
-                                                  postId: widget.postId,
-                                                  changeinputtarget: changeinputtarget,
-                                                  deletedreply: deletereply,
-                                                )).toList());
-                                    //불러올 댓글갯수가 더 남아있다면기
-                                    plusreplys(plusdata['isExistNextComment'],widget.e.commentCnt);
+                                    if(pluscomments.length>0) commentlist.insertAll(0, pluscomments);
+                                    List<dynamic> pluscommentsmodel = plusdata['commentData'].map((dynamic e) => commentcard.fromJson(e)).toList();
+                                     pluscomments= pluscommentsmodel.map<CommentCard>((a) =>
+                                        CommentCard(
+                                          card: commentcard(
+                                            isLocked: a.isLocked,
+                                            commentCheckDelete: a.commentCheckDelete,
+                                            isWrittenByMember: a.isWrittenByMember,
+                                            commentId: a.commentId,
+                                            commentAnonymityNickname: a.commentAnonymityNickname,
+                                            comment: a.comment,
+                                            commentLike: a.commentLike,
+                                            commentLikeResult: a.commentLikeResult,
+                                            replies: a.replies,
+                                            commentNickname: a.commentNickname,
+                                            commentTime: a.commentTime,
+                                            countReply: a.countReply,
+                                          ),
+                                          postId: widget.postId,
+                                          changeinputtarget: changeinputtarget,
+                                          setstates: deletereply,
+                                        )).toList();
+                                    print(pluscomments.map((e) => e.card.commentId).toList());
+                                    print(commentlist.map((e) => e.card.commentId).toList());
+                                    //불러올 댓글갯수가 더 남아있다면
+                                    plusreplys(plusdata['isExistNextComment'],widget.e.commentCnt,pluscomments);
                                   },
                                   child: Text("댓글 더보기", style: Theme.of(context).textTheme.headlineMedium!)),
                           ListBody(
-                              children: commentlist.length >0 ? commentlist:
+                              children: commentlist.length >0 ? [
+                                Column(children: pluscomments),
+                                Column(children: commentlist,)
+                              ]:
                                   [
                                     Center(
                                         child: Card(
@@ -312,6 +316,8 @@ class _PostDetailState extends State<PostDetail> {
         selectcommentid=0;
         commenttime = DateTime.now();
       });
+      postcardDetail e =  await PostPostDetail(widget.postId,"");
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>  PostDetail(postId:widget.postId, e: e)));
     } else {
       showDialog(
           context: context,
@@ -334,8 +340,7 @@ class _PostDetailState extends State<PostDetail> {
               ],
             );
           });
-      //5초미만의 간격으로 댓글 작성시
-      // 경고 문구와함께 댓글이 쳐지지 않음
+      //5초미만의 간격으로 댓글 작성시 경고 문구와함께 댓글이 쳐지지 않음
     }
   }
   dataset()  {
@@ -365,7 +370,7 @@ class _PostDetailState extends State<PostDetail> {
         ),
         postId: widget.postId,
         changeinputtarget: changeinputtarget,
-        deletedreply: deletereply,
+        setstates: deletereply,
       )).toList();
 
       //불러올 댓글갯수가 더 남아있다면
@@ -384,9 +389,9 @@ class _PostDetailState extends State<PostDetail> {
     });
   }
 
-
-  plusreplys(bool isExistNextComments, int commentCnt){
+  plusreplys(bool isExistNextComments, int commentCnt,pluscomment){
     setState(() {
+      pluscomments= pluscomment;
       int count = 0;
       isExistNextComment=isExistNextComments;
       commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
@@ -400,12 +405,12 @@ class _PostDetailState extends State<PostDetail> {
       selectcommentid = select;
     });
   }
-  sendreport(String name) async {
+  sendreport(String name) async { //신고하기
     int num=await PostReportPost(widget.postId,name);
     if(num==201)
       Fluttertoast.showToast(msg: "신고가 접수되었습니다.");
   }
-  deletereply() {
+  deletereply() { //대댓글삭제
     setState(() {});
   }
 }

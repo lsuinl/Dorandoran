@@ -1,6 +1,6 @@
 import 'package:dorandoran/common/quest_token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/commentcard.dart';
+import '../../model/commentcard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
@@ -15,7 +15,6 @@ Future<dynamic> GetCommentPlus(int postid,int commentid) async {
       'authorization':'Bearer $accessToken',
     },
   );
-  print(response.body);
   if(response.statusCode==401) {
     int number=await quest_token();
     if(number==200)

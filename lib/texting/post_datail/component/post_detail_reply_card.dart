@@ -1,5 +1,5 @@
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
-import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_reply_delete.dart';
+import 'package:dorandoran/texting/post_datail/quest/reply/delete_postdetail_reply_delete.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +12,8 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../../common/util.dart';
 import '../post_detail.dart';
-import '../quest/post_block_member.dart';
-import '../quest/post_postdetail_post_detail.dart';
+import '../quest/post/post_block_member.dart';
+import '../quest/post/post_postdetail_post_detail.dart';
 import '../quest/report/post_report_reply.dart';
 
 class ReplyCard extends StatefulWidget {

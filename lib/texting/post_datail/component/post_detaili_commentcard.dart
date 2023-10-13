@@ -1,11 +1,12 @@
 import 'package:dorandoran/texting/post_datail/component/post_detail_reply_card.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
-import 'package:dorandoran/texting/post_datail/quest/delete_postdetail_comment_delete.dart';
-import 'package:dorandoran/texting/post_datail/quest/get_postdetail_reply_plus.dart';
+import 'package:dorandoran/texting/post_datail/quest/comment/delete_postdetail_comment_delete.dart';
+import 'package:dorandoran/texting/post_datail/quest/reply/get_postdetail_reply_plus.dart';
 import 'package:dorandoran/texting/post_datail/quest/report/post_report_comment.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,21 +15,22 @@ import 'package:solar_icons/solar_icons.dart';
 import '../../../common/quest_token.dart';
 import '../../../common/util.dart';
 import '../model/postcard_detaril.dart';
-import '../quest/delete_postdetail_reply_delete.dart';
-import '../quest/post_block_member.dart';
-import '../quest/post_postdetail_comment_like.dart';
+import '../model/replycard.dart';
+import '../quest/reply/delete_postdetail_reply_delete.dart';
+import '../quest/post/post_block_member.dart';
+import '../quest/comment/post_postdetail_comment_like.dart';
 import '../post_detail.dart';
-import '../quest/post_postdetail_post_detail.dart';
+import '../quest/post/post_postdetail_post_detail.dart';
 
 class CommentCard extends StatefulWidget {
   final commentcard card;
-  final VoidCallback deletedreply;
+  final VoidCallback setstates;
   final VoidCallback changeinputtarget;
   final int postId;
 
   const CommentCard(
       {required this.card,
-      required this.deletedreply,
+        required this.setstates,
       required this.changeinputtarget,
       required this.postId,
       Key? key})
@@ -42,9 +44,26 @@ Map<int, bool> commentlike = {0: false};
 Map<int, int> commentlikecnt = {0: 0};
 
 class _CommentCardState extends State<CommentCard> {
+  bool isExistNextReply=false;
+  List<ReplyCard> replycardd = [];
+
   @override
   void initState() {
+    isExistNextReply=widget.card.replies['isExistNextReply'];
+    replycardd=widget.card.replies['replyData']!.map<ReplyCard>((a) => ReplyCard(
+      replyId: a['replyId'],
+      replyNickname: a['replyNickname'],
+      reply: a['reply'],
+      isLocked: a['isLocked'],
+      replyAnonymityNickname: a['replyAnonymityNickname'],
+      replyCheckDelete: a['replyCheckDelete'],
+      replyTime: a['replyTime'],
+      isWrittenByMember: a['isWrittenByMember'],
+      postId: widget.postId,
+      deletedreply: widget.setstates,
+    )).toList();
     super.initState();
+    print(widget.card.commentId);
     setState(() {
       commentlike.addAll({widget.card.commentId: widget.card.commentLikeResult});
       commentlikecnt.addAll({widget.card.commentId: widget.card.commentLike});
@@ -53,16 +72,7 @@ class _CommentCardState extends State<CommentCard> {
 
   @override
   Widget build(BuildContext context) {
-    List<ReplyCard> replycardd = [];
-    return FutureBuilder(
-        future: getreply(widget.card.replies['replyData']),
-        builder: (context, snapshot) {
-          if (snapshot.hasData)
-            replycardd = replycardd.length < 10 ? snapshot.data! : replycardd;
-            return FutureBuilder(
-                future: getnickname(),
-                builder: (context, snapshot) {
-                  return Column(children: [
+    return Column(children: [
                     Container(
                             child: Padding(
                                 padding: EdgeInsets.all(15),
@@ -71,19 +81,14 @@ class _CommentCardState extends State<CommentCard> {
                                     child: SwipeActionCell(
                   key: ObjectKey(widget.card.commentId),
                   trailingActions:(widget.card.commentCheckDelete || widget.card.isLocked ) ? []:widget.card.isWrittenByMember == true?
-                  //삭제
                   [SwipeAction( icon:Icon(Icons.delete,size: 30.r),
                   onTap: (CompletionHandler handler) async {
                   ondelete();
-                  //await handler(true);
                   },
                   color: Color(0xFFD9D9D9))]:
-                  //신고/차단
                   [SwipeAction( icon:Icon(SolarIconsOutline.sirenRounded,size: 30.r),
                   onTap: (CompletionHandler handler) async {
                   onsiren();
-                  // await handler(true);
-                  // setState(() {});
                   },
                   color: Color(0xFFD9D9D9))],
                   child:Column(
@@ -150,7 +155,7 @@ class _CommentCardState extends State<CommentCard> {
                                     ),
                                   )
                                   )]))),
-                    widget.card.replies['isExistNextReply'] == true
+                    isExistNextReply == true
                         ? OutlinedButton(
                             style: OutlinedButton.styleFrom(
                                 elevation: 2,
@@ -159,12 +164,14 @@ class _CommentCardState extends State<CommentCard> {
                                 backgroundColor: Color(0xFFBDBDBD),
                                 side: BorderSide(color: Color(0xFFFFFFFF), width: 1.0,)),
                             onPressed: () async {
-                              print("dd");
-                              dynamic cards = await GetReplyPlus(
+                              dynamic a = await GetReplyPlus(
                                   widget.postId,
                                   widget.card.commentId,
-                                  widget.card.replies[0]['replyId']);
+                                  widget.card.replies['replyData'][0]['replyId']);
+                              //다음더보기여부
+                              List<dynamic> cards = a['replyData'].map((dynamic e) => replycard.fromJson(e)).toList();
                               setState(() {
+                                isExistNextReply = a['isExistNextReply'];
                                 replycardd.insertAll(0, cards.map<ReplyCard>((a) => ReplyCard(
                                               replyId: a.replyId,
                                               replyNickname: a.replyNickname,
@@ -175,35 +182,15 @@ class _CommentCardState extends State<CommentCard> {
                                               replyCheckDelete: a.replyCheckDelete,
                                               replyTime: a.replyTime,
                                               postId: widget.postId,
-                                              deletedreply: widget.deletedreply,
+                                              deletedreply: widget.setstates,
                                             )).toList());
+                                widget.setstates();
                               });
                             },
                             child: Text("대댓글 더보기", style: Theme.of(context).textTheme.headlineMedium!))
                         : Container(),
                     ListBody(children: replycardd)
                   ]);
-                });
-        });
-  }
-
-  Future<List<ReplyCard>> getreply(dynamic replies) async {
-    return replies != null
-        ? await replies!
-            .map<ReplyCard>((a) => ReplyCard(
-                  replyId: a['replyId'],
-                  replyNickname: a['replyNickname'],
-                  reply: a['reply'],
-                  isLocked: a['isLocked'],
-                  replyAnonymityNickname: a['replyAnonymityNickname'],
-                  replyCheckDelete: a['replyCheckDelete'],
-                  replyTime: a['replyTime'],
-                  isWrittenByMember: a['isWrittenByMember'],
-                  postId: widget.postId,
-                  deletedreply: widget.deletedreply,
-                ))
-            .toList()
-        : [];
   }
 
   ondelete(){
@@ -353,6 +340,7 @@ class _CommentCardState extends State<CommentCard> {
       ),
     );
   }
+
   sendreport(String name) async {
    int num= await PostReportComment(widget.card.commentId,name);
    if(num==201)

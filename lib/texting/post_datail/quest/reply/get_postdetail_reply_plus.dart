@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
-import '../model/replycard.dart';
+import '../../model/replycard.dart';
 
 //대댓글 더보기
 Future<dynamic> GetReplyPlus(
@@ -16,12 +16,12 @@ Future<dynamic> GetReplyPlus(
         'authorization':'Bearer $accessToken',
       },
     );
+  print(response.body);
   if(response.statusCode==401) {
     int number = await quest_token();
     if(number==200)
       return GetReplyPlus(postid, commentid, replyid);
   }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-  List<replycard> card = body.map((dynamic e) => replycard.fromJson(e)).toList();
-  return card;
+  return body[0];
 }

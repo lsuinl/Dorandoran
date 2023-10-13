@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 import '../../texting/post_datail/model/postcard_detaril.dart';
-import '../../texting/post_datail/quest/post_postdetail_post_detail.dart';
+import '../../texting/post_datail/quest/post/post_postdetail_post_detail.dart';
 
 class NoticeCard extends StatelessWidget {
   final String notificationType;

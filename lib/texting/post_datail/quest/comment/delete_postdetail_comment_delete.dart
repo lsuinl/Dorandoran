@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../common/quest_token.dart';
+import '../../../../common/quest_token.dart';
 
 //댓글삭제하기
 Future<int>  DeleteCommentDelete(int commentId) async {

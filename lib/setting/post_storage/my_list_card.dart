@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
 import '../../texting/post_datail/model/postcard_detaril.dart';
 import '../../texting/post_datail/post_detail.dart';
-import '../../texting/post_datail/quest/post_postdetail_post_detail.dart';
+import '../../texting/post_datail/quest/post/post_postdetail_post_detail.dart';
 
 class MyListCard extends StatefulWidget {
   final String time;
