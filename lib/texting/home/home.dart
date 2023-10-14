@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/model/notification_model.dart';
 import 'package:dorandoran/texting/home/quest/get_feed_notification.dart';
@@ -63,7 +64,8 @@ class _HomeState extends State<Home> {
     return Scaffold(
         body: WillPopScope(
             onWillPop: onWillPop,
-            child: Container(
+            child: Basic(widgets:
+            Container(
                 color: backgroundcolor,
                 child: SafeArea(
                     top: true,
@@ -313,7 +315,7 @@ class _HomeState extends State<Home> {
                           ])
                             )));
                           }
-                        })))));
+                        }))))));
   }
 
   void _loadAd() {

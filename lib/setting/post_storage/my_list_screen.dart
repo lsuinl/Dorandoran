@@ -1,3 +1,4 @@
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/quest_token.dart';
 import 'package:dorandoran/setting/post_storage/get_all_posts.dart';
 import 'package:dorandoran/setting/post_storage/my_list_card.dart';
@@ -42,13 +43,8 @@ class _MyListScreenState extends State<MyListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-    body: Container(
-    color: backgroundcolor,
-    child: SafeArea(
-    top: true,
-    bottom: true,
-    child: FutureBuilder(
+    return Basic(
+      widgets: FutureBuilder(
             future: myfuture,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -169,6 +165,6 @@ class _MyListScreenState extends State<MyListScreen> {
                     decoration: gradient,
                     child: Center(child: CircularProgressIndicator()));
               }
-            }))));
+            }));
   }
 }

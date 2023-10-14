@@ -1,3 +1,4 @@
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/notice/notice_screen.dart';
 import 'package:dorandoran/setting/inquiry/inquiry_screen.dart';
 import 'package:dorandoran/setting/nickname_change/button_change_nickname.dart';
@@ -16,13 +17,8 @@ class SettingListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-            color: backgroundcolor,
-            child: SafeArea(
-                top: true,
-                bottom: true,
-                child: Container(
+    return Basic(
+        widgets: Container(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -79,6 +75,6 @@ class SettingListScreen extends StatelessWidget {
                             ]
                             ))
                     )],
-                )))));
+                )));
   }
 }

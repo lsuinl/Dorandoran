@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:dorandoran/firebase.dart';
 import 'package:dorandoran/setting/main/setting_list_screen.dart';
@@ -19,15 +20,21 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'common/storage.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+StreamController<String> streamController = StreamController.broadcast();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('background 상황에서 메시지를 받았다.');
+  print('Message data: ${message.notification!.body}');
+}
 void main() async {
   KakaoSdk.init(nativeAppKey: kakaonativekey);
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  String firebasetoken = (await FirebaseMessaging.instance.getToken())!;
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
-  String firebasetoken = (await FirebaseMessaging.instance.getToken())!;
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('firebasetoken', firebasetoken!);
   if(Platform.isAndroid)
@@ -38,7 +45,6 @@ void main() async {
   runApp(ScreenUtilInit(
     designSize: Size(360, 690),
     builder: (context, child) {
-      //실행(with 폰트)
       return GetMaterialApp(
         initialBinding: BindingsBuilder.put(()=> NotificationController(),permanent: true),
         theme: ThemeData(
@@ -80,7 +86,6 @@ void main() async {
           canvasColor: Colors.transparent,
         ),
         builder: (context, child) {
-          //폰트크기고정
           return MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
               child: child!
