@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:solar_icons/solar_icons.dart';
 
 class MenuButton extends StatelessWidget {
   final VoidCallback onPressed;

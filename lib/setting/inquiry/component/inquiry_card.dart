@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../detail_inquiry_screen.dart';
 
 class InquiryCard extends StatelessWidget {

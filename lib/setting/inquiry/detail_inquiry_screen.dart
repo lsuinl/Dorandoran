@@ -7,7 +7,6 @@ import 'package:dorandoran/common/basic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solar_icons/solar_icons.dart';
-
 import 'component/inquiry_comment_card.dart';
 
 class DerailInquiryScreen extends StatelessWidget {
@@ -90,7 +89,7 @@ class DerailInquiryScreen extends StatelessWidget {
                                 SingleChildScrollView(
                                   child:
                                   Column(
-                                    children: data.inquiryCommentList.map((e) => InquiryCommentCard()).toList())
+                                    children: data.inquiryCommentList.map((e) => InquiryCommentCard(e: e)).toList())
                                   ),
                               ],
                             )),

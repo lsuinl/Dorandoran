@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'notification_detail_screen.dart';
 
 class NotificationCard extends StatelessWidget {

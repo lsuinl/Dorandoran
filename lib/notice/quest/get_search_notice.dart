@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/quest_token.dart';
-import '../../texting/home/model/postcard.dart';
 
 //알림 전체 조회하기
 Future<dynamic> GetSearchNotice(int number) async {

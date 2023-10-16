@@ -9,7 +9,6 @@ import 'package:dorandoran/common/css.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-
 class MyListScreen extends StatefulWidget {
   final String text;
 

@@ -1,12 +1,9 @@
-import 'package:dorandoran/common/util.dart';
 import 'package:dorandoran/notice/model/read_notice_model.dart';
 import 'package:dorandoran/notice/quest/get_read_notice.dart';
 import 'package:dorandoran/texting/post_datail/post_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
-
 import '../../texting/post_datail/model/postcard_detaril.dart';
 import '../../texting/post_datail/quest/post/post_postdetail_post_detail.dart';
 

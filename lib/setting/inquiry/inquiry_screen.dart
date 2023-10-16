@@ -2,10 +2,13 @@ import 'package:dorandoran/setting/inquiry/component/inquiry_card.dart';
 import 'package:dorandoran/setting/inquiry/component/writing_button.dart';
 import 'package:dorandoran/setting/inquiry/model/inquiry_model.dart';
 import 'package:dorandoran/setting/inquiry/quest/get_inquiry_postlist.dart';
+import 'package:dorandoran/setting/main/setting_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/common/basic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
+
+import '../../texting/home/home.dart';
 
 class InquiryScreen extends StatelessWidget {
   const InquiryScreen({super.key});
@@ -33,9 +36,7 @@ class InquiryScreen extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     IconButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
+                                        onPressed: () =>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SettingListScreen()),(route)=>false),
                                         icon: Icon(
                                           SolarIconsOutline.doubleAltArrowLeft,
                                           size: 30.r,

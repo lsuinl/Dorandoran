@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
-
 import '../../texting/home/home.dart';
 
 class Top extends StatefulWidget {

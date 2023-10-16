@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solar_icons/solar_icons.dart';
-
 import '../../user/login/screen/kakao_login.dart';
 import 'delete_account_closure.dart';
 

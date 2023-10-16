@@ -1,14 +1,9 @@
 import 'package:dorandoran/common/basic.dart';
-import 'package:dorandoran/common/model/all_notification_model.dart';
 import 'package:dorandoran/common/model/notification_model.dart';
 import 'package:dorandoran/setting/notification/get_detail_notification.dart';
-import 'package:dorandoran/setting/notification/get_notification.dart';
-import 'package:dorandoran/setting/notification/notification_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
-
-import '../post_storage/my_list_top.dart';
 
 class NotificationDetailScreen extends StatelessWidget {
   final int id;

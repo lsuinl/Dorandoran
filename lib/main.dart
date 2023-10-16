@@ -91,7 +91,7 @@ void main() async {
               child: child!
           );
         },
-        home: KaKaoLogin(),
+        home: Login_check(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

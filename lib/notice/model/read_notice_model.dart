@@ -5,7 +5,6 @@ class ReadNoticeModel {
   final int? replyId;
   final String notificationType;
 
-
   ReadNoticeModel({
     required this.notificationId,
     required this.postId,

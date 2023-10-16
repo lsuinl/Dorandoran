@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../sign_up/screen/sign_up.dart';
 
 class AgreeButton extends StatefulWidget {
