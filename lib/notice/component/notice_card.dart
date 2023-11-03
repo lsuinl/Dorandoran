@@ -32,6 +32,8 @@ class NoticeCard extends StatelessWidget {
     return Container(
         color: isRead == true ? null : Colors.grey,
         child:
+            Padding(padding: EdgeInsets.symmetric(horizontal: 15),
+            child:
         Row(
           children: [
           Icon(Icontype, color: Colors.black, size: 30.r,),
@@ -48,14 +50,15 @@ class NoticeCard extends StatelessWidget {
               animationDuration: Duration(seconds: 0),
               minimumSize: const Size(330, 50),
             ),
-            child: Column(
+            child:
+            Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title, style: TextStyle(fontSize: 20.sp)),
                   Text(message, style: TextStyle(fontSize: 15.sp)),
                   Text(notificationTime, style: TextStyle(fontSize: 12.sp))
                 ]))])
-    );
+    ));
   }
 
   IconData setIcon(String notificationType){

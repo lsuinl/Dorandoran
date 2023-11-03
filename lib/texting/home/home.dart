@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/model/notification_model.dart';
+import 'package:dorandoran/texting/home/quest/get_count.dart';
 import 'package:dorandoran/texting/home/quest/get_feed_notification.dart';
 import 'package:dorandoran/texting/home/quest/get_home_notification.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
@@ -51,6 +52,7 @@ class _HomeState extends State<Home> {
   Widget? homenoticewidget;
   Widget? feednoticewidget;
   bool feedpopup=false;
+  late int noticeCount=0;
   @override
   void initState() {
     super.initState();
@@ -76,6 +78,7 @@ class _HomeState extends State<Home> {
                           if(snapshot.hasData){
                             SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
                               if(feednotice!=null && tagtitle=="새로운"&&feedpopup==false) {
+                                dataset();
                                 feedpopup=true;
                                 feednoticepopup();
                               }
@@ -185,7 +188,7 @@ class _HomeState extends State<Home> {
                                   child: Stack(children: [
                                     Column(
                                       children: [
-                                        Top(),
+                                        Top(number: noticeCount,),
                                  //홈화면 공지
                                         (tagtitle!="관심있는"&&homenoticewidget!=null) ? homenoticewidget! :Container(),
                                         tagtitle=="근처에"? Row(
@@ -304,7 +307,7 @@ class _HomeState extends State<Home> {
                           child: Stack(children: [
                           Column(
                           children: [
-                          Top(),
+                          Top(number: noticeCount,),
                           Flexible(
                               child:  Container(
                                 decoration: gradient,
@@ -331,40 +334,12 @@ class _HomeState extends State<Home> {
             });
           },
           onAdFailedToLoad: (ad, error) {
-            // Dispose the ad here to free resources.
-            print('$NativeAd failedToLoad: $error');
             ad.dispose();
           },
         ),
         request: const AdRequest(),
-        //   factoryId: "listTile"
-        // )
-        nativeTemplateStyle:
-            NativeTemplateStyle(templateType: TemplateType.small
-                // templateType: TemplateType.small,
-                //   mainBackgroundColor: Colors.white,
-                //   cornerRadius: 10.0,
-                //   callToActionTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.cyan,
-                //       backgroundColor: Colors.red,
-                //       style: NativeTemplateFontStyle.monospace,
-                //       size: 10.0),
-                //   primaryTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.red,
-                //       backgroundColor: Colors.cyan,
-                //       style: NativeTemplateFontStyle.italic,
-                //       size: 16.0),
-                //   secondaryTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.green,
-                //       backgroundColor: Colors.black,
-                //       style: NativeTemplateFontStyle.bold,
-                //       size: 10.0),
-                //   tertiaryTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.brown,
-                //       backgroundColor: Colors.amber,
-                //       style: NativeTemplateFontStyle.monospace,
-                //       size: 10.0)
-                ))
+          factoryId: "listTile"
+        )
       ..load();
   }
 
@@ -445,7 +420,12 @@ class _HomeState extends State<Home> {
                 ]);
           });
   }
-
+  void dataset()async{
+    int num = await GetCount();
+    setState(() {
+      noticeCount=num;
+    });
+  }
   getnoticiations() async {
     homenotice = await GetHomeNotification();
     feednotice = await GetFeedNOtification();

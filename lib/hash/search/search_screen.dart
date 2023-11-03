@@ -44,8 +44,8 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: EdgeInsets.only(top: 10),
           child: Row(
             children: [
+              Flexible(child:
               Container(
-                  width: 280.w,
                   height: 40.h,
                   child: TextFormField(
                     controller: school,
@@ -94,7 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         });
                       }
                     },
-                  )),
+                  ))),
               Container(
                 alignment: Alignment.bottomCenter,
                 child: TextButton(

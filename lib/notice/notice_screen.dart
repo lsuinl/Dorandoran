@@ -43,24 +43,17 @@ class _NoticeScreenState extends State<NoticeScreen> {
                             ).toList()
                         );
                       }
-                      return Container(
-                          child: Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Column(
+                      return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Top(),
                                     Flexible(child:
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 20, top: 20, bottom: 20),
-                                        child:SingleChildScrollView(
+                                   SingleChildScrollView(
                                           child:
                                         Column(children: item)
-                                        )
                                     )
                                     )
-                                  ])));
+                                  ]);
                     }
                     else{
                       return CircularProgressIndicator();

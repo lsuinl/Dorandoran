@@ -6,7 +6,10 @@ import 'package:solar_icons/solar_icons.dart';
 import '../../../notice/notice_screen.dart';
 
 class Top extends StatefulWidget {
-  const Top({Key? key}) : super(key: key);
+  final int number;
+  const Top({
+    required this.number,
+    Key? key}) : super(key: key);
 
   @override
   State<Top> createState() => _TopState();
@@ -48,13 +51,37 @@ class _TopState extends State<Top> {
                     MaterialPageRoute(
                         builder: (context) => SettingListScreen())),
                 ),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(SolarIconsBold.bell,size: 30.r,color: Color(0xFF1C274C),),
-                  onPressed:() => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NoticeScreen())),
+                Stack(
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(SolarIconsBold.bell,size: 30.r,color: Color(0xFF1C274C),),
+                      onPressed:() => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NoticeScreen())),
+                    ),
+                   widget.number!=0? Container(
+                      width: 35.w,
+                      height: 30.h,
+                      alignment: Alignment.topRight,
+                      margin: EdgeInsets.only(top: 5),
+                      child: Container(
+                        width: 15.w,
+                        height: 17.h,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xffc32c37),
+                            border: Border.all(color: Colors.white, width: 1)),
+                        child: Center(
+                            child: Text(
+                              widget.number.toString(),
+                              style: TextStyle(fontSize: 10,color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ):Container()
+                  ],
                 )
               ],
             ))

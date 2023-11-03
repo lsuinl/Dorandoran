@@ -29,7 +29,7 @@ class InquiryCard extends StatelessWidget {
                         id: id,
                       ))),
           child: Container(
-              height: 60.h,
+              height: 70.h,
               width: MediaQuery.of(context).size.width,
               child: Padding(
                   padding: EdgeInsets.all(10),
@@ -48,7 +48,7 @@ class InquiryCard extends StatelessWidget {
                           ),
                           Text(
                             createTime,
-                            style: TextStyle(color: Colors.black54),
+                            style: TextStyle(color: Colors.black54,fontSize: 12.sp),
                           ),
                         ],
                       ),
@@ -75,7 +75,6 @@ class InquiryCard extends StatelessWidget {
                     ],
                   ))),
         )),
-        SizedBox(height: 10.h)
       ],
     );
   }
