@@ -19,6 +19,7 @@ Future<int> registered() async {
     }),
   );
   //가입된 회원이면 회원정보저장하기
+  print("체크");
   if(response.statusCode==200) {
     Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     prefs.setString("nickname", body["nickname"].toString());

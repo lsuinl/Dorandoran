@@ -1,6 +1,5 @@
 import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/util.dart';
-import 'package:dorandoran/notice/model/notice_model.dart';
 import 'package:dorandoran/user/login/quest/get_critical_notification.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:flutter/material.dart';
@@ -52,37 +51,37 @@ class _Login_checkState extends State<Login_check> {
 
   logincheck() async {
     //먼저 서버 체크.
-   // dynamic check = await GetCriticalNotification();
-    // if(check is int) {
+   dynamic check = await GetCriticalNotification();
+    if(check is int) {
       final prefs = await SharedPreferences.getInstance();
       //앱에 로그인 데이터가 남아있는 경우
       if(prefs.getString('accessToken')!=""&&prefs.getString('accessToken')!=null)
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new Home()));
       else
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new KaKaoLogin()));
-    // }//통과
-    // else{ //죽었을 때
-    //   NotificationModel noticemodel=check;
-    //   showDialog(
-    //         context: context,
-    //         barrierDismissible: true,
-    //         builder: (BuildContext context) {
-    //           return AlertDialog(
-    //               backgroundColor: Colors.white,
-    //               title: Text(noticemodel!.title),
-    //               content: Text(noticemodel!.content,
-    //                   style: Theme.of(context).textTheme.headlineMedium!),
-    //               actions: [
-    //                 TextButton(
-    //                   onPressed: () {
-    //                     print('종료');
-    //                     SystemNavigator.pop();
-    //                   },
-    //                   child: Text("확인", style: Theme.of(context).textTheme.labelSmall!,),
-    //                 ),
-    //               ]);
-    //         });
-    //
-    // }
+    }//통과
+    else{ //죽었을 때
+      NotificationModel noticemodel=check;
+      showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  backgroundColor: Colors.white,
+                  title: Text(noticemodel!.title),
+                  content: Text(noticemodel!.content,
+                      style: Theme.of(context).textTheme.headlineMedium!),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        print('종료');
+                        SystemNavigator.pop();
+                      },
+                      child: Text("확인", style: Theme.of(context).textTheme.labelSmall!,),
+                    ),
+                  ]);
+            });
+
+    }
   }
 }

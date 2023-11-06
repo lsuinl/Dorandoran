@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:dorandoran/common/model/notification_model.dart';
+import 'package:dorandoran/texting/home/quest/get_count.dart';
 import 'package:dorandoran/texting/home/quest/get_feed_notification.dart';
 import 'package:dorandoran/texting/home/quest/get_home_notification.dart';
 import 'package:dorandoran/texting/home/quest/home_getcontent.dart';
@@ -47,9 +49,9 @@ class _HomeState extends State<Home> {
   int number =Random().nextInt(100)+1;
   NotificationModel? homenotice;
   NotificationModel? feednotice;
-  Widget? homenoticewidget;
   Widget? feednoticewidget;
-  bool feedpopup=false;
+  bool Homepopup=false;
+  late int noticeCount=0;
   @override
   void initState() {
     super.initState();
@@ -63,7 +65,8 @@ class _HomeState extends State<Home> {
     return Scaffold(
         body: WillPopScope(
             onWillPop: onWillPop,
-            child: Container(
+            child: Basic(widgets:
+            Container(
                 color: backgroundcolor,
                 child: SafeArea(
                     top: true,
@@ -73,9 +76,10 @@ class _HomeState extends State<Home> {
                         builder: (context, snapshot) {
                           if(snapshot.hasData){
                             SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
-                              if(feednotice!=null && tagtitle=="새로운"&&feedpopup==false) {
-                                feedpopup=true;
-                                feednoticepopup();
+                              if(homenotice!=null && tagtitle=="새로운"&&Homepopup==false) {
+                                dataset();
+                                Homepopup=true;
+                                Homenoticepopup();
                               }
                             });
                             int lastnumber = snapshot.data.length > 0 ? snapshot.data!.last.postId : 0;
@@ -113,8 +117,8 @@ class _HomeState extends State<Home> {
                               }
                             }
                             //홈팝업 구현하기
-                            if(homenotice!=null){
-                              homenoticewidget= Padding(
+                            if(feednotice!=null){
+                              feednoticewidget= Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                   child: Container(
                                       height: 60.h,
@@ -125,7 +129,7 @@ class _HomeState extends State<Home> {
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                      child:Center(child:Text(homenotice?.content ??"공지사항" ,style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
+                                      child:Center(child:Text(feednotice?.content ??"공지사항" ,style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
                                   ));
                             }
                             Widget tagname(String name) {
@@ -183,9 +187,9 @@ class _HomeState extends State<Home> {
                                   child: Stack(children: [
                                     Column(
                                       children: [
-                                        Top(),
+                                        Top(number: noticeCount,),
                                  //홈화면 공지
-                                        (tagtitle!="관심있는"&&homenoticewidget!=null) ? homenoticewidget! :Container(),
+                                        (tagtitle!="관심있는"&&feednoticewidget!=null) ? feednoticewidget! :Container(),
                                         tagtitle=="근처에"? Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
@@ -302,7 +306,7 @@ class _HomeState extends State<Home> {
                           child: Stack(children: [
                           Column(
                           children: [
-                          Top(),
+                          Top(number: noticeCount,),
                           Flexible(
                               child:  Container(
                                 decoration: gradient,
@@ -313,7 +317,7 @@ class _HomeState extends State<Home> {
                           ])
                             )));
                           }
-                        })))));
+                        }))))));
   }
 
   void _loadAd() {
@@ -329,40 +333,12 @@ class _HomeState extends State<Home> {
             });
           },
           onAdFailedToLoad: (ad, error) {
-            // Dispose the ad here to free resources.
-            print('$NativeAd failedToLoad: $error');
             ad.dispose();
           },
         ),
         request: const AdRequest(),
-        //   factoryId: "listTile"
-        // )
-        nativeTemplateStyle:
-            NativeTemplateStyle(templateType: TemplateType.small
-                // templateType: TemplateType.small,
-                //   mainBackgroundColor: Colors.white,
-                //   cornerRadius: 10.0,
-                //   callToActionTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.cyan,
-                //       backgroundColor: Colors.red,
-                //       style: NativeTemplateFontStyle.monospace,
-                //       size: 10.0),
-                //   primaryTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.red,
-                //       backgroundColor: Colors.cyan,
-                //       style: NativeTemplateFontStyle.italic,
-                //       size: 16.0),
-                //   secondaryTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.green,
-                //       backgroundColor: Colors.black,
-                //       style: NativeTemplateFontStyle.bold,
-                //       size: 10.0),
-                //   tertiaryTextStyle: NativeTemplateTextStyle(
-                //       textColor: Colors.brown,
-                //       backgroundColor: Colors.amber,
-                //       style: NativeTemplateFontStyle.monospace,
-                //       size: 10.0)
-                ))
+          factoryId: "listTile"
+        )
       ..load();
   }
 
@@ -416,15 +392,15 @@ class _HomeState extends State<Home> {
       }
     });
   }
-  void feednoticepopup() async{
+  void Homenoticepopup() async{
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
             return AlertDialog(
                 backgroundColor: Colors.white,
-                title: Text(feednotice!.title),
-                content: Text(feednotice!.content,
+                title: Text(homenotice!.title),
+                content: Text(homenotice!.content,
                     style: Theme.of(context).textTheme.headlineMedium!),
                 actions: [
                   TextButton(
@@ -443,7 +419,12 @@ class _HomeState extends State<Home> {
                 ]);
           });
   }
-
+  void dataset()async{
+    int num = await GetCount();
+    setState(() {
+      noticeCount=num;
+    });
+  }
   getnoticiations() async {
     homenotice = await GetHomeNotification();
     feednotice = await GetFeedNOtification();

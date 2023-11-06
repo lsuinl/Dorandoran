@@ -141,7 +141,10 @@ class _PostDetailState extends State<PostDetail> {
                                                       alignment: Alignment.centerLeft,
                                                         minimumSize: Size(MediaQuery.of(context).size.width, 0)
                                                     ),
-                                                    onPressed: ()=>sendreport('선정성'),
+                                                    onPressed: (){
+                                                      sendreport('선정성');
+                                                      Navigator.pop(context);
+                                                      },
                                                     child: Text(" 1.선정성",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
                                                 Container(height: 2,color: Colors.black12),
                                                 TextButton(
@@ -149,48 +152,67 @@ class _PostDetailState extends State<PostDetail> {
                                                         alignment: Alignment.centerLeft,
                                                         minimumSize: Size(MediaQuery.of(context).size.width, 0)
                                                     ),
-                                                    onPressed: ()=>sendreport('폭력성'),
-                                                    child: Text(" 2.폭력성",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                    onPressed: (){
+                                                      sendreport('폭력성');
+                                                      Navigator.pop(context);
+                                                      },
+                                                      child: Text(" 2.폭력성",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                      Container(height: 2,color: Colors.black12),
+                                                      TextButton(
+                                                      style: TextButton.styleFrom(
+                                                      alignment: Alignment.centerLeft,
+                                                      minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                      ),
+                                                      onPressed: (){sendreport('욕설 및 비방');
+    Navigator.pop(context);
+    },
+                                                      child: Text(" 3.욕설 및 비방",
+                                                    style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
                                                 Container(height: 2,color: Colors.black12),
                                                 TextButton(
                                                     style: TextButton.styleFrom(
                                                         alignment: Alignment.centerLeft,
                                                         minimumSize: Size(MediaQuery.of(context).size.width, 0)
                                                     ),
-                                                    onPressed: ()=>sendreport('욕설 및 비방'),
-                                                    child: Text(" 3.욕설 및 비방",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                    onPressed: (){
+                                                      sendreport('광고');
+                                                      Navigator.pop(context);
+    },
+                                                      child: Text(" 4.광고",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                      Container(height: 2,color: Colors.black12),
+                                                      TextButton(
+                                                      style: TextButton.styleFrom(
+                                                      alignment: Alignment.centerLeft,
+                                                      minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                      ),
+                                                      onPressed:(){
+                                                        sendreport('불건전한 만남 유도');
+                                                        Navigator.pop(context);
+                                                        },
+                                                      child: Text(" 5.불건전한 만남 유도",
+                                                    style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
                                                 Container(height: 2,color: Colors.black12),
                                                 TextButton(
                                                     style: TextButton.styleFrom(
                                                         alignment: Alignment.centerLeft,
                                                         minimumSize: Size(MediaQuery.of(context).size.width, 0)
                                                     ),
-                                                    onPressed: ()=>sendreport('광고'),
-                                                    child: Text(" 4.광고",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
-                                                Container(height: 2,color: Colors.black12),
-                                                TextButton(
-                                                    style: TextButton.styleFrom(
-                                                        alignment: Alignment.centerLeft,
-                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
-                                                    ),
-                                                    onPressed:()=>sendreport('불건전한 만남 유도'),
-                                                    child: Text(" 5.불건전한 만남 유도",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
-                                                Container(height: 2,color: Colors.black12),
-                                                TextButton(
-                                                    style: TextButton.styleFrom(
-                                                        alignment: Alignment.centerLeft,
-                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
-                                                    ),
-                                                    onPressed:()=>sendreport('불건전한 닉네임'),
-                                                    child: Text(" 6.불건전한 닉네임",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
-                                                Container(height: 2,color: Colors.black12),
-                                                TextButton(
-                                                    style: TextButton.styleFrom(
-                                                        alignment: Alignment.centerLeft,
-                                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
-                                                    ),
-                                                    onPressed:()=>sendreport('기타'),
-                                                    child: Text(" 7.기타",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                    onPressed:(){
+                                                      sendreport('불건전한 닉네임');
+                                                      Navigator.pop(context);
+                                                      },
+                                                      child: Text(" 6.불건전한 닉네임",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                                      Container(height: 2,color: Colors.black12),
+                                                      TextButton(
+                                                      style: TextButton.styleFrom(
+                                                      alignment: Alignment.centerLeft,
+                                                      minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                                                      ),
+                                                      onPressed:(){sendreport('기타');
+    Navigator.pop(context);
+    },
+                                                      child: Text(" 7.기타",
+                                                    style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
                                               ],
                                             ),
                                           )
@@ -199,6 +221,7 @@ class _PostDetailState extends State<PostDetail> {
                               }
                               if(value=="차단하기"){
                                 PostBlockMember("post", widget.postId);
+                                Navigator.pop(context);
                                 Fluttertoast.showToast(msg: "해당 사용자가 차단되었습니다.");
                               }
                             })
@@ -376,7 +399,7 @@ class _PostDetailState extends State<PostDetail> {
       //불러올 댓글갯수가 더 남아있다면
       int count = 0;
       commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
-      plusreply = commentlist[0].card.commentId;
+      plusreply =commentlist.length>0?  commentlist[0].card.commentId:-1 ;
 
       for (final a in widget.e.commentDetailDto) { //이미 쓴 댓글 익명여부 검사
         //댓글 작성자

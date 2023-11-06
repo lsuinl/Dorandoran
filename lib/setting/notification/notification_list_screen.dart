@@ -13,8 +13,7 @@ class NotificationListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Basic(
+    return Basic(
             widgets: FutureBuilder(
                 future: GetNotification(),
                 builder: (context, snapshot) {
@@ -71,6 +70,6 @@ class NotificationListScreen extends StatelessWidget {
                         height: MediaQuery.of(context).size.height,
                         child:Center(child: CircularProgressIndicator()));
                   }
-                })));
+                }));
   }
 }

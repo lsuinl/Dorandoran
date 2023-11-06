@@ -3,7 +3,6 @@ import 'package:dorandoran/common/model/notification_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../common/quest_token.dart';
 
 
@@ -18,7 +17,8 @@ Future<dynamic> GetHomeNotification() async {
       'authorization': 'Bearer $accessToken',
     },
   );
-  if (response.body == []) {
+
+  if (response.statusCode==204 || response.body ==[]) {
     return null;
   }
   else if (response.statusCode == 401) {

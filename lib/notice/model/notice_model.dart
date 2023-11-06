@@ -6,7 +6,6 @@ class noticeModel {
   final bool isRead;
   final String notificationType;
 
-
   noticeModel({
     required this.notificationId,
     required this.title,

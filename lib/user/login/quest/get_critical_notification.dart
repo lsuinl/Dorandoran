@@ -25,8 +25,9 @@ Future<dynamic> GetCriticalNotification() async {
       return GetCriticalNotification();
   }
   else {
+    if(response.statusCode==204)
+      return 204;
     dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
-    print(body);
     NotificationModel message =  NotificationModel.fromJson(body[0]);
     return message;
   }

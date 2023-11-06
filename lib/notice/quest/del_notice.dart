@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../common/quest_token.dart';
-import '../../texting/home/model/postcard.dart';
 
 //알림 삭제하기
 Future<int> DelNotice(int noticationid) async {

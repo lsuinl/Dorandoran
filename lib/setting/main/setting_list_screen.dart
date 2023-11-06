@@ -1,4 +1,4 @@
-import 'package:dorandoran/notice/notice_screen.dart';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/setting/inquiry/inquiry_screen.dart';
 import 'package:dorandoran/setting/nickname_change/button_change_nickname.dart';
 import 'package:dorandoran/setting/main/button_menu.dart';
@@ -8,7 +8,6 @@ import 'package:dorandoran/setting/main/top.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
-import '../../common/css.dart';
 import '../notification/notification_list_screen.dart';
 
 class SettingListScreen extends StatelessWidget {
@@ -16,13 +15,8 @@ class SettingListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-            color: backgroundcolor,
-            child: SafeArea(
-                top: true,
-                bottom: true,
-                child: Container(
+    return Basic(
+        widgets: Container(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -79,6 +73,6 @@ class SettingListScreen extends StatelessWidget {
                             ]
                             ))
                     )],
-                )))));
+                )));
   }
 }

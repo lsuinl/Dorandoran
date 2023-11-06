@@ -1,4 +1,5 @@
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/quest_token.dart';
 import 'package:dorandoran/hash/search/search_screen.dart';
 import 'package:dorandoran/texting/home/model/postcard.dart';
@@ -34,7 +35,8 @@ class _TagScreenState extends State<TagScreen> {
   Widget build(BuildContext context) {
     if(searchOn)
       return SearchScreen(statemanage: statemanager);
-    return FutureBuilder(
+    return Basic(widgets:
+      FutureBuilder(
         future: getdata(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -66,7 +68,7 @@ class _TagScreenState extends State<TagScreen> {
             return Center(child:CircularProgressIndicator());
           }
         }
-        );
+        ));
   }
   Future<dynamic> getdata() async {
     dynamic mytags = await GetMyHash();

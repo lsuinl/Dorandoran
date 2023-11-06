@@ -266,56 +266,81 @@ class _CommentCardState extends State<CommentCard> {
                                       minimumSize: Size(MediaQuery.of(context).size.width, 0),
                                         alignment: Alignment.centerLeft,
                                     ),
-                                    onPressed: ()=>sendreport('선정성'),
-                                    child: Text(" 1.선정성",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                    onPressed: (){
+                                      sendreport('선정성');
+                                      Navigator.pop(context);
+                      },
+                      child: Text(" 1.선정성",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                      Container(height: 2,color: Colors.black12),
+                      TextButton(
+                      style: TextButton.styleFrom(
+                      alignment: Alignment.centerLeft,
+                      minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                      ),
+                      onPressed:(){
+                        sendreport('폭력성');
+                        Navigator.pop(context);
+                      },
+                      child: Text(" 2.폭력성",
+                      style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
                                 Container(height: 2,color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size(MediaQuery.of(context).size.width, 0)
                                     ),
-                                    onPressed:()=>sendreport('폭력성'),
-                                    child: Text(" 2.폭력성",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                    onPressed: (){
+                                      sendreport('욕설 및 비방');
+                                      Navigator.pop(context);
+                      },
+                      child: Text(" 3.욕설 및 비방",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                      Container(height: 2,color: Colors.black12),
+                      TextButton(
+                      style: TextButton.styleFrom(
+                      alignment: Alignment.centerLeft,
+                      minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                      ),
+                      onPressed: (){
+                        sendreport('광고');
+                        Navigator.pop(context);
+                      },
+                      child: Text(" 4.광고",
+                      style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
                                 Container(height: 2,color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size(MediaQuery.of(context).size.width, 0)
                                     ),
-                                    onPressed: ()=>sendreport('욕설 및 비방'),
-                                    child: Text(" 3.욕설 및 비방",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
-                                Container(height: 2,color: Colors.black12),
-                                TextButton(
-                                    style: TextButton.styleFrom(
-                                        alignment: Alignment.centerLeft,
-                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
-                                    ),
-                                    onPressed: ()=>sendreport('광고'),
-                                    child: Text(" 4.광고",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
-                                Container(height: 2,color: Colors.black12),
-                                TextButton(
-                                    style: TextButton.styleFrom(
-                                        alignment: Alignment.centerLeft,
-                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
-                                    ),
-                                    onPressed:()=>sendreport('불건전한 만남 유도'),
-                                    child: Text(" 5.불건전한 만남 유도",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
-                                Container(height: 2,color: Colors.black12),
-                                TextButton(
-                                    style: TextButton.styleFrom(
-                                        alignment: Alignment.centerLeft,
-                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
-                                    ),
-                                    onPressed:()=>sendreport('불건전한 닉네임'),
-                                    child: Text(" 6.불건전한 닉네임",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
-                                Container(height: 2,color: Colors.black12),
-                                TextButton(
-                                    style: TextButton.styleFrom(
-                                        alignment: Alignment.centerLeft,
-                                        minimumSize: Size(MediaQuery.of(context).size.width, 0)
-                                    ),
-                                    onPressed:()=>sendreport('기타'),
-                                    child: Text(" 7.기타",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                                    onPressed:(){
+                                      sendreport('불건전한 만남 유도');
+                                      Navigator.pop(context);
+                      },
+                      child: Text(" 5.불건전한 만남 유도",style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                      Container(height: 2,color: Colors.black12),
+                      TextButton(
+                      style: TextButton.styleFrom(
+                      alignment: Alignment.centerLeft,
+                      minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                      ),
+                      onPressed:(){
+                        sendreport('불건전한 닉네임');
+                        Navigator.pop(context);
+                      },
+                      child: Text(" 6.불건전한 닉네임",
+                      style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
+                      Container(height: 2,color: Colors.black12),
+                      TextButton(
+                      style: TextButton.styleFrom(
+                      alignment: Alignment.centerLeft,
+                      minimumSize: Size(MediaQuery.of(context).size.width, 0)
+                      ),
+                      onPressed:(){
+                        sendreport('기타');
+                        Navigator.pop(context);
+                      },
+                      child: Text(" 7.기타",
+                      style: TextStyle(fontSize: 15.sp,color: Colors.black87))),
                               ],
                             ),
                           )

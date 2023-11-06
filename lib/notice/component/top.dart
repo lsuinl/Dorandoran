@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
-
 import '../../texting/home/home.dart';
 
 class Top extends StatefulWidget {
@@ -18,8 +16,7 @@ class _TopState extends State<Top> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(onPressed: ()=> Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Home())).then((value) => setState(() {})),
+        IconButton(onPressed: ()=>  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Home()),(route)=>false),
           icon: Icon(SolarIconsOutline.doubleAltArrowLeft,size: 30.r),
         ),
         Text("알림", style: TextStyle(fontSize: 24.sp,fontWeight: FontWeight.w900)),

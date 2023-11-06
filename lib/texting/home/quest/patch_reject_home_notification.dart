@@ -21,5 +21,8 @@ Future<int> PatchRejectHomeNotification() async {
     if(number==200)
       PatchRejectHomeNotification();
   }
+  print(accessToken);
+  prefs.setString("accessToken",response.body);
+  print(response.body);
   return response.statusCode;
 }

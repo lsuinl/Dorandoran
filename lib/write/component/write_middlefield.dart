@@ -160,6 +160,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
               width: 70.w,
               height: 25.h,
               child: TextField(
+                autofocus: true,
                 controller: tagcontroller,
                 decoration: InputDecoration(
                   border: InputBorder.none,
