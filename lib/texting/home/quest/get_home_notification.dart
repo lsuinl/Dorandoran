@@ -17,7 +17,8 @@ Future<dynamic> GetHomeNotification() async {
       'authorization': 'Bearer $accessToken',
     },
   );
-  if (response.body == []) {
+
+  if (response.statusCode==204 || response.body ==[]) {
     return null;
   }
   else if (response.statusCode == 401) {

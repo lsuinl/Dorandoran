@@ -49,9 +49,8 @@ class _HomeState extends State<Home> {
   int number =Random().nextInt(100)+1;
   NotificationModel? homenotice;
   NotificationModel? feednotice;
-  Widget? homenoticewidget;
   Widget? feednoticewidget;
-  bool feedpopup=false;
+  bool Homepopup=false;
   late int noticeCount=0;
   @override
   void initState() {
@@ -77,10 +76,10 @@ class _HomeState extends State<Home> {
                         builder: (context, snapshot) {
                           if(snapshot.hasData){
                             SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
-                              if(feednotice!=null && tagtitle=="새로운"&&feedpopup==false) {
+                              if(homenotice!=null && tagtitle=="새로운"&&Homepopup==false) {
                                 dataset();
-                                feedpopup=true;
-                                feednoticepopup();
+                                Homepopup=true;
+                                Homenoticepopup();
                               }
                             });
                             int lastnumber = snapshot.data.length > 0 ? snapshot.data!.last.postId : 0;
@@ -118,8 +117,8 @@ class _HomeState extends State<Home> {
                               }
                             }
                             //홈팝업 구현하기
-                            if(homenotice!=null){
-                              homenoticewidget= Padding(
+                            if(feednotice!=null){
+                              feednoticewidget= Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                   child: Container(
                                       height: 60.h,
@@ -130,7 +129,7 @@ class _HomeState extends State<Home> {
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                      child:Center(child:Text(homenotice?.content ??"공지사항" ,style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
+                                      child:Center(child:Text(feednotice?.content ??"공지사항" ,style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
                                   ));
                             }
                             Widget tagname(String name) {
@@ -190,7 +189,7 @@ class _HomeState extends State<Home> {
                                       children: [
                                         Top(number: noticeCount,),
                                  //홈화면 공지
-                                        (tagtitle!="관심있는"&&homenoticewidget!=null) ? homenoticewidget! :Container(),
+                                        (tagtitle!="관심있는"&&feednoticewidget!=null) ? feednoticewidget! :Container(),
                                         tagtitle=="근처에"? Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
@@ -393,15 +392,15 @@ class _HomeState extends State<Home> {
       }
     });
   }
-  void feednoticepopup() async{
+  void Homenoticepopup() async{
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
             return AlertDialog(
                 backgroundColor: Colors.white,
-                title: Text(feednotice!.title),
-                content: Text(feednotice!.content,
+                title: Text(homenotice!.title),
+                content: Text(homenotice!.content,
                     style: Theme.of(context).textTheme.headlineMedium!),
                 actions: [
                   TextButton(

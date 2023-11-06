@@ -399,7 +399,7 @@ class _PostDetailState extends State<PostDetail> {
       //불러올 댓글갯수가 더 남아있다면
       int count = 0;
       commentlist.forEach((CommentCard reply) => count += reply.card.countReply);
-      plusreply = commentlist[0].card.commentId;
+      plusreply =commentlist.length>0?  commentlist[0].card.commentId:-1 ;
 
       for (final a in widget.e.commentDetailDto) { //이미 쓴 댓글 익명여부 검사
         //댓글 작성자
