@@ -92,7 +92,7 @@ void main() async {
               child: child!
           );
         },
-        home: SignUp(),
+        home: UsingAgree(),
         //번영(영어.한국어)
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

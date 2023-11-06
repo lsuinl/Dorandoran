@@ -30,16 +30,19 @@ class _SignUpState extends State<SignUp> {
     return Basic(
       widgets: Padding(
         padding: const EdgeInsets.only(left: 30, right: 30),
-        child: Column(children: [
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
           Logo(
               text: '첫 방문을\n환영합니다!',
               style: Theme.of(context).textTheme.headlineLarge!),
-          SizedBox(height: 50.h),
           Column(
             children: [
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
                 Text('닉네임을 설정해주세요', style:  Theme.of(context).textTheme.headlineMedium!),
-                SizedBox(height: 5.h),
                 Row(
                   children: [
                     Container(
