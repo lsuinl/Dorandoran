@@ -15,6 +15,7 @@ class PostButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool sending =false;
     return Container(
         alignment: Alignment.topRight,
         child: IconButton(
@@ -24,7 +25,8 @@ class PostButton extends StatelessWidget {
             if (dummyFille != null)
               userimage = await MultipartFile.fromFile(dummyFille!.path, filename: dummyFille!.path.split('/').last);
 
-            if (contextcontroller.text != '') {
+            if (contextcontroller.text != '' && sending==false) {
+              sending=true;
               int postcheck = await PostWritePost(
                   contextcontroller.text,
                   forme,
@@ -37,9 +39,16 @@ class PostButton extends StatelessWidget {
                   style.fontSize!.toInt(),
                   int.parse(style.fontWeight.toString().substring(12)), anony);
 
-              if(postcheck==201)
-                Navigator.push(context, PageRouteBuilder(pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2) {return Home();},),);
-              else {
+              if(postcheck==201) {
+                sending = false;
+                Navigator.push(context, PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                      Animation<double> animation1,
+                      Animation<double> animation2) {
+                    return Home();
+                  },),);
+              } else {
+                sending = false;
                 if(postcheck==415)
                   Fluttertoast.showToast(msg: "형식에 맞지 않는 이미지입니다.");
                 else if(postcheck==403)
