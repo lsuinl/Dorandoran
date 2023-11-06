@@ -106,7 +106,7 @@ class _Detail_CardState extends State<Detail_Card> {
               child: IconButton(
                 onPressed: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  if (widget.card.postNickname == prefs.getString("nickName"))
+                  if (widget.card.postNickname == prefs.getString("nickname"))
                     Fluttertoast.showToast(msg: "자신의 글은 좋아요를 누를 수 없습니다.");
                   else {
                     setState(() {
