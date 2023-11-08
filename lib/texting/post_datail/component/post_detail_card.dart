@@ -46,7 +46,9 @@ class _Detail_CardState extends State<Detail_Card> {
           )),
           child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(children: [
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
                 SizedBox(height: 20.h),
                 SizedBox(
                   height: 350.h,
@@ -74,7 +76,7 @@ class _Detail_CardState extends State<Detail_Card> {
                                 .copyWith(fontSize: 12.sp)),
                       ]),
                 ),
-                widget.card.postHashes != null
+                 widget.card.postHashes!.length!=0
                     ? SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(children: [
@@ -92,7 +94,6 @@ class _Detail_CardState extends State<Detail_Card> {
                                         label: Text(e, style: TextStyle(color: Colors.white, fontSize: 12.sp),
                                         ),
                                       ))).toList()),
-                          SizedBox(width: 360.w)
                         ]))
                     : Container(),
               ])),
