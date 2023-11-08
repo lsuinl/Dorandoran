@@ -21,7 +21,8 @@ class PostButton extends StatelessWidget {
         child: IconButton(
           onPressed: () async {
             MultipartFile? userimage;
-
+            //해시태그 중복제거
+            taglistname.toSet().toList();
             if (dummyFille != null)
               userimage = await MultipartFile.fromFile(dummyFille!.path, filename: dummyFille!.path.split('/').last);
 
