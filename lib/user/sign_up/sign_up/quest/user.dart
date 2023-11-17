@@ -9,7 +9,7 @@ Future<String> postUserRequest(String dateOfBirth, String nickname) async {
   String ostype = prefs.getString("ostype")!;
   String firebasetoken = prefs.getString("firebasetoken")!;
   String kakaoAccessToken = prefs.getString("kakaotoken")!;
-
+  bool notifyStatus = prefs.getBool("notifyStatus")!;
   var response = await http.post(
     Uri.parse('$urls/api/member'),
     headers: <String, String>{
@@ -20,7 +20,8 @@ Future<String> postUserRequest(String dateOfBirth, String nickname) async {
       "nickname": nickname,
       "firebaseToken": firebasetoken,
       "kakaoAccessToken": kakaoAccessToken,
-      "osType": ostype
+      "osType": ostype,
+      "notifyStatus":notifyStatus
     }),
   );
   print(response.statusCode);

@@ -2,19 +2,34 @@ import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/setting/inquiry/inquiry_screen.dart';
 import 'package:dorandoran/setting/nickname_change/button_change_nickname.dart';
 import 'package:dorandoran/setting/main/button_menu.dart';
+import 'package:dorandoran/setting/notice/get_notice.dart';
+import 'package:dorandoran/setting/notice/patch_notice.dart';
 import 'package:dorandoran/setting/post_storage/my_list_screen.dart';
 import 'package:dorandoran/setting/getout/button_show_out.dart';
 import 'package:dorandoran/setting/main/top.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../notification/notification_list_screen.dart';
 
-class SettingListScreen extends StatelessWidget {
-  const SettingListScreen({Key? key}) : super(key: key);
+class SettingListScreen extends StatefulWidget {
+  const SettingListScreen({super.key});
 
   @override
+  State<SettingListScreen> createState() => _SettingListScreenState();
+}
+
+class _SettingListScreenState extends State<SettingListScreen> {
+bool isNotice=false;
+bool isBlackfalse=false;
+  @override
   Widget build(BuildContext context) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      noticeset();
+    });
     return Basic(
         widgets: Container(
                     child: Column(
@@ -22,6 +37,50 @@ class SettingListScreen extends StatelessWidget {
                   children: [
                     Top(),
                     Flexible(child: ChangeNicknameButton()),
+                    Flexible(
+                        fit: FlexFit.tight,
+                        child:Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(children: [
+                                  Icon(SolarIconsOutline.bell),
+                                  SizedBox(width: 10.w,),
+                                  Text("알림",style: TextStyle(fontSize: 18.sp),),
+                                ]),
+                                CupertinoSwitch(
+                                    value: isNotice,
+                                    onChanged: (bool value) async {
+                                      int check = await PatchNotice();
+                                      if(check==204) {
+                                        setState(() {
+                                          isNotice = value;
+                                        });
+                                      }
+                                      else
+                                        Fluttertoast.showToast(msg: "설정 도중에 문제가 발생했습니다. 잠시 후에 다시 시도해주세요.");
+                                      }),
+                              ],))),
+                    Flexible(
+                        fit: FlexFit.tight,
+                        child:Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(children: [
+                                  Icon(SolarIconsOutline.moon),
+                                  SizedBox(width: 10.w,),
+                                  Text("다크모드",style: TextStyle(fontSize: 18.sp)),
+                                ]),
+                                CupertinoSwitch(
+                                    value: isBlackfalse,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        isBlackfalse = value;
+                                      });}),
+                              ],))),
                     Flexible(
                         fit: FlexFit.tight,
                         child: MenuButton(
@@ -35,12 +94,7 @@ class SettingListScreen extends StatelessWidget {
                           icons: SolarIconsOutline.heart,
                           text: "내가 좋아요 한 글",
                         )),
-                    Flexible(
-                        fit: FlexFit.tight,
-                        child: MenuButton(
-                            onPressed: () {},
-                            icons: SolarIconsOutline.settings,
-                            text: "설정")),
+
                     Flexible(
                         fit: FlexFit.tight,
                         child: MenuButton(
@@ -75,4 +129,11 @@ class SettingListScreen extends StatelessWidget {
                     )],
                 )));
   }
+
+ void noticeset() async {
+    bool check = await GetNotice();
+    setState(() {
+      isNotice =check;
+    });
+ }
 }
