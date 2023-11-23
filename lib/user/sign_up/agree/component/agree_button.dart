@@ -94,7 +94,7 @@ class _AgreeButtonState extends State<AgreeButton> {
                 }),
             Text(
               text,
-              style: TextStyle(color: Colors.black87, fontSize: 14.sp),
+              style: Theme.of(context).textTheme.bodyMedium!,
             ),
           ],
         ),

@@ -20,5 +20,6 @@ Future<int> PatchNotice() async {
     if (number == 200)
       return PatchNotice();
   }
+  print(response.statusCode);
   return response.statusCode;
 }

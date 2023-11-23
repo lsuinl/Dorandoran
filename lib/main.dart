@@ -28,6 +28,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('background 상황에서 메시지를 받았다.');
   print('Message data: ${message.notification!.body}');
 }
+
 void main() async {
   KakaoSdk.init(nativeAppKey: kakaonativekey);
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,72 +39,130 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
   final prefs = await SharedPreferences.getInstance();
   prefs.setString('firebasetoken', firebasetoken!);
-  if(Platform.isAndroid)
+  if (Platform.isAndroid)
     prefs.setString("ostype", "Aos");
-  else if(Platform.isIOS)
-    prefs.setString("ostype", "Ios");
+  else if (Platform.isIOS) prefs.setString("ostype", "Ios");
   print(prefs.getString("refreshToken"));
   runApp(ScreenUtilInit(
-    designSize: Size(360, 690),
-    builder: (context, child) {
-      return GetMaterialApp(
-        initialBinding: BindingsBuilder.put(()=> NotificationController(),permanent: true),
-        theme: ThemeData(
-          fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily,
-          textTheme: TextTheme(
-            headlineLarge: TextStyle( //큰 제목
-              color: Colors.black87,
-              fontSize: 24.sp,
-              fontWeight: FontWeight.w500,
+      designSize: Size(360, 690),
+      builder: (context, child) {
+        return MyApp();
+      }));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  static final ValueNotifier<ThemeMode> themeNotifier =
+      ValueNotifier(ThemeMode.light);
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<ThemeMode>(
+        valueListenable: themeNotifier,
+        builder: (_, ThemeMode currentMode, __) {
+          return GetMaterialApp(
+            initialBinding: BindingsBuilder.put(() => NotificationController(),
+                permanent: true),
+            darkTheme: ThemeData(
+                brightness: Brightness.dark,
+                fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily,
+                textTheme: TextTheme(
+                  headlineLarge: TextStyle(
+                    //큰 제목
+                    color: Colors.white,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  headlineMedium: TextStyle(
+                    //중간크기 안내문구
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  bodyMedium: TextStyle(
+                      //기본 텍스트
+                      color: Colors.white,
+                      fontSize: 13.sp),
+                  bodySmall: TextStyle(
+                      //데이터 로딩중..
+                      color: Colors.white,
+                      fontSize: 12.sp),
+                  labelLarge: TextStyle(
+                      //버튼 텍스트 큰거
+                      color: Colors.white,
+                      fontSize: 18.sp),
+                  labelMedium: GoogleFonts.gowunBatang(
+                    //버튼 텍스트 내부 글쓰기관련 버튼같ㅇ느거
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  labelSmall: TextStyle(
+                      //버튼 작은 텍스트(확인 등)
+                      color: Colors.white,
+                      fontSize: 14.sp),
+                )),
+            theme: ThemeData(
+              brightness: Brightness.light,
+              fontFamily: GoogleFonts.ibmPlexSansKr().fontFamily,
+              textTheme: TextTheme(
+                headlineLarge: TextStyle(
+                  //큰 제목
+                  color: Colors.black87,
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                headlineMedium: TextStyle(
+                  //중간크기 안내문구
+                  color: Colors.black87,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                bodyMedium: TextStyle(
+                    //기본 텍스트
+                    color: Colors.black87,
+                    fontSize: 15.sp),
+                bodySmall: TextStyle(
+                    //데이터 로딩중..
+                    color: Colors.black26,
+                    fontSize: 12.sp),
+                labelLarge: TextStyle(
+                    //버튼 텍스트 큰거
+                    color: Colors.black87,
+                    fontSize: 18.sp),
+                labelMedium: GoogleFonts.gowunBatang(
+                  //버튼 텍스트 내부 글쓰기관련 버튼같ㅇ느거
+                  color: Colors.white,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w300,
+                ),
+                labelSmall: TextStyle(
+                    //버튼 작은 텍스트(확인 등)
+                    color: Colors.black87,
+                    fontSize: 14.sp),
+              ),
+              primarySwatch: Colors.blue,
+              canvasColor: Colors.transparent,
             ),
-            headlineMedium: TextStyle( //중간크기 안내문구
-            color: Colors.black87,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w500,
-          ),
-            bodyMedium: TextStyle( //기본 텍스트
-                color: Colors.black87,
-                fontSize: 13.sp
-            ),
-            bodySmall: TextStyle( //데이터 로딩중..
-                color: Colors.black26,
-                fontSize: 10.sp
-            ),
-            labelLarge: TextStyle( //버튼 텍스트 큰거
-                color: Colors.black87,
-                fontSize: 18.sp
-            ),
-            labelMedium:  GoogleFonts.gowunBatang( //버튼 텍스트 내부 글쓰기관련 버튼같ㅇ느거
-              color: Colors.white,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w300,
-            ),
-            labelSmall: TextStyle( //버튼 작은 텍스트(확인 등)
-                color: Colors.black87,
-                fontSize: 14.sp
-            ),
-          ),
-          primarySwatch: Colors.blue,
-          canvasColor: Colors.transparent,
-        ),
-        builder: (context, child) {
-          return MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-              child: child!
+            builder: (context, child) {
+              return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  child: child!);
+            },
+            themeMode: currentMode,
+            home: Login_check(),
+            //번영(영어.한국어)
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate
+            ],
+            supportedLocales: [
+              Locale('ko', ''),
+              Locale('en', ''),
+            ],
           );
-        },
-        home: SettingListScreen(),
-        //번영(영어.한국어)
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate
-        ],
-        supportedLocales: [
-          Locale('ko', ''),
-          Locale('en', ''),
-        ],
-      );
-    },
-  ));
+        });
+  }
 }

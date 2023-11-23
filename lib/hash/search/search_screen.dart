@@ -51,13 +51,14 @@ class _SearchScreenState extends State<SearchScreen> {
                     controller: school,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Color(0xFFD9D9D9),
+                      fillColor: Theme.of(context).brightness==Brightness.dark?Colors.grey:Color(0xFFD9D9D9),
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       prefixIcon: (Icon(SolarIconsOutline.magnifier)),
                     ),
+                    style: Theme.of(context).textTheme.bodyLarge,
                     keyboardType: TextInputType.text,
                     onChanged: (text) async {
                       if(text!="") {
@@ -75,9 +76,9 @@ class _SearchScreenState extends State<SearchScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(e.hashTagName,style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w600),),
+                                  Text(e.hashTagName,style: Theme.of(context).textTheme.headlineMedium,),
                                   Container(),
-                                  Text(" 게시글: ${e.hashTagCount}"),
+                                  Text(" 게시글: ${e.hashTagCount}",style: Theme.of(context).textTheme.bodyLarge),
                                   IconButton(
                                       padding: EdgeInsets.zero,
                                       onPressed: () {
@@ -101,7 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     onPressed: widget.statemanage,
                     child: Text(
                       "취소",
-                      style: TextStyle(color: Colors.black),
+                      style:Theme.of(context).textTheme.headlineMedium!,
                     )),
               )
             ],

@@ -47,7 +47,7 @@ class TagSearchState extends State<TagSearch> {
         focusNode: textFocus,
         decoration: InputDecoration(
           filled: true,
-          fillColor: Color(0xFFD9D9D9),
+          fillColor:Theme.of(context).brightness==Brightness.dark?Colors.grey: Color(0xFFD9D9D9),
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(15),

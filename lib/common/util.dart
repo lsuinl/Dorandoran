@@ -51,6 +51,7 @@ void permissionquest() async {
   Map<Permission, PermissionStatus> statuses = await [
     Permission.locationWhenInUse,
     Permission.photos,
+    Permission.notification
   ].request();
   await AppTrackingTransparency.requestTrackingAuthorization();
 }

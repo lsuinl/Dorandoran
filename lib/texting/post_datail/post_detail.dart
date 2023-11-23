@@ -261,7 +261,7 @@ class _PostDetailState extends State<PostDetail> {
                                   style: OutlinedButton.styleFrom(
                                       elevation: 2,
                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
-                                      backgroundColor: Color(0xFFBDBDBD),
+                                      backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black26: Color(0xFFBDBDBD),
                                       side: BorderSide(color: Color(0xFFFFFFFF), width: 1.0,)
                                   ),
                                   onPressed: () async {

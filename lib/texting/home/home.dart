@@ -67,7 +67,6 @@ class _HomeState extends State<Home> {
             onWillPop: onWillPop,
             child: Basic(widgets:
             Container(
-                color: backgroundcolor,
                 child: SafeArea(
                     top: true,
                     bottom: true,
@@ -176,11 +175,10 @@ class _HomeState extends State<Home> {
                                   });
                                   _refreshController.refreshCompleted();
                                 },
-                                child:Text('$name km',style: TextStyle(color:distance==name? Colors.blue:Colors.black)),
+                                child:Text('$name km',style: TextStyle(color:distance==name? Colors.blue: Theme.of(context).brightness==Brightness.dark?Colors.white:Color(0xFF1C274C),)),
                               );
                             }
                             return Container(
-                              decoration: gradient,
                               child: SafeArea(
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 1),
@@ -269,7 +267,7 @@ class _HomeState extends State<Home> {
                                         child: Container(
                                             height: 50.h,
                                             decoration: BoxDecoration(
-                                                color: Colors.white,
+                                                color: Theme.of(context).brightness==Brightness.dark?Colors.grey :Colors.white,
                                                 borderRadius: BorderRadius.only(
                                                     topLeft: Radius.circular(10),
                                                     topRight: Radius.circular(10))),
@@ -285,7 +283,7 @@ class _HomeState extends State<Home> {
                                                       padding: EdgeInsets.zero,
                                                       icon: Icon(SolarIconsBold.penNewSquare,
                                                         size: 30.r,
-                                                        color: Color(0xFF1C274C),
+                                                        color:Theme.of(context).brightness==Brightness.dark?Colors.white:Color(0xFF1C274C),
                                                       ),
                                                     ),
                                                     tagname("인기있는"),
@@ -299,7 +297,6 @@ class _HomeState extends State<Home> {
                           }
                           else {
                             return Container(
-                                decoration: gradient,
                                 child: SafeArea(
                                 child: Padding(
                                 padding: const EdgeInsets.only(bottom: 1),
@@ -398,7 +395,7 @@ class _HomeState extends State<Home> {
         barrierDismissible: true,
         builder: (BuildContext context) {
             return AlertDialog(
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.grey[700]:Color(0xFFFFFFFF),
                 title: Text(homenotice!.title),
                 content: Text(homenotice!.content,
                     style: Theme.of(context).textTheme.headlineMedium!),

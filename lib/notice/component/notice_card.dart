@@ -30,14 +30,16 @@ class NoticeCard extends StatelessWidget {
     IconData Icontype=setIcon(notificationType);
 
     return Container(
-        color: isRead == true ? null : Colors.grey,
+        color: isRead == true ? null : Colors.grey[700],
         child:
             Padding(padding: EdgeInsets.symmetric(horizontal: 15),
             child:
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-          Icon(Icontype, color: Colors.black, size: 30.r,),
+          Icon(Icontype, color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black, size: 30.r,),
         SizedBox(width: 10.w),
+        Expanded(child:
         TextButton(
             onPressed: ()async {
               ReadNoticeModel moveId= await GetReadNotice(notificationId);
@@ -48,16 +50,16 @@ class NoticeCard extends StatelessWidget {
               alignment: Alignment.centerLeft,
               primary: Colors.black,
               animationDuration: Duration(seconds: 0),
-              minimumSize: const Size(330, 50),
             ),
             child:
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: TextStyle(fontSize: 20.sp)),
-                  Text(message, style: TextStyle(fontSize: 15.sp)),
-                  Text(notificationTime, style: TextStyle(fontSize: 12.sp))
-                ]))])
+                  Text(title, style: Theme.of(context).textTheme.headlineMedium!),
+                  Text(message, style: Theme.of(context).textTheme.bodyMedium),
+                  Text(notificationTime, style: Theme.of(context).textTheme.bodySmall!)
+                ])))
+          ])
     ));
   }
 

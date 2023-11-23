@@ -42,13 +42,11 @@ class InquiryCard extends StatelessWidget {
                           Container(
                             child: Text(title,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w600)),
+                                style: Theme.of(context).textTheme.bodyLarge!),
                           ),
                           Text(
                             createTime,
-                            style: TextStyle(color: Colors.black54,fontSize: 12.sp),
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
                       ),
@@ -66,7 +64,7 @@ class InquiryCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             child: Text(
                               inquiryStatus,
-                              style: TextStyle(color: Colors.white,fontSize: 10.sp),
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ),
                           Icon(Icons.arrow_forward_ios),

@@ -12,7 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solar_icons/solar_icons.dart';
+import '../../common/util.dart';
+import '../../main.dart';
 import '../notification/notification_list_screen.dart';
 
 class SettingListScreen extends StatefulWidget {
@@ -24,12 +27,17 @@ class SettingListScreen extends StatefulWidget {
 
 class _SettingListScreenState extends State<SettingListScreen> {
 bool isNotice=false;
-bool isBlackfalse=false;
+bool isDark=MyApp.themeNotifier.value==ThemeMode.dark;
+@override
+void initState() {
+    // TODO: implement initState
+  SchedulerBinding.instance!.addPostFrameCallback((_) {
+    noticeset();
+  });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
-      noticeset();
-    });
     return Basic(
         widgets: Container(
                     child: Column(
@@ -39,7 +47,7 @@ bool isBlackfalse=false;
                     Flexible(child: ChangeNicknameButton()),
                     Flexible(
                         fit: FlexFit.tight,
-                        child:Padding(
+                        child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,7 +55,7 @@ bool isBlackfalse=false;
                                 Row(children: [
                                   Icon(SolarIconsOutline.bell),
                                   SizedBox(width: 10.w,),
-                                  Text("알림",style: TextStyle(fontSize: 18.sp),),
+                                  Text("알림",style:Theme.of(context).textTheme.headlineMedium!,),
                                 ]),
                                 CupertinoSwitch(
                                     value: isNotice,
@@ -64,7 +72,7 @@ bool isBlackfalse=false;
                               ],))),
                     Flexible(
                         fit: FlexFit.tight,
-                        child:Padding(
+                        child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,18 +83,25 @@ bool isBlackfalse=false;
                                   Text("다크모드",style: TextStyle(fontSize: 18.sp)),
                                 ]),
                                 CupertinoSwitch(
-                                    value: isBlackfalse,
-                                    onChanged: (bool value) {
+                                    value: isDark,
+                                    onChanged: (bool value) async {
                                       setState(() {
-                                        isBlackfalse = value;
-                                      });}),
+                                        if(value==true) {
+                                          MyApp.themeNotifier.value = ThemeMode.dark;
+                                        }
+                                        else{
+                                          MyApp.themeNotifier.value = ThemeMode.light;
+                                        }
+                                        isDark = value;
+                                      });
+                                    }),
                               ],))),
                     Flexible(
                         fit: FlexFit.tight,
                         child: MenuButton(
                             onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MyListScreen(text: "내가 쓴 글"))),
                             icons: SolarIconsOutline.pen,
-                            text: "내가 쓴 글")),
+                            text: "내가 쓴 글",)),
                     Flexible(
                         fit: FlexFit.tight,
                         child: MenuButton(
@@ -123,7 +138,7 @@ bool isBlackfalse=false;
                                   ],
                                 ),
                               ),
-                              Text("1.0.0",style: TextStyle(fontSize: 18.sp)),
+                              Text("1.0.0",style:Theme.of(context).textTheme.headlineMedium!),
                             ]
                             ))
                     )],
@@ -131,7 +146,10 @@ bool isBlackfalse=false;
   }
 
  void noticeset() async {
-    bool check = await GetNotice();
+   // bool check = await GetNotice();
+    bool check = false;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool dartcheck = prefs.getBool("DarkMode") ?? false;
     setState(() {
       isNotice =check;
     });

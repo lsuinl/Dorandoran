@@ -94,7 +94,7 @@ class _CommentCardState extends State<CommentCard> {
                                       onTap: (CompletionHandler handler) async {
                                         ondelete();
                                       },
-                                      color: Color(0xFFD9D9D9))
+                                      color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
                                 ]
                               : [
                                   SwipeAction(
@@ -103,7 +103,7 @@ class _CommentCardState extends State<CommentCard> {
                                       onTap: (CompletionHandler handler) async {
                                         onsiren();
                                       },
-                                      color: Color(0xFFD9D9D9))
+                                      color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
                                 ],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,7 +210,7 @@ class _CommentCardState extends State<CommentCard> {
                   minimumSize: Size(302.w, 30.h),
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
-                  backgroundColor: Color(0xFFBDBDBD),
+                  backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFBDBDBD),
                   side: BorderSide(
                     color: Color(0xFFFFFFFF),
                     width: 1.0,
@@ -263,11 +263,8 @@ class _CommentCardState extends State<CommentCard> {
             content: const Text("작성한 대댓글을 삭제하시겠습니까?"),
             actions: [
               TextButton(
-                child: const Text('확인',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700)),
+                child:  Text('확인',
+                    style: Theme.of(context).textTheme.headlineMedium!),
                 onPressed: () async {
                   await DeleteCommentDelete(widget.card.commentId);
                   postcardDetail e = await PostPostDetail(widget.postId, "");
@@ -281,11 +278,8 @@ class _CommentCardState extends State<CommentCard> {
                 },
               ),
               TextButton(
-                  child: const Text('취소',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700)),
+                  child: Text('취소',
+                      style:Theme.of(context).textTheme.headlineMedium!),
                   onPressed: () => Navigator.of(context).pop()),
             ],
           );
@@ -298,7 +292,7 @@ class _CommentCardState extends State<CommentCard> {
       builder: (BuildContext context) => CupertinoActionSheet(
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
-              child: const Text('신고', style: TextStyle(color: Colors.black)),
+              child:  Text('신고', style: Theme.of(context).textTheme.headlineMedium!),
               onPressed: () {
                 showDialog(
                     barrierColor: Colors.white70,
@@ -314,7 +308,6 @@ class _CommentCardState extends State<CommentCard> {
                           ),
                           content: Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 2,
                             decoration: BoxDecoration(
                               border:
                                   Border.all(width: 2, color: Colors.black12),
@@ -335,9 +328,7 @@ class _CommentCardState extends State<CommentCard> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(" 1.선정성",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -350,9 +341,7 @@ class _CommentCardState extends State<CommentCard> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(" 2.폭력성",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style:Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -365,9 +354,7 @@ class _CommentCardState extends State<CommentCard> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(" 3.욕설 및 비방",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -380,9 +367,7 @@ class _CommentCardState extends State<CommentCard> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(" 4.광고",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -395,9 +380,7 @@ class _CommentCardState extends State<CommentCard> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(" 5.불건전한 만남 유도",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style:Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -410,9 +393,7 @@ class _CommentCardState extends State<CommentCard> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(" 6.불건전한 닉네임",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -425,9 +406,7 @@ class _CommentCardState extends State<CommentCard> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(" 7.기타",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                               ],
                             ),
                           ));
@@ -435,7 +414,7 @@ class _CommentCardState extends State<CommentCard> {
               },
             ),
             CupertinoActionSheetAction(
-              child: const Text('차단', style: TextStyle(color: Colors.black)),
+              child: Text('차단', style: Theme.of(context).textTheme.headlineMedium!),
               onPressed: () {
                 setState(() {
                   PostBlockMember("comment", widget.card.commentId);
@@ -446,7 +425,7 @@ class _CommentCardState extends State<CommentCard> {
             )
           ],
           cancelButton: CupertinoActionSheetAction(
-              child: Text('취소', style: TextStyle(color: Colors.black)),
+              child: Text('취소', style: Theme.of(context).textTheme.headlineMedium!),
               onPressed: () => Navigator.pop(context))),
     );
   }

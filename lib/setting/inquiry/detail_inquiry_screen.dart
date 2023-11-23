@@ -65,26 +65,26 @@ class DerailInquiryScreen extends StatelessWidget {
                                           else{
                                             Fluttertoast.showToast(msg: "작업을 진행하는 데 문제가 발생했습니다. 다시 시도해주세요.");
                                           }
-                                        }, child: Text("삭제", style: TextStyle(color: Colors.black),))
+                                        }, child: Text("삭제", style: Theme.of(context).textTheme.headlineMedium!,))
                                   ],
                                 ),
                                 SizedBox(height: 10.h),
-                                Text('제목: ${data.title}',style:  TextStyle(fontSize: 24.sp)),
+                                Text('제목: ${data.title}',style:  Theme.of(context).textTheme.headlineLarge!,),
                                 SizedBox(height: 10.h),
-                                Text('작성자: ${data.memberEmail}',style:  TextStyle(fontSize: 15.sp)),
+                                Text('작성자: ${data.memberEmail}',style:  Theme.of(context).textTheme.bodyMedium),
                                 SizedBox(height: 10.h),
-                                Text('작성 시간: ${data.postCreateTime}',style:  TextStyle(fontSize: 15.sp)),
+                                Text('작성 시간: ${data.postCreateTime}',style:  Theme.of(context).textTheme.bodyMedium),
                                 SizedBox(height: 10.h),
                                 Container(
                                   height: 1,
-                                  color: Colors.black26,
+                                  color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
                                 ),
                                 SizedBox(height: 10.h),
-                                Text(data.content,style:  TextStyle(fontSize: 12.sp)),
+                                Text(data.content,style:  Theme.of(context).textTheme.bodySmall),
                                 SizedBox(height: 10.h),
                                 Container(
                                   height: 1,
-                                  color: Colors.black26,
+                                  color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
                                 ),
                                 SingleChildScrollView(
                                   child:

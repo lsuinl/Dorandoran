@@ -1,11 +1,8 @@
-import 'package:dorandoran/hash/search/quest/get_search_hash.dart';
 import 'package:dorandoran/notice/component/notice_card.dart';
 import 'package:dorandoran/notice/model/notice_model.dart';
-import 'package:dorandoran/notice/quest/get_read_notice.dart';
 import 'package:dorandoran/notice/quest/get_search_notice.dart';
 import 'package:flutter/material.dart';
 import '../common/css.dart';
-import '../texting/home/home.dart';
 import 'component/top.dart';
 
 class NoticeScreen extends StatefulWidget {
@@ -21,7 +18,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: backgroundcolor,
+          color: Theme.of(context).brightness==Brightness.dark?Colors.black26:backgroundcolor,
             child: SafeArea(
                 top: true,
                 bottom: true,
