@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../common/quest_token.dart';
+import '../../../main.dart';
 import '../../../texting/home/home.dart';
 import '../../../common/model/notification_model.dart';
 import '../component/mainlogo.dart';
@@ -52,6 +53,12 @@ class _Login_checkState extends State<Login_check> {
 
   logincheck() async {
     //먼저 서버 체크.
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool dartcheck = prefs.getBool("DarkMode")?? MyApp.themeNotifier.value==ThemeMode.dark;
+    if(dartcheck==true)
+      MyApp.themeNotifier.value = ThemeMode.dark;
+    else
+      MyApp.themeNotifier.value = ThemeMode.light;
    dynamic check = await GetCriticalNotification();
     if(check is int) {
       final prefs = await SharedPreferences.getInstance();

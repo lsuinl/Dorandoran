@@ -53,8 +53,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static final ValueNotifier<ThemeMode> themeNotifier =
-      ValueNotifier(ThemeMode.light);
+  static final ValueNotifier<ThemeMode> themeNotifier=ValueNotifier(ThemeMode.dark);
 
   @override
   Widget build(BuildContext context) {

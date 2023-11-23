@@ -85,12 +85,15 @@ void initState() {
                                 CupertinoSwitch(
                                     value: isDark,
                                     onChanged: (bool value) async {
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
                                       setState(() {
                                         if(value==true) {
                                           MyApp.themeNotifier.value = ThemeMode.dark;
+                                          prefs.setBool("DarkMode",true);
                                         }
                                         else{
                                           MyApp.themeNotifier.value = ThemeMode.light;
+                                          prefs.setBool("DarkMode",false);
                                         }
                                         isDark = value;
                                       });
@@ -149,8 +152,9 @@ void initState() {
    // bool check = await GetNotice();
     bool check = false;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool dartcheck = prefs.getBool("DarkMode") ?? false;
+    bool? dartcheck = prefs.getBool("DarkMode");
     setState(() {
+      isDark=dartcheck ?? MyApp.themeNotifier.value==ThemeMode.dark;
       isNotice =check;
     });
  }
