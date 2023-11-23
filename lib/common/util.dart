@@ -53,6 +53,10 @@ void permissionquest() async {
     Permission.photos,
     Permission.notification
   ].request();
+  print("권한 체크");
+  print(statuses[Permission.locationWhenInUse]);
+  print(statuses[Permission.photos]);
+  print(statuses[Permission.notification]);
   await AppTrackingTransparency.requestTrackingAuthorization();
 }
 

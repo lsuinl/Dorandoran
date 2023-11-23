@@ -16,6 +16,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'common/util.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'common/storage.dart';
@@ -30,6 +31,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
+  permissionquest();
   KakaoSdk.init(nativeAppKey: kakaonativekey);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -150,7 +152,7 @@ class MyApp extends StatelessWidget {
                   child: child!);
             },
             themeMode: currentMode,
-            home: Login_check(),
+            home: KaKaoLogin(),
             //번영(영어.한국어)
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,
