@@ -19,10 +19,7 @@ class MainLogo extends StatelessWidget {
         alignment: Alignment.centerLeft,
       ),
       Text("익명 커뮤니티 서비스 어쩌고저쩌고.",
-          style: style.copyWith(
-            color: Colors.black54,
-            fontSize: 20,
-          )),
+          style: Theme.of(context).textTheme.headlineMedium!),
     ]);
   }
 }

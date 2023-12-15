@@ -29,6 +29,7 @@ String? backgroundimgname = (Random().nextInt(99) + 1).toString();
 Set<int> imagenumber = {int.parse(backgroundimgname!)};
 
 class _WriteState extends State<Write> {
+
   setimagenumber() {
     while (imagenumber.length < 10) {
       imagenumber.add(Random().nextInt(99) + 1);

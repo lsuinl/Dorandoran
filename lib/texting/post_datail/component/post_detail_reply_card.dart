@@ -64,7 +64,7 @@ class _ReplyCardState extends State<ReplyCard> {
                                 ondelete();
                                 //await handler(true);
                               },
-                              color: Color(0xFFD9D9D9))
+                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
                         ]
                       :
                       //신고/차단
@@ -77,7 +77,7 @@ class _ReplyCardState extends State<ReplyCard> {
                                 // await handler(true);
                                 // setState(() {});
                               },
-                              color: Color(0xFFD9D9D9))
+                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
                         ],
               child: Container(
                   child: Row(children: [
@@ -167,7 +167,7 @@ class _ReplyCardState extends State<ReplyCard> {
       builder: (BuildContext context) => CupertinoActionSheet(
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
-              child: const Text('신고', style: TextStyle(color: Colors.black)),
+              child: Text('신고', style: Theme.of(context).textTheme.headlineMedium!),
               onPressed: () {
                 showDialog(
                     barrierColor: Colors.white70,
@@ -183,10 +183,9 @@ class _ReplyCardState extends State<ReplyCard> {
                           ),
                           content: Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 2,
                             decoration: BoxDecoration(
                               border:
-                                  Border.all(width: 2, color: Colors.black12),
+                              Border.all(width: 2, color: Colors.black12),
                             ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -195,18 +194,16 @@ class _ReplyCardState extends State<ReplyCard> {
                               children: [
                                 TextButton(
                                     style: TextButton.styleFrom(
-                                        alignment: Alignment.centerLeft,
-                                        minimumSize: Size(
-                                            MediaQuery.of(context).size.width,
-                                            0)),
+                                      minimumSize: Size(
+                                          MediaQuery.of(context).size.width, 0),
+                                      alignment: Alignment.centerLeft,
+                                    ),
                                     onPressed: () {
                                       sendreport('선정성');
                                       Navigator.pop(context);
                                     },
                                     child: Text(" 1.선정성",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -216,12 +213,10 @@ class _ReplyCardState extends State<ReplyCard> {
                                             0)),
                                     onPressed: () {
                                       sendreport('폭력성');
-                                    Navigator.pop(context);
+                                      Navigator.pop(context);
                                     },
                                     child: Text(" 2.폭력성",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style:Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -231,12 +226,10 @@ class _ReplyCardState extends State<ReplyCard> {
                                             0)),
                                     onPressed: () {
                                       sendreport('욕설 및 비방');
-                                    Navigator.pop(context);
+                                      Navigator.pop(context);
                                     },
                                     child: Text(" 3.욕설 및 비방",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -244,13 +237,12 @@ class _ReplyCardState extends State<ReplyCard> {
                                         minimumSize: Size(
                                             MediaQuery.of(context).size.width,
                                             0)),
-                                    onPressed: () { sendreport('광고');
-                                    Navigator.pop(context);
+                                    onPressed: () {
+                                      sendreport('광고');
+                                      Navigator.pop(context);
                                     },
                                     child: Text(" 4.광고",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -258,13 +250,12 @@ class _ReplyCardState extends State<ReplyCard> {
                                         minimumSize: Size(
                                             MediaQuery.of(context).size.width,
                                             0)),
-                                    onPressed: () { sendreport('불건전한 만남 유도');
-                                    Navigator.pop(context);
+                                    onPressed: () {
+                                      sendreport('불건전한 만남 유도');
+                                      Navigator.pop(context);
                                     },
                                     child: Text(" 5.불건전한 만남 유도",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style:Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -272,13 +263,12 @@ class _ReplyCardState extends State<ReplyCard> {
                                         minimumSize: Size(
                                             MediaQuery.of(context).size.width,
                                             0)),
-                                    onPressed: () { sendreport('불건전한 닉네임');
-                                    Navigator.pop(context);
+                                    onPressed: () {
+                                      sendreport('불건전한 닉네임');
+                                      Navigator.pop(context);
                                     },
                                     child: Text(" 6.불건전한 닉네임",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                                 Container(height: 2, color: Colors.black12),
                                 TextButton(
                                     style: TextButton.styleFrom(
@@ -286,13 +276,12 @@ class _ReplyCardState extends State<ReplyCard> {
                                         minimumSize: Size(
                                             MediaQuery.of(context).size.width,
                                             0)),
-                                    onPressed: () { sendreport('기타');
-                                    Navigator.pop(context);
+                                    onPressed: () {
+                                      sendreport('기타');
+                                      Navigator.pop(context);
                                     },
                                     child: Text(" 7.기타",
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: Colors.black87))),
+                                        style: Theme.of(context).textTheme.bodyLarge!)),
                               ],
                             ),
                           ));
@@ -300,7 +289,7 @@ class _ReplyCardState extends State<ReplyCard> {
               },
             ),
             CupertinoActionSheetAction(
-              child: const Text('차단', style: TextStyle(color: Colors.black)),
+              child:  Text('차단', style: Theme.of(context).textTheme.headlineMedium!),
               onPressed: () {
                 setState(() {
                   PostBlockMember("reply", widget.replyId);
@@ -311,7 +300,7 @@ class _ReplyCardState extends State<ReplyCard> {
             )
           ],
           cancelButton: CupertinoActionSheetAction(
-              child: Text('취소', style: TextStyle(color: Colors.black)),
+              child: Text('취소', style:Theme.of(context).textTheme.headlineMedium!),
               onPressed: () => Navigator.pop(context))),
     );
   }

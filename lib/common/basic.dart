@@ -35,7 +35,7 @@ class _BasicState extends State<Basic> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: backgroundcolor,
+            color:Theme.of(context).brightness==Brightness.dark?Colors.black26:backgroundcolor,
             child: SafeArea(
                 top: true,
                 bottom: true,

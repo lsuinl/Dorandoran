@@ -20,9 +20,9 @@ class MenuButton extends StatelessWidget {
         Flexible(
             fit: FlexFit.tight,
             child: TextButton.icon(
-                icon:Icon(icons, color: Colors.black87, size: 24.r),
+                icon:Icon(icons, color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black87, size: 24.r),
                 onPressed: onPressed,
-                label: Text(text,style: TextStyle(color: Colors.black),),
+                label: Text(text,style: Theme.of(context).textTheme.headlineMedium!,),
                 style: TextButton.styleFrom(
                     alignment: Alignment.centerLeft)
             )),

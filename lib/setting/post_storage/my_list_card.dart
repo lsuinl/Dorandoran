@@ -48,10 +48,10 @@ class _MyListCardState extends State<MyListCard> {
           decoration: BoxDecoration(
              // borderRadius: BorderRadius.circular(16.r),
               image: DecorationImage(
-                image: NetworkImage('http://' + widget.backimg),
+                image: NetworkImage('https://' + widget.backimg),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.7), BlendMode.dstATop),
+                    Colors.black.withOpacity(0.4), BlendMode.overlay),
               )),
           //BoxDecoration(image: DecorationImage(image:Network1Image('http://'+backimg))),
           child: Padding(

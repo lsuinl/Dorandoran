@@ -19,7 +19,7 @@ class WritingButton extends StatelessWidget {
                       MaterialPageRoute(builder: (context) =>
                           WritingInquiryScreen())),
               elevation: 5.0,
-              fillColor: Colors.blue[300],
+              fillColor: Theme.of(context).brightness==Brightness.dark?Colors.black26:Colors.blue[300],
               child: Icon(
                 Icons.edit,
                 size: 50.0,

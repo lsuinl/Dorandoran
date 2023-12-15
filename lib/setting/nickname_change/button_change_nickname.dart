@@ -57,7 +57,7 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                       }
 
                       return AlertDialog(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black:Colors.white,
                       content: Text('닉네임을 설정해주세요', style: Theme.of(context).textTheme.headlineMedium!),
                       actions: [
                         Column(children: [
@@ -68,28 +68,28 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                                 child: TextField(
                                   style: Theme.of(context).textTheme.bodyMedium!,
                                   decoration: InputDecoration(
-                                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black54)),
+                                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,)),
                                     hintText: "닉네임을 입력해주세요",
                                     hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.indigo),
                                   ),
                                   controller: name,
                                   maxLength: 9,
                                 ),
-                                width: 180.w,
+                                width: 160.w,
                               ),
-                              SizedBox(width: 15.w),
+                             Padding(padding: EdgeInsets.symmetric(horizontal: 5),
+                              child:
                               TextButton(
                                 child: Text("확인", style: Theme.of(context).textTheme.labelSmall!,),
                                 style: TextButton.styleFrom(
-                                    primary: Colors.black54,
-                                    side: BorderSide(color: Colors.black54)),
+                                    side: BorderSide(color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,)),
                                 onPressed: () {
                 setState(() {
                 text = checkname(name.text.toString());
                 });
                 if (text == "") textchange(name.text.toString());
                                   }
-                              ),
+                              )),
                             ],
                           ),
                           Container(
@@ -101,6 +101,17 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                                           ? Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.blue)
                                           : Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.red)))),
                         ]),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                      TextButton(
+                      child: Text("취소", style: Theme.of(context).textTheme.labelSmall!,),
+                      style: TextButton.styleFrom(
+                      side: BorderSide(color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,)),
+                      onPressed: () =>Navigator.of(context).pop()
+                      ),
+                        Padding(padding: EdgeInsets.symmetric(horizontal: 5),
+                        child:
                         TextButton(
                             onPressed: () {
                               if (namecheck[name.text] == true) {
@@ -113,10 +124,11 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                               style: Theme.of(context).textTheme.labelSmall!,
                             ),
                             style: TextButton.styleFrom(
-                                primary: Colors.black54,
+                                primary: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
                                 side: BorderSide(
-                                  color: Colors.black54,
-                                ))),
+                                  color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
+                                ))))
+                      ])
                       ]);
                 });
               });

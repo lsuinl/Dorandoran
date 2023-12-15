@@ -21,12 +21,10 @@ class ShowOutButton extends StatelessWidget {
           // 바깥 영역 터치시 닫을지 여부
           builder: (BuildContext context) {
             return AlertDialog(
-              backgroundColor: Colors.white,
+              backgroundColor:Theme.of(context).brightness==Brightness.dark?Colors.black26:Colors.white,
               content: Text(
                 "탈퇴 시 모든 기록이 삭제됩니다. \n7일 이내에 재로그인 시 회원정보가 복구됩니다.\n탈퇴는 7일 이후 최종적으로 진행됩니다\n탈퇴하시겠습니까?",
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500),
+                style: Theme.of(context).textTheme.bodyMedium!,
                 textAlign: TextAlign.center,
               ),
               actions: [

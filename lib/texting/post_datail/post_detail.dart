@@ -261,7 +261,7 @@ class _PostDetailState extends State<PostDetail> {
                                   style: OutlinedButton.styleFrom(
                                       elevation: 2,
                                       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
-                                      backgroundColor: Color(0xFFBDBDBD),
+                                      backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black26: Color(0xFFBDBDBD),
                                       side: BorderSide(color: Color(0xFFFFFFFF), width: 1.0,)
                                   ),
                                   onPressed: () async {
@@ -347,15 +347,12 @@ class _PostDetailState extends State<PostDetail> {
           barrierDismissible: false, // 바깥 영역 터치시 닫을지 여부
           builder: (BuildContext context) {
             return AlertDialog(
-              backgroundColor: Colors.white,
-              content: const Text("천천히 댓글을 작성하시오,,"),
+              backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black87:Color(0xFFD9D9D9),
+              content: Text("천천히 댓글을 작성하시오..",style:Theme.of(context).textTheme.headlineMedium!),
               actions: [
                 TextButton(
-                  child: const Text('확인',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700)),
+                  child: Text('확인',
+                      style: Theme.of(context).textTheme.headlineMedium!),
                   onPressed: () {
                     Navigator.pop(context);
                   },

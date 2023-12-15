@@ -43,7 +43,7 @@ class NotificationCard extends StatelessWidget {
                               ),
                               Text(
                                 createdTime.substring(0,10),
-                                style: TextStyle(color: Colors.black54,fontSize: 12.sp),
+                                style: Theme.of(context).textTheme.bodySmall!,
                               ),
                             ],
                           ),

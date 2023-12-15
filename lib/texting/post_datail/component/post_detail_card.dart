@@ -39,14 +39,16 @@ class _Detail_CardState extends State<Detail_Card> {
         child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-            image: NetworkImage('http://' + widget.card.backgroundPicUri),
+            image: NetworkImage('https://' + widget.card.backgroundPicUri),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.7), BlendMode.dstATop),
+                Colors.black.withOpacity(0.4), BlendMode.overlay),
           )),
           child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(children: [
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
                 SizedBox(height: 20.h),
                 SizedBox(
                   height: 350.h,
@@ -74,7 +76,7 @@ class _Detail_CardState extends State<Detail_Card> {
                                 .copyWith(fontSize: 12.sp)),
                       ]),
                 ),
-                widget.card.postHashes != null
+                 widget.card.postHashes!.length!=0
                     ? SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(children: [
@@ -92,7 +94,6 @@ class _Detail_CardState extends State<Detail_Card> {
                                         label: Text(e, style: TextStyle(color: Colors.white, fontSize: 12.sp),
                                         ),
                                       ))).toList()),
-                          SizedBox(width: 360.w)
                         ]))
                     : Container(),
               ])),
@@ -106,7 +107,7 @@ class _Detail_CardState extends State<Detail_Card> {
               child: IconButton(
                 onPressed: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  if (widget.card.postNickname == prefs.getString("nickName"))
+                  if (widget.card.postNickname == prefs.getString("nickname"))
                     Fluttertoast.showToast(msg: "자신의 글은 좋아요를 누를 수 없습니다.");
                   else {
                     setState(() {

@@ -35,7 +35,7 @@ class WritingInquiryScreen extends StatelessWidget {
                       SolarIconsOutline.doubleAltArrowLeft,
                       size: 30.r,
                     )),
-                Text("  문의하기", style: TextStyle(fontSize: 24.sp)),
+                Text("  문의하기", style: Theme.of(context).textTheme.headlineLarge),
                 TextButton(
                     onPressed: () async {
                       if (title.text != "" && content.text != "") {
@@ -53,7 +53,7 @@ class WritingInquiryScreen extends StatelessWidget {
                     },
                     child: Text(
                       "완료",
-                      style: TextStyle(color: Colors.black),
+                      style:Theme.of(context).textTheme.headlineMedium,
                     ))
               ],
             ),
@@ -63,7 +63,7 @@ class WritingInquiryScreen extends StatelessWidget {
               decoration: InputDecoration(
                   hintText: "제목을 입력해주세요.",
                   border: OutlineInputBorder(borderSide: BorderSide.none)),
-              style: TextStyle(fontSize: 20.sp),
+              style: Theme.of(context).textTheme.headlineLarge
             ),
             Container(
               height: 1,
@@ -79,7 +79,7 @@ class WritingInquiryScreen extends StatelessWidget {
                 decoration: InputDecoration(
                     hintText: "내용 입력해주세요.",
                     border: OutlineInputBorder(borderSide: BorderSide.none)),
-                style: TextStyle(fontSize: 15.sp),
+                style: Theme.of(context).textTheme.headlineMedium
               ),
             ))
           ],

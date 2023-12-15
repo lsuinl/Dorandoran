@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dorandoran/common/util.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../texting/home/home.dart';
 import '../quest/user.dart';
 
@@ -32,8 +32,13 @@ class NextButton extends StatelessWidget {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               padding: EdgeInsets.all(15)),
           onPressed: () async {
-            print(name.text);
-            if (namecheck[name.text] == true) {//닉네임체크넘어가야
+            if(namecheck[name.text]==null){
+              Fluttertoast.showToast(msg: "닉네임 중복 확인이 필요합니다.");
+            }
+            else if(namecheck[name.text]==false){
+              Fluttertoast.showToast(msg: "닉네임을 입력하세요");
+            }
+            else if (namecheck[name.text] == true) {//닉네임체크넘어가야
               await postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString());
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new Home()));
             }

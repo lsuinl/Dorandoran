@@ -15,16 +15,20 @@ class PostButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool sending =false;
     return Container(
         alignment: Alignment.topRight,
         child: IconButton(
           onPressed: () async {
             MultipartFile? userimage;
-
+            //해시태그 중복제거
+            taglistname.toSet().toList();
             if (dummyFille != null)
               userimage = await MultipartFile.fromFile(dummyFille!.path, filename: dummyFille!.path.split('/').last);
 
-            if (contextcontroller.text != '') {
+            if (contextcontroller.text != '' && sending==false) {
+              Fluttertoast.showToast(msg: "글을 생성 중입니다. 잠시만 기다려주세요..");
+              sending=true;
               int postcheck = await PostWritePost(
                   contextcontroller.text,
                   forme,
@@ -36,10 +40,17 @@ class PostButton extends StatelessWidget {
                   style.color == Colors.white ? "white" : "black",
                   style.fontSize!.toInt(),
                   int.parse(style.fontWeight.toString().substring(12)), anony);
-
-              if(postcheck==201)
-                Navigator.push(context, PageRouteBuilder(pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2) {return Home();},),);
-              else {
+              if(postcheck==201) {
+                sending = false;
+                Fluttertoast.showToast(msg: "성공적으로 업로드 되었습니다.");
+                Navigator.push(context, PageRouteBuilder(
+                  pageBuilder: (BuildContext context,
+                      Animation<double> animation1,
+                      Animation<double> animation2) {
+                    return Home();
+                  },),);
+              } else {
+                sending = false;
                 if(postcheck==415)
                   Fluttertoast.showToast(msg: "형식에 맞지 않는 이미지입니다.");
                 else if(postcheck==403)

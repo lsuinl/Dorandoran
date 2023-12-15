@@ -45,7 +45,7 @@ class _TopState extends State<Top> {
               children: [
                 IconButton(
                   padding: EdgeInsets.zero,
-                  icon: Icon(SolarIconsBold.settings,size: 30.r,color: Color(0xFF1C274C),),
+                  icon: Icon(SolarIconsBold.settings,size: 30.r,color: Theme.of(context).brightness==Brightness.dark?Colors.white:Color(0xFF1C274C),),
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -55,7 +55,7 @@ class _TopState extends State<Top> {
                   children: [
                     IconButton(
                       padding: EdgeInsets.zero,
-                      icon: Icon(SolarIconsBold.bell,size: 30.r,color: Color(0xFF1C274C),),
+                      icon: Icon(SolarIconsBold.bell,size: 30.r,color:  Theme.of(context).brightness==Brightness.dark?Colors.white:Color(0xFF1C274C),),
                       onPressed:() => Navigator.push(
                           context,
                           MaterialPageRoute(

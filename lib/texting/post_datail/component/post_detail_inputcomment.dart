@@ -42,7 +42,7 @@ class _InputCommentState extends State<InputComment> {
           widget.commentId != 0
               ? Container(
                   decoration: BoxDecoration(//테두리,
-                      color: Colors.white,
+                      color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFBDBDBD),
                       border: Border.all(color: Colors.black12, width: 3)),
                   width: 370.w,
                   height: 40.h,
@@ -62,12 +62,13 @@ class _InputCommentState extends State<InputComment> {
                       )))
               : SizedBox(height: 5.h),
           Container(
-              decoration: BoxDecoration(color: Color(0xFFD9D9D9), borderRadius: BorderRadius.circular(20)), //모서리를 둥글게 테두리,
+              decoration: BoxDecoration(color: Theme.of(context).brightness==Brightness.dark?Colors.black26: Color(0xFFD9D9D9), borderRadius: BorderRadius.circular(20)), //모서리를 둥글게 테두리,
               width: 320.w,
               height: 35.h,
               child: Row(children: [
                 IconButton(
-                    padding: EdgeInsets.zero,
+                    padding: EdgeInsets.only(left: 8,right: 5),
+                    constraints: BoxConstraints(),
                     onPressed: () {
                       if (widget.postcommentstate != null)
                         showDialog(
@@ -75,12 +76,12 @@ class _InputCommentState extends State<InputComment> {
                             barrierDismissible: true,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                backgroundColor: Colors.white,
+                                backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.grey[600]:Colors.white24,
                                 content: const Text("이미 작성한 댓글과 다른 상태로 \n댓글을 작성할 수 없습니다."),
                                 actions: [
                                   TextButton(
-                                    child: const Text('닫기',
-                                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700)),
+                                    child: Text('닫기',
+                                        style: TextStyle(color: Theme.of(context).brightness==Brightness.dark?Colors.white:Color(0xFF1C274C), fontSize: 16, fontWeight: FontWeight.w700)),
                                     onPressed: () => Navigator.of(context).pop(),
                                   ),
                                 ],
@@ -99,6 +100,7 @@ class _InputCommentState extends State<InputComment> {
                         : Icon(SolarIconsOutline.closeSquare, size: 24.r)),
                 IconButton(
                   //비밀댓글
+                    padding: EdgeInsets.zero,
                     constraints: BoxConstraints(),
                     onPressed: () {
                       setState(() {
@@ -121,7 +123,7 @@ class _InputCommentState extends State<InputComment> {
                     border: InputBorder.none,
                     enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                     hintText: "댓글을 입력하세요.",
-                    hintStyle: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.black26, fontSize: 15.sp),
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!,
                   ),
                 )),
                 IconButton(

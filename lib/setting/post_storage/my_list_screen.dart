@@ -98,7 +98,7 @@ class _MyListScreenState extends State<MyListScreen> {
                       child: Stack(children: [
                           Column(
                             children: [
-                              MyListTop(text: "좋아요 한 글",),
+                              MyListTop(text: widget.text,),
                               Expanded(
                                 child:  SmartRefresher(
                                     enablePullDown: true,

@@ -7,6 +7,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../../common/quest_token.dart';
+import '../../../main.dart';
 import '../../../texting/home/home.dart';
 import '../../../common/model/notification_model.dart';
 import '../component/mainlogo.dart';
@@ -50,13 +52,19 @@ class _Login_checkState extends State<Login_check> {
   }
 
   logincheck() async {
-    //먼저 서버 체크.
+    //서버체크
    dynamic check = await GetCriticalNotification();
     if(check is int) {
       final prefs = await SharedPreferences.getInstance();
       //앱에 로그인 데이터가 남아있는 경우
-      if(prefs.getString('accessToken')!=""&&prefs.getString('accessToken')!=null)
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new Home()));
+      if(prefs.getString('accessToken')!=""&&prefs.getString('accessToken')!=null) {
+        int tokencheck = await quest_token();
+        if(tokencheck==204 || tokencheck==200)
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (BuildContext context) => new Home()));
+        else
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new KaKaoLogin()));
+      }
       else
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new KaKaoLogin()));
     }//통과
@@ -67,7 +75,7 @@ class _Login_checkState extends State<Login_check> {
             barrierDismissible: true,
             builder: (BuildContext context) {
               return AlertDialog(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black26:Colors.white,
                   title: Text(noticemodel!.title),
                   content: Text(noticemodel!.content,
                       style: Theme.of(context).textTheme.headlineMedium!),

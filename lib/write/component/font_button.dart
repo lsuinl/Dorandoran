@@ -30,7 +30,7 @@ class _FontButtonState extends State<FontButton> {
         CustomPopupMenu( //폰트
           child: Text(
               fontText,
-              style: TextStyle(color: Colors.black87, fontSize: 18.sp, fontWeight: FontWeight.w600)),
+              style: Theme.of(context).textTheme.headlineMedium!),
           menuBuilder: fontmenu,
           pressType: PressType.singleClick,
           controller: sizeController,
@@ -39,27 +39,21 @@ class _FontButtonState extends State<FontButton> {
         IconButton(
           //색상변경
           icon: Icon(Icons.border_color_sharp,
-              color: colors == true ? Colors.grey : Colors.black),
+              color: colors == true ? Colors.grey : Colors.black54),
           onPressed:widget.color,
         ),
         SizedBox(width: 10),
         TextButton(//폰트크기
             child: Text(
               textsize == 15 ? "작게" : "크게",
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.headlineMedium!,
             ),
             style: TextButton.styleFrom(primary: Colors.white),
             onPressed: widget.size),
         SizedBox(width: 10),
         TextButton(
           child: Text(weight ? "굵게" : "얇게",
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600)),
+              style: Theme.of(context).textTheme.headlineMedium!),
           style: TextButton.styleFrom(primary: Colors.white),
           onPressed: widget.weight,
         ),

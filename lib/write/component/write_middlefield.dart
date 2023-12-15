@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../screen/write.dart';
@@ -177,28 +178,33 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                       taglist.removeAt(taglist.length - 2);
                     });
                   } else {
-                    print("확정!");
-                    setState(() {
-                      taglistname.add(tagcontroller.text);
-                      taglist[taglist.length - 2] = Padding(
-                          padding: EdgeInsets.only(right: 5),
-                          key: Key(tagcontroller.text),
-                          child: Chip(
-                            backgroundColor: Color(0xBB2D2D2D),
-                            label: Text(
-                              tagcontroller.text,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onDeleted: () {
-                              setState(() {
-                                taglist.removeWhere((element) =>
-                                element.key ==
-                                    Key(tagcontroller.text));
-                                taglistname.remove(tagcontroller.text);
-                              });
-                            },
-                          ));
-                    });
+                    if (taglistname.contains(tagcontroller.text)) {
+                      Fluttertoast.showToast(msg: "같은 태그를 여러 번 사용할 수 없습니다.");
+                    }
+                    else {
+                      print("확정!");
+                      setState(() {
+                        taglistname.add(tagcontroller.text);
+                        taglist[taglist.length - 2] = Padding(
+                            padding: EdgeInsets.only(right: 5),
+                            key: Key(tagcontroller.text),
+                            child: Chip(
+                              backgroundColor: Color(0xBB2D2D2D),
+                              label: Text(
+                                tagcontroller.text,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onDeleted: () {
+                                setState(() {
+                                  taglist.removeWhere((element) =>
+                                  element.key ==
+                                      Key(tagcontroller.text));
+                                  taglistname.remove(tagcontroller.text);
+                                });
+                              },
+                            ));
+                      });
+                    }
                   }
                 },
                 onSubmitted: (value) {
