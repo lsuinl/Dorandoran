@@ -75,8 +75,8 @@ class _HomeState extends State<Home> {
                         builder: (context, snapshot) {
                           if(snapshot.hasData){
                             SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
+                              dataset();
                               if(homenotice!=null && tagtitle=="새로운"&&Homepopup==false) {
-                                dataset();
                                 Homepopup=true;
                                 Homenoticepopup();
                               }
@@ -124,7 +124,7 @@ class _HomeState extends State<Home> {
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                           image: NetworkImage('$urls/api/pic/default/' + number.toString()),
-                                          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                                          colorFilter: ColorFilter.mode( Colors.black.withOpacity(0.3), BlendMode.overlay),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -418,6 +418,7 @@ class _HomeState extends State<Home> {
   }
   void dataset()async{
     int num = await GetCount();
+    print("숫자는 $num");
     setState(() {
       noticeCount=num;
     });

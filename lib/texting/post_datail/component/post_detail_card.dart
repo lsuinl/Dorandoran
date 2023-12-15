@@ -39,10 +39,10 @@ class _Detail_CardState extends State<Detail_Card> {
         child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-            image: NetworkImage('http://' + widget.card.backgroundPicUri),
+            image: NetworkImage('https://' + widget.card.backgroundPicUri),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.7), BlendMode.dstATop),
+                Colors.black.withOpacity(0.4), BlendMode.overlay),
           )),
           child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),

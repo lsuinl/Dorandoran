@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dorandoran/firebase.dart';
-import 'package:dorandoran/setting/main/setting_list_screen.dart';
-import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
-import 'package:dorandoran/user/sign_up/agree/using_agree.dart';
-import 'package:dorandoran/user/sign_up/sign_up/screen/sign_up.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'common/theme_provider.dart';
 import 'common/util.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -40,28 +38,40 @@ void main() async {
   MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]); //회전방지
   final prefs = await SharedPreferences.getInstance();
-  prefs.setString('firebasetoken', firebasetoken!);
+  //테마모드
+  ThemeMode themeMode = ThemeMode.light;
+  final bool? isDark = prefs.getBool('DarkMode');
+  if(isDark==true) themeMode=ThemeMode.dark;
+  //파이어베이스설정
+  prefs.setString('firebasetoken', firebasetoken);
   if (Platform.isAndroid)
     prefs.setString("ostype", "Aos");
   else if (Platform.isIOS) prefs.setString("ostype", "Ios");
   print(prefs.getString("refreshToken"));
+
   runApp(ScreenUtilInit(
       designSize: Size(360, 690),
       builder: (context, child) {
-        return MyApp();
+        return MyApp(themeMode: themeMode,);
       }));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final themeMode;
 
-  static final ValueNotifier<ThemeMode> themeNotifier=ValueNotifier(ThemeMode.dark);
+  const MyApp({
+    required this.themeMode,
+    super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-        valueListenable: themeNotifier,
-        builder: (_, ThemeMode currentMode, __) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          // 어플리케이션이 실행되면서 Provider를 적용할 때 불러온 테마모드를 ThemeProvider에 넘겨줍니다.
+            create: (_) => ThemeProvider(initThemeMode: themeMode)),
+      ],
+        builder: (context, _) {
           return GetMaterialApp(
             initialBinding: BindingsBuilder.put(() => NotificationController(),
                 permanent: true),
@@ -146,13 +156,13 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               canvasColor: Colors.transparent,
             ),
+            themeMode: Provider.of<ThemeProvider>(context).themeMode,
             builder: (context, child) {
               return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context).copyWith(),
                   child: child!);
             },
-            themeMode: currentMode,
-            home: KaKaoLogin(),
+            home: Login_check(),
             //번영(영어.한국어)
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,

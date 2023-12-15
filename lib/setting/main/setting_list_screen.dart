@@ -12,8 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solar_icons/solar_icons.dart';
+import '../../common/theme_provider.dart';
 import '../../common/util.dart';
 import '../../main.dart';
 import '../notification/notification_list_screen.dart';
@@ -27,7 +29,7 @@ class SettingListScreen extends StatefulWidget {
 
 class _SettingListScreenState extends State<SettingListScreen> {
 bool isNotice=false;
-bool isDark=MyApp.themeNotifier.value==ThemeMode.dark;
+bool isDark=false;
 @override
 void initState() {
     // TODO: implement initState
@@ -88,12 +90,16 @@ void initState() {
                                       SharedPreferences prefs = await SharedPreferences.getInstance();
                                       setState(() {
                                         if(value==true) {
-                                          MyApp.themeNotifier.value = ThemeMode.dark;
-                                          prefs.setBool("DarkMode",true);
+                                          final themeProvider =
+                                          Provider.of<ThemeProvider>(context, listen: false);
+                                          themeProvider.setThemeMode(ThemeMode.dark);
+                                          prefs.setBool("DarkMode", true);
                                         }
                                         else{
-                                          MyApp.themeNotifier.value = ThemeMode.light;
-                                          prefs.setBool("DarkMode",false);
+                                          final themeProvider =
+                                          Provider.of<ThemeProvider>(context, listen: false);
+                                          themeProvider.setThemeMode(ThemeMode.light);
+                                          prefs.setBool("DarkMode", false);
                                         }
                                         isDark = value;
                                       });
@@ -149,12 +155,11 @@ void initState() {
   }
 
  void noticeset() async {
-   // bool check = await GetNotice();
-    bool check = false;
+    bool check = await GetNotice();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? dartcheck = prefs.getBool("DarkMode");
     setState(() {
-      isDark=dartcheck ?? MyApp.themeNotifier.value==ThemeMode.dark;
+      isDark=dartcheck ?? false;
       isNotice =check;
     });
  }

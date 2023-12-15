@@ -52,13 +52,7 @@ class _Login_checkState extends State<Login_check> {
   }
 
   logincheck() async {
-    //먼저 서버 체크.
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool dartcheck = prefs.getBool("DarkMode")?? MyApp.themeNotifier.value==ThemeMode.dark;
-    if(dartcheck==true)
-      MyApp.themeNotifier.value = ThemeMode.dark;
-    else
-      MyApp.themeNotifier.value = ThemeMode.light;
+    //서버체크
    dynamic check = await GetCriticalNotification();
     if(check is int) {
       final prefs = await SharedPreferences.getInstance();

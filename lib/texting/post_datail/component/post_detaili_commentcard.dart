@@ -143,7 +143,7 @@ class _CommentCardState extends State<CommentCard> {
                                 if (widget.card.commentNickname ==
                                     prefs.getString("nickname"))
                                   Fluttertoast.showToast(
-                                      msg: "자신의 댯글은 좋아요를 누를 수 없습니다.");
+                                      msg: "자신의 댓글은 좋아요를 누를 수 없습니다.");
                                 else {
                                   if (commentlikecnt[widget.card.commentId] !=
                                       null) {

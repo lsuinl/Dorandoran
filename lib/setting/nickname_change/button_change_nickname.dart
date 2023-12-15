@@ -75,9 +75,10 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                                   controller: name,
                                   maxLength: 9,
                                 ),
-                                width: 180.w,
+                                width: 160.w,
                               ),
-                              SizedBox(width: 15.w),
+                             Padding(padding: EdgeInsets.symmetric(horizontal: 5),
+                              child:
                               TextButton(
                                 child: Text("확인", style: Theme.of(context).textTheme.labelSmall!,),
                                 style: TextButton.styleFrom(
@@ -88,7 +89,7 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                 });
                 if (text == "") textchange(name.text.toString());
                                   }
-                              ),
+                              )),
                             ],
                           ),
                           Container(
@@ -100,6 +101,17 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                                           ? Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.blue)
                                           : Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.red)))),
                         ]),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                      TextButton(
+                      child: Text("취소", style: Theme.of(context).textTheme.labelSmall!,),
+                      style: TextButton.styleFrom(
+                      side: BorderSide(color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,)),
+                      onPressed: () =>Navigator.of(context).pop()
+                      ),
+                        Padding(padding: EdgeInsets.symmetric(horizontal: 5),
+                        child:
                         TextButton(
                             onPressed: () {
                               if (namecheck[name.text] == true) {
@@ -115,7 +127,8 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                                 primary: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
                                 side: BorderSide(
                                   color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
-                                ))),
+                                ))))
+                      ])
                       ]);
                 });
               });
