@@ -32,7 +32,6 @@ dependencies:
   #device_information: ^0.0.4
   device_info_plus: ^8.0.0
   oauth2: ^2.0.1
-  google_sign_in: ^5.4.2
   unique_identifier: ^0.3.0
   flutter_downloader: ^1.10.1
   path_provider: ^2.0.11
@@ -47,9 +46,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.5
   kakao_flutter_sdk: ^1.5.0
-  firebase_core: ^2.4.1
-  firebase_auth: ^4.2.5
-  firebase_messaging: ^14.6.4
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  firebase_messaging: ^14.7.9
   flutter_local_notifications: ^13.0.0
   permission_handler: ^10.2.0
   google_fonts: ^4.0.3
@@ -66,7 +65,7 @@ dependencies:
   get: ^4.6.5
   dio: ^5.2.1+1
   fluttertoast: ^8.2.2
-  google_mobile_ads: ^3.0.0
+  google_mobile_ads: ^4.0.0
   app_tracking_transparency: ^2.0.4
   solar_icons: ^0.0.5
   flutter_swipe_action_cell: ^3.1.2

@@ -15,7 +15,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime(2000,1,1);
   TextEditingController name = TextEditingController();
   Map<String, bool> namecheck = {'': false};
   String text = "";

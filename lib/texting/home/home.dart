@@ -57,6 +57,9 @@ class _HomeState extends State<Home> {
     super.initState();
     //_loadAd();
     getnoticiations();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      dataset();
+    });
     myfuture = getPostContent(url, 0);
   }
 
@@ -75,7 +78,6 @@ class _HomeState extends State<Home> {
                         builder: (context, snapshot) {
                           if(snapshot.hasData){
                             SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
-                              dataset();
                               if(homenotice!=null && tagtitle=="새로운"&&Homepopup==false) {
                                 Homepopup=true;
                                 Homenoticepopup();
@@ -416,7 +418,7 @@ class _HomeState extends State<Home> {
                 ]);
           });
   }
-  void dataset()async{
+  void dataset() async{
     int num = await GetCount();
     print("숫자는 $num");
     setState(() {

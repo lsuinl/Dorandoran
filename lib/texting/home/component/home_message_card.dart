@@ -5,7 +5,6 @@ import 'package:solar_icons/solar_icons.dart';
 import '../../post_datail/model/postcard_detaril.dart';
 import '../../post_datail/post_detail.dart';
 import '../../post_datail/quest/post/post_postdetail_post_detail.dart';
-import '../quest/home_postLike.dart';
 
 class Message_Card extends StatefulWidget {
   final String time;

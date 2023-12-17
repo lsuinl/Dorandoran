@@ -129,15 +129,11 @@ class _ReplyCardState extends State<ReplyCard> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
-            content: const Text("작성한 대댓글을 삭제하시겠습니까?"),
+            content: Text("작성한 대댓글을 삭제하시겠습니까?", style:  Theme.of(context).textTheme.labelSmall!,),
             actions: [
               TextButton(
-                child: const Text('확인',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700)),
+                child: Text('확인',
+                    style: Theme.of(context).textTheme.labelSmall!),
                 onPressed: () async {
                   await DeleteReplyDelete(widget.replyId);
                   postcardDetail e =  await PostPostDetail(widget.postId,"");
@@ -150,11 +146,7 @@ class _ReplyCardState extends State<ReplyCard> {
                 },
               ),
               TextButton(
-                  child: const Text('취소',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700)),
+                  child: Text('취소',style:Theme.of(context).textTheme.labelSmall!),
                   onPressed: () => Navigator.of(context).pop()),
             ],
           );

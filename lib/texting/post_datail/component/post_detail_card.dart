@@ -91,7 +91,7 @@ class _Detail_CardState extends State<Detail_Card> {
                                       child: InputChip(
                                         backgroundColor: Color(0xBB2D2D2D),
                                         onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => HashDetail(tagnames: e.toString()))),
-                                        label: Text(e, style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                                        label: Text(e, style: Theme.of(context).textTheme.bodyMedium!,
                                         ),
                                       ))).toList()),
                         ]))

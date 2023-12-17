@@ -259,11 +259,10 @@ class _CommentCardState extends State<CommentCard> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
-            content: const Text("작성한 대댓글을 삭제하시겠습니까?"),
+            content: Text("작성한 댓글을 삭제하시겠습니까?", style: Theme.of(context).textTheme.labelSmall!),
             actions: [
               TextButton(
-                child:  Text('확인',
+                child: Text('확인',
                     style: Theme.of(context).textTheme.headlineMedium!),
                 onPressed: () async {
                   await DeleteCommentDelete(widget.card.commentId);

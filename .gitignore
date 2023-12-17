@@ -51,3 +51,5 @@ app.*.map.json
 /ios/Runner/Info.plist
 
 /android/app/src/main/AndroidManifest.xml
+
+android/app/key.jks

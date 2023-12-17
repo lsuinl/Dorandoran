@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dorandoran/firebase.dart';
-import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
+import 'package:dorandoran/user/sign_up/agree/using_agree.dart';
+import 'package:dorandoran/user/sign_up/sign_up/screen/sign_up.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -106,7 +107,7 @@ class MyApp extends StatelessWidget {
                   labelMedium: GoogleFonts.gowunBatang(
                     //버튼 텍스트 내부 글쓰기관련 버튼같ㅇ느거
                     color: Colors.white,
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w300,
                   ),
                   labelSmall: TextStyle(
@@ -145,7 +146,7 @@ class MyApp extends StatelessWidget {
                 labelMedium: GoogleFonts.gowunBatang(
                   //버튼 텍스트 내부 글쓰기관련 버튼같ㅇ느거
                   color: Colors.white,
-                  fontSize: 18.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w300,
                 ),
                 labelSmall: TextStyle(
@@ -162,7 +163,7 @@ class MyApp extends StatelessWidget {
                   data: MediaQuery.of(context).copyWith(),
                   child: child!);
             },
-            home: Login_check(),
+            home: UsingAgree(),
             //번영(영어.한국어)
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,

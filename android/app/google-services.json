@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1021779013330:android:f1bf6a84d8ed82bcd4070b",
         "android_client_info": {
-          "package_name": "com.example.dorandoran"
+          "package_name": "com.dorangroup.dorandoran"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "1021779013330-2sbirvp3rpvtsk5f6tofd7rk62rnk779.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.dorandoran"
+                "bundle_id": "com.dorangroup.dorandoran"
               }
             }
           ]

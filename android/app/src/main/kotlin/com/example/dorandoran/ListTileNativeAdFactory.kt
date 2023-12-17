@@ -1,4 +1,4 @@
-package com.example.dorandoran
+package com.dorangroup.dorandoran
 
 import android.content.Context
 import android.view.LayoutInflater

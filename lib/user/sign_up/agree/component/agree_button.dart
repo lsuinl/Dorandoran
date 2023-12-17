@@ -1,3 +1,4 @@
+import 'package:dorandoran/user/sign_up/agree/component/agree_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../sign_up/screen/sign_up.dart';
@@ -104,37 +105,32 @@ class _AgreeButtonState extends State<AgreeButton> {
               Icons.chevron_right,
               color: Colors.black87
           ),
-          onPressed: ShowDetail,
+          onPressed: (){
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  String texts="";
+                  if(index==1) texts=one;
+                  else if(index==2) texts=two;
+                  else texts=three;
+                  return AlertDialog(
+                    content:  SingleChildScrollView(
+                      child: Text(texts, style: Theme.of(context).textTheme.bodySmall!,)),
+                    actions: [
+                      TextButton(
+                        child: Text('확인',
+                            style:Theme.of(context).textTheme.bodyMedium!),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                });
+          },
         )
       ],
     );
   }
-
-
-
-
-  ShowDetail(){
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: const Text("..."),
-            actions: [
-              TextButton(
-                child: const Text('확인',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
-  }
-
 }
