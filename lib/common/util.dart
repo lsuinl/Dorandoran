@@ -4,6 +4,7 @@ import 'package:flutter/src/painting/text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //00 시간 출력설정
@@ -47,6 +48,11 @@ String timecount(String time) {
 
 //권한요청
 void permissionquest() async {
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.locationWhenInUse,
+    Permission.photos,
+    Permission.notification
+  ].request();
   await AppTrackingTransparency.requestTrackingAuthorization();
 }
 

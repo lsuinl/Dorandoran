@@ -33,7 +33,6 @@ DateTime? currentBackPressTime;
 
 class _HomeState extends State<Home> {
   RefreshController _refreshController = RefreshController(initialRefresh: true);
-  ScrollController scrollController = ScrollController();
   late Future myfuture;
   List<Widget> item=[];
   int checknumber=0;
@@ -132,6 +131,8 @@ class _HomeState extends State<Home> {
                                       ),
                                       child:Center(child:Text(feednotice?.content ??"공지사항" ,style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
                                   ));
+                              if(item.length==0)
+                                item.add(feednoticewidget!);
                             }
                             Widget tagname(String name) {
                               IconData icons = Icons.add;
@@ -187,9 +188,7 @@ class _HomeState extends State<Home> {
                                   child: Stack(children: [
                                     Column(
                                       children: [
-                                        Top(number: noticeCount,),
-                                 //홈화면 공지
-                                        (tagtitle!="관심있는"&&feednoticewidget!=null) ? feednoticewidget! :Container(),
+                                        Top(number: noticeCount),
                                         tagtitle=="근처에"? Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
@@ -255,10 +254,9 @@ class _HomeState extends State<Home> {
                                           controller: _refreshController,
                                           child: tagtitle == "관심있는"
                                               ? TagScreen()
-                                              : (item.length==0 &&snapshot.data.length==0
+                                              : (item.length==1 &&snapshot.data.length==0
                                                   ? Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
                                                   : ListView(
-                                                      controller: scrollController,
                                                       children: item.map<Widget>((e) => e).toList(),
                                                     )),
                                         ))
@@ -420,7 +418,6 @@ class _HomeState extends State<Home> {
   }
   void dataset() async{
     int num = await GetCount();
-    print("숫자는 $num");
     setState(() {
       noticeCount=num;
     });

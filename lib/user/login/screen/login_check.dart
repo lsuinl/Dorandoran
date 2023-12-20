@@ -60,13 +60,21 @@ class _Login_checkState extends State<Login_check> {
       if(prefs.getString('accessToken')!=""&&prefs.getString('accessToken')!=null) {
         int tokencheck = await quest_token();
         if(tokencheck==204 || tokencheck==200)
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => new Home()));
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+                  (route) => false);
         else
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new KaKaoLogin()));
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => KaKaoLogin()),
+                  (route) => false);
       }
       else
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new KaKaoLogin()));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => KaKaoLogin()),
+                (route) => false);
     }//통과
     else{ //죽었을 때
       NotificationModel noticemodel=check;
