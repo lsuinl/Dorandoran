@@ -453,6 +453,7 @@ class _PostDetailState extends State<PostDetail> {
         commenttime = DateTime.now();
       });
       postcardDetail e = await PostPostDetail(widget.postId, "");
+      Navigator.of(context).pop();
       Navigator.push(
           context,
           MaterialPageRoute(

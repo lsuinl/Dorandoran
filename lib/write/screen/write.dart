@@ -54,7 +54,7 @@ class _WriteState extends State<Write> {
     setimagenumber();
   }
 
-  Image backimg = Image.network('$urls/api/pic/default/' '1');
+  Image backimg = Image.network('$urls/api/pic/default/1');
   TextStyle buttontext = GoogleFonts.gowunBatang(fontSize: 12.sp);
 
   @override

@@ -123,11 +123,9 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                               "변경하기",
                               style: Theme.of(context).textTheme.labelSmall!,
                             ),
-                            style: TextButton.styleFrom(
-                                backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
-                                side: BorderSide(
-                                  color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
-                                ))))
+                        style: TextButton.styleFrom(
+                      side: BorderSide(color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,)),
+                            ))
                       ])
                       ]);
                 });

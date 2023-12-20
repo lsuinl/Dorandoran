@@ -1,3 +1,4 @@
+import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/notice/component/notice_card.dart';
 import 'package:dorandoran/notice/model/notice_model.dart';
 import 'package:dorandoran/notice/quest/get_search_notice.dart';
@@ -16,7 +17,8 @@ class _NoticeScreenState extends State<NoticeScreen> {
   List<Widget> item=[];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Basic(widgets:
+      Scaffold(
         body: Container(
           color: Theme.of(context).brightness==Brightness.dark?Colors.black26:backgroundcolor,
             child: SafeArea(
@@ -56,6 +58,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
                       return const CircularProgressIndicator();
                     }
                     }
-    ))));
+    )))));
   }
 }
