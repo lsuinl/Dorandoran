@@ -16,7 +16,7 @@ class _TopState extends State<Top> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(onPressed: ()=>  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Home()),(route)=>false),
+        IconButton(onPressed: ()=>  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Home()),(route)=>false),
           icon: Icon(SolarIconsOutline.doubleAltArrowLeft,size: 30.r),
         ),
         Text("알림", style: TextStyle(fontSize: 24.sp,fontWeight: FontWeight.w900)),

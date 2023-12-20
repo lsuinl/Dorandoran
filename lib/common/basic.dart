@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
 
 import '../main.dart';
-import '../setting/notification/notification_list_screen.dart';
 
 class Basic extends StatefulWidget {
   final Widget widgets;
@@ -42,7 +41,6 @@ class _BasicState extends State<Basic> {
                 child: StreamBuilder<String>(
                     stream: streamController.stream,
                     builder: (context, snapshot) {
-                      print("실행은됨");
                       if (snapshot.hasData) {
                         if (snapshot.data == "notification") {
                           streamController.add("");

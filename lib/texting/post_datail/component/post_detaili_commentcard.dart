@@ -3,21 +3,17 @@ import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/quest/comment/delete_postdetail_comment_delete.dart';
 import 'package:dorandoran/texting/post_datail/quest/reply/get_postdetail_reply_plus.dart';
 import 'package:dorandoran/texting/post_datail/quest/report/post_report_comment.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solar_icons/solar_icons.dart';
-import '../../../common/quest_token.dart';
 import '../../../common/util.dart';
 import '../model/postcard_detaril.dart';
 import '../model/replycard.dart';
-import '../quest/reply/delete_postdetail_reply_delete.dart';
 import '../quest/post/post_block_member.dart';
 import '../quest/comment/post_postdetail_comment_like.dart';
 import '../post_detail.dart';
@@ -66,7 +62,6 @@ class _CommentCardState extends State<CommentCard> {
             ))
         .toList();
     super.initState();
-    print(widget.card.commentId);
     setState(() {
       commentlike
           .addAll({widget.card.commentId: widget.card.commentLikeResult});
@@ -77,132 +72,132 @@ class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Container(
-          child: Padding(
-              padding: EdgeInsets.all(15),
-              child: Row(children: [
-                Expanded(
-                    child: SwipeActionCell(
-                  key: ObjectKey(widget.card.commentId),
-                  trailingActions:
-                      (widget.card.commentCheckDelete || widget.card.isLocked)
-                          ? []
-                          : widget.card.isWrittenByMember == true
-                              ? [
-                                  SwipeAction(
-                                      icon: Icon(Icons.delete, size: 30.r),
-                                      onTap: (CompletionHandler handler) async {
-                                        ondelete();
-                                      },
-                                      color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
-                                ]
-                              : [
-                                  SwipeAction(
-                                      icon: Icon(SolarIconsOutline.sirenRounded,
-                                          size: 30.r),
-                                      onTap: (CompletionHandler handler) async {
-                                        onsiren();
-                                      },
-                                      color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
-                                ],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(children: [
+            Expanded(
+                child: SwipeActionCell(
+              key: ObjectKey(widget.card.commentId),
+              trailingActions:
+                  (widget.card.commentCheckDelete || widget.card.isLocked)
+                      ? []
+                      : widget.card.isWrittenByMember == true
+                          ? [
+                              SwipeAction(
+                                  icon: Icon(Icons.delete, size: 30.r),
+                                  onTap: (CompletionHandler handler) async {
+                                    ondelete();
+                                  },
+                                  color: Theme.of(context).brightness==Brightness.dark?Colors.black26:const Color(0xFFD9D9D9))
+                            ]
+                          : [
+                              SwipeAction(
+                                  icon: Icon(SolarIconsOutline.sirenRounded,
+                                      size: 30.r),
+                                  onTap: (CompletionHandler handler) async {
+                                    onsiren();
+                                  },
+                                  color: Theme.of(context).brightness==Brightness.dark?Colors.black26:const Color(0xFFD9D9D9))
+                            ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            widget.card.commentCheckDelete
-                                ? "삭제"
-                                : (widget.card.commentAnonymityNickname ??
-                                    widget.card.commentNickname),
-                            style: GoogleFonts.jua(fontSize: 17.sp),
-                          ),
-                          SizedBox(width: 3),
-                          Expanded(
-                              child: Text(
-                            timecount(widget.card.commentTime),
-                            style: TextStyle(fontSize: 12.sp),
-                          )),
-                        ],
+                      Text(
+                        widget.card.commentCheckDelete
+                            ? "삭제"
+                            : (widget.card.commentAnonymityNickname ??
+                                widget.card.commentNickname),
+                        style: GoogleFonts.jua(fontSize: 17.sp),
                       ),
-                      Text(widget.card.commentCheckDelete
-                          ? "!삭제된 댓글입니다.!"
-                          : widget.card.comment),
-                      Row(children: [
-                        Expanded(
+                      const SizedBox(width: 3),
+                      Expanded(
                           child: Text(
-                              '좋아요 ${commentlikecnt[widget.card.commentId] ?? 0}'),
-                        ),
-                        Row(
-                          //하트버튼
-                          children: [
-                            IconButton(
-                              onPressed: () async {
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                if (widget.card.commentNickname ==
-                                    prefs.getString("nickname"))
-                                  Fluttertoast.showToast(
-                                      msg: "자신의 댓글은 좋아요를 누를 수 없습니다.");
-                                else {
-                                  if (commentlikecnt[widget.card.commentId] !=
-                                      null) {
-                                    //있던 댓글
-                                    setState(() {
-                                      commentlike[widget.card.commentId] =
-                                          !commentlike[widget.card.commentId]!;
-                                      if (widget.card.commentLikeResult ==
-                                              true &&
-                                          commentlike[widget.card.commentId] ==
-                                              false) //눌린상태에서 취소
-                                        commentlikecnt[widget.card.commentId] =
-                                            commentlikecnt[
-                                                    widget.card.commentId]! -
-                                                1;
-                                      else if (widget.card.commentLikeResult ==
-                                              false &&
-                                          commentlike[widget.card.commentId] ==
-                                              true) //누르기
-                                        commentlikecnt[widget.card.commentId] =
-                                            commentlikecnt[
-                                                    widget.card.commentId]! +
-                                                1;
-                                      else //해당화면에서 상태변경취소
-                                        commentlikecnt[widget.card.commentId] =
-                                            widget.card.commentLike;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      commentlike[widget.card.commentId] = true;
-                                      commentlikecnt[widget.card.commentId] = 1;
-                                    });
-                                  }
-                                  PostCommentLike(widget.postId,
-                                      widget.card.commentId); // 댓글좋아요
-                                }
-                              },
-                              icon: commentlike[widget.card.commentId] == true
-                                  ? Icon(SolarIconsBold.heart)
-                                  : Icon(SolarIconsOutline.heart),
-                              constraints: BoxConstraints(),
-                              padding: EdgeInsets.zero,
-                            ),
-                            SizedBox(width: 5.w),
-                            IconButton(
-                                padding: EdgeInsets.zero,
-                                constraints: BoxConstraints(),
-                                onPressed: () {
-                                  select = widget.card.commentId;
-                                  widget.changeinputtarget();
-                                },
-                                icon: Icon(SolarIconsOutline.dialog)),
-                          ],
-                        ),
-                      ])
+                        timecount(widget.card.commentTime),
+                        style: TextStyle(fontSize: 12.sp),
+                      )),
                     ],
                   ),
-                ))
-              ]))),
+                  Text(widget.card.commentCheckDelete
+                      ? "!삭제된 댓글입니다.!"
+                      : widget.card.comment),
+                  Row(children: [
+                    Expanded(
+                      child: Text(
+                          '좋아요 ${commentlikecnt[widget.card.commentId] ?? 0}'),
+                    ),
+                    Row(
+                      //하트버튼
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            if (widget.card.commentNickname ==
+                                prefs.getString("nickname")) {
+                              Fluttertoast.showToast(
+                                  msg: "자신의 댓글은 좋아요를 누를 수 없습니다.");
+                            } else {
+                              if (commentlikecnt[widget.card.commentId] !=
+                                  null) {
+                                //있던 댓글
+                                setState(() {
+                                  commentlike[widget.card.commentId] =
+                                      !commentlike[widget.card.commentId]!;
+                                  if (widget.card.commentLikeResult ==
+                                          true &&
+                                      commentlike[widget.card.commentId] ==
+                                          false) {
+                                    //눌린상태에서 취소
+                                    commentlikecnt[widget.card.commentId] =
+                                        commentlikecnt[
+                                                widget.card.commentId]! -
+                                            1;
+                                  } else if (widget.card.commentLikeResult ==
+                                          false &&
+                                      commentlike[widget.card.commentId] ==
+                                          true) //누르기
+                                    commentlikecnt[widget.card.commentId] =
+                                        commentlikecnt[
+                                                widget.card.commentId]! +
+                                            1;
+                                  else //해당화면에서 상태변경취소
+                                    commentlikecnt[widget.card.commentId] =
+                                        widget.card.commentLike;
+                                });
+                              } else {
+                                setState(() {
+                                  commentlike[widget.card.commentId] = true;
+                                  commentlikecnt[widget.card.commentId] = 1;
+                                });
+                              }
+                              PostCommentLike(widget.postId,
+                                  widget.card.commentId); // 댓글좋아요
+                            }
+                          },
+                          icon: commentlike[widget.card.commentId] == true
+                              ? const Icon(SolarIconsBold.heart)
+                              : const Icon(SolarIconsOutline.heart),
+                          constraints: const BoxConstraints(),
+                          padding: EdgeInsets.zero,
+                        ),
+                        SizedBox(width: 5.w),
+                        IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            onPressed: () {
+                              select = widget.card.commentId;
+                              widget.changeinputtarget();
+                            },
+                            icon: const Icon(SolarIconsOutline.dialog)),
+                      ],
+                    ),
+                  ])
+                ],
+              ),
+            ))
+          ])),
       isExistNextReply == true
           ? OutlinedButton(
               style: OutlinedButton.styleFrom(
@@ -210,8 +205,8 @@ class _CommentCardState extends State<CommentCard> {
                   minimumSize: Size(302.w, 30.h),
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),
-                  backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFBDBDBD),
-                  side: BorderSide(
+                  backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black26:const Color(0xFFBDBDBD),
+                  side: const BorderSide(
                     color: Color(0xFFFFFFFF),
                     width: 1.0,
                   )),
@@ -300,8 +295,8 @@ class _CommentCardState extends State<CommentCard> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                           elevation: 0,
-                          title: Center(child: Text("신고항목 선택")),
-                          shape: RoundedRectangleBorder(
+                          title: const Center(child: Text("신고항목 선택")),
+                          shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                             side: BorderSide(color: Colors.black26),
                           ),

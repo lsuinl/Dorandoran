@@ -39,7 +39,7 @@ class _Detail_CardState extends State<Detail_Card> {
         child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-            image: NetworkImage('https://' + widget.card.backgroundPicUri),
+            image: NetworkImage('https://${widget.card.backgroundPicUri}'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.4), BlendMode.overlay),
@@ -64,19 +64,9 @@ class _Detail_CardState extends State<Detail_Card> {
                                 widget.card.fontSize,
                                 widget.card.fontBold)),
                         SizedBox(height: 20.h),
-                        Text(
-                            "by ${widget.card.postAnonymity == false ? widget.card.postNickname : "익명"}",
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
-                            style: selectfont(
-                                    widget.card.font,
-                                    widget.card.fontColor,
-                                    widget.card.fontSize,
-                                    widget.card.fontBold)
-                                .copyWith(fontSize: 12.sp)),
                       ]),
                 ),
-                 widget.card.postHashes!.length!=0
+                 widget.card.postHashes!.isNotEmpty
                     ? SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(children: [
@@ -87,9 +77,9 @@ class _Detail_CardState extends State<Detail_Card> {
                           Row(
                               children: widget.card.postHashes!
                                   .map((e) => Padding(
-                                      padding: EdgeInsets.only(right: 3),
+                                      padding: const EdgeInsets.only(right: 3),
                                       child: InputChip(
-                                        backgroundColor: Color(0xBB2D2D2D),
+                                        backgroundColor: const Color(0xBB2D2D2D),
                                         onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => HashDetail(tagnames: e.toString()))),
                                         label: Text(e, style: Theme.of(context).textTheme.bodyMedium!,
                                         ),
@@ -103,18 +93,19 @@ class _Detail_CardState extends State<Detail_Card> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: IconButton(
                 onPressed: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  if (widget.card.postNickname == prefs.getString("nickname"))
+                  if (widget.card.postNickname == prefs.getString("nickname")) {
                     Fluttertoast.showToast(msg: "자신의 글은 좋아요를 누를 수 없습니다.");
-                  else {
+                  } else {
                     setState(() {
                       like = !like;
-                      if (likecnt != widget.card.postLikeResult && like == false) //화면에서 취소누르면,,
+                      if (likecnt != widget.card.postLikeResult && like == false) {
+                        //화면에서 취소누르면,,
                         likecnt = likecnt - 1;
-                      else if (likecnt != widget.card.postLikeResult && like == true) //화면에서 좋아요
+                      } else if (likecnt != widget.card.postLikeResult && like == true) //화면에서 좋아요
                         likecnt = widget.card.postLikeCnt + 1;
                       else
                         likecnt = widget.card.postLikeCnt;
@@ -122,22 +113,21 @@ class _Detail_CardState extends State<Detail_Card> {
                     postLike(widget.postId);
                   }
                 },
-                icon: like!
-                    ? Icon(SolarIconsBold.heart, size: 30.r)
+                icon: like? Icon(SolarIconsBold.heart, size: 30.r)
                     : Icon(SolarIconsOutline.heart, size: 30.r),
-                constraints: BoxConstraints(),
+                constraints: const BoxConstraints(),
                 padding: EdgeInsets.zero,
               )),
           Row(
             children: [
-              Icon(Icons.access_time_filled_rounded),
+              const Icon(Icons.access_time_filled_rounded),
               SizedBox(width: 3.w),
               Text(timecount(widget.card.postTime)),
               SizedBox(width: 7.w),
               widget.card.location != null
                   ? Row(
                       children: [
-                        Icon(SolarIconsBold.mapPoint),
+                        const Icon(SolarIconsBold.mapPoint),
                         Text('${widget.card.location}km'),
                       ],
                     )

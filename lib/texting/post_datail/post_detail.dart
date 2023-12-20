@@ -93,7 +93,10 @@ class _PostDetailState extends State<PostDetail> {
                             ..._menulist.map(
                               (item) => DropdownMenuItem<String>(
                                 value: item,
-                                child: Text(item, style: Theme.of(context).textTheme.bodyMedium!),
+                                child: Text(item,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!),
                               ),
                             ),
                           ],
@@ -408,24 +411,17 @@ class _PostDetailState extends State<PostDetail> {
                           child: Text("댓글 더보기",
                               style:
                                   Theme.of(context).textTheme.headlineMedium!)),
-                  ListBody(
-                      children: commentlist.length > 0
-                          ? [
-                              Column(children: pluscomments),
-                              Column(
-                                children: commentlist,
-                              )
-                            ]
-                          : [
-                              Center(
-                                  child: Card(
-                                      child: SizedBox(
-                                          height: 300.h,
-                                          width: 350.w,
-                                          child: Center(
-                                            child: Text("작성된 댓글이 없습니다"),
-                                          ))))
-                            ]),
+                  commentlist.length > 0
+                      ? SingleChildScrollView(
+                          child: Column(
+                          children: pluscomments + commentlist,
+                        ))
+                      :
+                      Center(child:
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 50),
+                          child: Text("작성된 댓글이 없습니다")),
+                        )
                 ],
               )),
               InputComment(

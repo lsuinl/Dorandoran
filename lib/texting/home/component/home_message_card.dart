@@ -42,6 +42,7 @@ Map<int, int> click = {0: 0};
 class _Message_CardState extends State<Message_Card> {
   @override
   void initState() {
+    super.initState();
     setState(() {
       click.addAll({widget.postId: widget.heart});
     });
@@ -62,7 +63,7 @@ class _Message_CardState extends State<Message_Card> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.r),
               image: DecorationImage(
-                image: NetworkImage('https://' + widget.backimg),
+                image: NetworkImage('https://${widget.backimg}'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.4), BlendMode.overlay),
@@ -83,7 +84,7 @@ class _Message_CardState extends State<Message_Card> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    color: Color(0x553E3E3E),
+                    color: const Color(0x553E3E3E),
                     child:Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Row(
@@ -91,11 +92,11 @@ class _Message_CardState extends State<Message_Card> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.access_time_filled),
+                          const Icon(Icons.access_time_filled),
                           SizedBox(width: 3.w),
                           Text(timecount(widget.time)),
                           SizedBox(width: 7.w),
-                          if (widget.map != null) Icon(SolarIconsBold.mapPoint),
+                          if (widget.map != null) const Icon(SolarIconsBold.mapPoint),
                           Text(widget.map == null ? '' : '${widget.map}km'),
                         ],
                       ),
@@ -103,14 +104,14 @@ class _Message_CardState extends State<Message_Card> {
                         children: [
                           IconButton(
                             onPressed: () {},
-                            icon: Icon(SolarIconsBold.heart),
-                            constraints: BoxConstraints(),
+                            icon: const Icon(SolarIconsBold.heart),
+                            constraints: const BoxConstraints(),
                             padding: EdgeInsets.zero,
                           ),
                           SizedBox(width: 3.w),
                           Text('${click[widget.postId]}'),
                           SizedBox(width: 7.w),
-                          Icon(SolarIconsBold.dialog2),
+                          const Icon(SolarIconsBold.dialog2),
                           SizedBox(width: 3.w),
                           Text('${widget.chat}'),
                         ],

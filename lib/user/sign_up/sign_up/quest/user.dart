@@ -25,7 +25,6 @@ Future<String> postUserRequest(String dateOfBirth, String nickname) async {
       "notifyStatus":notifyStatus
     }),
   );
-  print(response.statusCode);
   Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   prefs.setString("nickname", body["nickname"].toString());
   prefs.setString("email", body["email"].toString());

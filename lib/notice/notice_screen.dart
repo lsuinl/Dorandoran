@@ -27,7 +27,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                   builder: (context, snapshot){
                     if(snapshot.hasData) {
                       List<noticeModel> data=snapshot.data!;
-                      if(item.length<1) {
+                      if(item.isEmpty) {
                         item.addAll(
                             data.map((e) =>
                                 NoticeCard(notificationId: e.notificationId,
@@ -43,7 +43,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                       return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Top(),
+                                    const Top(),
                                     Flexible(child:
                                    SingleChildScrollView(
                                           child:
@@ -53,7 +53,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                   ]);
                     }
                     else{
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                     }
     ))));

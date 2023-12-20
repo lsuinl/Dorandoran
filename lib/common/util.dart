@@ -4,7 +4,6 @@ import 'package:flutter/src/painting/text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //00 시간 출력설정
@@ -27,9 +26,9 @@ String timecount(String time) {
   daycheck =
       today.difference(DateTime(year, month, day, hour, min, second)).inDays;
   if (daycheck > 365) {
-    return "${(daycheck / 365).toInt()}년 전ㅤ";
+    return "${daycheck ~/ 365}년 전ㅤ";
   } else if (daycheck > 31) {
-    return "${(daycheck / 30).toInt()}달 전ㅤ";
+    return "${daycheck ~/ 30}달 전ㅤ";
   } else if (daycheck > 0) {
     return "${daycheck.toInt()}일 전ㅤ";
   } else {
@@ -37,9 +36,9 @@ String timecount(String time) {
         .difference(DateTime(year, month, day, hour, min, second))
         .inSeconds;
     if (daycheck > (60 * 60)) {
-      return (daycheck / (60 * 60))<10 ? "${(daycheck / (60 * 60)).toInt()}시간 전 ":"${(daycheck / (60 * 60)).toInt()}시간 전";
+      return (daycheck / (60 * 60))<10 ? "${daycheck ~/ (60 * 60)}시간 전 ":"${daycheck ~/ (60 * 60)}시간 전";
     } else if (daycheck > 60) {
-      return (daycheck / 60)<10? "${(daycheck / 60).toInt()}분 전 ㅤ":"${(daycheck / 60).toInt()}분 전ㅤ";
+      return (daycheck / 60)<10? "${daycheck ~/ 60}분 전 ㅤ":"${daycheck ~/ 60}분 전ㅤ";
     } else {
       return daycheck<10 ? "${daycheck.toInt()}초 전ㅤ":"${daycheck.toInt()}초 전 ㅤ";
     }
@@ -48,15 +47,6 @@ String timecount(String time) {
 
 //권한요청
 void permissionquest() async {
-  Map<Permission, PermissionStatus> statuses = await [
-    Permission.locationWhenInUse,
-    Permission.photos,
-    Permission.notification
-  ].request();
-  print("권한 체크");
-  print(statuses[Permission.locationWhenInUse]);
-  print(statuses[Permission.photos]);
-  print(statuses[Permission.notification]);
   await AppTrackingTransparency.requestTrackingAuthorization();
 }
 
@@ -86,7 +76,7 @@ void getlocation() async {
 
 //스타일가져오기
 TextStyle selectfont(String font, String fontColor, int fontSize, int fontBold){
-  Color color=fontColor=="black" ? Color(0xFF000000):Color(0xFFFFFFFF);
+  Color color=fontColor=="black" ? const Color(0xFF000000):const Color(0xFFFFFFFF);
   TextStyle style = GoogleFonts.getFont(font, textStyle: TextStyle(fontSize: fontSize.sp, color:color, fontWeight: FontWeight.bold));
   return style;
 }

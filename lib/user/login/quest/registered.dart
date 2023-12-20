@@ -27,6 +27,7 @@ Future<int> registered() async {
     prefs.setString("refreshToken", body["tokenDto"]!["refreshToken"].toString());
     return 200;
   }
-  else
+  else {
     return 400;
+  }
 }

@@ -124,7 +124,7 @@ class _ChangeNicknameButtonState extends State<ChangeNicknameButton> {
                               style: Theme.of(context).textTheme.labelSmall!,
                             ),
                             style: TextButton.styleFrom(
-                                primary: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
+                                backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
                                 side: BorderSide(
                                   color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
                                 ))))

@@ -35,43 +35,42 @@ class _SearchScreenState extends State<SearchScreen> {
     return Basic(
         widgets:
         Padding(
-        padding:EdgeInsets.all(15),
+        padding:const EdgeInsets.all(15),
         child:
         Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
       Padding(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: Row(
             children: [
               Flexible(child:
-              Container(
+              SizedBox(
                   height: 40.h,
                   child: TextFormField(
                     controller: school,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Theme.of(context).brightness==Brightness.dark?Colors.grey:Color(0xFFD9D9D9),
+                      fillColor: Theme.of(context).brightness==Brightness.dark?Colors.grey:const Color(0xFFD9D9D9),
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      prefixIcon: (Icon(SolarIconsOutline.magnifier)),
+                      prefixIcon: (const Icon(SolarIconsOutline.magnifier)),
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
                     keyboardType: TextInputType.text,
                     onChanged: (text) async {
                       if(text!="") {
                         List list = await GetSearchHash(text);
-                        print(list.map((e) => e.hashTagName));
                         setState(() {
                           schoollist = list
                               .map((e) =>
-                          Container(
+                          SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child:
                           Padding(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child:
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,13 +112,13 @@ class _SearchScreenState extends State<SearchScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 10),
-                Text("인기태그"),
+                const SizedBox(height: 10),
+                const Text("인기태그"),
                 Wrap(
                   crossAxisAlignment:WrapCrossAlignment.start,
                     children:
                         List<Widget>.generate(populartagname.length, (int idx) {
-                  return Padding(padding: EdgeInsets.symmetric(horizontal: 3),
+                  return Padding(padding: const EdgeInsets.symmetric(horizontal: 3),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(
@@ -137,14 +136,14 @@ class _SearchScreenState extends State<SearchScreen> {
             )
           : Container(),
           school.text==""?
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
             child:Column(
                   children:[
                     SizedBox(height: 80.h),
-                  Icon(SolarIconsOutline.magnifier),
+                  const Icon(SolarIconsOutline.magnifier),
                     SizedBox(height: 10.h),
-                    Text("관심있는 태그를 검색해 보세요")
+                    const Text("관심있는 태그를 검색해 보세요")
   ]
                 )):Container(),
               school.text!=""?  Flexible(child: ListView(children: schoollist)):Container()

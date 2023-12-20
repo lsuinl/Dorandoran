@@ -1,14 +1,11 @@
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:dorandoran/texting/post_datail/quest/reply/delete_postdetail_reply_delete.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../../common/util.dart';
 import '../post_detail.dart';
@@ -64,7 +61,7 @@ class _ReplyCardState extends State<ReplyCard> {
                                 ondelete();
                                 //await handler(true);
                               },
-                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
+                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:const Color(0xFFD9D9D9))
                         ]
                       :
                       //신고/차단
@@ -77,50 +74,47 @@ class _ReplyCardState extends State<ReplyCard> {
                                 // await handler(true);
                                 // setState(() {});
                               },
-                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
+                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:const Color(0xFFD9D9D9))
                         ],
-              child: Container(
-                  child: Row(children: [
+              child: Row(children: [
                 SizedBox(width: 40.w),
                 Expanded(
-                    child: Container(
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            child: Row(children: [
-                              SizedBox(width: 10.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    widget.replyCheckDelete
-                                        ? Text("삭제", style: GoogleFonts.jua())
-                                        : Row(
-                                            children: [
-                                              Text(
-                                                widget.replyAnonymityNickname ??
-                                                    widget.replyNickname,
-                                                style: GoogleFonts.jua(
-                                                    fontSize: 17.sp),
-                                              ),
-                                              SizedBox(width: 5.w),
-                                              Expanded(
-                                                child: Text(
-                                                    timecount(widget.replyTime),
-                                                    style: TextStyle(
-                                                        fontSize: 12.sp)),
-                                              ),
-                                            ],
-                                          ),
-                                    Text(widget.replyCheckDelete
-                                        ? "!삭제된 댓글입니다!"
-                                        : widget.reply),
-                                  ],
-                                ),
-                              )
-                            ]))))
-              ])));
-        ;
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 10),
+                    child: Row(children: [
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            widget.replyCheckDelete
+                                ? Text("삭제", style: GoogleFonts.jua())
+                                : Row(
+                                    children: [
+                                      Text(
+                                        widget.replyAnonymityNickname ??
+                                            widget.replyNickname,
+                                        style: GoogleFonts.jua(
+                                            fontSize: 17.sp),
+                                      ),
+                                      SizedBox(width: 5.w),
+                                      Expanded(
+                                        child: Text(
+                                            timecount(widget.replyTime),
+                                            style: TextStyle(
+                                                fontSize: 12.sp)),
+                                      ),
+                                    ],
+                                  ),
+                            Text(widget.replyCheckDelete
+                                ? "!삭제된 댓글입니다!"
+                                : widget.reply),
+                          ],
+                        ),
+                      )
+                    ])))
+              ]));
   }
 
   ondelete() {
@@ -168,8 +162,8 @@ class _ReplyCardState extends State<ReplyCard> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                           elevation: 0,
-                          title: Center(child: Text("신고항목 선택")),
-                          shape: RoundedRectangleBorder(
+                          title: const Center(child: Text("신고항목 선택")),
+                          shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                             side: BorderSide(color: Colors.black26),
                           ),

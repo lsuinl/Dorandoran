@@ -16,12 +16,14 @@ Future<dynamic> GetSearchNotice(int number) async {
       'authorization':'Bearer $accessToken',
     },
   );
-  if(response.body==[])
+  if(response.body==[]) {
     return [];
+  }
   if(response.statusCode==401) {
     int number = await quest_token();
-    if (number == 200)
+    if (number == 200) {
       return GetSearchNotice(number);
+    }
   }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<noticeModel> card = body.map((dynamic e) => noticeModel.fromJson(e)).toList();

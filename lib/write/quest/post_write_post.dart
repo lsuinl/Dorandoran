@@ -1,11 +1,10 @@
 import 'package:dorandoran/common/uri.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../common/quest_token.dart';
 
 //formdata형식
-Future<int> PostWritePost(String content,
+Future<int> postwritepost(String content,
     bool forme,
     bool usinglocation,
     String? backgroundImgName,
@@ -23,8 +22,9 @@ Future<int> PostWritePost(String content,
   String accessToken = prefs.getString("accessToken")!;
   String email = prefs.getString("email")!;
   String location="";
-  if(usinglocation==true)
-     location = "${prefs.getString("latitude") ?? ""},${prefs.getString("longtitude") ?? ""}";
+  if(usinglocation==true) {
+    location = "${prefs.getString("latitude") ?? ""},${prefs.getString("longtitude") ?? ""}";
+  }
 
   FormData formData =file==null? FormData.fromMap({
     'email': email,
@@ -53,7 +53,7 @@ Future<int> PostWritePost(String content,
   'anonymity': anaoymity
   });
 
-  var response = await dio.post('${urls}/api/post',
+  var response = await dio.post('$urls/api/post',
       options: Options(headers: {
         'authorization': 'Bearer $accessToken',
       }),
@@ -61,8 +61,8 @@ Future<int> PostWritePost(String content,
   );
   if(response.statusCode==401) {
     int number = await quest_token();
-    if (number == 200)
-      return PostWritePost(
+    if (number == 200) {
+      return postwritepost(
           content,
           forme,
           usinglocation,
@@ -74,6 +74,7 @@ Future<int> PostWritePost(String content,
           fontSize,
           fontBold,
           anaoymity);
+    }
   }
   return response.statusCode!;
 }

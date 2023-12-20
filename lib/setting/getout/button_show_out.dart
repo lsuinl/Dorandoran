@@ -1,6 +1,5 @@
 import 'package:dorandoran/setting/main/button_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../user/login/screen/kakao_login.dart';
@@ -37,40 +36,37 @@ class ShowOutButton extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (BuildContext
                                 context) =>
-                                    KaKaoLogin()),
+                                    const KaKaoLogin()),
                                 (route) => false);
                         Fluttertoast.showToast(
                             msg: '탈퇴가 완료되었습니다');
                       } else {
-                        print("에러");
                       }
                     },
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.black54, side: const BorderSide(
+                        color: Colors.black54,
+                      ),
+                    ),
                     child: Text(
                       "확인",
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!,
-                    ),
-                    style: TextButton.styleFrom(
-                      primary: Colors.black54,
-                      side: BorderSide(
-                        color: Colors.black54,
-                      ),
                     )),
                 TextButton(
                     onPressed: () =>
                         Navigator.pop(context),
+                    style: TextButton.styleFrom(
+                        foregroundColor: Colors.black54, side: const BorderSide(
+                          color: Colors.black54,
+                        )),
                     child: Text(
                       "취소",
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!,
-                    ),
-                    style: TextButton.styleFrom(
-                        primary: Colors.black54,
-                        side: BorderSide(
-                          color: Colors.black54,
-                        ))),
+                    )),
               ],
             );
           });

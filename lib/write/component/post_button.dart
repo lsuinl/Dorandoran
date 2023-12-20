@@ -29,7 +29,7 @@ class PostButton extends StatelessWidget {
             if (contextcontroller.text != '' && sending==false) {
               Fluttertoast.showToast(msg: "글을 생성 중입니다. 잠시만 기다려주세요..");
               sending=true;
-              int postcheck = await PostWritePost(
+              int postcheck = await postwritepost(
                   contextcontroller.text,
                   forme,
                   usinglocation,

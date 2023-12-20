@@ -24,7 +24,7 @@ class _TopState extends State<Top> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             children: [
               Image.asset(
@@ -40,43 +40,43 @@ class _TopState extends State<Top> {
           ),
         ),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
                 IconButton(
                   padding: EdgeInsets.zero,
-                  icon: Icon(SolarIconsBold.settings,size: 30.r,color: Theme.of(context).brightness==Brightness.dark?Colors.white:Color(0xFF1C274C),),
+                  icon: Icon(SolarIconsBold.settings,size: 30.r,color: Theme.of(context).brightness==Brightness.dark?Colors.white:const Color(0xFF1C274C),),
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SettingListScreen())),
+                        builder: (context) => const SettingListScreen())),
                 ),
                 Stack(
                   children: [
                     IconButton(
                       padding: EdgeInsets.zero,
-                      icon: Icon(SolarIconsBold.bell,size: 30.r,color:  Theme.of(context).brightness==Brightness.dark?Colors.white:Color(0xFF1C274C),),
+                      icon: Icon(SolarIconsBold.bell,size: 30.r,color:  Theme.of(context).brightness==Brightness.dark?Colors.white:const Color(0xFF1C274C),),
                       onPressed:() => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NoticeScreen())),
+                              builder: (context) => const NoticeScreen())),
                     ),
                    widget.number!=0? Container(
                       width: 35.w,
                       height: 30.h,
                       alignment: Alignment.topRight,
-                      margin: EdgeInsets.only(top: 5),
+                      margin: const EdgeInsets.only(top: 5),
                       child: Container(
                         width: 15.w,
                         height: 17.h,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Color(0xffc32c37),
+                            color: const Color(0xffc32c37),
                             border: Border.all(color: Colors.white, width: 1)),
                         child: Center(
                             child: Text(
                               widget.number.toString(),
-                              style: TextStyle(fontSize: 10,color: Colors.white),
+                              style: const TextStyle(fontSize: 10,color: Colors.white),
                           ),
                         ),
                       ),

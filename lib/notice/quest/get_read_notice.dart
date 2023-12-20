@@ -15,7 +15,6 @@ Future<dynamic> GetReadNotice(int notificationId) async {
       'authorization':'Bearer $accessToken',
     },
   );
-  print(response.body);
   dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
   ReadNoticeModel card =  ReadNoticeModel.fromJson(body);
 

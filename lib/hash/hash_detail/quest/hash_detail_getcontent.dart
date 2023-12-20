@@ -1,7 +1,6 @@
 import 'package:dorandoran/common/quest_token.dart';
 import 'package:dorandoran/texting/home/model/postcard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:dorandoran/common/uri.dart';
 import 'package:dio/dio.dart';
@@ -15,7 +14,7 @@ Future<dynamic> getHashContent(
   String accessToken = prefs.getString("accessToken")!;
   String location="${prefs.getString("latitude")??"123"},${prefs.getString("longtitude")??"123"}";
  var response= await dio.get(
-    '${urls}/api/post/hashtag',
+    '$urls/api/post/hashtag',
     options: Options( headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
@@ -26,14 +25,14 @@ Future<dynamic> getHashContent(
       "location":location
     }),
   );
- print(response.data);
   if (response.data['Data']==[]) {
     return [];
   }
   if(response.statusCode==401){
     int number=await quest_token();
-    if(number==200)
+    if(number==200) {
       return getHashContent(tagname, number);
+    }
   }
   List<dynamic> body = response.data['Data'];
   //jsonDecode(utf8.decode(response.bodyBytes));

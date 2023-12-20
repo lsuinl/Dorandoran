@@ -2,12 +2,9 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/common/quest_token.dart';
 import 'package:dorandoran/hash/search/search_screen.dart';
-import 'package:dorandoran/texting/home/model/postcard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
-import '../../hash/search/model/popular_hash.dart';
-import '../../hash/search/quest/get_popular_hash.dart';
 import '../../texting/home/component/home_message_card.dart';
 import 'component/home_tag_search.dart';
 import '../hash_detail/hash_detail.dart';
@@ -33,8 +30,9 @@ class _TagScreenState extends State<TagScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    if(searchOn)
+    if(searchOn) {
       return SearchScreen(statemanage: statemanager);
+    }
     return Basic(widgets:
       FutureBuilder(
         future: getdata(),
@@ -65,7 +63,7 @@ class _TagScreenState extends State<TagScreen> {
                   ])
                 ]));
           }else{
-            return Center(child:CircularProgressIndicator());
+            return const Center(child:CircularProgressIndicator());
           }
         }
         ));
@@ -73,23 +71,24 @@ class _TagScreenState extends State<TagScreen> {
   Future<dynamic> getdata() async {
     dynamic mytags = await GetMyHash();
     dynamic mycontents = await GetMyHashContent();
-    if(mytags==401 || mycontents==401)
+    if(mytags==401 || mycontents==401) {
       return 401;
+    }
     List<Widget> mytagswidget = mytag
         .map((e) =>
-        Container(
+        SizedBox(
           height: 20.h,
             child:
         Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Icon(SolarIconsOutline.hashtag,size: 16.r,)),
-              Text("$e", style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
+              Text(e, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
               Flexible(child:
               Container()),
-    Padding(padding: EdgeInsets.symmetric(horizontal: 10),child:
+    Padding(padding: const EdgeInsets.symmetric(horizontal: 10),child:
     IconButton(
       padding: EdgeInsets.zero,
                   onPressed: () {

@@ -13,14 +13,14 @@ class _lodingState extends State<loding> {
   @override
   Widget build(BuildContext context) {
     loading();
-    return Basic(widgets:Center(
+    return const Basic(widgets:Center(
               child: CircularProgressIndicator(),
             ),
         );
   }
 
   void loading() async {
-    await Future.delayed(Duration(seconds: 2));
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => Home()), (route) => false);
+    await Future.delayed(const Duration(seconds: 2));
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => const Home()), (route) => false);
   }
 }

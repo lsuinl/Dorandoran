@@ -8,7 +8,6 @@ import 'package:dorandoran/common/basic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solar_icons/solar_icons.dart';
 
-import '../../texting/home/home.dart';
 
 class InquiryScreen extends StatelessWidget {
   const InquiryScreen({super.key});
@@ -22,12 +21,12 @@ class InquiryScreen extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     List<InquiryModel> datas = snapshot.data;
-                    return Container(
+                    return SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
                         child: Stack(children: [
                           Padding(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -36,7 +35,7 @@ class InquiryScreen extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     IconButton(
-                                        onPressed: () =>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SettingListScreen()),(route)=>false),
+                                        onPressed: () =>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const SettingListScreen()),(route)=>false),
                                         icon: Icon(
                                           SolarIconsOutline.doubleAltArrowLeft,
                                           size: 30.r,
@@ -53,7 +52,7 @@ class InquiryScreen extends StatelessWidget {
                                 SizedBox(height: 10.h),
                                 SingleChildScrollView(
                                     child: Column(
-                                        children: datas.length > 0
+                                        children: datas.isNotEmpty
                                             ? datas
                                                 .map((e) => InquiryCard(
                                             id: e.inquiryPostId,
@@ -61,17 +60,17 @@ class InquiryScreen extends StatelessWidget {
                                             createTime:e.createTime,
                                             inquiryStatus: e.inquiryStatus))
                                                 .toList()
-                                            : [Center(child: Text("작성된 문의글이 없습니다."))]))
+                                            : [const Center(child: Text("작성된 문의글이 없습니다."))]))
                               ],
                             ),
                           ),
-                          WritingButton()
+                          const WritingButton()
                         ]));
                   } else {
-                    return Container(
+                    return SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
-                        child: Center(child: CircularProgressIndicator()));
+                        child: const Center(child: CircularProgressIndicator()));
                   }
                 })));
   }

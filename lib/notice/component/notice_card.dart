@@ -32,7 +32,7 @@ class NoticeCard extends StatelessWidget {
     return Container(
         color: isRead == true ? null : Colors.grey[700],
         child:
-            Padding(padding: EdgeInsets.symmetric(horizontal: 15),
+            Padding(padding: const EdgeInsets.symmetric(horizontal: 15),
             child:
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,9 +47,8 @@ class NoticeCard extends StatelessWidget {
               Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetail(postId: moveId.postId,e:e)));
             },
             style: TextButton.styleFrom(
-              alignment: Alignment.centerLeft,
-              primary: Colors.black,
-              animationDuration: Duration(seconds: 0),
+              foregroundColor: Colors.black, alignment: Alignment.centerLeft,
+              animationDuration: const Duration(seconds: 0),
             ),
             child:
             Column(
@@ -64,9 +63,9 @@ class NoticeCard extends StatelessWidget {
   }
 
   IconData setIcon(String notificationType){
-    if(notificationType=="PostLike")
+    if(notificationType=="PostLike") {
       return SolarIconsOutline.heart;
-    else if(notificationType=="CommentLike")
+    } else if(notificationType=="CommentLike")
       return SolarIconsOutline.heart;
     else if(notificationType=="Comment")
       return SolarIconsOutline.chatLine;

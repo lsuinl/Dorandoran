@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dorandoran/firebase.dart';
+import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
 import 'package:dorandoran/user/sign_up/agree/using_agree.dart';
 import 'package:dorandoran/user/sign_up/sign_up/screen/sign_up.dart';
@@ -163,7 +164,7 @@ class MyApp extends StatelessWidget {
                   data: MediaQuery.of(context).copyWith(),
                   child: child!);
             },
-            home: UsingAgree(),
+            home: Home(),
             //번영(영어.한국어)
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,

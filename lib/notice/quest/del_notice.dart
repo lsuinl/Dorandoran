@@ -13,7 +13,6 @@ Future<int> DelNotice(int noticationid) async {
       'authorization':'Bearer $accessToken',
     },
   );
-  print(response.body);
 
   return response.statusCode;
 }

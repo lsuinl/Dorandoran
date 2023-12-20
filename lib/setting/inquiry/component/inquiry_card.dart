@@ -28,22 +28,20 @@ class InquiryCard extends StatelessWidget {
                   builder: (context) => DerailInquiryScreen(
                         id: id,
                       ))),
-          child: Container(
+          child: SizedBox(
               height: 70.h,
               width: MediaQuery.of(context).size.width,
               child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Stack(
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            child: Text(title,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodyLarge!),
-                          ),
+                          Text(title,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyLarge!),
                           Text(
                             createTime,
                             style: Theme.of(context).textTheme.bodySmall,
@@ -67,7 +65,7 @@ class InquiryCard extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ),
-                          Icon(Icons.arrow_forward_ios),
+                          const Icon(Icons.arrow_forward_ios),
                         ],
                       )
                     ],

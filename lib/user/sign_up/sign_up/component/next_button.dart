@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:dorandoran/common/util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../texting/home/home.dart';
@@ -27,10 +26,10 @@ class NextButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 19),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              primary: Colors.blueAccent,
+              backgroundColor: Colors.blueAccent,
               elevation: 30,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-              padding: EdgeInsets.all(15)),
+              padding: const EdgeInsets.all(15)),
           onPressed: () async {
             if(namecheck[name.text]==null){
               Fluttertoast.showToast(msg: "닉네임 중복 확인이 필요합니다.");
@@ -40,7 +39,7 @@ class NextButton extends StatelessWidget {
             }
             else if (namecheck[name.text] == true) {//닉네임체크넘어가야
               await postUserRequest('${selectedDate.year}-${getTimeFormat(selectedDate.month)}-${getTimeFormat(selectedDate.day)}', name.text.toString());
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new Home()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const Home()));
             }
           },
           child: Text('다음', style:  Theme.of(context).textTheme.labelLarge!),

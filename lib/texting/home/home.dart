@@ -285,7 +285,7 @@ class _HomeState extends State<Home> {
                                                       padding: EdgeInsets.zero,
                                                       icon: Icon(SolarIconsBold.penNewSquare,
                                                         size: 30.r,
-                                                        color:Theme.of(context).brightness==Brightness.dark?Colors.white:Color(0xFF1C274C),
+                                                        color:Color(0x771C274C),
                                                       ),
                                                     ),
                                                     tagname("인기있는"),
