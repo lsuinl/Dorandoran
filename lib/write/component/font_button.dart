@@ -37,9 +37,9 @@ class _FontButtonState extends State<FontButton> {
         ),
         const SizedBox(width: 10),
         IconButton(
-          //색상변경
-          icon: Icon(Icons.border_color_sharp,
-              color: colors == true ? Colors.grey : Colors.black54),
+          //밑줄변경
+          icon: Icon(Icons.border_color,
+              color: colors == true ? Colors.grey : Colors.black),
           onPressed:widget.color,
         ),
         const SizedBox(width: 10),

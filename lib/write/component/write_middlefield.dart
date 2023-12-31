@@ -16,10 +16,12 @@ class MiddleTextField extends StatefulWidget {
 }
 
 TextStyle style = TextStyle(
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 15.sp,
     fontWeight: FontWeight.w800,
-    fontFamily: 'Nanum Gothic'); //기본폰트
+    fontFamily: 'Nanum Gothic',
+  backgroundColor: Colors.black
+); //기본폰트
 
 String fontText = "나눔";
 //폰트 속성 변경 변수
@@ -106,12 +108,12 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
 
   onColor(){
     setState(() {
-      if (style.color == Colors.black) {
+      if (style.backgroundColor ==  Colors.black) {
         colors = true;
-        style = style.copyWith(color: Colors.white);
+        style = style.copyWith(backgroundColor: Colors.transparent);
       } else {
         colors = false;
-        style = style.copyWith(color: Colors.black);
+        style = style.copyWith(backgroundColor: Colors.black);
       }
     });
   }

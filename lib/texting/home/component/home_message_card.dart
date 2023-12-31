@@ -66,7 +66,7 @@ class _Message_CardState extends State<Message_Card> {
                 image: NetworkImage('https://${widget.backimg}'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.4), BlendMode.overlay),
+                    Colors.black.withOpacity(0.6), BlendMode.overlay),
               )),
           child: Column(
                 children: [
@@ -78,13 +78,13 @@ class _Message_CardState extends State<Message_Card> {
                         child: Text(widget.message,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
-                            style: selectfont(widget.font, widget.fontColor,
+                            style: selectfont(widget.font, 'white',
                                 widget.fontSize??14, widget.fontBold)),
                     ),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    color: const Color(0x553E3E3E),
+                    color: const Color(0xBB3E3E3E),
                     child:Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Row(
@@ -92,28 +92,28 @@ class _Message_CardState extends State<Message_Card> {
                     children: [
                       Row(
                         children: [
-                          const Icon(Icons.access_time_filled),
+                          const Icon(Icons.access_time_filled,color: Colors.white),
                           SizedBox(width: 3.w),
-                          Text(timecount(widget.time)),
+                          Text(timecount(widget.time),style:TextStyle(color: Colors.white,)),
                           SizedBox(width: 7.w),
-                          if (widget.map != null) const Icon(SolarIconsBold.mapPoint),
-                          Text(widget.map == null ? '' : '${widget.map}km'),
+                          if (widget.map != null) const Icon(SolarIconsBold.mapPoint,color: Colors.white),
+                          Text(widget.map == null ? '' : '${widget.map}km',style:TextStyle(color: Colors.white,)),
                         ],
                       ),
                       Row(
                         children: [
                           IconButton(
                             onPressed: () {},
-                            icon: const Icon(SolarIconsBold.heart),
+                            icon: const Icon(SolarIconsBold.heart,color: Colors.white),
                             constraints: const BoxConstraints(),
                             padding: EdgeInsets.zero,
                           ),
                           SizedBox(width: 3.w),
-                          Text('${click[widget.postId]}'),
+                          Text('${click[widget.postId]}',style:TextStyle(color: Colors.white,)),
                           SizedBox(width: 7.w),
-                          const Icon(SolarIconsBold.dialog2),
+                          const Icon(SolarIconsBold.dialog2,color: Colors.white),
                           SizedBox(width: 3.w),
-                          Text('${widget.chat}'),
+                          Text('${widget.chat}',style:TextStyle(color: Colors.white,)),
                         ],
                       ),
                     ],

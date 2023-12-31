@@ -60,7 +60,7 @@ class _Detail_CardState extends State<Detail_Card> {
                             overflow: TextOverflow.ellipsis,
                             style: selectfont(
                                 widget.card.font,
-                                widget.card.fontColor,
+                                'white',
                                 widget.card.fontSize,
                                 widget.card.fontBold)),
                         SizedBox(height: 20.h),

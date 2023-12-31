@@ -48,12 +48,21 @@ String timecount(String time) {
 
 //권한요청
 void permissionquest() async {
-  Map<Permission, PermissionStatus> statuses = await [
-    Permission.locationWhenInUse,
-    Permission.photos,
-    Permission.notification
-  ].request();
-  await AppTrackingTransparency.requestTrackingAuthorization();
+  PermissionStatus permission = await Permission.photos.status;
+
+  if (permission == PermissionStatus.granted) {
+  }
+  else if (permission == PermissionStatus.denied ||
+      permission == PermissionStatus.limited ||
+      permission == PermissionStatus.provisional ||
+      permission == PermissionStatus.restricted) {
+    await [
+      Permission.locationWhenInUse,
+      Permission.photos,
+      Permission.notification
+    ].request();
+    await AppTrackingTransparency.requestTrackingAuthorization();
+  }
 }
 
 //이름체크
