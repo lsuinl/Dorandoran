@@ -16,8 +16,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:solar_icons/solar_icons.dart';
+import '../../common/model/notification_feed_model.dart';
 import '../../common/uri.dart';
 import '../../hash/home_hash/tag_screen.dart';
+import '../../setting/notification/notification_detail_screen.dart';
 import '../../write/screen/write.dart';
 import 'component/home_message_card.dart';
 import 'component/home_top.dart';
@@ -47,7 +49,7 @@ class _HomeState extends State<Home> {
   final String _adUnitId = Platform.isIOS ? 'ca-app-pub-2389438989674944/3518867863' : 'ca-app-pub-2389438989674944/5510606382';
   int number =Random().nextInt(100)+1;
   NotificationModel? homenotice;
-  NotificationModel? feednotice;
+  NotificationFeedModel? feednotice;
   Widget? feednoticewidget;
   bool Homepopup=false;
   late int noticeCount=0;
@@ -118,7 +120,10 @@ class _HomeState extends State<Home> {
                             }
                             //홈팝업 구현하기
                             if(feednotice!=null){
-                              feednoticewidget= Padding(
+                              feednoticewidget= GestureDetector(
+                                onTap: ()=>  Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationDetailScreen(id:feednotice!.notificationId))),
+                              child:
+                                  Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                   child: Container(
                                       height: 60.h,
@@ -130,7 +135,7 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                       child:Center(child:Text(feednotice?.content ??"공지사항" ,style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
-                                  ));
+                                  )));
                               if(item.length==0)
                                 item.add(feednoticewidget!);
                             }

@@ -50,7 +50,7 @@ class _HashDetailState extends State<HashDetail> {
                 }
                 int lastnumber = snapshot.data[1].length>0 ? snapshot.data[1].last.postId :0;
                 if (snapshot.connectionState == ConnectionState.done) {
-                  if ((item!.isEmpty || item == null) && snapshot.data[1]!.length>0) {
+                  if ((item == null) && snapshot.data[1]!.length>0) {
                     item = snapshot.data[1]!
                         .map<Message_Card>((e) => Message_Card(
                       time: e.postTime,

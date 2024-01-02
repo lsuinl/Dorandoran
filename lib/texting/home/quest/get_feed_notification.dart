@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dorandoran/common/uri.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../common/model/notification_feed_model.dart';
 import '../../../common/quest_token.dart';
 import '../../../common/model/notification_model.dart';
 
@@ -28,7 +29,7 @@ Future<dynamic> GetFeedNOtification() async {
   else {
     dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
     print(body);
-    NotificationModel message =  NotificationModel.fromJson(body[0]);
+    NotificationFeedModel message =  NotificationFeedModel.fromJson(body[0]);
     return message;
   }
 }
