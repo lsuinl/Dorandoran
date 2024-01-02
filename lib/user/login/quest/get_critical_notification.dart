@@ -15,21 +15,13 @@ Future<dynamic> GetCriticalNotification() async {
       'Content-Type': 'application/json',
     },
   );
-  if (response.body == []) {
-    return [];
-  }
-  else if (response.statusCode == 401) {
-    int number = await quest_token();
-    if (number == 200) {
-      return GetCriticalNotification();
+  print(response.statusCode);
+    if(response.statusCode==201 || response.statusCode==200) {
+      dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
+      NotificationModel message =  NotificationModel.fromJson(body[0]);
+      return message;
     }
-  }
-  else {
-    if(response.statusCode==204) {
-      return 204;
+    else{
+      return response.statusCode;
     }
-    dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
-    NotificationModel message =  NotificationModel.fromJson(body[0]);
-    return message;
-  }
 }

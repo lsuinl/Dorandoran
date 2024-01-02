@@ -60,7 +60,7 @@ class _Detail_CardState extends State<Detail_Card> {
                             overflow: TextOverflow.ellipsis,
                             style: selectfont(
                                 widget.card.font,
-                                'white',
+                                widget.card.fontColor,
                                 widget.card.fontSize,
                                 widget.card.fontBold)),
                         SizedBox(height: 20.h),
@@ -73,13 +73,16 @@ class _Detail_CardState extends State<Detail_Card> {
                           Icon(
                             SolarIconsBold.hashtagCircle,
                             size: 24.r,
+                            color: Colors.grey
                           ),
                           Row(
                               children: widget.card.postHashes!
                                   .map((e) => Padding(
                                       padding: const EdgeInsets.only(right: 3),
                                       child: InputChip(
-                                        backgroundColor: const Color(0xBB2D2D2D),
+                                        backgroundColor: Theme.of(context).brightness ==
+                                            Brightness.dark
+                                            ? Colors.black26: Colors.white70,
                                         onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => HashDetail(tagnames: e.toString()))),
                                         label: Text(e, style: Theme.of(context).textTheme.bodyMedium!,
                                         ),

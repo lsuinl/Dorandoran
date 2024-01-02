@@ -18,6 +18,8 @@ class MainLogo extends StatelessWidget {
         height: 200.h,
         alignment: Alignment.centerLeft,
       ),
+      Text(text,style: Theme.of(context).textTheme.headlineLarge,)
+
     ]);
   }
 }

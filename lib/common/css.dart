@@ -20,7 +20,7 @@ headlineLarge: TextStyle(
 //큰 제목
 color: Colors.white,
 fontSize: 24.sp,
-fontWeight: FontWeight.w500,
+fontWeight: FontWeight.w700,
 ),
 headlineMedium: TextStyle(
 //중간크기 안내문구
@@ -60,7 +60,7 @@ ThemeData whiteTheme = ThemeData(
       //큰 제목
       color: Colors.black87,
       fontSize: 24.sp,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w700,
     ),
     headlineMedium: TextStyle(
       //중간크기 안내문구

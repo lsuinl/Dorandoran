@@ -20,7 +20,7 @@ TextStyle style = TextStyle(
     fontSize: 15.sp,
     fontWeight: FontWeight.w800,
     fontFamily: 'Nanum Gothic',
-  backgroundColor: Colors.black
+    backgroundColor: Colors.black,
 ); //기본폰트
 
 String fontText = "나눔";

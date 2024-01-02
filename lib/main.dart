@@ -4,6 +4,7 @@ import 'package:dorandoran/firebase.dart';
 import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
+import 'package:dorandoran/write/screen/write.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -83,7 +84,7 @@ class MyApp extends StatelessWidget {
                   child: child!)
               ;
             },
-            home: const Home(),
+            home: const Login_check(),
           );
         });
   }

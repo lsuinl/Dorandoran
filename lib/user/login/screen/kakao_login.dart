@@ -32,7 +32,7 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
             children: [
               SizedBox(height: 70.h),
               MainLogo(
-                  text: "도란도란",
+                  text: "도란",
                   style: Theme.of(context).textTheme.headlineLarge!),
               SizedBox(height: 180.h),
               Center(

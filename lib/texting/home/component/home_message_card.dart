@@ -78,7 +78,7 @@ class _Message_CardState extends State<Message_Card> {
                         child: Text(widget.message,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
-                            style: selectfont(widget.font, 'white',
+                            style: selectfont(widget.font, widget.fontColor,
                                 widget.fontSize??14, widget.fontBold)),
                     ),
                   ),

@@ -43,7 +43,7 @@ class _Login_checkState extends State<Login_check> {
         children: [
           SizedBox(height: 70.h),
           MainLogo(
-              text: "도란도란", style: Theme.of(context).textTheme.headlineLarge!),
+              text: "도란", style: Theme.of(context).textTheme.headlineLarge!),
           SizedBox(height: 180.h),
           CircularProgressIndicator(color: Color(0xFF79AAFF)),
           SizedBox(

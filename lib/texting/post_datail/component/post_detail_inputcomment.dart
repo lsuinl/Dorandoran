@@ -70,7 +70,7 @@ class _InputCommentState extends State<InputComment> {
                     padding: const EdgeInsets.only(left: 8,right: 5),
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      if (widget.postcommentstate != null) {
+                      if (widget.postcommentstate!=null) {
                         showDialog(
                             context: context,
                             barrierDismissible: true,

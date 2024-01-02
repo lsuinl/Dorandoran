@@ -45,7 +45,7 @@ class _PostDetailState extends State<PostDetail> {
   int plusreply = -1;
   int replycnt = 0;
   List<String> _menulist = ['신고하기', '차단하기'];
-  bool postcommentstate = false;
+  bool? postcommentstate;
   bool isExistNextComment = false;
   List<CommentCard> commentlist = [];
   List<CommentCard> pluscomments = [];
@@ -456,8 +456,11 @@ class _PostDetailState extends State<PostDetail> {
       Navigator.of(context).pop();
       Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => PostDetail(postId: widget.postId, e: e)));
+          PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) =>  PostDetail(postId: widget.postId, e: e),
+    transitionDuration: Duration.zero,
+    reverseTransitionDuration: Duration.zero,
+    ));
     } else {
       showDialog(
           context: context,
@@ -488,10 +491,11 @@ class _PostDetailState extends State<PostDetail> {
     setState(() {
       isExistNextComment = widget.e.isExistNextComment;
 
-      if (widget.e.isWrittenByMember == true) _menulist = ['삭제하기'];
-
-      if (widget.e.isWrittenByMember == true) //익명체크. 작성자용
+      if (widget.e.isWrittenByMember == true) {
+        _menulist = ['삭제하기'];
         postcommentstate = widget.e.postAnonymity;
+      }
+
 
       commentlist = widget.e.commentDetailDto
           .map<CommentCard>((a) => CommentCard(
@@ -526,12 +530,10 @@ class _PostDetailState extends State<PostDetail> {
         //이미 쓴 댓글 익명여부 검사
         //댓글 작성자
         if (a["isWrittenByMember"] == true && a["commentCheckDelete"] == false)
-          postcommentstate =
-              a["commentAnonymityNickname"] == null ? false : true;
+          postcommentstate = a["commentAnonymityNickname"] == null ? false : true;
         for (final b in a["replies"]['replyData'])
           if (b["isWrittenByMember"] == true && b["replyCheckDelete"] == false)
-            postcommentstate =
-                b["replyAnonymityNickname"] == null ? false : true;
+            postcommentstate = b["replyAnonymityNickname"] == null ? false : true;
       }
     });
   }

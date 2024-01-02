@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:dorandoran/write/component/write_middlefield.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/painting/text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -91,8 +93,8 @@ void getlocation() async {
 
 //스타일가져오기
 TextStyle selectfont(String font, String fontColor, int fontSize, int fontBold){
-  Color color=fontColor=="black" ? const Color(0xFF000000):const Color(0xFFFFFFFF);
-  TextStyle style = GoogleFonts.getFont(font, textStyle: TextStyle(fontSize: fontSize.sp, color:color, fontWeight: FontWeight.bold));
+  Color color=fontColor=="black" ? Colors.black:Colors.transparent;
+  TextStyle style = GoogleFonts.getFont(font, textStyle: TextStyle(fontSize: fontSize.sp, backgroundColor: color,color: Colors.white, fontWeight: FontWeight.bold));
   return style;
 }
 

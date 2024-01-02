@@ -55,7 +55,9 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                   ]);
                     }
                     else{
-                      return const CircularProgressIndicator();
+                      return Center(
+                      child: const CircularProgressIndicator()
+                      );
                     }
                     }
     )))));

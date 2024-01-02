@@ -20,6 +20,7 @@ class PostButton extends StatelessWidget {
         alignment: Alignment.topRight,
         child: IconButton(
           onPressed: () async {
+            FocusScope.of(context).unfocus();
             MultipartFile? userimage;
             //해시태그 중복제거
             taglistname.toSet().toList();
@@ -37,7 +38,7 @@ class PostButton extends StatelessWidget {
                   taglistname==[]?null:taglistname,
                   userimage,
                   setfont(),
-                  style.color == Colors.white ? "white" : "black",
+                  style.backgroundColor == Colors.transparent ? "white" : "black",
                   style.fontSize!.toInt(),
                   int.parse(style.fontWeight.toString().substring(12)), anony);
               if(postcheck==201) {
