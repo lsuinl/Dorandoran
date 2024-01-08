@@ -68,7 +68,7 @@ class _SignUpState extends State<SignUp> {
                         },
                         child: Text("확인", style: Theme.of(context).textTheme.labelSmall!,),
                         style: TextButton.styleFrom(
-                            backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black87,
+                            backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black87:Colors.white,
                             side: BorderSide(color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black87,
                             ))),
                   ],
@@ -95,7 +95,7 @@ class _SignUpState extends State<SignUp> {
                         style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 15.sp),
                       ),
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black87,
+                          backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.black87:Colors.white,
                           side: BorderSide(color: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black87,)),
                       onPressed: dialog,
                     ),

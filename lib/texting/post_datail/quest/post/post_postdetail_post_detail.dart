@@ -30,6 +30,8 @@ Future<dynamic> PostPostDetail(
   else {
     Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     postcardDetail card = postcardDetail.fromJson(body);
+    print(card.isWrittenByMember);
+    print(card.postAnonymity);
     return card;
   }
 }

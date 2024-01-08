@@ -248,8 +248,7 @@ class _HomeState extends State<Home> {
                                           onLoading: () async {
                                             if (lastnumber - 1 > 0) {
                                               setState(() {
-                                                myfuture = getPostContent(
-                                                    url, lastnumber - 1);
+                                                myfuture = getPostContent(url, lastnumber - 1);
                                                 //_loadAd();
                                                 checknumber = lastnumber;
                                               });
@@ -259,7 +258,7 @@ class _HomeState extends State<Home> {
                                           controller: _refreshController,
                                           child: tagtitle == "관심있는"
                                               ? TagScreen()
-                                              : (item.length==1 &&snapshot.data.length==0
+                                              : ((feednotice!=null && item.length==1)||(feednotice==null && item.length==0) &&snapshot.data.length==0
                                                   ? Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
                                                   : ListView(
                                                       children: item.map<Widget>((e) => e).toList(),

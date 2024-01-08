@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dorandoran/firebase.dart';
-import 'package:dorandoran/texting/home/home.dart';
-import 'package:dorandoran/user/login/screen/kakao_login.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
-import 'package:dorandoran/write/screen/write.dart';
+import 'package:dorandoran/user/sign_up/agree/using_agree.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +13,6 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'common/css.dart';
 import 'common/theme_provider.dart';
-import 'common/util.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'common/storage.dart';
@@ -23,8 +20,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 StreamController<String> streamController = StreamController.broadcast();
 
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); //비동기 허용
@@ -84,7 +83,7 @@ class MyApp extends StatelessWidget {
                   child: child!)
               ;
             },
-            home: const Login_check(),
+            home: const UsingAgree(),
           );
         });
   }

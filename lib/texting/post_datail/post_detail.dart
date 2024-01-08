@@ -1,5 +1,4 @@
 import 'package:dorandoran/common/css.dart';
-import 'package:dorandoran/common/quest_token.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_inputcomment.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
@@ -40,12 +39,12 @@ int number = 1;
 int selectcommentid = 0;
 DateTime commenttime = new DateTime.now().copyWith(year: 2022);
 ScrollController scrollController = ScrollController();
+bool? postcommentstate;
 
 class _PostDetailState extends State<PostDetail> {
   int plusreply = -1;
   int replycnt = 0;
   List<String> _menulist = ['신고하기', '차단하기'];
-  bool? postcommentstate;
   bool isExistNextComment = false;
   List<CommentCard> commentlist = [];
   List<CommentCard> pluscomments = [];
@@ -89,6 +88,11 @@ class _PostDetailState extends State<PostDetail> {
                               Icon(SolarIconsOutline.sirenRounded, size: 24.r),
                           dropdownWidth: 150,
                           dropdownDirection: DropdownDirection.left,
+                          dropdownDecoration:  BoxDecoration(
+                            color:  Theme.of(context).brightness ==
+                                Brightness.dark
+                                ? Colors.black:Colors.white
+                          ),
                           items: [
                             ..._menulist.map(
                               (item) => DropdownMenuItem<String>(
@@ -360,7 +364,7 @@ class _PostDetailState extends State<PostDetail> {
                                       BorderRadius.all(Radius.circular(20))),
                               backgroundColor: Theme.of(context).brightness ==
                                       Brightness.dark
-                                  ? Colors.black26
+                                  ? Colors.black
                                   : Color(0xFFBDBDBD),
                               side: BorderSide(
                                 color: Color(0xFFFFFFFF),
@@ -490,7 +494,6 @@ class _PostDetailState extends State<PostDetail> {
   dataset() {
     setState(() {
       isExistNextComment = widget.e.isExistNextComment;
-
       if (widget.e.isWrittenByMember == true) {
         _menulist = ['삭제하기'];
         postcommentstate = widget.e.postAnonymity;

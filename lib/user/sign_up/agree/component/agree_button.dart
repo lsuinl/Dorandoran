@@ -1,6 +1,7 @@
 import 'package:dorandoran/user/sign_up/agree/component/agree_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../sign_up/screen/sign_up.dart';
 
 class AgreeButton extends StatefulWidget {
@@ -100,7 +101,7 @@ class _AgreeButtonState extends State<AgreeButton> {
                 }),
             Text(
               text,
-              style: Theme.of(context).textTheme.bodyMedium!,
+              style: Theme.of(context).textTheme.titleSmall!,
             ),
           ],
         ),

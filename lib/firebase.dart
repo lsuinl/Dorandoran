@@ -93,5 +93,4 @@ class NotificationController extends GetxController {
       print("우효: $message");
     });
   }
-
 }

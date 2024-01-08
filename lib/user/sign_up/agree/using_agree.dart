@@ -1,6 +1,7 @@
 import 'package:dorandoran/common/basic.dart';
 import 'package:dorandoran/user/sign_up/agree/component/agree_button.dart';
 import 'package:flutter/material.dart';
+import '../../../common/util.dart';
 import '../sign_up/component/logo.dart';
 
 class UsingAgree extends StatelessWidget {
@@ -9,6 +10,7 @@ class UsingAgree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    permissionquest();
     return Basic(widgets: Padding(
           padding: const EdgeInsets.only(left: 30, right: 30),
           child: Column(
