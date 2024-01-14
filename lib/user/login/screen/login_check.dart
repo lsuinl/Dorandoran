@@ -57,8 +57,7 @@ class _Login_checkState extends State<Login_check> {
   }
 
   logincheck() async {
-    //서버체크
-    int maincheck = await GetMainServerCheck();
+    int maincheck = await GetMainServerCheck(); //서버체크
     if(maincheck==200){
       final prefs = await SharedPreferences.getInstance();
       //앱에 로그인 데이터가 남아있는 경우
@@ -66,9 +65,11 @@ class _Login_checkState extends State<Login_check> {
           prefs.getString('accessToken') != null) {
         int tokencheck = await quest_token();
         if (tokencheck == 204 || tokencheck == 200) {
-          Navigator.pop(context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Home()));
+          if(isnotice==false) {
+            Navigator.pop(context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Home()));
+          }
         } else {
           Navigator.pop(context);
           Navigator.push(

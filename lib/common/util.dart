@@ -51,7 +51,6 @@ String timecount(String time) {
 //권한요청
 void permissionquest() async {
   PermissionStatus permission = await Permission.photos.status;
-  print(await Permission.notification.status);
   if (permission == PermissionStatus.granted) {
   }
   else if (permission == PermissionStatus.denied ||
@@ -61,10 +60,11 @@ void permissionquest() async {
     await [
       Permission.locationWhenInUse,
       Permission.photos,
-      Permission.notification
+      Permission.notification,
+      Permission.appTrackingTransparency,
     ].request();
 
-    await AppTrackingTransparency.requestTrackingAuthorization();
+   // await AppTrackingTransparency.requestTrackingAuthorization();
   }
 }
 

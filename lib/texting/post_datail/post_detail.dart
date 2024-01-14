@@ -564,6 +564,7 @@ class _PostDetailState extends State<PostDetail> {
     //신고하기
     int num = await PostReportPost(widget.postId, name);
     if (num == 201) Fluttertoast.showToast(msg: "신고가 접수되었습니다.");
+    else Fluttertoast.showToast(msg: "이미 신고가 처리되었습니다.");
   }
 
   deletereply() {

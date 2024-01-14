@@ -30,7 +30,7 @@ class NoticeCard extends StatelessWidget {
     IconData Icontype=setIcon(notificationType);
 
     return Container(
-        color: isRead == true ? null : Colors.grey[700],
+        color: isRead == true ?  Colors.grey[700] : null,
         child:
             Padding(padding: const EdgeInsets.symmetric(horizontal: 15),
             child:

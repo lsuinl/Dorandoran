@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'common/basic.dart';
 import 'main.dart';
 class NotificationController extends GetxController {
   // 메시징 서비스 기본 객체 생성
@@ -90,7 +91,14 @@ class NotificationController extends GetxController {
       }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      print("우효: $message");
+      pushNotificationScreen();
     });
   }
+
+}
+
+pushNotificationScreen() async{
+  streamController.add('notification');
+  await Duration(seconds: 3);
+  //streamController.close();
 }

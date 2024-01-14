@@ -28,7 +28,7 @@ class _TopState extends State<Top> {
           child: Row(
             children: [
               Image.asset(
-                'asset/image/mini_logo.png',
+                Theme.of(context).brightness==Brightness.dark? 'asset/image/white_logo.png': 'asset/image/logo.png',
                 width: 35.w,
                 height: 40.h,
                 alignment: Alignment.centerLeft,

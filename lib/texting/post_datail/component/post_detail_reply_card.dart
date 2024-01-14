@@ -294,5 +294,8 @@ class _ReplyCardState extends State<ReplyCard> {
   void sendreport(String name) async {
     int num = await PostReportReply(widget.replyId, name);
     if (num == 201) Fluttertoast.showToast(msg: "신고가 접수되었습니다.");
+    else{
+      Fluttertoast.showToast(msg: "이미 신고가 처리되었습니다.");
+    }
   }
 }
