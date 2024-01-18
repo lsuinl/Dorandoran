@@ -10,7 +10,7 @@ Future<dynamic> GetSearchNotice(int number) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response= await http.get(
-    Uri.parse('$urls/api/notification/0'),
+    Uri.parse('$urls/api/notification/$number'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',

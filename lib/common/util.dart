@@ -99,6 +99,12 @@ TextStyle selectfont(String font, String fontColor, int fontSize, int fontBold){
   return style;
 }
 
+//스타일가져오기(홈)
+TextStyle selectfonttoHome(String font, String fontColor, int fontSize, int fontBold){
+  Color color=fontColor=="black" ? Colors.black:Colors.transparent;
+  TextStyle style = GoogleFonts.getFont(font, textStyle: TextStyle(fontSize:fontSize<20? 15.sp:25.sp, backgroundColor: color,color: Colors.white, fontWeight: FontWeight.bold));
+  return style;
+}
 Future<String> getnickname() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString("nickName")??""; //버그방지. 추후수정

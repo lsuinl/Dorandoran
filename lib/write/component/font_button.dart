@@ -81,7 +81,7 @@ class _FontButtonState extends State<FontButton> {
                         [
                           'cuteFont',
                           'nanumGothic',
-                          'Jua',
+                          'gamjaFlower',
                         ];
                         if (item == 'cuteFont') {
                           style = GoogleFonts.getFont('Cute Font',
@@ -91,9 +91,9 @@ class _FontButtonState extends State<FontButton> {
                           style = GoogleFonts.getFont('Nanum Gothic',
                               textStyle: style);
                           fontText = "나눔";
-                        } else if (item == 'Jua') {
-                          style = GoogleFonts.getFont('Jua', textStyle: style);
-                          fontText = "주아";
+                        } else if (item == 'gamjaFlower') {
+                         style = GoogleFonts.getFont('Gamja Flower', textStyle: style);
+                          fontText = "감자";
                         }
                         sizeController.hideMenu();
                       });
@@ -111,8 +111,8 @@ class _FontButtonState extends State<FontButton> {
                   fontSize: 13.sp,
                   color: Colors.white,
                 ))
-                : Text("주아",
-                style: GoogleFonts.jua(
+                : Text("감자",
+                style: GoogleFonts.gamjaFlower(
                     fontSize: 14.sp, color: Colors.white)),
           ))
               .toList(),

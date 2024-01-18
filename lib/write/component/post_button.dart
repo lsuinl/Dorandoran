@@ -28,7 +28,6 @@ class PostButton extends StatelessWidget {
               userimage = await MultipartFile.fromFile(dummyFille!.path, filename: dummyFille!.path.split('/').last);
 
             if (contextcontroller.text != '' && sending==false) {
-              Fluttertoast.showToast(msg: "글을 생성 중입니다. 잠시만 기다려주세요..");
               sending=true;
               int postcheck = await postwritepost(
                   contextcontroller.text,
@@ -67,7 +66,7 @@ class PostButton extends StatelessWidget {
 
   String setfont(){
     String fontfamily;
-    if (style.fontFamily.toString().contains("Jua")) fontfamily = "Jua";
+    if (style.fontFamily.toString().contains("gamjaFlower")) fontfamily = "gamjaFlower";
     else if (style.fontFamily.toString().contains("NanumGothic")) fontfamily = "Nanum Gothic";
     else fontfamily = "Cute Font";
 

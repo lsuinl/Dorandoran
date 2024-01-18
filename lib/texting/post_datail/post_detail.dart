@@ -84,15 +84,18 @@ class _PostDetailState extends State<PostDetail> {
                             fontSize: 20.sp, fontWeight: FontWeight.w800),
                       ),
                       DropdownButton2(
-                          customButton:
-                              Icon(SolarIconsOutline.sirenRounded, size: 24.r),
+                          customButton: Icon(
+                              _menulist.length > 1
+                                  ? SolarIconsOutline.sirenRounded
+                                  : Icons.delete_outline,
+                              size: 24.r),
                           dropdownWidth: 150,
                           dropdownDirection: DropdownDirection.left,
-                          dropdownDecoration:  BoxDecoration(
-                            color:  Theme.of(context).brightness ==
-                                Brightness.dark
-                                ? Colors.black:Colors.white
-                          ),
+                          dropdownDecoration: BoxDecoration(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.black
+                                  : Colors.white),
                           items: [
                             ..._menulist.map(
                               (item) => DropdownMenuItem<String>(
@@ -123,14 +126,19 @@ class _PostDetailState extends State<PostDetail> {
                                                   .textTheme
                                                   .bodyMedium!),
                                           onPressed: () async {
-                                            await DeletePostDelete(
-                                                widget.postId);
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Home())).then(
-                                                (value) => setState(() {}));
+                                            int isDelete =
+                                                await DeletePostDelete(
+                                                    widget.postId);
+                                            if (isDelete == 204) {
+                                              Fluttertoast.showToast(
+                                                  msg: "글이 삭제되었습니다.");
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Home())).then(
+                                                  (value) => setState(() {}));
+                                            }
                                           },
                                         ),
                                         TextButton(
@@ -420,11 +428,10 @@ class _PostDetailState extends State<PostDetail> {
                           child: Column(
                           children: pluscomments + commentlist,
                         ))
-                      :
-                      Center(child:
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 50),
-                          child: Text("작성된 댓글이 없습니다")),
+                      : Center(
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 50),
+                              child: Text("작성된 댓글이 없습니다")),
                         )
                 ],
               )),
@@ -457,14 +464,22 @@ class _PostDetailState extends State<PostDetail> {
         commenttime = DateTime.now();
       });
       postcardDetail e = await PostPostDetail(widget.postId, "");
-      Navigator.of(context).pop();
-      Navigator.push(
-          context,
-          PageRouteBuilder(
-          pageBuilder: (context, animation1, animation2) =>  PostDetail(postId: widget.postId, e: e),
-    transitionDuration: Duration.zero,
-    reverseTransitionDuration: Duration.zero,
-    ));
+      if (e == 404) {
+        Fluttertoast.showToast(msg: "이미 삭제된 글입니다.");
+        Navigator.pop(context);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      } else {
+        Navigator.of(context).pop();
+        Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation1, animation2) =>
+                  PostDetail(postId: widget.postId, e: e),
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+            ));
+      }
     } else {
       showDialog(
           context: context,
@@ -499,7 +514,6 @@ class _PostDetailState extends State<PostDetail> {
         postcommentstate = widget.e.postAnonymity;
       }
 
-
       commentlist = widget.e.commentDetailDto
           .map<CommentCard>((a) => CommentCard(
                 //댓글추가
@@ -533,10 +547,12 @@ class _PostDetailState extends State<PostDetail> {
         //이미 쓴 댓글 익명여부 검사
         //댓글 작성자
         if (a["isWrittenByMember"] == true && a["commentCheckDelete"] == false)
-          postcommentstate = a["commentAnonymityNickname"] == null ? false : true;
+          postcommentstate =
+              a["commentAnonymityNickname"] == null ? false : true;
         for (final b in a["replies"]['replyData'])
           if (b["isWrittenByMember"] == true && b["replyCheckDelete"] == false)
-            postcommentstate = b["replyAnonymityNickname"] == null ? false : true;
+            postcommentstate =
+                b["replyAnonymityNickname"] == null ? false : true;
       }
     });
   }
@@ -563,8 +579,10 @@ class _PostDetailState extends State<PostDetail> {
   sendreport(String name) async {
     //신고하기
     int num = await PostReportPost(widget.postId, name);
-    if (num == 201) Fluttertoast.showToast(msg: "신고가 접수되었습니다.");
-    else Fluttertoast.showToast(msg: "이미 신고가 처리되었습니다.");
+    if (num == 201)
+      Fluttertoast.showToast(msg: "신고가 접수되었습니다.");
+    else
+      Fluttertoast.showToast(msg: "이미 신고가 처리되었습니다.");
   }
 
   deletereply() {

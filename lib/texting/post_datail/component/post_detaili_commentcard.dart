@@ -1,3 +1,4 @@
+import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/texting/post_datail/component/post_detail_reply_card.dart';
 import 'package:dorandoran/texting/post_datail/model/commentcard.dart';
 import 'package:dorandoran/texting/post_datail/quest/comment/delete_postdetail_comment_delete.dart';
@@ -109,7 +110,7 @@ class _CommentCardState extends State<CommentCard> {
                             ? "삭제"
                             : (widget.card.commentAnonymityNickname ??
                                 widget.card.commentNickname),
-                        style: GoogleFonts.jua(fontSize: 17.sp),
+                        style: GoogleFonts.gamjaFlower(fontSize: 17.sp),
                       ),
                       const SizedBox(width: 3),
                       Expanded(
@@ -120,7 +121,7 @@ class _CommentCardState extends State<CommentCard> {
                     ],
                   ),
                   Text(widget.card.commentCheckDelete
-                      ? "!삭제된 댓글입니다.!"
+                      ? "삭제된 댓글입니다."
                       : widget.card.comment),
                   Row(children: [
                     Expanded(
@@ -260,15 +261,25 @@ class _CommentCardState extends State<CommentCard> {
                 child: Text('확인',
                     style: Theme.of(context).textTheme.headlineMedium!),
                 onPressed: () async {
-                  await DeleteCommentDelete(widget.card.commentId);
-                  postcardDetail e = await PostPostDetail(widget.postId, "");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PostDetail(
-                                postId: widget.postId,
-                                e: e,
-                              ))).then((value) => setState(() {}));
+                  int isDelete = await DeleteCommentDelete(widget.card.commentId);
+                  if(isDelete==204) {
+                    Fluttertoast.showToast(msg: "댓글이 삭제되었습니다.");
+                    postcardDetail e = await PostPostDetail(widget.postId, "");
+                    if(e==404){
+                      Fluttertoast.showToast(msg: "이미 삭제된 글입니다.");
+                      Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                    }
+                    else
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PostDetail(
+                                  postId: widget.postId,
+                                  e: e,
+                                ))).then((value) => setState(() {}));
+                  }
                 },
               ),
               TextButton(

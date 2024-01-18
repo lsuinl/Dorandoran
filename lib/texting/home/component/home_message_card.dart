@@ -1,6 +1,8 @@
+import 'package:dorandoran/texting/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../post_datail/model/postcard_detaril.dart';
 import '../../post_datail/post_detail.dart';
@@ -56,6 +58,12 @@ class _Message_CardState extends State<Message_Card> {
       child: InkWell(
         onTap: () async {
           postcardDetail e =  await PostPostDetail(widget.postId,"");
+          if(e==404){
+            Fluttertoast.showToast(msg: "이미 삭제된 글입니다.");
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+          }
+          else
           Navigator.push(context, MaterialPageRoute(
               builder: (context) => PostDetail(postId: widget.postId,e:e)));
         },
@@ -76,9 +84,10 @@ class _Message_CardState extends State<Message_Card> {
                     child: Container(
                       alignment: Alignment.center,
                         child: Text(widget.message,
+                            textAlign: TextAlign.center,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
-                            style: selectfont(widget.font, widget.fontColor,
+                            style: selectfonttoHome(widget.font, widget.fontColor,
                                 widget.fontSize??14, widget.fontBold)),
                     ),
                   ),

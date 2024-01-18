@@ -20,7 +20,7 @@ TextStyle style = TextStyle(
     fontSize: 15.sp,
     fontWeight: FontWeight.w800,
     fontFamily: 'Nanum Gothic',
-    backgroundColor: Colors.black,
+  background: Paint()..color=Colors.black
 ); //기본폰트
 
 String fontText = "나눔";
@@ -28,7 +28,7 @@ String fontText = "나눔";
 List<String> menufontitem = [
   'cuteFont',
   'nanumGothic',
-  'Jua',
+  'gamjaFlower',
 ];
 bool colors = false, weight = false;
 int textsize = 15;
@@ -108,12 +108,12 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
 
   onColor(){
     setState(() {
-      if (style.backgroundColor ==  Colors.black) {
+      if (colors==false) {
         colors = true;
-        style = style.copyWith(backgroundColor: Colors.transparent);
+        style = style.copyWith(background: Paint()..color=Colors.transparent);
       } else {
         colors = false;
-        style = style.copyWith(backgroundColor: Colors.black);
+        style = style.copyWith(background: Paint()..color=Colors.black,height: 1);
       }
     });
   }
