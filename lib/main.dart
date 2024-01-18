@@ -112,7 +112,7 @@ class _MyAppState extends State<MyApp> {
                   child: child!)
               ;
             },
-            home: const Login_check(),
+            home: const Home(),
           );
         });
   }

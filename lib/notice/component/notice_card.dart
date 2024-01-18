@@ -17,12 +17,14 @@ class NoticeCard extends StatefulWidget {
   final String notificationTime;
   final String message;
   final String title;
+  final bool isRead;
   final int notificationId;
 
   const NoticeCard({
     required this.notificationId,
     required this.title,
     required this.message,
+    required this.isRead,
     required this.notificationTime,
     required this.notificationType,
     super.key});
@@ -41,7 +43,7 @@ class _NoticeCardState extends State<NoticeCard> {
 
     IconData Icontype=setIcon(widget.notificationType);
     return Container(
-        color: isRead[widget.notificationId] == true ?  Colors.grey[700] : null,
+        color: isRead[widget.notificationId] != true ? null : widget.isRead==true? null: Colors.grey[700] ,
         child:
             Padding(padding: const EdgeInsets.symmetric(horizontal: 15),
             child:

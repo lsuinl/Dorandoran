@@ -409,7 +409,7 @@ class _HomeState extends State<Home> {
                         PatchRejectHomeNotification();
                         Navigator.pop(context);
                       },
-                      child: Text("다시는 보지 않기", style: Theme.of(context).textTheme.labelSmall!,),
+                      child: Text("하루동안 보지 않기", style: Theme.of(context).textTheme.labelSmall!,),
                      ),
                   TextButton(
                       onPressed: () {

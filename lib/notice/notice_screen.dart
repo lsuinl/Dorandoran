@@ -19,12 +19,21 @@ class NoticeScreen extends StatefulWidget {
   @override
   State<NoticeScreen> createState() => _NoticeScreenState();
 }
-Map<int, bool> isRead ={};
+
+Map<int, bool> isRead = {};
+
 class _NoticeScreenState extends State<NoticeScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: true);
   List<Widget> item = [];
-  int lastnumber=0;
+  List<int> idList = [];
+  int lastnumber = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,81 +49,24 @@ class _NoticeScreenState extends State<NoticeScreen> {
                     child: FutureBuilder(
                         future: GetSearchNotice(lastnumber),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData && snapshot.data!.runtimeType!=int) {
-                            List<noticeModel> data = snapshot.data!;
-                            List<int> idList = data.map((e) => e.notificationId).toList();
-                            data.map((e) => isRead[e.notificationId]=e.isRead);
-                            lastnumber=idList.last;
-                            item.addAll(data
-                                .map((e) => SwipeActionCell(
-                                    key: ObjectKey(e.notificationId),
-                                    trailingActions: e.notificationId == true
-                                        ? [
-                                            //삭제
-                                            SwipeAction(
-                                                icon: Icon(Icons.delete,
-                                                    size: 30.r),
-                                                onTap: (CompletionHandler
-                                                    handler) async {
-                                                  await handler(true);
-                                                  //  item.removeAt();
-                                                  deleteNotification(
-                                                      true, e.notificationId);
-                                                  setState(() {
-                                                    isRead[e.notificationId] =true;
-                                                    GetSearchNotice(lastnumber);
-                                                  });
-                                                },
-                                                color: Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.dark
-                                                    ? Colors.black26
-                                                    : const Color(0xFFD9D9D9))
-                                          ]
-                                        : [
-                                            //삭제,읽음
-                                            SwipeAction(
-                                                icon: Icon(Icons.check,
-                                                    size: 30.r),
-                                                onTap: (CompletionHandler
-                                                    handler) async {
-                                                  deleteNotification(
-                                                      false, e.notificationId);
-                                                  setState(() {
-                                                    GetSearchNotice(lastnumber);
-                                                  });
-                                                },
-                                                color: Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.dark
-                                                    ? Colors.black26
-                                                    : const Color(0xFFD9D9D9)),
-                                            SwipeAction(
-                                                icon: Icon(Icons.delete,
-                                                    size: 30.r),
-                                                onTap: (CompletionHandler
-                                                    handler) async {
-                                                  await handler(true);
-                                                  deleteNotification(
-                                                      true, e.notificationId);
-                                                  setState(() {
-                                                    GetSearchNotice(lastnumber);
-                                                  });
-                                                },
-                                                color: Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.dark
-                                                    ? Colors.black26
-                                                    : const Color(0xFFD9D9D9))
-                                          ],
-                                    child: NoticeCard(
-                                        notificationId: e.notificationId,
-                                        title: e.title,
-                                        message: e.message,
-                                        notificationTime: e.notificationTime,
-                                        notificationType: e.notificationType)))
-                                .toList());
-
+                          if (snapshot.hasData && snapshot.data!.runtimeType != int) {
+                            if(snapshot.data.length>1) {
+                              List<noticeModel> data = snapshot.data!;
+                              idList.addAll(
+                                  data.map((e) => e.notificationId).toList());
+                              lastnumber = data.last.notificationId;
+                              item.addAll(data
+                                  .map((e) =>
+                                  NoticeCard(
+                                      notificationId: e.notificationId,
+                                      title: e.title,
+                                      message: e.message,
+                                      isRead: e.isRead,
+                                      notificationTime: e.notificationTime,
+                                      notificationType: e.notificationType))
+                                  .toList());
+                              changeitem();
+                            }
                             return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -127,8 +79,10 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                           controller: _refreshController,
                                           enablePullDown: false,
                                           enablePullUp: true,
-                                          onLoading: () async {
-                                            print("로딩즁");
+                                          onLoading: () {
+                                            setState(() {
+                                                GetSearchNotice(lastnumber);
+                                            });
                                             _refreshController.loadComplete();
                                           },
                                           child: item.length == 0
@@ -141,8 +95,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                                                       Column(children: item))))
                                 ]);
                           } else {
-                            return Center(
-                                child: const CircularProgressIndicator());
+                            return Center(child: Container());
                           }
                         })))));
   }
@@ -152,6 +105,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
     if (delete == true) {
       int code = await DelNotice(notificationId);
       if (code == 204) Fluttertoast.showToast(msg: '삭제가 완료되었습니다.');
+      rebuild();
     } else {
       int code = await PatchReadNotice([notificationId]);
       if (code == 204) Fluttertoast.showToast(msg: '읽음처리가 완료되었습니다.');
@@ -161,7 +115,65 @@ class _NoticeScreenState extends State<NoticeScreen> {
   rebuild() {
     Navigator.pop(context);
     Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NoticeScreen()))
-        .then((value) => setState(() {}));
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) => NoticeScreen(),
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+        ));
+  }
+
+  changeitem() {
+    for (int i = 0; i < item.length; i++) {
+      if (item[i].runtimeType == NoticeCard) {
+        item[i] = SwipeActionCell(
+            key: ObjectKey(item[i]),
+            trailingActions: idList[i] == true
+                ? [
+                    //삭제
+                    SwipeAction(
+                        icon: Icon(Icons.delete, size: 30.r),
+                        onTap: (CompletionHandler handler) async {
+                          await handler(true);
+                          //  item.removeAt();
+                          deleteNotification(true, idList[i]);
+                          setState(() {
+                            isRead[idList[i]] = true;
+                            GetSearchNotice(lastnumber);
+                          });
+                        },
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.black26
+                            : const Color(0xFFD9D9D9))
+                  ]
+                : [
+                    //삭제,읽음
+                    SwipeAction(
+                        icon: Icon(Icons.check, size: 30.r),
+                        onTap: (CompletionHandler handler) async {
+                          deleteNotification(false, idList[i]);
+                          setState(() {
+                            GetSearchNotice(lastnumber);
+                          });
+                        },
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.black26
+                            : const Color(0xFFD9D9D9)),
+                    SwipeAction(
+                        icon: Icon(Icons.delete, size: 30.r),
+                        onTap: (CompletionHandler handler) async {
+                          await handler(true);
+                          deleteNotification(true, idList[i]);
+                          setState(() {
+                            GetSearchNotice(lastnumber);
+                          });
+                        },
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.black26
+                            : const Color(0xFFD9D9D9))
+                  ],
+            child: item[i]);
+      }
+    }
   }
 }
