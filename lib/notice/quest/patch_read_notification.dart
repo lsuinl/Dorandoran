@@ -6,18 +6,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/quest_token.dart';
 
 //알림 읽음처리하기
-Future<dynamic> PatchReadNotice(List<int> lists) async {
+Future<dynamic> PatchReadNotice(int lists) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString("accessToken")!;
   http.Response response= await http.patch(
-    Uri.parse('$urls/api/notification'),
+    Uri.parse('$urls/api/notification/$lists'),
     headers: <String, String>{
       'Content-Type': 'application/json',
       'authorization':'Bearer $accessToken',
-    },
-    body: jsonEncode({
-      "notifcationList":lists,
-    })
+    }
   );
   return response.statusCode;
 }

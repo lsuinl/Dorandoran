@@ -7,11 +7,9 @@ import '../../texting/home/home.dart';
 import '../quest/del_notice.dart';
 
 class Top extends StatefulWidget {
-  final List<int> idlists;
   final VoidCallback rebuild;
 
   const Top({
-    required this.idlists,
     required this.rebuild,
     super.key});
 
@@ -39,7 +37,7 @@ class _TopState extends State<Top> {
           children: [
             IconButton(
                 onPressed: () async {
-                  deleteNotification(false, widget.idlists);
+                  deleteNotification(false, 0);
                 },
                 icon: Icon(Icons.check)
             ),
@@ -56,7 +54,7 @@ class _TopState extends State<Top> {
     );
   }
   //전체삭제
-  deleteNotification(bool delete, List<int>? datas){
+  deleteNotification(bool delete, int? datas){
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -76,7 +74,7 @@ class _TopState extends State<Top> {
                       Fluttertoast.showToast(msg: '삭제가 완료되었습니다.');
                     }
                     else{
-                      PatchReadNotice(datas??[]);
+                      PatchReadNotice(0);
                       Fluttertoast.showToast(msg: '읽음처리가 완료되었습니다.');
                     }
                     Navigator.pop(context);
