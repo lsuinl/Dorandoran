@@ -26,11 +26,11 @@ class DerailInquiryScreen extends StatelessWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                    InquiryDetailModel data =snapshot.data!;
-                    return Container(
+                    return SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
                         child: Padding(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(20),
                             child: SingleChildScrollView(
                                 child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +57,7 @@ class DerailInquiryScreen extends StatelessWidget {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) =>InquiryScreen()));
+                                                    builder: (context) =>const InquiryScreen()));
                                           }
                                           else if(stat==403){
                                             Fluttertoast.showToast(msg: "답변이 완료된 문의글은 삭제할 수 없습니다.");
@@ -95,10 +95,10 @@ class DerailInquiryScreen extends StatelessWidget {
                             )),
                           ));
                   } else {
-                    return Container(
+                    return SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
-                        child: Center(child: CircularProgressIndicator()));
+                        child: const Center(child: CircularProgressIndicator()));
                   }
                 })));
   }

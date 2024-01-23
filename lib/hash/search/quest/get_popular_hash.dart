@@ -19,8 +19,9 @@ Future<List<popularHash>> GetPopularHash() async {
   );
   if(response.statusCode==401){
     int number=await quest_token();
-    if(number==200)
+    if(number==200) {
       return GetPopularHash();
+    }
   }
   List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
   List<popularHash> card = body.map((dynamic e) => popularHash.fromJson(e)).toList();

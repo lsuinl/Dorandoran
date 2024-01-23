@@ -17,6 +17,7 @@ Future<dynamic> GetDetailNotification(int number) async {
       'authorization': 'Bearer $accessToken',
     },
   );
+  print("dd");
   if (response.body == []) {
     return [];
   }

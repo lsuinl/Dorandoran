@@ -8,6 +8,7 @@ Future<int> registered() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String email = prefs.getString("email")!;
   String ostype = prefs.getString("ostype")!;
+  String firebasetoken = prefs.getString("firebasetoken")!;
   var response = await http.post(
     Uri.parse('$urls/api/registered'),
     headers: <String, String>{
@@ -15,7 +16,8 @@ Future<int> registered() async {
     },
     body: jsonEncode({
       "email": email,
-      "osType":ostype
+      "osType":ostype,
+      "firebaseToken": firebasetoken,
     }),
   );
   //가입된 회원이면 회원정보저장하기
@@ -27,6 +29,7 @@ Future<int> registered() async {
     prefs.setString("refreshToken", body["tokenDto"]!["refreshToken"].toString());
     return 200;
   }
-  else
+  else {
     return 400;
+  }
 }

@@ -1,4 +1,4 @@
-package com.example.dorandoran
+package com.dorangroup.dorandoran
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine

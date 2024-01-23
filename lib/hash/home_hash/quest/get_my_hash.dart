@@ -19,14 +19,14 @@ Future<dynamic> GetMyHash() async {
   List<String> names = [];
   if(response.statusCode==401){
     int number=await quest_token();
-    if(number==200)
+    if(number==200) {
       return GetMyHash();
+    }
   }
-  if(response.body.length<1)
+  if(response.body.isEmpty) {
     return names;
-  else {
+  } else {
    Map<String,dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
-   print(body);
     names = List<String>.from(body["hashTagList"]);
     return names;
   }

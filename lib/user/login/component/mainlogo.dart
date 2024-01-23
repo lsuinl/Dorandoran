@@ -11,15 +11,15 @@ class MainLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      SizedBox(height: 80),
+      const SizedBox(height: 80),
       Image.asset(
         'asset/image/logo.png',
         width: 200.w,
         height: 200.h,
         alignment: Alignment.centerLeft,
       ),
-      Text("익명 커뮤니티 서비스 어쩌고저쩌고.",
-          style: Theme.of(context).textTheme.headlineMedium!),
+      Text(text,style: Theme.of(context).textTheme.headlineLarge,)
+
     ]);
   }
 }

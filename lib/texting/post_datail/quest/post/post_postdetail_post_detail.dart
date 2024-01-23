@@ -27,9 +27,14 @@ Future<dynamic> PostPostDetail(
     if(number==200)
       return PostPostDetail(postId, location);
   }
+  else if(response.statusCode==404){
+    return response.statusCode;
+  }
   else {
     Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
     postcardDetail card = postcardDetail.fromJson(body);
+    print(card.isWrittenByMember);
+    print(card.postAnonymity);
     return card;
   }
 }

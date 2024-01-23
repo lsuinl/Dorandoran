@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:dorandoran/notice/notice_screen.dart';
+import 'package:dorandoran/user/login/screen/login_check.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../main.dart';
-import '../setting/notification/notification_list_screen.dart';
 
+StreamController<String> streamController = StreamController.broadcast();
+bool isnotice=false;
 class Basic extends StatefulWidget {
   final Widget widgets;
 
@@ -17,19 +22,19 @@ class Basic extends StatefulWidget {
   State<Basic> createState() => _BasicState();
 }
 
-class _BasicState extends State<Basic> {
+class _BasicState extends State<Basic> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      streamController.add('notification');
-    });
+   // WidgetsBinding.instance.removeObserver(this);
   }
-  @override
-  void dispose() {
-    streamController.close();
-    super.dispose();
-  }
+  //
+  // @override
+  // void dispose() {
+  //   streamController.close();
+  //   print("삭.제");
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +47,12 @@ class _BasicState extends State<Basic> {
                 child: StreamBuilder<String>(
                     stream: streamController.stream,
                     builder: (context, snapshot) {
-                      print("실행은됨");
                       if (snapshot.hasData) {
+                        isnotice=true;
                         if (snapshot.data == "notification") {
-                          streamController.add("");
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return const NoticeScreen();
-                            }));
-                          });
+                            Navigator.pushNamedAndRemoveUntil(context, '/notification', (route) => false);
+                            });
                         }
                       }
                       return widget.widgets;

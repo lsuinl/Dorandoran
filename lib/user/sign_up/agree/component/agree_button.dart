@@ -1,5 +1,7 @@
+import 'package:dorandoran/user/sign_up/agree/component/agree_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../sign_up/screen/sign_up.dart';
 
 class AgreeButton extends StatefulWidget {
@@ -36,13 +38,14 @@ class _AgreeButtonState extends State<AgreeButton> {
             padding: const EdgeInsets.symmetric(horizontal: 19.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  primary: Colors.blueAccent,
+                  backgroundColor: Colors.blueAccent,
                   elevation: 30,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                  padding: EdgeInsets.all(15)),
+                  padding: const EdgeInsets.all(15)),
               onPressed: () {
-                if (agree[0] == true)
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+                if (agree[0] == true) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
+                }
               },
               child: Text('다음', style: widget.style),
             ),
@@ -63,7 +66,9 @@ class _AgreeButtonState extends State<AgreeButton> {
               onChanged: (value) {
                 setState(() {
                   isagree = value;
-                  for (int i = 0; i < agree.length; i++) agree[i] = value!;
+                  for (int i = 0; i < agree.length; i++) {
+                    agree[i] = value!;
+                  }
                 });
               }),
           Text("전체동의", style: Theme.of(context).textTheme.bodyMedium!,),
@@ -87,54 +92,52 @@ class _AgreeButtonState extends State<AgreeButton> {
                     isagree = value;
                     agree[index] = value!;
                   });
-                  if (!agree[0] && agree[1] && agree[2] && agree[3])
+                  if (!agree[0] && agree[1] && agree[2] && agree[3]) {
                     agree[0] = true;
-                  if (value == false && agree[0])
+                  }
+                  if (value == false && agree[0]) {
                     agree[0] = false;
+                  }
                 }),
             Text(
               text,
-              style: Theme.of(context).textTheme.bodyMedium!,
+              style: Theme.of(context).textTheme.titleSmall!,
             ),
           ],
         ),
         IconButton(
           alignment: Alignment.centerRight,
-          icon: Icon(
+          icon: const Icon(
               Icons.chevron_right,
               color: Colors.black87
           ),
-          onPressed: ShowDetail,
+          onPressed: (){
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  String texts="";
+                  if(index==1) {
+                    texts=one;
+                  } else if(index==2) texts=two;
+                  else texts=three;
+                  return AlertDialog(
+                    content:  SingleChildScrollView(
+                      child: Text(texts, style: Theme.of(context).textTheme.bodySmall!,)),
+                    actions: [
+                      TextButton(
+                        child: Text('확인',
+                            style:Theme.of(context).textTheme.bodyMedium!),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                });
+          },
         )
       ],
     );
   }
-
-
-
-
-  ShowDetail(){
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.black,
-            content: const Text("..."),
-            actions: [
-              TextButton(
-                child: const Text('확인',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
-  }
-
 }

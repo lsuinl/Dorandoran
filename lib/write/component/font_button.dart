@@ -28,34 +28,34 @@ class _FontButtonState extends State<FontButton> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         CustomPopupMenu( //폰트
+          menuBuilder: fontmenu,
+          pressType: PressType.singleClick,
+          controller: sizeController, //폰트
           child: Text(
               fontText,
               style: Theme.of(context).textTheme.headlineMedium!),
-          menuBuilder: fontmenu,
-          pressType: PressType.singleClick,
-          controller: sizeController,
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         IconButton(
-          //색상변경
-          icon: Icon(Icons.border_color_sharp,
-              color: colors == true ? Colors.grey : Colors.black54),
+          //밑줄변경
+          icon: Icon(Icons.border_color,
+              color: colors == true ? Colors.grey : Colors.black),
           onPressed:widget.color,
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         TextButton(//폰트크기
+            style: TextButton.styleFrom(foregroundColor: Colors.white),
+            onPressed: widget.size,//폰트크기
             child: Text(
               textsize == 15 ? "작게" : "크게",
               style: Theme.of(context).textTheme.headlineMedium!,
-            ),
-            style: TextButton.styleFrom(primary: Colors.white),
-            onPressed: widget.size),
-        SizedBox(width: 10),
+            )),
+        const SizedBox(width: 10),
         TextButton(
+          style: TextButton.styleFrom(foregroundColor: Colors.white),
+          onPressed: widget.weight,
           child: Text(weight ? "굵게" : "얇게",
               style: Theme.of(context).textTheme.headlineMedium!),
-          style: TextButton.styleFrom(primary: Colors.white),
-          onPressed: widget.weight,
         ),
       ],
     );
@@ -68,12 +68,12 @@ class _FontButtonState extends State<FontButton> {
         width: 220,
         color: const Color(0xFF4C4C4C),
         child: GridView.count(
-          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
           crossAxisCount: 3,
           crossAxisSpacing: 0,
           mainAxisSpacing: 10,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: menufontitem
               .map((item) => TextButton(
             onPressed: () {
@@ -81,7 +81,7 @@ class _FontButtonState extends State<FontButton> {
                         [
                           'cuteFont',
                           'nanumGothic',
-                          'Jua',
+                          'gamjaFlower',
                         ];
                         if (item == 'cuteFont') {
                           style = GoogleFonts.getFont('Cute Font',
@@ -91,9 +91,9 @@ class _FontButtonState extends State<FontButton> {
                           style = GoogleFonts.getFont('Nanum Gothic',
                               textStyle: style);
                           fontText = "나눔";
-                        } else if (item == 'Jua') {
-                          style = GoogleFonts.getFont('Jua', textStyle: style);
-                          fontText = "주아";
+                        } else if (item == 'gamjaFlower') {
+                         style = GoogleFonts.getFont('Gamja Flower', textStyle: style);
+                          fontText = "감자";
                         }
                         sizeController.hideMenu();
                       });
@@ -111,8 +111,8 @@ class _FontButtonState extends State<FontButton> {
                   fontSize: 13.sp,
                   color: Colors.white,
                 ))
-                : Text("주아",
-                style: GoogleFonts.jua(
+                : Text("감자",
+                style: GoogleFonts.gamjaFlower(
                     fontSize: 14.sp, color: Colors.white)),
           ))
               .toList(),

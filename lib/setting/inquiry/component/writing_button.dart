@@ -11,22 +11,22 @@ class WritingButton extends StatelessWidget {
         alignment: Alignment.bottomRight,
         child:
         Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: RawMaterialButton(
               onPressed: () =>
                   Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>
-                          WritingInquiryScreen())),
+                          const WritingInquiryScreen())),
               elevation: 5.0,
               fillColor: Theme.of(context).brightness==Brightness.dark?Colors.black26:Colors.blue[300],
-              child: Icon(
+              padding: const EdgeInsets.all(15.0),
+              shape: const CircleBorder(),
+              child: const Icon(
                 Icons.edit,
                 size: 50.0,
                 color: Colors.white,
               ),
-              padding: EdgeInsets.all(15.0),
-              shape: CircleBorder(),
             )
         )
     );

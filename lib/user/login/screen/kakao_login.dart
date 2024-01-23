@@ -4,7 +4,7 @@ import 'package:dorandoran/user/login/quest/registered.dart';
 import 'package:dorandoran/user/sign_up/agree/using_agree.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_talk.dart';
 import '../../../common/util.dart';
 import '../../../texting/home/home.dart';
 import '../component/mainlogo.dart';
@@ -18,6 +18,12 @@ class KaKaoLogin extends StatefulWidget {
 
 class _KaKaoLoginState extends State<KaKaoLogin> {
   @override
+  void initState() {
+    permissionquest();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Basic(
       widgets: Padding(
@@ -26,7 +32,7 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
             children: [
               SizedBox(height: 70.h),
               MainLogo(
-                  text: "도란도란",
+                  text: "도란",
                   style: Theme.of(context).textTheme.headlineLarge!),
               SizedBox(height: 180.h),
               Center(
@@ -36,6 +42,7 @@ class _KaKaoLoginState extends State<KaKaoLogin> {
                       alignment: Alignment.center,
                     ),
                     onPressed: () async {
+                      print(await KakaoSdk.origin);
                       if (await questkakaologin() == 200) { //카카오 로그인 체크
                         if (await registered() == 200) //가입된 회원
                           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new Home()));

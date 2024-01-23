@@ -27,10 +27,11 @@ class _HashButtonState extends State<HashButton> {
   @override
   Widget build(BuildContext context) {
     return   IconButton(onPressed: (){
-      if(mytag==false)
+      if(mytag==false) {
         addMyHash(widget.tagnames);
-      else
+      } else {
         delMyHash(widget.tagnames);
+      }
       setState(() {
         mytag=!mytag;
       });

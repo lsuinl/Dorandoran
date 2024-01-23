@@ -25,9 +25,7 @@ class NotificationDetailScreen extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
                         child: SingleChildScrollView(
-                            child: Padding(
-                                padding: EdgeInsets.all(0),
-                                child: Column(
+                            child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                   Row(
@@ -53,13 +51,18 @@ class NotificationDetailScreen extends StatelessWidget {
                                     )
                                   ],
                                   ),
-                                    // Text(data.title, style: TextStyle(fontSize: 30.sp,fontWeight: FontWeight.w600),),
-                                    SizedBox(height:10.h),
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child:
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
                                     Text(data.content,style: TextStyle(fontSize: 15.sp,)),
                                     SizedBox(height:10.h),
                                     Text(data.createdTime,style: TextStyle(fontSize: 12.sp,))
+                                 ]))
                                   ],
-                                ))));
+                                )));
                   }
                   else{
                     return Container(

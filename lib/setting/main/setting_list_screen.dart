@@ -16,8 +16,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../common/theme_provider.dart';
-import '../../common/util.dart';
-import '../../main.dart';
 import '../notification/notification_list_screen.dart';
 
 class SettingListScreen extends StatefulWidget {

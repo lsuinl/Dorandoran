@@ -16,8 +16,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:solar_icons/solar_icons.dart';
+import '../../common/model/notification_feed_model.dart';
 import '../../common/uri.dart';
 import '../../hash/home_hash/tag_screen.dart';
+import '../../setting/notification/notification_detail_screen.dart';
 import '../../write/screen/write.dart';
 import 'component/home_message_card.dart';
 import 'component/home_top.dart';
@@ -33,7 +35,6 @@ DateTime? currentBackPressTime;
 
 class _HomeState extends State<Home> {
   RefreshController _refreshController = RefreshController(initialRefresh: true);
-  ScrollController scrollController = ScrollController();
   late Future myfuture;
   List<Widget> item=[];
   int checknumber=0;
@@ -48,7 +49,7 @@ class _HomeState extends State<Home> {
   final String _adUnitId = Platform.isIOS ? 'ca-app-pub-2389438989674944/3518867863' : 'ca-app-pub-2389438989674944/5510606382';
   int number =Random().nextInt(100)+1;
   NotificationModel? homenotice;
-  NotificationModel? feednotice;
+  NotificationFeedModel? feednotice;
   Widget? feednoticewidget;
   bool Homepopup=false;
   late int noticeCount=0;
@@ -57,6 +58,9 @@ class _HomeState extends State<Home> {
     super.initState();
     //_loadAd();
     getnoticiations();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      dataset();
+    });
     myfuture = getPostContent(url, 0);
   }
 
@@ -75,7 +79,6 @@ class _HomeState extends State<Home> {
                         builder: (context, snapshot) {
                           if(snapshot.hasData){
                             SchedulerBinding.instance!.addPostFrameCallback((_) {//위젯을 바로실행시키기 위해 이 함수가 필요하다.
-                              dataset();
                               if(homenotice!=null && tagtitle=="새로운"&&Homepopup==false) {
                                 Homepopup=true;
                                 Homenoticepopup();
@@ -117,7 +120,10 @@ class _HomeState extends State<Home> {
                             }
                             //홈팝업 구현하기
                             if(feednotice!=null){
-                              feednoticewidget= Padding(
+                              feednoticewidget= GestureDetector(
+                                onTap: ()=>  Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationDetailScreen(id:feednotice!.notificationId))),
+                              child:
+                                  Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                   child: Container(
                                       height: 60.h,
@@ -129,7 +135,9 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                       child:Center(child:Text(feednotice?.content ??"공지사항" ,style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.w600),))
-                                  ));
+                                  )));
+                              if(item.length==0)
+                                item.add(feednoticewidget!);
                             }
                             Widget tagname(String name) {
                               IconData icons = Icons.add;
@@ -185,9 +193,7 @@ class _HomeState extends State<Home> {
                                   child: Stack(children: [
                                     Column(
                                       children: [
-                                        Top(number: noticeCount,),
-                                 //홈화면 공지
-                                        (tagtitle!="관심있는"&&feednoticewidget!=null) ? feednoticewidget! :Container(),
+                                        Top(number: noticeCount),
                                         tagtitle=="근처에"? Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
@@ -242,8 +248,7 @@ class _HomeState extends State<Home> {
                                           onLoading: () async {
                                             if (lastnumber - 1 > 0) {
                                               setState(() {
-                                                myfuture = getPostContent(
-                                                    url, lastnumber - 1);
+                                                myfuture = getPostContent(url, lastnumber - 1);
                                                 //_loadAd();
                                                 checknumber = lastnumber;
                                               });
@@ -253,10 +258,9 @@ class _HomeState extends State<Home> {
                                           controller: _refreshController,
                                           child: tagtitle == "관심있는"
                                               ? TagScreen()
-                                              : (item.length==0 &&snapshot.data.length==0
+                                              : ((feednotice!=null && item.length==1)||(feednotice==null && item.length==0) &&snapshot.data.length==0
                                                   ? Center(child: Text("조회된 게시글이 없습니다.", style: TextStyle(fontSize: 20.sp)))
                                                   : ListView(
-                                                      controller: scrollController,
                                                       children: item.map<Widget>((e) => e).toList(),
                                                     )),
                                         ))
@@ -283,7 +287,7 @@ class _HomeState extends State<Home> {
                                                       padding: EdgeInsets.zero,
                                                       icon: Icon(SolarIconsBold.penNewSquare,
                                                         size: 30.r,
-                                                        color:Theme.of(context).brightness==Brightness.dark?Colors.white:Color(0xFF1C274C),
+                                                        color:Color(0x771C274C),
                                                       ),
                                                     ),
                                                     tagname("인기있는"),
@@ -405,7 +409,7 @@ class _HomeState extends State<Home> {
                         PatchRejectHomeNotification();
                         Navigator.pop(context);
                       },
-                      child: Text("다시는 보지 않기", style: Theme.of(context).textTheme.labelSmall!,),
+                      child: Text("하루동안 보지 않기", style: Theme.of(context).textTheme.labelSmall!,),
                      ),
                   TextButton(
                       onPressed: () {
@@ -416,9 +420,8 @@ class _HomeState extends State<Home> {
                 ]);
           });
   }
-  void dataset()async{
+  void dataset() async{
     int num = await GetCount();
-    print("숫자는 $num");
     setState(() {
       noticeCount=num;
     });

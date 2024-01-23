@@ -1,11 +1,12 @@
+import 'package:dorandoran/texting/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dorandoran/common/util.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../post_datail/model/postcard_detaril.dart';
 import '../../post_datail/post_detail.dart';
 import '../../post_datail/quest/post/post_postdetail_post_detail.dart';
-import '../quest/home_postLike.dart';
 
 class Message_Card extends StatefulWidget {
   final String time;
@@ -43,6 +44,7 @@ Map<int, int> click = {0: 0};
 class _Message_CardState extends State<Message_Card> {
   @override
   void initState() {
+    super.initState();
     setState(() {
       click.addAll({widget.postId: widget.heart});
     });
@@ -56,6 +58,12 @@ class _Message_CardState extends State<Message_Card> {
       child: InkWell(
         onTap: () async {
           postcardDetail e =  await PostPostDetail(widget.postId,"");
+          if(e==404){
+            Fluttertoast.showToast(msg: "이미 삭제된 글입니다.");
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+          }
+          else
           Navigator.push(context, MaterialPageRoute(
               builder: (context) => PostDetail(postId: widget.postId,e:e)));
         },
@@ -63,10 +71,10 @@ class _Message_CardState extends State<Message_Card> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.r),
               image: DecorationImage(
-                image: NetworkImage('https://' + widget.backimg),
+                image: NetworkImage('https://${widget.backimg}'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.4), BlendMode.overlay),
+                    Colors.black.withOpacity(0.6), BlendMode.overlay),
               )),
           child: Column(
                 children: [
@@ -76,15 +84,16 @@ class _Message_CardState extends State<Message_Card> {
                     child: Container(
                       alignment: Alignment.center,
                         child: Text(widget.message,
+                            textAlign: TextAlign.center,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
-                            style: selectfont(widget.font, widget.fontColor,
+                            style: selectfonttoHome(widget.font, widget.fontColor,
                                 widget.fontSize??14, widget.fontBold)),
                     ),
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    color: Color(0x553E3E3E),
+                    color: const Color(0xBB3E3E3E),
                     child:Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Row(
@@ -92,28 +101,28 @@ class _Message_CardState extends State<Message_Card> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.access_time_filled),
+                          const Icon(Icons.access_time_filled,color: Colors.white),
                           SizedBox(width: 3.w),
-                          Text(timecount(widget.time)),
+                          Text(timecount(widget.time),style:TextStyle(color: Colors.white,)),
                           SizedBox(width: 7.w),
-                          if (widget.map != null) Icon(SolarIconsBold.mapPoint),
-                          Text(widget.map == null ? '' : '${widget.map}km'),
+                          if (widget.map != null) const Icon(SolarIconsBold.mapPoint,color: Colors.white),
+                          Text(widget.map == null ? '' : '${widget.map}km',style:TextStyle(color: Colors.white,)),
                         ],
                       ),
                       Row(
                         children: [
                           IconButton(
                             onPressed: () {},
-                            icon: Icon(SolarIconsBold.heart),
-                            constraints: BoxConstraints(),
+                            icon: const Icon(SolarIconsBold.heart,color: Colors.white),
+                            constraints: const BoxConstraints(),
                             padding: EdgeInsets.zero,
                           ),
                           SizedBox(width: 3.w),
-                          Text('${click[widget.postId]}'),
+                          Text('${click[widget.postId]}',style:TextStyle(color: Colors.white,)),
                           SizedBox(width: 7.w),
-                          Icon(SolarIconsBold.dialog2),
+                          const Icon(SolarIconsBold.dialog2,color: Colors.white),
                           SizedBox(width: 3.w),
-                          Text('${widget.chat}'),
+                          Text('${widget.chat}',style:TextStyle(color: Colors.white,)),
                         ],
                       ),
                     ],

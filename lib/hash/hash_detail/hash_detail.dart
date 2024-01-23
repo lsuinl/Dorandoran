@@ -1,6 +1,4 @@
 import 'package:dorandoran/common/quest_token.dart';
-import 'package:dorandoran/hash/hash_detail/quest/delete_del_my_hash.dart';
-import 'package:dorandoran/hash/hash_detail/quest/post_add_my_hash.dart';
 import 'package:flutter/material.dart';
 import 'package:dorandoran/common/css.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,7 +50,7 @@ class _HashDetailState extends State<HashDetail> {
                 }
                 int lastnumber = snapshot.data[1].length>0 ? snapshot.data[1].last.postId :0;
                 if (snapshot.connectionState == ConnectionState.done) {
-                  if ((item?.length == 0 || item == null) && snapshot.data[1]!.length>0) {
+                  if ((item == null) && snapshot.data[1]!.length>0) {
                     item = snapshot.data[1]!
                         .map<Message_Card>((e) => Message_Card(
                       time: e.postTime,
@@ -98,7 +96,7 @@ class _HashDetailState extends State<HashDetail> {
                         child: Stack(children: [
                           Column(
                             children: [
-                              Padding(padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                              Padding(padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                                 child:
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,12 +118,13 @@ class _HashDetailState extends State<HashDetail> {
                                       builder: (BuildContext context,
                                           RefreshStatus? mode) {
                                         Widget body;
-                                        if (mode == RefreshStatus.refreshing)
-                                          body = CupertinoActivityIndicator();
-                                        else
-                                          body = Text('');
+                                        if (mode == RefreshStatus.refreshing) {
+                                          body = const CupertinoActivityIndicator();
+                                        } else {
+                                          body = const Text('');
+                                        }
 
-                                        return Container(
+                                        return SizedBox(
                                           height: 55.0,
                                           child: Center(child: body),
                                         );
@@ -134,9 +133,9 @@ class _HashDetailState extends State<HashDetail> {
                                     footer: CustomFooter(
                                       builder:
                                           (BuildContext context, LoadStatus) {
-                                        return Container(
+                                        return SizedBox(
                                           height: 55.0,
-                                          child: Center(child: Text("")),
+                                          child: const Center(child: Text("")),
                                         );
                                       },
                                     ),
@@ -179,7 +178,7 @@ class _HashDetailState extends State<HashDetail> {
               } else {
                 return Container(
                     decoration: gradient,
-                    child: Center(child: CircularProgressIndicator()));
+                    child: const Center(child: CircularProgressIndicator()));
               }
             }));
   }

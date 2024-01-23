@@ -21,8 +21,8 @@ void addMyHash(String hash) async {
   );
   if(response.statusCode==401){
     int number=await quest_token();
-    if(number==200)
+    if(number==200) {
       addMyHash(hash);
+    }
   }
-  print(response.statusCode);
 }

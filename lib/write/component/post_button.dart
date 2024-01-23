@@ -20,6 +20,7 @@ class PostButton extends StatelessWidget {
         alignment: Alignment.topRight,
         child: IconButton(
           onPressed: () async {
+            FocusScope.of(context).unfocus();
             MultipartFile? userimage;
             //해시태그 중복제거
             taglistname.toSet().toList();
@@ -27,9 +28,8 @@ class PostButton extends StatelessWidget {
               userimage = await MultipartFile.fromFile(dummyFille!.path, filename: dummyFille!.path.split('/').last);
 
             if (contextcontroller.text != '' && sending==false) {
-              Fluttertoast.showToast(msg: "글을 생성 중입니다. 잠시만 기다려주세요..");
               sending=true;
-              int postcheck = await PostWritePost(
+              int postcheck = await postwritepost(
                   contextcontroller.text,
                   forme,
                   usinglocation,
@@ -37,7 +37,7 @@ class PostButton extends StatelessWidget {
                   taglistname==[]?null:taglistname,
                   userimage,
                   setfont(),
-                  style.color == Colors.white ? "white" : "black",
+                  style.backgroundColor == Colors.transparent ? "white" : "black",
                   style.fontSize!.toInt(),
                   int.parse(style.fontWeight.toString().substring(12)), anony);
               if(postcheck==201) {
@@ -66,7 +66,7 @@ class PostButton extends StatelessWidget {
 
   String setfont(){
     String fontfamily;
-    if (style.fontFamily.toString().contains("Jua")) fontfamily = "Jua";
+    if (style.fontFamily.toString().contains("gamjaFlower")) fontfamily = "gamjaFlower";
     else if (style.fontFamily.toString().contains("NanumGothic")) fontfamily = "Nanum Gothic";
     else fontfamily = "Cute Font";
 

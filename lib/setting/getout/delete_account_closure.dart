@@ -14,9 +14,7 @@ Future<int> DeleteAccountClosure() async {
       'authorization':'Bearer $accessToken',
     },
   );
-  print(response.statusCode);
   if(response.statusCode==200) {
-    print(response.statusCode);
     prefs.remove("nickname");
     prefs.remove("email");
     prefs.remove("accessToken");
@@ -24,8 +22,9 @@ Future<int> DeleteAccountClosure() async {
   }
   else if(response.statusCode==401){
     int number=await quest_token();
-    if(number==200)
+    if(number==200) {
       return DeleteAccountClosure();
+    }
   }
   return response.statusCode;
 }

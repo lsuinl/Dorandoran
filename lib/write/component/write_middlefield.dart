@@ -1,10 +1,7 @@
 import 'package:dorandoran/write/component/font_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../screen/write.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
@@ -19,17 +16,19 @@ class MiddleTextField extends StatefulWidget {
 }
 
 TextStyle style = TextStyle(
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 15.sp,
     fontWeight: FontWeight.w800,
-    fontFamily: 'Nanum Gothic'); //기본폰트
+    fontFamily: 'Nanum Gothic',
+  background: Paint()..color=Colors.black
+); //기본폰트
 
 String fontText = "나눔";
 //폰트 속성 변경 변수
 List<String> menufontitem = [
   'cuteFont',
   'nanumGothic',
-  'Jua',
+  'gamjaFlower',
 ];
 bool colors = false, weight = false;
 int textsize = 15;
@@ -44,16 +43,16 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
   void initState() {
     taglist = [
       Padding(
-          padding: EdgeInsets.only(right: 5),
+          padding: const EdgeInsets.only(right: 5),
           child: Icon(SolarIconsBold.hashtagCircle, size: 24.r)),
       TextButton(
           style: TextButton.styleFrom(
-              minimumSize: Size(60, 10),
-              backgroundColor: Color(0xBB2D2D2D),
+              minimumSize: const Size(60, 10),
+              backgroundColor: const Color(0xBB2D2D2D),
               padding: EdgeInsets.zero,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0),)),
           onPressed: onTagPressed,
-          child: Text("+", style: TextStyle(color: Colors.white),))
+          child: const Text("+", style: TextStyle(color: Colors.white),))
     ];
     super.initState();
   }
@@ -81,7 +80,7 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                 expands: true,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                  enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
                   hintText: "내용을 작성해주세요",
                   hintStyle: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.black12),
                 ),
@@ -89,14 +88,14 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
               Container(
                   alignment: Alignment.bottomLeft,
                   child: Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(children: taglist))))
             ],
           )),
       Padding( //글씨관련메뉴
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: FontButton(
             font:onfont,
               color: onColor,
@@ -109,15 +108,14 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
 
   onColor(){
     setState(() {
-      if (style.color == Colors.black) {
+      if (colors==false) {
         colors = true;
-        style = style.copyWith(color: Colors.white);
+        style = style.copyWith(background: Paint()..color=Colors.transparent);
       } else {
         colors = false;
-        style = style.copyWith(color: Colors.black);
+        style = style.copyWith(background: Paint()..color=Colors.black,height: 1);
       }
     });
-    print(colors);
   }
   onSize(){
     setState(() {
@@ -152,18 +150,18 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
     taglist.insert(
         taglist.length - 1,
         Padding(
-            padding: EdgeInsets.only(right: 5),
+            padding: const EdgeInsets.only(right: 5),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Color(0xBB2D2D2D),
+                color: const Color(0xBB2D2D2D),
               ),
               width: 70.w,
               height: 25.h,
               child: TextField(
                 autofocus: true,
                 controller: tagcontroller,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                   enabledBorder:
                   UnderlineInputBorder(borderSide: BorderSide.none),
@@ -173,7 +171,6 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                 textAlign: TextAlign.center,
                 onTapOutside: (value) {
                   if (tagcontroller.text == "") {
-                    print("삭제");
                     setState(() {
                       taglist.removeAt(taglist.length - 2);
                     });
@@ -182,17 +179,16 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                       Fluttertoast.showToast(msg: "같은 태그를 여러 번 사용할 수 없습니다.");
                     }
                     else {
-                      print("확정!");
                       setState(() {
                         taglistname.add(tagcontroller.text);
                         taglist[taglist.length - 2] = Padding(
-                            padding: EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.only(right: 5),
                             key: Key(tagcontroller.text),
                             child: Chip(
-                              backgroundColor: Color(0xBB2D2D2D),
+                              backgroundColor: const Color(0xBB2D2D2D),
                               label: Text(
                                 tagcontroller.text,
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
                               onDeleted: () {
                                 setState(() {
@@ -209,22 +205,20 @@ class _MiddleTextFieldState extends State<MiddleTextField> {
                 },
                 onSubmitted: (value) {
                   if (value == "") {
-                    print("삭제");
                     setState(() {
                       taglist.removeAt(taglist.length - 2);
                     });
                   } else {
-                    print("확정!");
                     setState(() {
                       taglistname.add(value.toString());
                       taglist[taglist.length - 2] = Padding(
-                          padding: EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.only(right: 5),
                           key: Key(value.toString()),
                           child: Chip(
-                            backgroundColor: Color(0xBB2D2D2D),
+                            backgroundColor: const Color(0xBB2D2D2D),
                             label: Text(
                               value.toString(),
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                             onDeleted: () {
                               setState(() {

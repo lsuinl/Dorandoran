@@ -1,14 +1,12 @@
+import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/texting/post_datail/model/postcard_detaril.dart';
 import 'package:dorandoran/texting/post_datail/quest/reply/delete_postdetail_reply_delete.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
 import 'package:solar_icons/solar_icons.dart';
 import '../../../common/util.dart';
 import '../post_detail.dart';
@@ -64,7 +62,7 @@ class _ReplyCardState extends State<ReplyCard> {
                                 ondelete();
                                 //await handler(true);
                               },
-                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
+                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:const Color(0xFFD9D9D9))
                         ]
                       :
                       //신고/차단
@@ -77,50 +75,47 @@ class _ReplyCardState extends State<ReplyCard> {
                                 // await handler(true);
                                 // setState(() {});
                               },
-                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:Color(0xFFD9D9D9))
+                              color: Theme.of(context).brightness==Brightness.dark?Colors.black26:const Color(0xFFD9D9D9))
                         ],
-              child: Container(
-                  child: Row(children: [
+              child: Row(children: [
                 SizedBox(width: 40.w),
                 Expanded(
-                    child: Container(
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            child: Row(children: [
-                              SizedBox(width: 10.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    widget.replyCheckDelete
-                                        ? Text("삭제", style: GoogleFonts.jua())
-                                        : Row(
-                                            children: [
-                                              Text(
-                                                widget.replyAnonymityNickname ??
-                                                    widget.replyNickname,
-                                                style: GoogleFonts.jua(
-                                                    fontSize: 17.sp),
-                                              ),
-                                              SizedBox(width: 5.w),
-                                              Expanded(
-                                                child: Text(
-                                                    timecount(widget.replyTime),
-                                                    style: TextStyle(
-                                                        fontSize: 12.sp)),
-                                              ),
-                                            ],
-                                          ),
-                                    Text(widget.replyCheckDelete
-                                        ? "!삭제된 댓글입니다!"
-                                        : widget.reply),
-                                  ],
-                                ),
-                              )
-                            ]))))
-              ])));
-        ;
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 10),
+                    child: Row(children: [
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            widget.replyCheckDelete
+                                ? Text("삭제", style: GoogleFonts.gamjaFlower())
+                                : Row(
+                                    children: [
+                                      Text(
+                                        widget.replyAnonymityNickname ??
+                                            widget.replyNickname,
+                                        style: GoogleFonts.gamjaFlower(
+                                            fontSize: 17.sp),
+                                      ),
+                                      SizedBox(width: 5.w),
+                                      Expanded(
+                                        child: Text(
+                                            timecount(widget.replyTime),
+                                            style: TextStyle(
+                                                fontSize: 12.sp)),
+                                      ),
+                                    ],
+                                  ),
+                            Text(widget.replyCheckDelete
+                                ? "삭제된 댓글입니다"
+                                : widget.reply),
+                          ],
+                        ),
+                      )
+                    ])))
+              ]));
   }
 
   ondelete() {
@@ -129,32 +124,33 @@ class _ReplyCardState extends State<ReplyCard> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.white,
-            content: const Text("작성한 대댓글을 삭제하시겠습니까?"),
+            content: Text("작성한 대댓글을 삭제하시겠습니까?", style:  Theme.of(context).textTheme.labelSmall!,),
             actions: [
               TextButton(
-                child: const Text('확인',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700)),
+                child: Text('확인',
+                    style: Theme.of(context).textTheme.labelSmall!),
                 onPressed: () async {
-                  await DeleteReplyDelete(widget.replyId);
-                  postcardDetail e =  await PostPostDetail(widget.postId,"");
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  PostDetail(postId: widget.postId,e: e,)))
-                      .then((value) => setState(() {}));
+                  int isdelete = await DeleteReplyDelete(widget.replyId);
+                  if(isdelete==204) {
+                    Fluttertoast.showToast(msg: "대댓글이 삭제되었습니다.");
+                    postcardDetail e = await PostPostDetail(widget.postId, "");
+                    if(e==404){
+                      Fluttertoast.showToast(msg: "이미 삭제된 글입니다.");
+                      Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                    }
+                    else
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PostDetail(postId: widget.postId, e: e,)))
+                        .then((value) => setState(() {}));
+                  }
                 },
               ),
               TextButton(
-                  child: const Text('취소',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700)),
+                  child: Text('취소',style:Theme.of(context).textTheme.labelSmall!),
                   onPressed: () => Navigator.of(context).pop()),
             ],
           );
@@ -176,8 +172,8 @@ class _ReplyCardState extends State<ReplyCard> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                           elevation: 0,
-                          title: Center(child: Text("신고항목 선택")),
-                          shape: RoundedRectangleBorder(
+                          title: const Center(child: Text("신고항목 선택")),
+                          shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                             side: BorderSide(color: Colors.black26),
                           ),
@@ -308,5 +304,8 @@ class _ReplyCardState extends State<ReplyCard> {
   void sendreport(String name) async {
     int num = await PostReportReply(widget.replyId, name);
     if (num == 201) Fluttertoast.showToast(msg: "신고가 접수되었습니다.");
+    else{
+      Fluttertoast.showToast(msg: "이미 신고가 처리되었습니다.");
+    }
   }
 }

@@ -16,11 +16,11 @@ class WritingInquiryScreen extends StatelessWidget {
 
     return Scaffold(
         body: Basic(
-            widgets: Container(
+            widgets: SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,9 +46,10 @@ class WritingInquiryScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => InquiryScreen()));
-                        } else
+                                  builder: (context) => const InquiryScreen()));
+                        } else {
                           Fluttertoast.showToast(msg: "문제가 발생했습니다. 다시 시도해주세요.");
+                        }
                       }
                     },
                     child: Text(
@@ -60,7 +61,7 @@ class WritingInquiryScreen extends StatelessWidget {
             SizedBox(height: 10.h),
             TextFormField(
               controller: title,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   hintText: "제목을 입력해주세요.",
                   border: OutlineInputBorder(borderSide: BorderSide.none)),
               style: Theme.of(context).textTheme.headlineLarge
@@ -70,18 +71,16 @@ class WritingInquiryScreen extends StatelessWidget {
               color: Colors.black26,
             ),
             Flexible(
-                child: Container(
-              child: TextFormField(
-                controller: content,
-                maxLines: null,
-                expands: true,
-                textAlignVertical: TextAlignVertical.top,
-                decoration: InputDecoration(
-                    hintText: "내용 입력해주세요.",
-                    border: OutlineInputBorder(borderSide: BorderSide.none)),
-                style: Theme.of(context).textTheme.headlineMedium
-              ),
-            ))
+                child: TextFormField(
+                  controller: content,
+                  maxLines: null,
+                  expands: true,
+                  textAlignVertical: TextAlignVertical.top,
+                  decoration: const InputDecoration(
+                      hintText: "내용 입력해주세요.",
+                      border: OutlineInputBorder(borderSide: BorderSide.none)),
+                  style: Theme.of(context).textTheme.headlineMedium
+                ))
           ],
         ),
       ),

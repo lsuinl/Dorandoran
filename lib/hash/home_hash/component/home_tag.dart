@@ -14,7 +14,7 @@ class Tag extends StatelessWidget {
         onPressed: postlistchange,
         child: Text(
           name,
-          style: TextStyle(fontSize: 18, color: Colors.black),
+          style: const TextStyle(fontSize: 18, color: Colors.black),
         ),
       );
     }
