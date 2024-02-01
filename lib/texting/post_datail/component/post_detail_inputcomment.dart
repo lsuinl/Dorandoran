@@ -31,6 +31,7 @@ bool lockcheck = true;
 class _InputCommentState extends State<InputComment> {
   @override
   void initState() {
+    print("냥${widget.postcommentstate}");
     if(widget.postcommentstate==null)
       anonymity = true;
     else
@@ -80,7 +81,7 @@ class _InputCommentState extends State<InputComment> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 backgroundColor: Theme.of(context).brightness==Brightness.dark?Colors.grey[600]:Colors.white,
-                                content: const Text("이미 작성한 댓글과 다른 상태로 \n댓글을 작성할 수 없습니다."),
+                                content: const Text("이미 작성한 글과 다른 상태로 \n댓글을 작성할 수 없습니다."),
                                 actions: [
                                   TextButton(
                                     child: Text('닫기',

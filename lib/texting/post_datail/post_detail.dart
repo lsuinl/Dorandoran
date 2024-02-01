@@ -39,7 +39,6 @@ int number = 1;
 int selectcommentid = 0;
 DateTime commenttime = new DateTime.now().copyWith(year: 2022);
 ScrollController scrollController = ScrollController();
-bool? postcommentstate;
 
 class _PostDetailState extends State<PostDetail> {
   int plusreply = -1;
@@ -48,17 +47,66 @@ class _PostDetailState extends State<PostDetail> {
   bool isExistNextComment = false;
   List<CommentCard> commentlist = [];
   List<CommentCard> pluscomments = [];
+  bool? postcommentstate;
 
   @override
   void initState() {
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
-      dataset();
-    });
     super.initState();
+    select = 0;
+    number = 1;
+    selectcommentid = 0;
+    commenttime = new DateTime.now().copyWith(year: 2022);
   }
 
   @override
   Widget build(BuildContext context) {
+      isExistNextComment = widget.e.isExistNextComment;
+      if (widget.e.isWrittenByMember == true) {
+        _menulist = ['삭제하기'];
+        postcommentstate = widget.e.postAnonymity;
+      }
+
+      commentlist = widget.e.commentDetailDto
+          .map<CommentCard>((a) => CommentCard(
+        //댓글추가
+        card: commentcard(
+          isLocked: a['isLocked'],
+          commentCheckDelete: a['commentCheckDelete'],
+          commentId: a['commentId'],
+          isWrittenByMember: a['isWrittenByMember'],
+          commentAnonymityNickname: a['commentAnonymityNickname'],
+          comment: a['comment'],
+          commentLike: a['commentLike'],
+          commentLikeResult: a['commentLikeResult'],
+          replies: a['replies'],
+          commentNickname: a['commentNickname'],
+          commentTime: a['commentTime'],
+          countReply: a['countReply'],
+        ),
+        postId: widget.postId,
+        changeinputtarget: changeinputtarget,
+        setstates: deletereply,
+      ))
+          .toList();
+
+      //불러올 댓글갯수가 더 남아있다면
+      int count = 0;
+      commentlist
+          .forEach((CommentCard reply) => count += reply.card.countReply);
+      plusreply = commentlist.length > 0 ? commentlist[0].card.commentId : -1;
+
+      for (final a in widget.e.commentDetailDto) {
+        //이미 쓴 댓글 익명여부 검사
+        //댓글 작성자
+        if (a["isWrittenByMember"] == true && a["commentCheckDelete"] == false)
+          postcommentstate =
+          a["commentAnonymityNickname"] == null ? false : true;
+        for (final b in a["replies"]['replyData'])
+          if (b["isWrittenByMember"] == true && b["replyCheckDelete"] == false)
+            postcommentstate =
+            b["replyAnonymityNickname"] == null ? false : true;
+      }
+
     return Basic(
         widgets: Container(
             alignment: Alignment.topCenter,
@@ -489,7 +537,7 @@ class _PostDetailState extends State<PostDetail> {
               backgroundColor: Theme.of(context).brightness == Brightness.dark
                   ? Colors.black87
                   : Color(0xFFD9D9D9),
-              content: Text("천천히 댓글을 작성하시오..",
+              content: Text("천천히 작성해주세요",
                   style: Theme.of(context).textTheme.headlineMedium!),
               actions: [
                 TextButton(
@@ -505,58 +553,6 @@ class _PostDetailState extends State<PostDetail> {
       //5초미만의 간격으로 댓글 작성시 경고 문구와함께 댓글이 쳐지지 않음
     }
   }
-
-  dataset() {
-    setState(() {
-      isExistNextComment = widget.e.isExistNextComment;
-      if (widget.e.isWrittenByMember == true) {
-        _menulist = ['삭제하기'];
-        postcommentstate = widget.e.postAnonymity;
-      }
-
-      commentlist = widget.e.commentDetailDto
-          .map<CommentCard>((a) => CommentCard(
-                //댓글추가
-                card: commentcard(
-                  isLocked: a['isLocked'],
-                  commentCheckDelete: a['commentCheckDelete'],
-                  commentId: a['commentId'],
-                  isWrittenByMember: a['isWrittenByMember'],
-                  commentAnonymityNickname: a['commentAnonymityNickname'],
-                  comment: a['comment'],
-                  commentLike: a['commentLike'],
-                  commentLikeResult: a['commentLikeResult'],
-                  replies: a['replies'],
-                  commentNickname: a['commentNickname'],
-                  commentTime: a['commentTime'],
-                  countReply: a['countReply'],
-                ),
-                postId: widget.postId,
-                changeinputtarget: changeinputtarget,
-                setstates: deletereply,
-              ))
-          .toList();
-
-      //불러올 댓글갯수가 더 남아있다면
-      int count = 0;
-      commentlist
-          .forEach((CommentCard reply) => count += reply.card.countReply);
-      plusreply = commentlist.length > 0 ? commentlist[0].card.commentId : -1;
-
-      for (final a in widget.e.commentDetailDto) {
-        //이미 쓴 댓글 익명여부 검사
-        //댓글 작성자
-        if (a["isWrittenByMember"] == true && a["commentCheckDelete"] == false)
-          postcommentstate =
-              a["commentAnonymityNickname"] == null ? false : true;
-        for (final b in a["replies"]['replyData'])
-          if (b["isWrittenByMember"] == true && b["replyCheckDelete"] == false)
-            postcommentstate =
-                b["replyAnonymityNickname"] == null ? false : true;
-      }
-    });
-  }
-
   plusreplys(bool isExistNextComments, int commentCnt, pluscomment) {
     setState(() {
       pluscomments = pluscomment;

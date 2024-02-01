@@ -104,10 +104,10 @@ class _NoticeScreenState extends State<NoticeScreen> {
     if (delete == true) {
       int code = await DelNotice(notificationId);
       if (code == 204) Fluttertoast.showToast(msg: '삭제가 완료되었습니다.');
-      rebuild();
     } else {
       int code = await PatchReadNotice(notificationId);
       if (code == 204) Fluttertoast.showToast(msg: '읽음처리가 완료되었습니다.');
+      rebuild();
     }
   }
 

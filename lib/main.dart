@@ -6,6 +6,7 @@ import 'package:dorandoran/setting/notification/notification_list_screen.dart';
 import 'package:dorandoran/texting/home/home.dart';
 import 'package:dorandoran/user/login/screen/login_check.dart';
 import 'package:dorandoran/user/sign_up/agree/using_agree.dart';
+import 'package:dorandoran/user/sign_up/sign_up/screen/sign_up.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -73,7 +74,6 @@ class _MyAppState extends State<MyApp> {
   Future<void> setupInteractedMessage() async {
     RemoteMessage? initialMessage =
     await FirebaseMessaging.instance.getInitialMessage();
-    print("최초실행");
     //Fluttertoast.showToast(msg: initialMessage?.data.toString() ??"d");
     if (initialMessage != null) {
       pushNotificationScreen();
