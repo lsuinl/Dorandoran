@@ -52,20 +52,22 @@ class _NoticeScreenState extends State<NoticeScreen> {
                           if (snapshot.hasData && snapshot.data!.runtimeType != int) {
                             if(snapshot.data.length>1) {
                               List<noticeModel> data = snapshot.data!;
-                              idList.addAll(
-                                  data.map((e) => e.notificationId).toList());
-                              lastnumber = data.last.notificationId;
-                              item.addAll(data
-                                  .map((e) =>
-                                  NoticeCard(
-                                      notificationId: e.notificationId,
-                                      title: e.title,
-                                      message: e.message,
-                                      isRead: e.isRead,
-                                      notificationTime: e.notificationTime,
-                                      notificationType: e.notificationType))
-                                  .toList());
-                              changeitem();
+                              if(lastnumber!=data.last.notificationId) {
+                                idList.addAll(
+                                    data.map((e) => e.notificationId).toList());
+                                lastnumber = data.last.notificationId;
+                                item.addAll(data
+                                    .map((e) =>
+                                    NoticeCard(
+                                        notificationId: e.notificationId,
+                                        title: e.title,
+                                        message: e.message,
+                                        isRead: e.isRead,
+                                        notificationTime: e.notificationTime,
+                                        notificationType: e.notificationType))
+                                    .toList());
+                                changeitem();
+                              }
                             }
                             return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,10 +106,10 @@ class _NoticeScreenState extends State<NoticeScreen> {
     if (delete == true) {
       int code = await DelNotice(notificationId);
       if (code == 204) Fluttertoast.showToast(msg: '삭제가 완료되었습니다.');
-      rebuild();
     } else {
       int code = await PatchReadNotice(notificationId);
       if (code == 204) Fluttertoast.showToast(msg: '읽음처리가 완료되었습니다.');
+      rebuild();
     }
   }
 

@@ -70,11 +70,11 @@ class _TopState extends State<Top> {
               TextButton(
                   onPressed: () async {
                     if(delete==true){
-                      DelNotice(0);
+                      await DelNotice(0);
                       Fluttertoast.showToast(msg: '삭제가 완료되었습니다.');
                     }
                     else{
-                      PatchReadNotice(0);
+                      await PatchReadNotice(0);
                       Fluttertoast.showToast(msg: '읽음처리가 완료되었습니다.');
                     }
                     Navigator.pop(context);

@@ -39,6 +39,19 @@ class _WriteState extends State<Write> {
   void initState() {
     super.initState();
     setState(() {
+      style = style.copyWith(
+          color: Colors.white,
+          fontSize: 15.sp,
+          fontWeight: FontWeight.w800,
+          fontFamily: 'Nanum Gothic',
+          background: Paint()..color=Colors.black
+      );
+      fontText = "나눔";
+      colors = false;
+      weight = false;
+      textsize = 15;
+      taglist=[];
+      taglistname = [];
       contextcontroller = TextEditingController();
       forme = false;
       usinglocation = false;

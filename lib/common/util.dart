@@ -75,7 +75,7 @@ String checkname(String name) {
     return "닉네임을 입력해주세요.";
   } else if (name.length <= 1) {
     return "길이가 최소 2글자 이상이어야 합니다.";
-  } else if (!RegExp(r"^[가-힣0-9a-zA-Z]*$").hasMatch(name)) {
+  } else if (!RegExp(r"^[가-힣0-9a-zA-Z\s]*$").hasMatch(name)) {
     //제대로된 문자인지 확인.(특수문자.이모티콘 체크)
     return "올바르지 않은 닉네임입니다.";
   } else {
