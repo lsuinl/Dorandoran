@@ -43,7 +43,7 @@ class _NoticeCardState extends State<NoticeCard> {
 
     IconData Icontype=setIcon(widget.notificationType);
     return Container(
-        color: isRead[widget.notificationId] != true ? null : widget.isRead==true? null: Colors.grey[700] ,
+        color: isRead[widget.notificationId] == true ?Colors.grey[700]: widget.isRead==true?  Colors.grey[700]:null ,
         child:
             Padding(padding: const EdgeInsets.symmetric(horizontal: 15),
             child:
