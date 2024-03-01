@@ -20,13 +20,15 @@ class Top extends StatefulWidget {
 class _TopState extends State<Top> {
   @override
   Widget build(BuildContext context) {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
     return Stack(
       children: [
       Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(onPressed: ()=>  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Home()),(route)=>false),
-          icon: Icon(SolarIconsOutline.doubleAltArrowLeft,size: 30.r),
+          icon: Icon(SolarIconsOutline.doubleAltArrowLeft,size: heights/25),
         ),
         Text("알림", style: TextStyle(fontSize: 24.sp,fontWeight: FontWeight.w900)),
         Container(width: 35.w,)
@@ -39,13 +41,13 @@ class _TopState extends State<Top> {
                 onPressed: () async {
                   deleteNotification(false, 0);
                 },
-                icon: Icon(Icons.check)
+                icon: Icon(Icons.check,size:heights/25)
             ),
             IconButton(
                 onPressed: () {
                   deleteNotification(true, null);
                 },
-                icon: Icon(Icons.delete)
+                icon: Icon(Icons.delete,size:heights/25)
             )
           ],
         )

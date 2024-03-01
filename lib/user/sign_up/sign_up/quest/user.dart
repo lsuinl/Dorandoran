@@ -9,7 +9,7 @@ Future<String> postUserRequest(String dateOfBirth, String nickname) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String ostype = prefs.getString("ostype")!;
   String firebasetoken = prefs.getString("firebasetoken")!;
-  String kakaoAccessToken = prefs.getString("kakaotoken")!;
+  String email = prefs.getString("email")!;
   bool notifyStatus = await Permission.notification.isGranted;
   var response = await http.post(
     Uri.parse('$urls/api/member'),
@@ -20,7 +20,7 @@ Future<String> postUserRequest(String dateOfBirth, String nickname) async {
       "dateOfBirth": dateOfBirth,
       "nickname": nickname,
       "firebaseToken": firebasetoken,
-      "kakaoAccessToken": kakaoAccessToken,
+      "email": email,
       "osType": ostype,
       "notifyStatus":notifyStatus
     }),

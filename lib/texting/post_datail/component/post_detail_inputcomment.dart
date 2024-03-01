@@ -31,7 +31,6 @@ bool lockcheck = true;
 class _InputCommentState extends State<InputComment> {
   @override
   void initState() {
-    print("냥${widget.postcommentstate}");
     if(widget.postcommentstate==null)
       anonymity = true;
     else
@@ -40,6 +39,9 @@ class _InputCommentState extends State<InputComment> {
 
   @override
   Widget build(BuildContext context) {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
+
     return Container(
         color: Colors.transparent,
         child: Column(children: [
@@ -67,11 +69,14 @@ class _InputCommentState extends State<InputComment> {
               : SizedBox(height: 5.h),
           Container(
               decoration: BoxDecoration(color: Theme.of(context).brightness==Brightness.dark?Colors.black26: const Color(0xFFD9D9D9), borderRadius: BorderRadius.circular(20)), //모서리를 둥글게 테두리,
-              width: 320.w,
-              height: 35.h,
-              child: Row(children: [
+              width:widths/1.15,
+              height: heights/17,
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                SizedBox(width: widths/40,),
                 IconButton(
-                    padding: const EdgeInsets.only(left: 8,right: 5),
+                    padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     onPressed: () {
                       if (widget.postcommentstate!=null) {
@@ -101,11 +106,11 @@ class _InputCommentState extends State<InputComment> {
                       }
                     },
                     icon: anonymity
-                        ? Icon(SolarIconsOutline.checkSquare, size: 24.r)
-                        : Icon(SolarIconsOutline.closeSquare, size: 24.r)),
+                        ? Icon(SolarIconsOutline.checkSquare, size: widths/18)
+                        : Icon(SolarIconsOutline.closeSquare, size: widths/18)),
+                SizedBox(width: widths/40,),
                 IconButton(
-                  //비밀댓글
-                    padding: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     onPressed: () {
                       setState(() {
@@ -118,9 +123,9 @@ class _InputCommentState extends State<InputComment> {
                       });
                     },
                     icon: lockcheck
-                        ? Icon(Icons.lock, size: 20.r)
-                        : Icon(Icons.lock_open, size: 20.r)),
-                const SizedBox(width: 5),
+                        ? Icon(Icons.lock, size: widths/18)
+                        : Icon(Icons.lock_open, size: widths/18)),
+                 SizedBox(width:widths/22),
                 Flexible(
                     child: TextFormField(
                   controller: controller,
@@ -141,7 +146,8 @@ class _InputCommentState extends State<InputComment> {
                         controller.clear();
                       }
                     },
-                    icon: Icon(SolarIconsOutline.plain3, size: 24.r))
+                    icon: Icon(SolarIconsOutline.plain3, size: widths/18)),
+                SizedBox(width: widths/40,),
               ])),
         ]));
   }

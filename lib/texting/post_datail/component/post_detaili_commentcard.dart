@@ -72,6 +72,9 @@ class _CommentCardState extends State<CommentCard> {
 
   @override
   Widget build(BuildContext context) {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
+
     return Column(children: [
       Padding(
           padding: const EdgeInsets.all(15),
@@ -85,7 +88,7 @@ class _CommentCardState extends State<CommentCard> {
                       : widget.card.isWrittenByMember == true
                           ? [
                               SwipeAction(
-                                  icon: Icon(Icons.delete, size: 30.r),
+                                  icon: Icon(Icons.delete, size: widths/15),
                                   onTap: (CompletionHandler handler) async {
                                     ondelete();
                                   },
@@ -94,7 +97,7 @@ class _CommentCardState extends State<CommentCard> {
                           : [
                               SwipeAction(
                                   icon: Icon(SolarIconsOutline.sirenRounded,
-                                      size: 30.r),
+                                      size: widths/15),
                                   onTap: (CompletionHandler handler) async {
                                     onsiren();
                                   },
@@ -123,11 +126,11 @@ class _CommentCardState extends State<CommentCard> {
                   Text(widget.card.commentCheckDelete
                       ? "삭제된 댓글입니다."
                       : widget.card.comment),
-                  Row(children: [
-                    Expanded(
-                      child: Text(
-                          '좋아요 ${commentlikecnt[widget.card.commentId] ?? 0}'),
-                    ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                  Text('좋아요 ${commentlikecnt[widget.card.commentId] ?? 0}'),
                     Row(
                       //하트버튼
                       children: [
@@ -178,12 +181,12 @@ class _CommentCardState extends State<CommentCard> {
                             }
                           },
                           icon: commentlike[widget.card.commentId] == true
-                              ? const Icon(SolarIconsBold.heart)
-                              : const Icon(SolarIconsOutline.heart),
+                              ?  Icon(SolarIconsBold.heart,size:widths/15)
+                              :  Icon(SolarIconsOutline.heart,size:widths/15),
                           constraints: const BoxConstraints(),
                           padding: EdgeInsets.zero,
                         ),
-                        SizedBox(width: 5.w),
+                        SizedBox(width: widths/20),
                         IconButton(
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
@@ -191,7 +194,8 @@ class _CommentCardState extends State<CommentCard> {
                               select = widget.card.commentId;
                               widget.changeinputtarget();
                             },
-                            icon: const Icon(SolarIconsOutline.dialog)),
+                            icon: Icon(SolarIconsOutline.dialog,size:widths/15)),
+                        SizedBox(width: widths/20),
                       ],
                     ),
                   ])
@@ -292,6 +296,8 @@ class _CommentCardState extends State<CommentCard> {
   }
 
   onsiren() {
+    double widths = MediaQuery.of(context).size.width;
+
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
@@ -312,7 +318,7 @@ class _CommentCardState extends State<CommentCard> {
                             side: BorderSide(color: Colors.black26),
                           ),
                           content: Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: widths,
                             decoration: BoxDecoration(
                               border:
                                   Border.all(width: 2, color: Colors.black12),
@@ -325,7 +331,7 @@ class _CommentCardState extends State<CommentCard> {
                                 TextButton(
                                     style: TextButton.styleFrom(
                                       minimumSize: Size(
-                                          MediaQuery.of(context).size.width, 0),
+                                          widths, 0),
                                       alignment: Alignment.centerLeft,
                                     ),
                                     onPressed: () {
@@ -339,7 +345,7 @@ class _CommentCardState extends State<CommentCard> {
                                     style: TextButton.styleFrom(
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size(
-                                            MediaQuery.of(context).size.width,
+                                            widths,
                                             0)),
                                     onPressed: () {
                                       sendreport('폭력성');
@@ -352,7 +358,7 @@ class _CommentCardState extends State<CommentCard> {
                                     style: TextButton.styleFrom(
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size(
-                                            MediaQuery.of(context).size.width,
+                                            widths,
                                             0)),
                                     onPressed: () {
                                       sendreport('욕설 및 비방');
@@ -365,7 +371,7 @@ class _CommentCardState extends State<CommentCard> {
                                     style: TextButton.styleFrom(
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size(
-                                            MediaQuery.of(context).size.width,
+                                            widths,
                                             0)),
                                     onPressed: () {
                                       sendreport('광고');
@@ -378,7 +384,7 @@ class _CommentCardState extends State<CommentCard> {
                                     style: TextButton.styleFrom(
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size(
-                                            MediaQuery.of(context).size.width,
+                                            widths,
                                             0)),
                                     onPressed: () {
                                       sendreport('불건전한 만남 유도');
@@ -391,7 +397,7 @@ class _CommentCardState extends State<CommentCard> {
                                     style: TextButton.styleFrom(
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size(
-                                            MediaQuery.of(context).size.width,
+                                            widths,
                                             0)),
                                     onPressed: () {
                                       sendreport('불건전한 닉네임');
@@ -404,7 +410,7 @@ class _CommentCardState extends State<CommentCard> {
                                     style: TextButton.styleFrom(
                                         alignment: Alignment.centerLeft,
                                         minimumSize: Size(
-                                            MediaQuery.of(context).size.width,
+                                            widths,
                                             0)),
                                     onPressed: () {
                                       sendreport('기타');

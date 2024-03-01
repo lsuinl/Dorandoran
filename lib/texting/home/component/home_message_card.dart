@@ -52,6 +52,8 @@ class _Message_CardState extends State<Message_Card> {
 
   @override
   Widget build(BuildContext context) {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r)),
       elevation: 0, //그림자
@@ -80,7 +82,7 @@ class _Message_CardState extends State<Message_Card> {
                 children: [
                   SizedBox(
                     height: 140.h,
-                    width: MediaQuery.of(context).size.width,
+                    width: widths,
                     child: Container(
                       alignment: Alignment.center,
                         child: Text(widget.message,
@@ -92,7 +94,7 @@ class _Message_CardState extends State<Message_Card> {
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: widths,
                     color: const Color(0xBB3E3E3E),
                     child:Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),

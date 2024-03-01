@@ -25,8 +25,7 @@ class Login_check extends StatefulWidget {
 class _Login_checkState extends State<Login_check> {
   @override
   void initState() {
-    if (Permission.locationWhenInUse.isPermanentlyDenied == false &&
-        Permission.locationWhenInUse.isDenied == false) getlocation();
+    getlocation();
   }
 
   @override

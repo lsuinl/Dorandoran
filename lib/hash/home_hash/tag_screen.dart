@@ -30,6 +30,9 @@ class _TagScreenState extends State<TagScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
+
     if(searchOn) {
       return SearchScreen(statemanage: statemanager);
     }
@@ -69,6 +72,9 @@ class _TagScreenState extends State<TagScreen> {
         ));
   }
   Future<dynamic> getdata() async {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
+
     dynamic mytags = await GetMyHash();
     dynamic mycontents = await GetMyHashContent();
     if(mytags==401 || mycontents==401) {
@@ -77,7 +83,7 @@ class _TagScreenState extends State<TagScreen> {
     List<Widget> mytagswidget = mytag
         .map((e) =>
         SizedBox(
-          height: 20.h,
+          height: heights/20,
             child:
         Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -98,7 +104,7 @@ class _TagScreenState extends State<TagScreen> {
                             builder: (context) =>
                                 HashDetail(tagnames: e.toString())));
                   },
-                  icon: Icon(SolarIconsOutline.doubleAltArrowRight,size: 20.r,))
+                  icon: Icon(SolarIconsOutline.doubleAltArrowRight,size: widths/15,))
     )])))
         .toList();
     List<Widget> mycontentwidget = await mycontents

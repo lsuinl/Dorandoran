@@ -34,6 +34,8 @@ class _Detail_CardState extends State<Detail_Card> {
 
   @override
   Widget build(BuildContext context) {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
     return Column(children: [
       InkWell(
         child: Container(
@@ -72,13 +74,13 @@ class _Detail_CardState extends State<Detail_Card> {
                         child: Row(children: [
                           Icon(
                             SolarIconsBold.hashtagCircle,
-                            size: 24.r,
+                            size: widths/15,
                             color: Colors.grey
                           ),
                           Row(
                               children: widget.card.postHashes!
                                   .map((e) => Padding(
-                                      padding: const EdgeInsets.only(right: 3),
+                                      padding: EdgeInsets.only(right: widths/60),
                                       child: InputChip(
                                         backgroundColor: Theme.of(context).brightness ==
                                             Brightness.dark
@@ -89,6 +91,7 @@ class _Detail_CardState extends State<Detail_Card> {
                                       ))).toList()),
                         ]))
                     : Container(),
+                    SizedBox(height: heights/40,)
               ])),
         ),
       ),
@@ -116,8 +119,8 @@ class _Detail_CardState extends State<Detail_Card> {
                     postLike(widget.postId);
                   }
                 },
-                icon: like? Icon(SolarIconsBold.heart, size: 30.r)
-                    : Icon(SolarIconsOutline.heart, size: 30.r),
+                icon: like? Icon(SolarIconsBold.heart, size: widths/15)
+                    : Icon(SolarIconsOutline.heart, size: widths/15),
                 constraints: const BoxConstraints(),
                 padding: EdgeInsets.zero,
               )),

@@ -16,7 +16,7 @@ class MainLogo extends StatelessWidget {
         'asset/image/logo.png',
         width: 200.w,
         height: 200.h,
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.center,
       ),
       Text(text,style: Theme.of(context).textTheme.headlineLarge,)
 

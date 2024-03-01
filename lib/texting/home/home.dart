@@ -66,6 +66,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
     return Scaffold(
         body: WillPopScope(
             onWillPop: onWillPop,
@@ -164,7 +166,7 @@ class _HomeState extends State<Home> {
                                   });
                                   _refreshController.refreshCompleted();
                                 },
-                                icon:Icon(icons,size: 30.r, color: buttonColor[name]==true ?Color(0xFF1C274C): Color(0x771C274C)),
+                                icon:Icon(icons,size:widths/13, color: buttonColor[name]==true ?Color(0xFF1C274C): Color(0x771C274C)),
                                 padding: EdgeInsets.zero,
                               );
                             }
@@ -286,7 +288,7 @@ class _HomeState extends State<Home> {
                                                       onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Write())),
                                                       padding: EdgeInsets.zero,
                                                       icon: Icon(SolarIconsBold.penNewSquare,
-                                                        size: 30.r,
+                                                        size: widths/13,
                                                         color:Color(0x771C274C),
                                                       ),
                                                     ),

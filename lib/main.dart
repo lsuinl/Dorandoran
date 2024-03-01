@@ -97,6 +97,7 @@ class _MyAppState extends State<MyApp> {
       ],
         builder: (context, _) {
           return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
             initialBinding: BindingsBuilder.put(() => NotificationController(),
                 permanent: true
             ),
@@ -112,7 +113,7 @@ class _MyAppState extends State<MyApp> {
                   child: child!)
               ;
             },
-            home: const Home(),
+            home: const Login_check(),
           );
         });
   }

@@ -60,6 +60,9 @@ class _PostDetailState extends State<PostDetail> {
 
   @override
   Widget build(BuildContext context) {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
+
       isExistNextComment = widget.e.isExistNextComment;
       if (widget.e.isWrittenByMember == true) {
         _menulist = ['삭제하기'];
@@ -124,7 +127,7 @@ class _PostDetailState extends State<PostDetail> {
                               (route) => false),
                           icon: Icon(
                             SolarIconsOutline.doubleAltArrowLeft,
-                            size: 30.r,
+                            size: heights/24,
                           )),
                       Text(
                         "${widget.e.postAnonymity == true ? "익명" : widget.e.postNickname}",
@@ -136,7 +139,7 @@ class _PostDetailState extends State<PostDetail> {
                               _menulist.length > 1
                                   ? SolarIconsOutline.sirenRounded
                                   : Icons.delete_outline,
-                              size: 24.r),
+                              size: heights/24),
                           dropdownWidth: 150,
                           dropdownDirection: DropdownDirection.left,
                           dropdownDecoration: BoxDecoration(
@@ -217,11 +220,8 @@ class _PostDetailState extends State<PostDetail> {
                                         ),
                                         content: Container(
                                           width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              2,
+                                              widths,
+                                          height: heights / 2,
                                           decoration: BoxDecoration(
                                             border: Border.all(
                                                 width: 2,
@@ -239,9 +239,7 @@ class _PostDetailState extends State<PostDetail> {
                                                       alignment:
                                                           Alignment.centerLeft,
                                                       minimumSize: Size(
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
+                                                         widths,
                                                           0)),
                                                   onPressed: () {
                                                     sendreport('선정성');
@@ -258,10 +256,7 @@ class _PostDetailState extends State<PostDetail> {
                                                   style: TextButton.styleFrom(
                                                       alignment:
                                                           Alignment.centerLeft,
-                                                      minimumSize: Size(
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
+                                                      minimumSize: Size(widths,
                                                           0)),
                                                   onPressed: () {
                                                     sendreport('폭력성');
@@ -279,9 +274,7 @@ class _PostDetailState extends State<PostDetail> {
                                                       alignment:
                                                           Alignment.centerLeft,
                                                       minimumSize: Size(
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
+                                                          widths,
                                                           0)),
                                                   onPressed: () {
                                                     sendreport('욕설 및 비방');
@@ -298,10 +291,7 @@ class _PostDetailState extends State<PostDetail> {
                                                   style: TextButton.styleFrom(
                                                       alignment:
                                                           Alignment.centerLeft,
-                                                      minimumSize: Size(
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
+                                                      minimumSize: Size(widths,
                                                           0)),
                                                   onPressed: () {
                                                     sendreport('광고');
@@ -319,9 +309,7 @@ class _PostDetailState extends State<PostDetail> {
                                                       alignment:
                                                           Alignment.centerLeft,
                                                       minimumSize: Size(
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
+                                                        widths,
                                                           0)),
                                                   onPressed: () {
                                                     sendreport('불건전한 만남 유도');
@@ -339,9 +327,7 @@ class _PostDetailState extends State<PostDetail> {
                                                       alignment:
                                                           Alignment.centerLeft,
                                                       minimumSize: Size(
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
+                                                         widths,
                                                           0)),
                                                   onPressed: () {
                                                     sendreport('불건전한 닉네임');
@@ -359,9 +345,7 @@ class _PostDetailState extends State<PostDetail> {
                                                       alignment:
                                                           Alignment.centerLeft,
                                                       minimumSize: Size(
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
+                                                          widths,
                                                           0)),
                                                   onPressed: () {
                                                     sendreport('기타');

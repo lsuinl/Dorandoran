@@ -125,6 +125,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
   }
 
   changeitem() {
+    double heights = MediaQuery.of(context).size.height;
     for (int i = 0; i < item.length; i++) {
       if (item[i].runtimeType == NoticeCard) {
         item[i] = SwipeActionCell(
@@ -133,7 +134,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 ? [
                     //삭제
                     SwipeAction(
-                        icon: Icon(Icons.delete, size: 30.r),
+                        icon: Icon(Icons.delete, size: heights/17),
                         onTap: (CompletionHandler handler) async {
                           await handler(true);
                           //  item.removeAt();
@@ -150,7 +151,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 : [
                     //삭제,읽음
                     SwipeAction(
-                        icon: Icon(Icons.check, size: 30.r),
+                        icon: Icon(Icons.check, size:heights/17),
                         onTap: (CompletionHandler handler) async {
                           deleteNotification(false, idList[i]);
                           setState(() {
@@ -161,7 +162,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                             ? Colors.black26
                             : const Color(0xFFD9D9D9)),
                     SwipeAction(
-                        icon: Icon(Icons.delete, size: 30.r),
+                        icon: Icon(Icons.delete, size: heights/17),
                         onTap: (CompletionHandler handler) async {
                           await handler(true);
                           deleteNotification(true, idList[i]);

@@ -20,6 +20,9 @@ bool notice = true;
 class _TopState extends State<Top> {
   @override
   Widget build(BuildContext context) {
+    double widths = MediaQuery.of(context).size.width;
+    double heights = MediaQuery.of(context).size.height;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -29,8 +32,8 @@ class _TopState extends State<Top> {
             children: [
               Image.asset(
                 Theme.of(context).brightness==Brightness.dark? 'asset/image/white_logo.png': 'asset/image/logo.png',
-                width: 35.w,
-                height: 40.h,
+                width: widths/12,
+                height: heights/15,
                 alignment: Alignment.centerLeft,
               ),
               Text(" doran",
@@ -45,17 +48,18 @@ class _TopState extends State<Top> {
               children: [
                 IconButton(
                   padding: EdgeInsets.zero,
-                  icon: Icon(SolarIconsBold.settings,size: 30.r,color: Theme.of(context).brightness==Brightness.dark?Colors.white:const Color(0xFF1C274C),),
+                  icon: Icon(SolarIconsBold.settings,size: heights/22,color: Theme.of(context).brightness==Brightness.dark?Colors.white:const Color(0xFF1C274C),),
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const SettingListScreen())),
                 ),
+                SizedBox(width: widths/50,),
                 Stack(
                   children: [
                     IconButton(
                       padding: EdgeInsets.zero,
-                      icon: Icon(SolarIconsBold.bell,size: 30.r,color:  Theme.of(context).brightness==Brightness.dark?Colors.white:const Color(0xFF1C274C),),
+                      icon: Icon(SolarIconsBold.bell,size: heights/22,color:  Theme.of(context).brightness==Brightness.dark?Colors.white:const Color(0xFF1C274C),),
                       onPressed:() => Navigator.push(
                           context,
                           MaterialPageRoute(
